@@ -35,6 +35,7 @@ export async function AddDinnerFood(
     ) 
     {
     AddFood(MEAL_DINNER_STORE, {
+        key: null,
         name: name,
         calories: calories,
         carbs: carbs,
@@ -44,8 +45,8 @@ export async function AddDinnerFood(
 }
 
 // remove food
-export async function RemoveDinnerFood( food_index ) {
-    RemoveFood(MEAL_DINNER_STORE, food_index);
+export async function RemoveDinnerFood( food_key ) {
+    RemoveFood(MEAL_DINNER_STORE, food_key);
 }
 
 // delete

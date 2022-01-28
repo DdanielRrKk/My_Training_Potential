@@ -35,6 +35,7 @@ export async function AddBreackfastFood(
     ) 
     {
     AddFood(MEAL_BREACKFAST_STORE, {
+        key: null,
         name: name,
         calories: calories,
         carbs: carbs,
@@ -44,8 +45,8 @@ export async function AddBreackfastFood(
 }
 
 // remove food
-export async function RemoveBreackfastFood( food_index ) {
-    RemoveFood(MEAL_BREACKFAST_STORE, food_index);
+export async function RemoveBreackfastFood( food_key ) {
+    RemoveFood(MEAL_BREACKFAST_STORE, food_key);
 }
 
 // delete
