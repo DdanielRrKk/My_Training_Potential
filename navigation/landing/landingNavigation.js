@@ -10,14 +10,14 @@ import LandingMeasurementsScreen from '../../screens/landing/landingMeasurements
 
 
 
-export default function LandingNavigation() {
+export default function LandingNavigation({ dataReady }) {
     return (
         <NavigationContainer>
             <NavStack.Navigator initialRouteName='LandingScreen'>
                 <NavStack.Screen name='LandingScreen' component={LandingScreen} options={{ headerMode: 'none' }}/>
                 <NavStack.Screen name='LandingNameScreen' component={LandingNameScreen} options={{ headerMode: 'none' }}/>
                 <NavStack.Screen name='LandingGenderScreen' component={LandingGenderScreen} options={{ headerMode: 'none' }}/>
-                <NavStack.Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }}/>
+                <NavStack.Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }} initialParams={{dataReady: dataReady}}/>
             </NavStack.Navigator>
         </NavigationContainer>
     );

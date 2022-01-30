@@ -1,8 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, TextInput } from 'react-native';
 
+import { 
+    SetUserDataName,
+    GetUserDataName
+} from '../../database/services/user_services/user_data_services';
+
 import ContinueButton from '../../components/landing/continueButton';
-import BackButton from '../../components/landing/backButton';
+import BackButton from '../../components/misc/backButton';
 
 
 
@@ -10,11 +15,18 @@ const NAME_MAX_LENGTH = 40;
 
 export default function LandingNameScreen({ navigation }){
     const [name, setName] = React.useState(null);
-    const changeNameHandler = (value) => setName(value);
 
-    const openNextScreen = () => navigation.push('LandingGenderScreen');
+    React.useEffect(() => {
+        GetUserDataName(setName);
+    }, []);
+
     const openPrevScreen = () => navigation.goBack();
- 
+
+    const openNextScreen = () => {
+        SetUserDataName(name);
+        navigation.push('LandingGenderScreen');
+    }
+    
     return(
         <SafeAreaView style={styles.container}>
             <KeyboardAvoidingView>
@@ -27,7 +39,7 @@ export default function LandingNameScreen({ navigation }){
 
                     <TextInput
                         style={styles.entry}
-                        onChangeText={changeNameHandler}
+                        onChangeText={setName}
                         maxLength={NAME_MAX_LENGTH}/>
                 </View>
             

@@ -1,19 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
+import { 
+    SetUserDataGender,
+    GetUserDataGender
+} from '../../database/services/user_services/user_data_services';
+
 import ContinueButton from '../../components/landing/continueButton';
-import BackButton from '../../components/landing/backButton';
 import GroupButton from '../../components/landing/groupButton';
+import BackButton from '../../components/misc/backButton';
 
 
 
 export default function LandingGenderScreen({ navigation }){
     const [gender, setGender] = React.useState(null);
-    const changeGender = (value) => setGender(value);
 
-    const openNextScreen = () => navigation.push('LandingMeasurementsScreen');
+    React.useEffect(() => {
+        GetUserDataGender(setGender);
+    }, []);
+
     const openPrevScreen = () => navigation.goBack();
- 
+
+    const openNextScreen = () => {
+        SetUserDataGender(gender);
+        navigation.push('LandingMeasurementsScreen');
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <View style={styles.top_button_container}>
@@ -27,12 +39,12 @@ export default function LandingGenderScreen({ navigation }){
                     <GroupButton 
                         is_selected={(gender == 1)? true : false}
                         title={'Male'}
-                        pressHandler={() => changeGender(1)}/>
+                        pressHandler={() => setGender(1)}/>
 
                     <GroupButton 
                         is_selected={(gender == 0)? true : false}
                         title={'Female'}
-                        pressHandler={() => changeGender(0)}/>
+                        pressHandler={() => setGender(0)}/>
                 </View>
             </View>
         
@@ -55,6 +67,7 @@ const styles = StyleSheet.create({
 
     content: {
         flex: 1,
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -79,7 +92,7 @@ const styles = StyleSheet.create({
         width: '100%',
         marginTop: 32,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
 });

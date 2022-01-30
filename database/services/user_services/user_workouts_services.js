@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { USER_WORKOUTS_STORE } from "../../database_stores";
 import { 
     InsertSingle,

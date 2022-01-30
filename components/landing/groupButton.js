@@ -23,7 +23,7 @@ export default function GroupButton({ is_selected, title, pressHandler }){
 
 const styles = StyleSheet.create({
     button: {
-        width: '45%',
+        width: '48%',
         paddingVertical: 8,
         borderWidth: 1,
         borderColor: 'black',

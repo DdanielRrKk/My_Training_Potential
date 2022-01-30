@@ -1,29 +1,34 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView } from 'react-native';
 
+import { 
+    SetUserDataMeasurements,
+    GetUserDataMeasurements
+} from '../../database/services/user_services/user_data_services';
+
 import ContinueButton from '../../components/landing/continueButton';
-import BackButton from '../../components/landing/backButton';
-import GroupButton from '../../components/landing/groupButton';
+import BackButton from '../../components/misc/backButton';
 
 
 const AGE_MAX_LENGTH = 3;
 const WEIGHT_MAX_LENGTH = 3;
 const HEIGHT_MAX_LENGTH = 3;
 
-export default function LandingMeasurementsScreen({ navigation }){
-    const [preference, setPreference] = React.useState(null);
+export default function LandingMeasurementsScreen({ navigation, route }){
     const [age, setAge] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
     const [height, setHeight] = React.useState(null);
 
-    
-    const changePreference = (value) => setPreference(value);
-    const changeAge = (value) => setAge(value);
-    const changeWeight = (value) => setWeight(value);
-    const changeHeight = (value) => setHeight(value);
+    React.useEffect(() => {
+        GetUserDataMeasurements(setAge, setWeight, setHeight);
+    }, []);
 
-    const openNextScreen = () => console.log('next');
     const openPrevScreen = () => navigation.goBack();
+
+    const openNextScreen = () => {
+        SetUserDataMeasurements(age, weight, height);
+        route.params.dataReady();
+    }
  
     return(
         <SafeAreaView style={styles.container}>
@@ -36,7 +41,7 @@ export default function LandingMeasurementsScreen({ navigation }){
                     <Text style={styles.question}>Age</Text>
                     <TextInput
                         style={styles.entry}
-                        onChangeText={changeAge}
+                        onChangeText={setAge}
                         keyboardType='numeric'
                         maxLength={AGE_MAX_LENGTH}/>
 
@@ -44,7 +49,7 @@ export default function LandingMeasurementsScreen({ navigation }){
                     <TextInput
                         style={styles.entry}
                         placeholder='kg'
-                        onChangeText={changeWeight}
+                        onChangeText={setWeight}
                         keyboardType='numeric'
                         maxLength={WEIGHT_MAX_LENGTH}/>
 
@@ -52,7 +57,7 @@ export default function LandingMeasurementsScreen({ navigation }){
                     <TextInput
                         style={styles.entry}
                         placeholder='cm'
-                        onChangeText={changeHeight}
+                        onChangeText={setHeight}
                         keyboardType='numeric'
                         maxLength={HEIGHT_MAX_LENGTH}/>
                 </View>
