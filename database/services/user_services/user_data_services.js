@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { USER_DATA_STORE } from "../../database_stores";
-import { USER_DATA_SHEMA } from '../../database_shemas';
+import { USER_DATA_SCHEMA } from '../../database_shemas';
 
 
 
@@ -89,7 +89,7 @@ export async function GetUserDataMeasurements(setAge, setWeight, setHeight) {
 
 // delete =====
 export async function DeleteUserData() {
-    await AsyncStorage.setItem(USER_DATA_STORE, JSON.stringify(USER_DATA_SHEMA));
+    await AsyncStorage.setItem(USER_DATA_STORE, JSON.stringify(USER_DATA_SCHEMA));
 }
 
 

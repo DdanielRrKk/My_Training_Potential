@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { USER_PREFERENCES_STORE } from "../../database_stores";
-import { USER_PREFERENCES_SHEMA } from '../../database_shemas';
+import { USER_PREFERENCES_SCHEMA } from '../../database_shemas';
 
 
 
@@ -53,7 +53,7 @@ async function getUserPreferenceParameter(param_number, setParameter) {
 
 // delete =====
 export async function DeleteUserPreference() {
-    await AsyncStorage.setItem(USER_PREFERENCES_STORE, JSON.stringify(USER_PREFERENCES_SHEMA));
+    await AsyncStorage.setItem(USER_PREFERENCES_STORE, JSON.stringify(USER_PREFERENCES_SCHEMA));
 }
 
 
