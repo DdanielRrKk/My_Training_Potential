@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 
 import { GetUserDataName } from '../../database/services/user_services/user_data_services';
 
@@ -27,8 +27,8 @@ export default function MainHomeScreen({ navigation }){
     const openMealLogScreen = () => console.log('setup meal log');
  
     return(
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={{flex: 1, width: '100%'}}>
+        <SafeAreaView style={[styles.container, {marginTop: StatusBar.currentHeight}]}>
+            <ScrollView style={{flex: 1, width: '100%', padding: 16}}>
                 <View style={styles.top_button_container}>
                     <Text style={styles.title}>Welcome {name}</Text>
 
@@ -89,8 +89,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 16,
-        paddingTop: 32
     },
 
     top_button_container: {

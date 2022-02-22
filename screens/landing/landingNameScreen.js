@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, TextInput } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, TextInput, StatusBar } from 'react-native';
 
 import { 
     SetUserDataName,
     GetUserDataName
 } from '../../database/services/user_services/user_data_services';
+
+import { bottom_button_container } from '../../styles/landingStyles';
+import { container, content } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/landing/continueButton';
 import BackButton from '../../components/misc/backButton';
@@ -28,13 +31,13 @@ export default function LandingNameScreen({ navigation }){
     }
     
     return(
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={container}>
             <KeyboardAvoidingView>
                 <View style={styles.top_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={styles.content}>
+                <View style={content}>
                     <Text style={styles.question}>What is your name?</Text>
 
                     <TextInput
@@ -43,7 +46,7 @@ export default function LandingNameScreen({ navigation }){
                         maxLength={NAME_MAX_LENGTH}/>
                 </View>
             
-                <View style={styles.bottom_button_container}>
+                <View style={bottom_button_container}>
                     <ContinueButton pressHandler={openNextScreen}/>
                 </View>
             </KeyboardAvoidingView>
@@ -54,18 +57,6 @@ export default function LandingNameScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16
-    },
-
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 
     question: {
         fontSize: 18
@@ -75,12 +66,6 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-start'
-    },
-
-    bottom_button_container: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
     },
 
     entry:{

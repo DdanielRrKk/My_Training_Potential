@@ -6,6 +6,9 @@ import {
     GetUserDataGender
 } from '../../database/services/user_services/user_data_services';
 
+import { bottom_button_container } from '../../styles/landingStyles';
+import { container, content } from '../../styles/miscStyles';
+
 import ContinueButton from '../../components/landing/continueButton';
 import GroupButton from '../../components/landing/groupButton';
 import BackButton from '../../components/misc/backButton';
@@ -27,12 +30,12 @@ export default function LandingGenderScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={container}>
             <View style={styles.top_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={styles.content}>
+            <View style={content}>
                 <Text style={styles.question}>What is your gender?</Text>
 
                 <View style={styles.middle_button_container}>
@@ -48,7 +51,7 @@ export default function LandingGenderScreen({ navigation }){
                 </View>
             </View>
         
-            <View style={styles.bottom_button_container}>
+            <View style={bottom_button_container}>
                 <ContinueButton pressHandler={openNextScreen}/>
             </View>
         </SafeAreaView>
@@ -58,19 +61,6 @@ export default function LandingGenderScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
 
     question: {
         fontSize: 18
@@ -80,12 +70,6 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'flex-start'
-    },
-
-    bottom_button_container: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-end'
     },
 
     middle_button_container: {

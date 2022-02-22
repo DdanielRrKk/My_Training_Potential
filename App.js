@@ -11,7 +11,6 @@ import MainNavigation from './navigation/main/mainNavigation';
 
 export default function App() {
   const [existsDatabase, setExistsDatabase] = React.useState(null);
-  const [readyDatabase, setReadyDatabase] = React.useState(null);
   const [isUserDataReady, setIsUserDataReady] = React.useState(null);
 
   React.useEffect(() => {
@@ -19,7 +18,7 @@ export default function App() {
 
     ExistsDatabase(setExistsDatabase);
     console.log('existsDatabase', existsDatabase);
-    if(!existsDatabase && existsDatabase != null) CreateDatabase(setReadyDatabase);
+    if(!existsDatabase && existsDatabase != null) CreateDatabase();
 
     if(!isUserDataReady || isUserDataReady == null) GetUserPreferenceIsUserDataReady(setIsUserDataReady);
   });
