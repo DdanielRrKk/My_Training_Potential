@@ -21,6 +21,7 @@ export const MEAL_BREACKFAST_STORE = "meal_breackfast_store";
 export const MEAL_LUNCH_STORE = "meal_lunch_store";
 export const MEAL_DINNER_STORE = "meal_dinner_store";
 export const MEAL_FOODS_STORE = "meal_foods_store";
+export const MEAL_CURRENT_DATA_STORE = "meal_current_data_store";
 
 // logs =====
 export const LOG_STEPS_STORE = "log_steps_store";

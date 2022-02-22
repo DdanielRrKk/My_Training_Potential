@@ -16,6 +16,12 @@ export const content = {
     alignItems: 'center',
 };
 
+export const back_button_container = {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
+};
+
 
 
 const test_styles = StyleSheet.create({

@@ -1,25 +1,67 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 
-import { GetUserDataName } from '../../database/services/user_services/user_data_services';
+import { useIsFocused } from '@react-navigation/native';
+
+import { 
+    GetUserDataName, 
+    GetUserDataWeight 
+} from '../../database/services/user_services/user_data_services';
+import { GetUserPreferenceIsMealReady } from '../../database/services/user_services/user_preferences_services';
+import {
+    GetUserMealsCaloriesGoal,
+    GetUserMealsCarbsGoal,
+    GetUserMealsProteinGoal,
+    GetUserMealsFatGoal
+} from '../../database/services/user_services/user_meals_services';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
 import LogBox from '../../components/home/logBox';
 import GroupLogBox from '../../components/home/groupLogBox';
+import Progress from '../../components/meal/setup/progress';
 
+
+
+const CALORIES_PERCENTAGE = 0; // 100%
+const CARBS_PERCENTAGE_OF_CALORIES = 0; // 50%
+const PROTEIN_PERCENTAGE_OF_CALORIES = 0; // 25%
+const FAT_PERCENTAGE_OF_CALORIES = 0; // 25%
 
 export default function MainHomeScreen({ navigation }){
     const [name, setName] = React.useState(null);
+    const [weight, setWeight] = React.useState(null);
+    const [steps, setSteps] = React.useState(null);
+
+    const [isMealReady, setIsMealReady] = React.useState(false);
     
+    const [calories, setCalories] = React.useState(null);
+    const [carbs, setCarbs] = React.useState(null);
+    const [protein, setProtein] = React.useState(null);
+    const [fat, setFat] = React.useState(null);
+    
+
+    
+    const focus = useIsFocused();
     React.useEffect(() => {
         GetUserDataName(setName);
-        console.log('name', name);
-    }, [name]);
-    console.log('name out', name);
+        GetUserDataWeight(setWeight);
+
+        GetUserPreferenceIsMealReady(setIsMealReady);
+
+        if(isMealReady) {
+            GetUserMealsCaloriesGoal(setCalories);
+            GetUserMealsCarbsGoal(setCarbs);
+            GetUserMealsProteinGoal(setProtein);
+            GetUserMealsFatGoal(setFat);
+        }
+    }, [focus]);
 
     const openOptionsScreen = () => console.log('options');
-    const openSetupNutritionScreen = () => console.log('setup nutrition');
+    const openSetupNutritionScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('SetupMealGoalScreen');
+    }
     const openSetupWorkoutScreen = () => console.log('setup workout');
     const openStepsLogScreen = () => console.log('setup steps log');
     const openWeightLogScreen = () => console.log('setup weight log');
@@ -40,7 +82,54 @@ export default function MainHomeScreen({ navigation }){
                 <View style={styles.content}>
                     <Text style={styles.subtitle}>Nutrition</Text>
                     
+                    { // Nutritions ================ START
+                    isMealReady 
+                    ?
+                    <View style={styles.results}>
+                        <View style={[styles.row, {marginTop: 16}]}>
+                            <Text style={styles.labels}>Calories</Text>
+                            
+                            <Text style={styles.labels}>{calories} cal</Text>
+                        </View>
+
+                        <Progress
+                            style={styles.progress} 
+                            progress={CALORIES_PERCENTAGE} />
+                        
+                        <View style={styles.row}>
+                            <Text style={styles.labels}>Carbs</Text>
+                            
+                            <Text style={styles.labels}>{carbs} g</Text>
+                        </View>
+
+                        <Progress 
+                            style={styles.progress} 
+                            progress={CARBS_PERCENTAGE_OF_CALORIES} />
+                        
+                        <View style={styles.row}>
+                            <Text style={styles.labels}>Protein</Text>
+                            
+                            <Text style={styles.labels}>{protein} g</Text>
+                        </View>
+
+                        <Progress 
+                            style={styles.progress} 
+                            progress={PROTEIN_PERCENTAGE_OF_CALORIES} />
+                        
+                        <View style={styles.row}>
+                            <Text style={styles.labels}>Fat</Text>
+                            
+                            <Text style={styles.labels}>{fat} g</Text>
+                        </View>
+
+                        <Progress 
+                            style={[styles.progress, {marginBottom: 20}]} 
+                            progress={FAT_PERCENTAGE_OF_CALORIES} />
+                    </View>
+                    :
                     <SetupBox pressHandler={openSetupNutritionScreen}/>
+                     // Nutritions ================ END
+                    } 
 
                     <Text style={styles.subtitle}>Workout</Text>
                     
@@ -49,14 +138,14 @@ export default function MainHomeScreen({ navigation }){
                     <Text style={styles.subtitle}>Steps Counter</Text>
 
                     <LogBox 
-                        value={20}
+                        value={steps}
                         title='steps today'
                         pressHandler={openStepsLogScreen}/>
                     
                     <Text style={styles.subtitle}>Weight Log</Text>
                     
                     <LogBox 
-                        value={70}
+                        value={weight}
                         title='current weight'
                         pressHandler={openWeightLogScreen}/>
                     
@@ -123,5 +212,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 32
     },
+
+    results: {
+        width: '100%',
+        backgroundColor: 'gray',
+        borderRadius: 10
+    },
+
+    labels: {
+        fontSize: 16
+    },
+
+    row: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16
+    },
+
+    progress: {
+        margin: 16
+    }
 });

@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { bottom_button_container } from '../../styles/landingStyles';
+import { continue_button_container } from '../../styles/setupStyles';
 import { container, content } from '../../styles/miscStyles';
 
-import ContinueButton from '../../components/landing/continueButton';
+import ContinueButton from '../../components/misc/setup/continueButton';
 
 
 
@@ -20,7 +20,7 @@ export default function LandingScreen({ navigation }){
                 <Text style={styles.info}>While strength training, for example, you can do a higher number of reps with a lower weight. Increase the number of repetitions only after you’ve spent a few weeks mastering an exercise.</Text>
             </View>
         
-            <View style={bottom_button_container}>
+            <View style={continue_button_container}>
                 <ContinueButton pressHandler={openNextScreen}/>
             </View>
         </SafeAreaView>

@@ -1,27 +1,57 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { GetUserPreferenceCurrentMealLogKey } from '../../database/services/user_services/user_preferences_services';
+import { useIsFocused } from '@react-navigation/native';
+
+import {
+    GetUserMealsCaloriesGoal,
+    GetUserMealsCarbsGoal,
+    GetUserMealsProteinGoal,
+    GetUserMealsFatGoal
+} from '../../database/services/user_services/user_meals_services';
+import { GetUserPreferenceIsMealReady, SetUserPreferenceIsMealReady } from '../../database/services/user_services/user_preferences_services';
 
 import { container } from '../../styles/miscStyles';
 
 import MealBox from '../../components/meal/mealBox';
+import WaterBox from '../../components/meal/waterBox';
 
 
 
 export default function MainMealScreen({ navigation }){
-    const [isMealSettedUp, setIsMealSettedUp] = React.useState(true);
+    const [isMealReady, setIsMealReady] = React.useState(false);
+    
+    const [calories, setCalories] = React.useState(null);
+    const [carbs, setCarbs] = React.useState(null);
+    const [protein, setProtein] = React.useState(null);
+    const [fat, setFat] = React.useState(null);
+    const [water, setWater] = React.useState(null);
 
+
+
+    const focus = useIsFocused();
     React.useEffect(() => {
-        // GetUserPreferenceCurrentMealLogKey(setIsMealSettedUp);
-    }, []);
+        // SetUserPreferenceIsMealReady(false);
+        GetUserPreferenceIsMealReady(setIsMealReady);
 
-    if(!isMealSettedUp || isMealSettedUp == null) {
+        if(isMealReady) {
+            GetUserMealsCaloriesGoal(setCalories);
+            GetUserMealsCarbsGoal(setCarbs);
+            GetUserMealsProteinGoal(setProtein);
+            GetUserMealsFatGoal(setFat);
+        }
+    }, [focus]);
+
+    const openSetupScreen = () => {
+        navigation.navigate('SetupMealGoalScreen');
+    }
+
+    if(!isMealReady || isMealReady == null) {
         return(
             <SafeAreaView style={container}>
                 <TouchableOpacity 
                     style={styles.setUp}
-                    onPress={() => console.log('press')}>
+                    onPress={openSetupScreen}>
                     <Text>Set Up Plan</Text>
                 </TouchableOpacity>
             </SafeAreaView>
@@ -32,23 +62,23 @@ export default function MainMealScreen({ navigation }){
         <SafeAreaView style={container}>
             <View style={styles.header}>
                 <View style={styles.infoBox}>
-                    <Text style={styles.primaryText}>0 / 3000</Text>
+                    <Text style={styles.primaryText}>0 / {calories}</Text>
                     <Text style={styles.subText}>calories</Text>
                 </View>
 
                 <View style={styles.infoContainer}>
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / 350 g</Text>
+                        <Text style={styles.secondaryText}>0 / {carbs} g</Text>
                         <Text style={styles.subText}>carbs</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / 150 g</Text>
+                        <Text style={styles.secondaryText}>0 / {protein} g</Text>
                         <Text style={styles.subText}>protein</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / 100 g</Text>
+                        <Text style={styles.secondaryText}>0 / {fat} g</Text>
                         <Text style={styles.subText}>fat</Text>
                     </View>
                 </View>
@@ -56,6 +86,11 @@ export default function MainMealScreen({ navigation }){
 
             <View style={styles.content}>
                 <Text style={styles.subtitle}>Water</Text>
+
+                <WaterBox 
+                    mililiters={water}
+                    addWaterHandler={() => console.log('add')}
+                    removeWaterHandler={() => console.log('remove')}/>
                 
                 <Text style={styles.subtitle}>Meals</Text>
 
@@ -92,7 +127,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         width: '100%',
         padding: 20,
-        borderRadius: 20
+        borderRadius: 10
     },
 
     infoBox: {

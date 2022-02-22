@@ -6,10 +6,10 @@ import {
     GetUserDataGender
 } from '../../database/services/user_services/user_data_services';
 
-import { bottom_button_container } from '../../styles/landingStyles';
-import { container, content } from '../../styles/miscStyles';
+import { continue_button_container } from '../../styles/setupStyles';
+import { container, content, back_button_container } from '../../styles/miscStyles';
 
-import ContinueButton from '../../components/landing/continueButton';
+import ContinueButton from '../../components/misc/setup/continueButton';
 import GroupButton from '../../components/landing/groupButton';
 import BackButton from '../../components/misc/backButton';
 
@@ -31,7 +31,7 @@ export default function LandingGenderScreen({ navigation }){
 
     return(
         <SafeAreaView style={container}>
-            <View style={styles.top_button_container}>
+            <View style={back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
@@ -51,7 +51,7 @@ export default function LandingGenderScreen({ navigation }){
                 </View>
             </View>
         
-            <View style={bottom_button_container}>
+            <View style={continue_button_container}>
                 <ContinueButton pressHandler={openNextScreen}/>
             </View>
         </SafeAreaView>
@@ -64,12 +64,6 @@ const styles = StyleSheet.create({
 
     question: {
         fontSize: 18
-    },
-
-    top_button_container: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'flex-start'
     },
 
     middle_button_container: {

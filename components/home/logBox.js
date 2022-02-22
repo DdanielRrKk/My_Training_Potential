@@ -8,7 +8,7 @@ export default function LogBox({ pressHandler, value, title }){
         <TouchableOpacity 
             style={styles.container}
             onPress={() => pressHandler()}>
-            <Text style={styles.text}>{value}</Text>
+            <Text style={styles.text}>{(value == null) ? 0 : value}</Text>
             <Text style={styles.subtext}>{title}</Text>
         </TouchableOpacity>
     );

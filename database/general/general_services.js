@@ -9,6 +9,7 @@ import {
     MEAL_DINNER_STORE,
     MEAL_LUNCH_STORE,
     MEAL_WATER_STORE,
+    MEAL_CURRENT_DATA_STORE,
     LOG_STEPS_STORE,
     LOG_WEIGHT_STORE,
     LOG_MEALS_STORE,
@@ -22,6 +23,7 @@ import {
     USER_PREFERENCES_SCHEMA,
     MEAL_MAIN_SCHEMA,
     MEAL_WATER_SCHEMA,
+    MEAL_CURRENT_DATA_SCHEMA,
     LOG_SCHEMA,
     WORKOUT_SCHEMA
 } from '../database_shemas';
@@ -42,8 +44,8 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_BREACKFAST_STORE, JSON.stringify(MEAL_MAIN_SCHEMA));
         await AsyncStorage.setItem(MEAL_DINNER_STORE, JSON.stringify(MEAL_MAIN_SCHEMA));
         await AsyncStorage.setItem(MEAL_LUNCH_STORE, JSON.stringify(MEAL_MAIN_SCHEMA));
-        
         await AsyncStorage.setItem(MEAL_WATER_STORE, JSON.stringify(MEAL_WATER_SCHEMA));
+        await AsyncStorage.setItem(MEAL_CURRENT_DATA_STORE, JSON.stringify(MEAL_CURRENT_DATA_SCHEMA));
 
 
         await AsyncStorage.setItem(LOG_STEPS_STORE, JSON.stringify(LOG_SCHEMA));

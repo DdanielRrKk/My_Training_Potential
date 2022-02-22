@@ -15,7 +15,7 @@ export const USER_WORKOUTS_SCHEMA = {
 
 export const USER_MEALS_SCHEMA = {
     meal_goal: null, 
-    weight_goal: null, 
+    activity_level: null,
     calories_goal: null,
     carbs_goal: null,
     protein_goal: null,
@@ -23,8 +23,8 @@ export const USER_MEALS_SCHEMA = {
 };
 
 export const USER_PREFERENCES_SCHEMA = {
-    current_workout_plan_key: null,
-    current_meals_log_key: null,
+    is_workout_ready: false,
+    is_meal_ready: false,
     is_user_data_ready: false
 };
 
@@ -43,6 +43,17 @@ export const MEAL_MAIN_SCHEMA = {
     total_protein: null,
     total_fat: null,
     foods: []
+};
+
+export const MEAL_CURRENT_DATA_SCHEMA = {
+    water: null,
+    calories: null,
+    carbs: null,
+    protein: null,
+    fat: null,
+    breakfast_cal: null,
+    lunch_cal: null,
+    dinner_cal: null
 };
 
 
