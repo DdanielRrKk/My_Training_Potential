@@ -31,9 +31,7 @@ export const USER_PREFERENCES_SCHEMA = {
 
 
 // meals shemas =====
-export const MEAL_WATER_SCHEMA = {
-    mililiters: null
-};
+export const MEAL_WATER_SCHEMA = ''; // mililiters
 
 export const MEAL_MAIN_SCHEMA = {
     recommended_min: null,

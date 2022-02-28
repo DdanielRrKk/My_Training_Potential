@@ -22,18 +22,25 @@ export default function App() {
   const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
 
   React.useEffect(() => {
+    let isGood = true;
+
     // DropDatabase();
 
-    ExistsDatabase(setExistsDatabase);
+    ExistsDatabase().then((check) => { if(isGood) setExistsDatabase(check); });
     console.log('existsDatabase', existsDatabase);
-    if(!existsDatabase && existsDatabase != null) CreateDatabase();
 
-    if(!isUserDataReady || isUserDataReady == null) GetUserPreferenceIsUserDataReady(setIsUserDataReady);
-    if(!isMealReady || isMealReady == null) GetUserPreferenceIsMealReady(setIsMealReady);
-    if(!isWorkoutReady || isWorkoutReady == null) GetUserPreferenceIsWorkoutReady(setIsWorkoutReady);
-  });
+    if(!existsDatabase && existsDatabase !== null) CreateDatabase();
+
+    if(!isUserDataReady || isUserDataReady === null || isUserDataReady === undefined) GetUserPreferenceIsUserDataReady().then((check) => { if(isGood) setIsUserDataReady(check); });
+    if(!isMealReady || isMealReady === null || isMealReady === undefined) GetUserPreferenceIsMealReady().then((check) => { if(isGood) setIsMealReady(check); });
+    if(!isWorkoutReady || isWorkoutReady === null || isWorkoutReady === undefined) GetUserPreferenceIsWorkoutReady().then((check) => { if(isGood) setIsWorkoutReady(check); });
+
+    return () => {  isGood = false; } // to prevent memory leaks (clean up)
+  }, [existsDatabase, isUserDataReady, isMealReady, isWorkoutReady]);
 
   console.log('isUserDataReady', isUserDataReady);
+  console.log('isMealReady', isMealReady);
+  console.log('isWorkoutReady', isWorkoutReady);
 
   const dataReady = () => {
     SetUserPreferenceIsUserDataReady(true);

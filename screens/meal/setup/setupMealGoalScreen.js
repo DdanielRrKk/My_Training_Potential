@@ -1,13 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { 
-    SetUserMealsGoal ,
-    GetUserMealsGoal
-} from '../../../database/services/user_services/user_meals_services';
-import {
-    GetUserWorkoutsAvailableDays
-} from '../../../database/services/user_services/user_workouts_services';
+import { SetUserMealsGoal, GetUserMealsGoal } from '../../../database/services/user_services/user_meals_services';
+import { GetUserWorkoutsAvailableDays } from '../../../database/services/user_services/user_workouts_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
@@ -23,8 +18,10 @@ export default function SetupMealGoalScreen({ navigation }){
     const [activity, setActivity] = React.useState(null);
 
     React.useEffect(() => {
-        GetUserMealsGoal(setGoal);
-        GetUserWorkoutsAvailableDays(setActivity);
+        let isGood = true;
+        GetUserMealsGoal().then((value) => { if(isGood) setGoal(value); });
+        /* GetUserWorkoutsAvailableDays().then((value) => { if(isGood) setActivity(value); }); */
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();

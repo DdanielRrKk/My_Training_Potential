@@ -1,27 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import {
-    GetUserDataAge,
-    GetUserDataWeight,
-    GetUserDataHeight,
-    GetUserDataGender
-} from '../../../database/services/user_services/user_data_services';
-import {
-    GetUserMealsGoal,
-    GetUserMealsActivityLevel,
-    SetUserMealsNutritions
-} from '../../../database/services/user_services/user_meals_services';
-import {
-    SetUserPreferenceIsMealReady
-} from '../../../database/services/user_services/user_preferences_services';
+import { GetUserDataAge, GetUserDataWeight, GetUserDataHeight, GetUserDataGender } from '../../../database/services/user_services/user_data_services';
+import { GetUserMealsGoal, GetUserMealsActivityLevel, SetUserMealsNutritions } from '../../../database/services/user_services/user_meals_services';
+import { SetUserPreferenceIsMealReady } from '../../../database/services/user_services/user_preferences_services';
 
-import {
-    calculateCalories,
-    calculateCarbs,
-    calculateProtein,
-    calculateFat
-} from '../../../helpers/mealCalculations';
+import { calculateCalories, calculateCarbs, calculateProtein, calculateFat } from '../../../helpers/mealCalculations';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
@@ -52,12 +36,14 @@ export default function SetupMealResultsScreen({ navigation }){
 
 
     React.useEffect(() => {
-        GetUserDataAge(setAge);
-        GetUserDataWeight(setWeight);
-        GetUserDataHeight(setHeight);
-        GetUserDataGender(setGender);
-        GetUserMealsActivityLevel(setActivity);
-        GetUserMealsGoal(setGoal);
+        let isGood = true;
+
+        GetUserDataAge().then((value) => { if(isGood) setAge(value); });
+        GetUserDataWeight().then((value) => { if(isGood) setWeight(value); });
+        GetUserDataHeight().then((value) => { if(isGood) setHeight(value); });
+        GetUserDataGender().then((value) => { if(isGood) setGender(value); });
+        GetUserMealsActivityLevel().then((value) => { if(isGood) setActivity(value); });
+        GetUserMealsGoal().then((value) => { if(isGood) setGoal(value); });
 
         if(age !== null && weight !== null && height !== null && gender !== null && goal !== null) {
             setCalories(parseInt(calculateCalories(weight, height, age, gender, activity, goal)));
@@ -65,7 +51,9 @@ export default function SetupMealResultsScreen({ navigation }){
             setProtein(parseInt(calculateProtein(weight, height, age, gender, activity, goal)));
             setFat(parseInt(calculateFat(weight, height, age, gender, activity, goal)));
         }
-    }, [age, weight, height, gender, goal]);
+
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+    }, [age, weight, height, gender, activity, goal]);
 
     const openPrevScreen = () => navigation.goBack();
 

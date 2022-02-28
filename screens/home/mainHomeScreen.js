@@ -3,17 +3,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'rea
 
 import { useIsFocused } from '@react-navigation/native';
 
-import { 
-    GetUserDataName, 
-    GetUserDataWeight 
-} from '../../database/services/user_services/user_data_services';
-import { GetUserPreferenceIsMealReady } from '../../database/services/user_services/user_preferences_services';
-import {
-    GetUserMealsCaloriesGoal,
-    GetUserMealsCarbsGoal,
-    GetUserMealsProteinGoal,
-    GetUserMealsFatGoal
-} from '../../database/services/user_services/user_meals_services';
+import { GetHomeScreenData } from '../../database/general/general_services';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
@@ -41,21 +31,28 @@ export default function MainHomeScreen({ navigation }){
     const [fat, setFat] = React.useState(null);
     
 
-    
+
     const focus = useIsFocused();
     React.useEffect(() => {
-        GetUserDataName(setName);
-        GetUserDataWeight(setWeight);
+        let isGood = true;
+        console.log('focus home', focus);
 
-        GetUserPreferenceIsMealReady(setIsMealReady);
+        GetHomeScreenData().then(({isMealReady, name, weight, calories, carbs, protein, fat}) => { 
+            if(isGood) {
+                setIsMealReady(isMealReady);
+                setName(name);
+                setWeight(weight); 
+                setCalories(calories);
+                setCarbs(carbs);
+                setProtein(protein);
+                setFat(fat);
+            }
+        });
 
-        if(isMealReady) {
-            GetUserMealsCaloriesGoal(setCalories);
-            GetUserMealsCarbsGoal(setCarbs);
-            GetUserMealsProteinGoal(setProtein);
-            GetUserMealsFatGoal(setFat);
-        }
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [focus]);
+
+
 
     const openOptionsScreen = () => console.log('options');
     const openSetupNutritionScreen = () => {

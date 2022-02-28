@@ -63,12 +63,11 @@ export async function CreateDatabase() {
 
 
 // check if the database exists
-export async function ExistsDatabase(setExists) {
+export async function ExistsDatabase() {
     try {
-        await AsyncStorage.getItem(DATABASE_STORE, (err, result) => {
-            if (result == null || result == '') return setExists(false);
-            return setExists(true);
-        });
+        const result = await AsyncStorage.getItem(DATABASE_STORE);
+        if(result == null || result == '') return false;
+        return true;
     } catch (error) {
         console.log(error);
     }
@@ -80,6 +79,71 @@ export async function ExistsDatabase(setExists) {
 export async function DropDatabase() {
     try {
         await AsyncStorage.clear();
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+// get data for home screen
+export async function GetHomeScreenData() {
+    try {
+        const user_preference_result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
+        if(user_preference_result === null || user_preference_result === '') return console.log('store has no data'); // store has no data
+        
+        const user_data_result = await AsyncStorage.getItem(USER_DATA_STORE);
+        if(user_data_result === null || user_data_result === '') return console.log('store has no data'); // store has no data
+        
+        const user_meal_result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(user_meal_result === null || user_meal_result === '') return console.log('store has no data'); // store has no data
+
+        // store has data
+        const user_preference = JSON.parse(user_preference_result);
+        const user_data = JSON.parse(user_data_result);
+        const user_meal = JSON.parse(user_meal_result);
+
+        // console.log('user_preference', user_preference);
+        // console.log('user_data', user_data);
+        // console.log('user_meal', user_meal);
+
+        return {
+            isMealReady: user_preference.is_meal_ready,
+            name: user_data.name,
+            weight: user_data.weight,
+            calories: user_meal.calories_goal,
+            carbs: user_meal.carbs_goal,
+            protein: user_meal.protein_goal,
+            fat: user_meal.fat_goal
+        }        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// get data for meal screen
+export async function GetMealScreenData() {
+    try {
+        const user_preference_result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
+        if(user_preference_result === null || user_preference_result === '') return console.log('store has no data'); // store has no data
+        
+        const user_meal_result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(user_meal_result === null || user_meal_result === '') return console.log('store has no data'); // store has no data
+
+        // store has data
+        const user_preference = JSON.parse(user_preference_result);
+        const user_meal = JSON.parse(user_meal_result);
+
+        // console.log('user_preference', user_preference);
+        // console.log('user_meal', user_meal);
+
+        return {
+            isMealReady: user_preference.is_meal_ready,
+            calories: user_meal.calories_goal,
+            carbs: user_meal.carbs_goal,
+            protein: user_meal.protein_goal,
+            fat: user_meal.fat_goal
+        }        
     } catch (error) {
         console.log(error);
     }

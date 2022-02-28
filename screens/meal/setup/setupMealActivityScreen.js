@@ -19,7 +19,9 @@ export default function SetupMealActivityScreen({ navigation }){
     const [activityLevel, setActivityLevel] = React.useState(null);
 
     React.useEffect(() => {
-        GetUserMealsActivityLevel(setActivityLevel);
+        let isGood = true;
+        GetUserMealsActivityLevel().then((value) => { if(isGood) setActivityLevel(value); });
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();

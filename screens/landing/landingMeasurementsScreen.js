@@ -23,7 +23,15 @@ export default function LandingMeasurementsScreen({ navigation, route }){
     const [height, setHeight] = React.useState(null);
 
     React.useEffect(() => {
-        GetUserDataMeasurements(setAge, setWeight, setHeight);
+        let isGood = true;
+        GetUserDataMeasurements().then(({age, weight, height}) => { 
+            if(isGood) {
+                setAge(age);
+                setWeight(weight);
+                setHeight(height);
+            }
+         });
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();

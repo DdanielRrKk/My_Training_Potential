@@ -1,10 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { 
-    SetUserDataGender,
-    GetUserDataGender
-} from '../../database/services/user_services/user_data_services';
+import { SetUserDataGender, GetUserDataGender } from '../../database/services/user_services/user_data_services';
 
 import { continue_button_container } from '../../styles/setupStyles';
 import { container, content, back_button_container } from '../../styles/miscStyles';
@@ -19,7 +16,9 @@ export default function LandingGenderScreen({ navigation }){
     const [gender, setGender] = React.useState(null);
 
     React.useEffect(() => {
-        GetUserDataGender(setGender);
+        let isGood = true;
+        GetUserDataGender().then((value) => { if(isGood) setGender(value); });
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
