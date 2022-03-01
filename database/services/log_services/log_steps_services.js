@@ -1,29 +1,71 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LOG_STEPS_STORE } from "../../database_stores";
+import { LOG_SCHEMA } from '../../database_shemas';
 import { 
-    Insert,
-    Delete,
-    SelectAll
-} from "../../general/database";
+    getCurrentDateForLogs,
+    isCurrentDateForLogs 
+} from '../../../helpers/dateHelper';
 
 
 
-// insert
-export async function InsertSteps( steps ) {
-    const today = new Date();
-    const recordedDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    Insert(LOG_STEPS_STORE, {
-        key: null,
-        steps: steps,
-        date: recordedDate
-    });
+// delete =====
+export async function DeleteStepsLog() {
+    await AsyncStorage.setItem(LOG_STEPS_STORE, JSON.stringify(LOG_SCHEMA));
 }
 
-// delete
-export async function DeleteSteps(key) {
-    Delete(LOG_STEPS_STORE, key);
+
+
+// set log =====
+export async function SetStepsLogSteps( steps ) {
+    try {
+        await AsyncStorage.getItem(LOG_STEPS_STORE, async (err, result) => {
+            if (result == null || result == '[]') {
+                // object has no data
+                const date = getCurrentDateForLogs();
+                const log = [{
+                    key: 1,
+                    steps: steps,
+                    date: date
+                }];
+
+                await AsyncStorage.setItem(LOG_STEPS_STORE, JSON.stringify(log));
+                return;
+            }
+            // object has data
+            const log = JSON.parse(result);
+            const lastLog = log[log.length - 1];
+
+            if(isCurrentDateForLogs(lastLog.date)) {
+                log[log.length - 1].steps = steps;
+                
+                await AsyncStorage.setItem(LOG_STEPS_STORE, JSON.stringify(log));
+                return;
+            }
+
+            const date = getCurrentDateForLogs();
+            log.push({
+                key: lastLog + 1,
+                steps: steps,
+                date: date
+            });
+            
+            await AsyncStorage.setItem(LOG_STEPS_STORE, JSON.stringify(log));
+            return;
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-// select
-export async function SelectAllSteps(setSteps) {
-    return SelectAll(LOG_STEPS_STORE, setSteps);
+// get steps log =====
+export async function GetStepsLog(setStepsLog) {
+    try {
+        await AsyncStorage.getItem(LOG_STEPS_STORE, async (err, result) => {
+            if (result == null || result == '') return; // object has no data
+            // object has data
+            return setStepsLog(JSON.parse(result));
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }

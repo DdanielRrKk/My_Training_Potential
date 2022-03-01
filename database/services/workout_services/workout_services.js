@@ -80,6 +80,30 @@ async function setWorkoutPlanParameter(plan_key, param_number, parameter) {
         console.log(error);
     }
 }
+async function setWorkoutPlanDaysParameter(plan_key, param_number, parameter) {
+    try {
+        await AsyncStorage.getItem(plan_key, async (err, result) => {
+            if (result == null || result == '') return; // object has no data
+            // object has data
+            const workoutPlan = JSON.parse(result);
+            switch(param_number) {
+                case 0: workoutPlan = parameter; break; // add / update workout plan
+                case 1: workoutPlan.name = parameter; break; // add / update workout plan name
+                case 2: workoutPlan.description = parameter; break; // add / update workout plan description
+                case 3: workoutPlan.per_week = parameter; break; // add / update workout plan per week
+                case 4: workoutPlan.average_time = parameter; break; // add / update workout plan time
+                case 5: workoutPlan.type = parameter; break; // add / update workout plan type
+                case 6: workoutPlan.gender_oriented = parameter; break; // add / update workout plan gender
+                case 7: workoutPlan.days = parameter; break; // add / update workout plan days
+                default: break;
+            }
+            await AsyncStorage.setItem(plan_key, JSON.stringify(workoutPlan));
+            return;
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 async function getWorkoutPlanParameter(plan_key, param_number, setParameter) {
     try {
@@ -134,86 +158,84 @@ export async function DeleteWorkoutPlan(plan_key) {
 
 
 // set workout plan =====
-export async function SetWokroutPlan(
+export async function SetWokroutPlan( 
     key, 
-    name = null,
-    description = null,
-    per_week = null,
-    average_time = null,
-    type = null,
-    gender_oriented = null,
-    days = []
+    name,
+    per_week,
+    time,
+    type,
+    gender,
+    description
  ) {
     setWorkoutPlanParameter(key, 0, {
         name: name,
-        description: description,
         per_week: per_week,
-        average_time: average_time,
+        time: time,
         type: type,
-        gender_oriented: gender_oriented,
-        days: days
+        gender: gender,
+        description: description
     });
 }
-// set workout plan name
+// set user name
 export async function SetWokroutPlanName(key, name) {
     return setWorkoutPlanParameter(key, 1, name);
 }
-// set workout plan gender
+// set user gender
 export async function SetWorkoutPlanDescription(key, description) {
     return setWorkoutPlanParameter(key, 2, description);
 }
-// set workout plan age
+// set user age
 export async function SetWorkoutPlanPerWeek(key, per_week) {
     return setWorkoutPlanParameter(key, 3, per_week);
 }
-// set workout plan height
-export async function SetWorkoutPlanAverageTime(key, average_time) {
-    return setWorkoutPlanParameter(key, 4, average_time);
+// set user height
+export async function SetWorkoutPlanTotalTime(key, total_time) {
+    return setWorkoutPlanParameter(key, 4, total_time);
 }
-// set workout plan weight
+// set user weight
 export async function SetWorkoutPlanType(key, type) {
     return setWorkoutPlanParameter(key, 5, type);
 }
-// set workout plan gender
+// set user gender
 export async function SetWorkoutPlanGenderOriented(key, gender_oriented) {
     return setWorkoutPlanParameter(key, 6, gender_oriented);
 }
-// set workout plan gender
+// set user gender
 export async function SetWorkoutPlanDays(key, days) {
     return setWorkoutPlanParameter(key, 7, days);
 }
 
 
 
-// get workout plan =====
+// get user =====
 export async function GetWorkoutPlan(key, setWorkoutPlan) {
     return getWorkoutPlanParameter(key, 0, setWorkoutPlan);
 }
-// get workout plan name
+// get user name
 export async function GetWorkoutPlanName(key, setWorkoutPlanName) {
     return getWorkoutPlanParameter(key, 1, setWorkoutPlanName);
 }
-// get workout plan gender
+// get user gender
 export async function GetWorkoutPlanDescription(key, setWorkoutPlanDescription) {
     return getWorkoutPlanParameter(key, 2, setWorkoutPlanDescription);
 }
-// get workout plan age
+// get user age
 export async function GetWorkoutPlanPerWeek(key, setWorkoutPlanPerWeek) {
     return getWorkoutPlanParameter(key, 3, setWorkoutPlanPerWeek);
 }
-// get workout plan height
-export async function GetWorkoutPlanAverageTime(key, setWorkoutPlanAverageTime) {
+// get user height
+export async function GetWorkoutPlanTime(key, setWorkoutPlanTime) {
     return getWorkoutPlanParameter(key, 4, setWorkoutPlanTime);
 }
-// get workout plan weight
+// get user weight
 export async function GetWorkoutPlanType(key, setWorkoutPlanType) {
     return getWorkoutPlanParameter(key, 5, setWorkoutPlanType);
 }
-// get workout plan gender
-export async function GetWorkoutPlanGenderOriented(key, setWorkoutPlanGenderOriented) {
-    return getWorkoutPlanParameter(key, 6, setWorkoutPlanGenderOriented);
+// get user gender
+export async function GetWorkoutPlanGender(key, setWorkoutPlanGender) {
+    return getWorkoutPlanParameter(key, 6, setWorkoutPlanGender);
 }
-// get workout plan gender
+// get user gender
 export async function GetWorkoutPlanDays(key, setWorkoutPlanDdays) {
     return getWorkoutPlanParameter(key, 7, setWorkoutPlanDdays);
 }

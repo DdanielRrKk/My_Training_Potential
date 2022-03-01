@@ -36,31 +36,24 @@ export async function SetMealBreackfast(
         foods: foods
     });
 }
-// set meal recommended min calories
 export async function SetMealBreackfastRecommendedMininumCalories(recommended_min) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 1, recommended_min);
 }
-// set meal recommended max calories
 export async function SetMealBreackfastRecommendedMaximumCalories(recommended_max) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 2, recommended_max);
 }
-// set meal total calories
 export async function SetMealBreackfastTotalCalories(total_calories) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 3, total_calories);
 }
-// set meal total carbs
 export async function SetMealBreackfastTotalCarbs(total_carbs) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 4, total_carbs);
 }
-// set meal total protein
 export async function SetMealBreackfastTotalProtein(total_protein) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 5, total_protein);
 }
-// set meal total fat
 export async function SetMealBreackfastTotalFat(total_fat) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 6, total_fat);
 }
-// set meal foods
 export async function SetMealBreackfastFoods(foods) {
     return setMealParameter(MEAL_BREACKFAST_STORE, 7, foods);
 }
@@ -68,36 +61,29 @@ export async function SetMealBreackfastFoods(foods) {
 
 
 // get meal =====
-export async function GetMealBreackfast(setMealBreackfast) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 0, setMealBreackfast);
+export async function GetMealBreackfast() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 0);
 }
-// get meal recommended max calories
-export async function GetMealBreackfastRecommendedMininumCalories(setRecommendedMininumCalories) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 1, setRecommendedMininumCalories);
+export async function GetMealBreackfastRecommendedMininumCalories() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 1);
 }
-// get meal recommended max calories
-export async function GetMealBreackfastRecommendedMaximumCalories(setRecommendedMaximumCalories) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 2, setRecommendedMaximumCalories);
+export async function GetMealBreackfastRecommendedMaximumCalories() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 2);
 }
-// get meal total calories
-export async function GetMealBreackfastTotalCalories(setTotalCalories) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 3, setTotalCalories);
+export async function GetMealBreackfastTotalCalories() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 3);
 }
-// get meal total carbs
-export async function GetMealBreackfastTotalCarbs(setTotalCarbs) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 4, setTotalCarbs);
+export async function GetMealBreackfastTotalCarbs() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 4);
 }
-// get meal total protein
-export async function GetMealBreackfastTotalProtein(setTotalProtein) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 5, setTotalProtein);
+export async function GetMealBreackfastTotalProtein() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 5);
 }
-// get meal total fat
-export async function GetMealBreackfastTotalFat(setTotalFat) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 6, setTotalFat);
+export async function GetMealBreackfastTotalFat() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 6);
 }
-// get meal foods
-export async function GetMealBreackfastFoods(setFoods) {
-    return getMealParameter(MEAL_BREACKFAST_STORE, 7, setFoods);
+export async function GetMealBreackfastFoods() {
+    return getMealParameter(MEAL_BREACKFAST_STORE, 7);
 }
 
 

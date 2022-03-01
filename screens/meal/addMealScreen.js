@@ -8,7 +8,7 @@ import { container, back_button_container } from '../../styles/miscStyles';
 import BackButton from '../../components/misc/backButton';
 import MealInput from '../../components/meal/mealInput';
 
-import { CheckIsCorrectMealInput } from '../../helpers/meal/mealValidations';
+import { GetCorrectMealInput } from '../../helpers/mealValidations';
 
 
 
@@ -31,74 +31,27 @@ export default function AddMealScreen({ navigation, route }){
 
     // calories
     const changeCaloriesHandler = (value) => setCalories(value);
-    const incCaloriesHandler = () => {
-        if(CheckIsCorrectMealInput(calories)) {
-            setCalories(`${parseInt(calories) + 1}`);
-            return;
-        }
-        setCalories('1');
-    }
-    const decCaloriesHandler = () => {
-        if(CheckIsCorrectMealInput(calories)) {
-            setCalories(`${parseInt(calories) - 1}`);
-            return;
-        }
-        setCalories('0');
-    }
+    const incCaloriesHandler = () => setCalories(`${GetCorrectMealInput(calories, true)}`);
+    const decCaloriesHandler = () => setCalories(`${GetCorrectMealInput(calories, false)}`);
 
     // carbs
     const changeCarbsHandler = (value) => setCarbs(value);
-    const incCarbsHandler = () => {
-        if(CheckIsCorrectMealInput(carbs)) {
-            setCarbs(`${parseInt(carbs) + 1}`);
-            return;
-        }
-        setCarbs('1');
-    }
-    const decCarbsHandler = () => {
-        if(CheckIsCorrectMealInput(carbs)) {
-            setCarbs(`${parseInt(carbs) - 1}`);
-            return;
-        }
-        setCarbs('0');
-    }
+    const incCarbsHandler = () => setCarbs(`${GetCorrectMealInput(carbs, true)}`);
+    const decCarbsHandler = () => setCarbs(`${GetCorrectMealInput(carbs, false)}`);
 
     // protein
     const changeProteinHandler = (value) => setProtein(value);
-    const incProteinHandler = () => {
-        if(CheckIsCorrectMealInput(protein)) {
-            setProtein(`${parseInt(protein) + 1}`);
-            return;
-        }
-        setProtein('1');
-    }
-    const decProteinHandler = () => {
-        if(CheckIsCorrectMealInput(protein)) {
-            setProtein(`${parseInt(protein) - 1}`);
-            return;
-        }
-        setProtein('0');
-    }
+    const incProteinHandler = () => setProtein(`${GetCorrectMealInput(protein, true)}`);
+    const decProteinHandler = () => setProtein(`${GetCorrectMealInput(protein, false)}`);
 
     // fat
     const changeFatHandler = (value) => setFat(value);
-    const incFatHandler = () => {
-        if(CheckIsCorrectMealInput(fat)) {
-            setFat(`${parseInt(fat) + 1}`);
-            return;
-        }
-        setFat('1');
-    }
-    const decFatHandler = () => {
-        if(CheckIsCorrectMealInput(fat)) {
-            setFat(`${parseInt(fat) - 1}`);
-            return;
-        }
-        setFat('0');
-    }
+    const incFatHandler = () => setFat(`${GetCorrectMealInput(fat, true)}`);
+    const decFatHandler = () => setFat(`${GetCorrectMealInput(fat, false)}`);
 
     const addMeal = () => {
         AddMealFood(mealNumber, name, calories, carbs, protein, fat);
+        route.params.refresh();
         navigation.goBack();
     }
 
@@ -119,7 +72,7 @@ export default function AddMealScreen({ navigation, route }){
 
                     <View style={styles.results}>
                         <View style={[styles.row, {marginTop: 16}]}>
-                            <Text style={styles.labels}>Calories</Text>
+                            <Text style={styles.labels}>Calories (cal)</Text>
                             
                             <MealInput
                                 value={calories}
@@ -129,7 +82,7 @@ export default function AddMealScreen({ navigation, route }){
                         </View>
                         
                         <View style={styles.row}>
-                            <Text style={styles.labels}>Carbs</Text>
+                            <Text style={styles.labels}>Carbohydrates (g)</Text>
                             
                             <MealInput
                                 value={carbs}
@@ -139,7 +92,7 @@ export default function AddMealScreen({ navigation, route }){
                         </View>
                         
                         <View style={styles.row}>
-                            <Text style={styles.labels}>Protein</Text>
+                            <Text style={styles.labels}>Protein (g)</Text>
                             
                             <MealInput
                                 value={protein}
@@ -149,7 +102,7 @@ export default function AddMealScreen({ navigation, route }){
                         </View>
 
                         <View style={[styles.row, {marginBottom: 16}]}>
-                            <Text style={styles.labels}>Fat</Text>
+                            <Text style={styles.labels}>Fat (g)</Text>
                             
                             <MealInput
                                 value={fat}
@@ -162,7 +115,7 @@ export default function AddMealScreen({ navigation, route }){
             
                 <TouchableOpacity
                     style={styles.add}
-                    onPress={() => console.log('press')}>
+                    onPress={addMeal}>
                     <Text>Add</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
@@ -223,8 +176,9 @@ const styles = StyleSheet.create({
 
     add: {
         borderWidth: 1,
+        borderColor: 'black',
         borderRadius: 10,
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingVertical: 8,
         alignItems: 'center',
     },

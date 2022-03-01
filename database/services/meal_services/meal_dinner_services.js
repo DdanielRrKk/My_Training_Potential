@@ -36,31 +36,24 @@ export async function SetMealDinner(
         foods: foods
     });
 }
-// set meal recommended min calories
 export async function SetMealDinnerRecommendedMininumCalories(recommended_min) {
     return setMealParameter(MEAL_DINNER_STORE, 1, recommended_min);
 }
-// set meal recommended max calories
 export async function SetMealDinnerRecommendedMaximumCalories(recommended_max) {
     return setMealParameter(MEAL_DINNER_STORE, 2, recommended_max);
 }
-// set meal total calories
 export async function SetMealDinnerTotalCalories(total_calories) {
     return setMealParameter(MEAL_DINNER_STORE, 3, total_calories);
 }
-// set meal total carbs
 export async function SetMealDinnerTotalCarbs(total_carbs) {
     return setMealParameter(MEAL_DINNER_STORE, 4, total_carbs);
 }
-// set meal total protein
 export async function SetMealDinnerTotalProtein(total_protein) {
     return setMealParameter(MEAL_DINNER_STORE, 5, total_protein);
 }
-// set meal total fat
 export async function SetMealDinnerTotalFat(total_fat) {
     return setMealParameter(MEAL_DINNER_STORE, 6, total_fat);
 }
-// set meal foods
 export async function SetMealDinnerFoods(foods) {
     return setMealParameter(MEAL_DINNER_STORE, 7, foods);
 }
@@ -68,36 +61,29 @@ export async function SetMealDinnerFoods(foods) {
 
 
 // get meal =====
-export async function GetMealDinner(setMealDinner) {
-    return getMealParameter(MEAL_DINNER_STORE, 0, setMealDinner);
+export async function GetMealDinner() {
+    return getMealParameter(MEAL_DINNER_STORE, 0);
 }
-// get meal recommended max calories
-export async function GetMealDinnerRecommendedMininumCalories(setRecommendedMininumCalories) {
-    return getMealParameter(MEAL_DINNER_STORE, 1, setRecommendedMininumCalories);
+export async function GetMealDinnerRecommendedMininumCalories() {
+    return getMealParameter(MEAL_DINNER_STORE, 1);
 }
-// get meal recommended max calories
-export async function GetMealDinnerRecommendedMaximumCalories(setRecommendedMaximumCalories) {
-    return getMealParameter(MEAL_DINNER_STORE, 2, setRecommendedMaximumCalories);
+export async function GetMealDinnerRecommendedMaximumCalories() {
+    return getMealParameter(MEAL_DINNER_STORE, 2);
 }
-// get meal total calories
-export async function GetMealDinnerTotalCalories(setTotalCalories) {
-    return getMealParameter(MEAL_DINNER_STORE, 3, setTotalCalories);
+export async function GetMealDinnerTotalCalories() {
+    return getMealParameter(MEAL_DINNER_STORE, 3);
 }
-// get meal total carbs
-export async function GetMealDinnerTotalCarbs(setTotalCarbs) {
-    return getMealParameter(MEAL_DINNER_STORE, 4, setTotalCarbs);
+export async function GetMealDinnerTotalCarbs() {
+    return getMealParameter(MEAL_DINNER_STORE, 4);
 }
-// get meal total protein
-export async function GetMealDinnerTotalProtein(setTotalProtein) {
-    return getMealParameter(MEAL_DINNER_STORE, 5, setTotalProtein);
+export async function GetMealDinnerTotalProtein() {
+    return getMealParameter(MEAL_DINNER_STORE, 5);
 }
-// get meal total fat
-export async function GetMealDinnerTotalFat(setTotalFat) {
-    return getMealParameter(MEAL_DINNER_STORE, 6, setTotalFat);
+export async function GetMealDinnerTotalFat() {
+    return getMealParameter(MEAL_DINNER_STORE, 6);
 }
-// get meal foods
-export async function GetMealDinnerFoods(setFoods) {
-    return getMealParameter(MEAL_DINNER_STORE, 7, setFoods);
+export async function GetMealDinnerFoods() {
+    return getMealParameter(MEAL_DINNER_STORE, 7);
 }
 
 

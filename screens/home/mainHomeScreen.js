@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'rea
 
 import { useIsFocused } from '@react-navigation/native';
 
-import { GetHomeScreenData } from '../../database/general/general_services';
+// import { GetHomeScreenData } from '../../database/general/general_services';
+import { GetHomeScreenData } from '../../database/screen/home_services';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';

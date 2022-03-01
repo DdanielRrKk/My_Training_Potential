@@ -1,29 +1,92 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LOG_WEIGHT_STORE } from "../../database_stores";
+import { LOG_SCHEMA } from '../../database_shemas';
 import { 
-    Insert,
-    Delete,
-    SelectAll
-} from "../../general/database";
+    getCurrentDateForLogs,
+    isCurrentDateForLogs 
+} from '../../../helpers/dateHelper';
 
 
 
-// insert
-export async function InsertWeight( weight ) {
-    const today = new Date();
-    const recordedDate = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate()+' '+today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-    Insert(LOG_WEIGHT_STORE, {
-        key: null,
-        weight: weight,
-        date: recordedDate
-    });
+function getWeightLogParameter(setParameter) {
+    try {
+        await AsyncStorage.getItem(LOG_WEIGHT_STORE, async (err, result) => {
+            if (result == null || result == '') return; // object has no data
+            // object has data
+            const log = JSON.parse(result);
+            switch(param_number) {
+                case 0: setParameter(log); break; // get weight log
+                case 1: setParameter(log.weight); break; // get weight log weight
+                case 2: setParameter(log.date); break; // get weight log weight
+                default: break;
+            }
+            return;
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-// delete
-export async function DeleteWeight(key) {
-    Delete(LOG_WEIGHT_STORE, key);
+
+
+// delete =====
+export async function DeleteWeightLog() {
+    await AsyncStorage.setItem(LOG_WEIGHT_STORE, JSON.stringify(LOG_SCHEMA));
 }
 
-// select
-export async function SelectAllWeight(setWeight) {
-    return SelectAll(LOG_WEIGHT_STORE, setWeight);
+
+
+// set log =====
+export async function SetWeightLogWeight( weight ) {
+    try {
+        await AsyncStorage.getItem(LOG_WEIGHT_STORE, async (err, result) => {
+            if (result == null || result == '[]') {
+                // object has no data
+                const date = getCurrentDateForLogs();
+                const log = [{
+                    key: 1,
+                    weight: weight,
+                    date: date
+                }];
+
+                await AsyncStorage.setItem(LOG_WEIGHT_STORE, JSON.stringify(log));
+                return;
+            }
+            // object has data
+            const log = JSON.parse(result);
+            const lastLog = log[log.length - 1];
+
+            if(isCurrentDateForLogs(lastLog.date)) {
+                log[log.length - 1].weight = weight;
+                
+                await AsyncStorage.setItem(LOG_WEIGHT_STORE, JSON.stringify(log));
+                return;
+            }
+
+            const date = getCurrentDateForLogs();
+            log.push({
+                key: lastLog + 1,
+                weight: weight,
+                date: date
+            });
+            
+            await AsyncStorage.setItem(LOG_WEIGHT_STORE, JSON.stringify(log));
+            return;
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// get weight log =====
+export async function GetWeightLog(setWeightLog) {
+    try {
+        await AsyncStorage.getItem(LOG_WEIGHT_STORE, async (err, result) => {
+            if (result == null || result == '') return; // object has no data
+            // object has data
+            return setWeightLog(JSON.parse(result));
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }

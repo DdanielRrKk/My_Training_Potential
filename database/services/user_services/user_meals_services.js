@@ -6,50 +6,81 @@ import { USER_MEALS_SHEMA } from '../../database_shemas';
 
 async function setUserMealsParameter(param_number, parameter) {
     try {
-        if(param_number == 0) { // add new user meals
+        const result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        if(param_number == 0) {
             await AsyncStorage.setItem(USER_MEALS_STORE, JSON.stringify(parameter));
             return;
         }
 
-        await AsyncStorage.getItem(USER_MEALS_STORE, async (err, result) => {
-            if (result == null || result == '') return; // object has no data
-            // object has data
-            const user = JSON.parse(result);
-            switch(param_number) {
-                case 1: user.meal_goal = parameter; break; // add / update user meal goal (to lose, gain, maintain, ... weight)
-                case 2: user.weight_goal = parameter; break; // add / update user weight goal to reach
-                case 3: user.calories_goal = parameter; break; // add / update user calories goal for the day
-                case 4: user.carbs_goal = parameter; break; // add / update user carbs goal for the day
-                case 5: user.protein_goal = parameter; break; // add / update user protein goal for the day
-                case 6: user.fat_goal = parameter; break; // add / update user fat goal for the day
-                default: break;
-            }
-            await AsyncStorage.setItem(USER_MEALS_STORE, JSON.stringify(user));
-            return;
-        });
+        const user = JSON.parse(result);
+        switch(param_number) {
+            case 1: user.meal_goal = parameter; break; 
+            case 2: user.activity_level = parameter; break; 
+            case 3: user.calories_goal = parameter; break; 
+            case 4: user.carbs_goal = parameter; break; 
+            case 5: user.protein_goal = parameter; break; 
+            case 6: user.fat_goal = parameter; break; 
+            default: break;
+        }
+        await AsyncStorage.setItem(USER_MEALS_STORE, JSON.stringify(user));
+        return;
     } catch (error) {
         console.log(error);
     }
 }
 
-async function getUserMealsParameter(param_number, setParameter) {
+async function getUserMealsParameter(param_number) {
     try {
-        await AsyncStorage.getItem(USER_MEALS_STORE, async (err, result) => {
-            if (result == null || result == '') return; // object has no data
-            // object has data
-            const user = JSON.parse(result);
-            switch(param_number) {
-                case 0: setParameter(user); break; // get user meals
-                case 1: setParameter(user.meal_goal); break; // get user meal goal (to lose, gain, maintain, ... weight)
-                case 2: setParameter(user.weight_goal); break; // get user weight goal to reach
-                case 3: setParameter(user.calories_goal); break; // get user calories goal for the day
-                case 4: setParameter(user.carbs_goal); break; // get user carbs goal for the day
-                case 5: setParameter(user.protein_goal); break; // get user protein goal for the day
-                case 6: setParameter(user.fat_goal); break; // get user fat goal for the day
-                default: break;
-            }
-            return;
-        });
+        const result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        const user = JSON.parse(result);
+            if(param_number == 0) return user;
+            if(param_number == 1) return user.meal_goal;
+            if(param_number == 2) return user.activity_level;
+            if(param_number == 3) return user.calories_goal;
+            if(param_number == 4) return user.carbs_goal;
+            if(param_number == 5) return user.protein_goal;
+            if(param_number == 6) return user.fat_goal;
+            return console.log('not found');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+export async function SetUserMealsNutritions(calories, carbs, protein, fat) {
+    try {
+        const result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        const user = JSON.parse(result);
+        user.calories_goal = calories;
+        user.carbs_goal = carbs;
+        user.protein_goal = protein;
+        user.fat_goal = fat;
+        await AsyncStorage.setItem(USER_MEALS_STORE, JSON.stringify(user));
+        return;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function GetUserMealsNutritions() {
+    try {
+        const result = await AsyncStorage.getItem(USER_MEALS_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        const user = JSON.parse(result);
+        return {
+            calories: user.calories_goal,
+            carbs: user.carbs_goal,
+            protein: user.protein_goal,
+            fat: user.fat_goal
+        }
     } catch (error) {
         console.log(error);
     }
@@ -67,42 +98,36 @@ export async function DeleteUserMeals() {
 // set user meals =====
 export async function SetUserMeals( 
     meal_goal, 
-    weight_goal, 
+    activity_level,
     calories_goal, 
     carbs_goal, 
     protein_goal, 
-    fat_goal 
+    fat_goal
     ) {
     setUserMealsParameter(0, {
         meal_goal: meal_goal,
-        weight_goal: weight_goal,
+        activity_level: activity_level,
         calories_goal: calories_goal,
         carbs_goal: carbs_goal,
         protein_goal: protein_goal,
         fat_goal: fat_goal
     });
 }
-// set user meal goal (to lose, gain, maintain, ... weight)
 export async function SetUserMealsGoal(meal_goal) {
     return setUserMealsParameter(1, meal_goal);
 }
-// set user weight goal to reach
-export async function SetUserMealsWeightGoal(weight_goal) {
-    return setUserMealsParameter(2, weight_goal);
+export async function SetUserMealsActivityLevel(activity_level) {
+    return setUserMealsParameter(2, activity_level);
 }
-// set user calories goal for the day
 export async function SetUserMealsCaloriesGoal(calories_goal) {
     return setUserMealsParameter(3, calories_goal);
 }
-// set user carbs goal for the day
 export async function SetUserMealsCarbsGoal(carbs_goal) {
     return setUserMealsParameter(4, carbs_goal);
 }
-// set user protein goal for the day
 export async function SetUserMealsProteinGoal(protein_goal) {
     return setUserMealsParameter(5, protein_goal);
 }
-// set user fat goal for the day
 export async function SetUserMealsFatGoal(fat_goal) {
     return setUserMealsParameter(6, fat_goal);
 }
@@ -110,30 +135,24 @@ export async function SetUserMealsFatGoal(fat_goal) {
 
 
 // get user meals =====
-export async function GetUserMeals(setUserMeals) {
-    return getUserMealsParameter(0, setUserMeals);
+export async function GetUserMeals() {
+    return getUserMealsParameter(0);
 }
-// get user meal goal (to lose, gain, maintain, ... weight)
-export async function GetUserMealsGoal(setUserMealsGoal) {
-    return getUserMealsParameter(1, setUserMealsGoal);
+export async function GetUserMealsGoal() {
+    return getUserMealsParameter(1);
 }
-// get user weight goal to reach
-export async function GetUserMealsWeightGoal(setUserMealsWeightGoal) {
-    return getUserMealsParameter(2, setUserMealsWeightGoal);
+export async function GetUserMealsActivityLevel() {
+    return getUserMealsParameter(2);
 }
-// get user calories goal for the day
-export async function GetUserMealsCaloriesGoal(setUserMealsCaloriesGoal) {
-    return getUserMealsParameter(3, setUserMealsCaloriesGoal);
+export async function GetUserMealsCaloriesGoal() {
+    return getUserMealsParameter(3);
 }
-// get user carbs goal for the day
-export async function GetUserMealsCarbsGoal(setUserMealsCarbsGoal) {
-    return getUserMealsParameter(4, setUserMealsCarbsGoal);
+export async function GetUserMealsCarbsGoal() {
+    return getUserMealsParameter(4);
 }
-// get user protein goal for the day
-export async function GetUserMealsProteinGoal(setUserMealsProteinGoal) {
-    return getUserMealsParameter(5, setUserMealsProteinGoal);
+export async function GetUserMealsProteinGoal() {
+    return getUserMealsParameter(5);
 }
-// get user fat goal for the day
-export async function GetUserMealsFatGoal(setUserMealsFatGoal) {
-    return getUserMealsParameter(6, setUserMealsFatGoal);
+export async function GetUserMealsFatGoal() {
+    return getUserMealsParameter(6);
 }

@@ -5,6 +5,7 @@ const NavStack = createStackNavigator();
 
 import TabNavigation from './tabNavigation';
 import AddMealScreen from '../../screens/meal/addMealScreen';
+import SingleMealScreen from '../../screens/meal/singleMealScreen';
 
 
 
@@ -15,6 +16,7 @@ export default function MainNavigation() {
                 <NavStack.Screen name='TabNavigation' component={TabNavigation} options={{ headerMode: 'none' }}/>
             
                 <NavStack.Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }}/>
+                <NavStack.Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }}/>
             </NavStack.Navigator>
         </NavigationContainer>
     );

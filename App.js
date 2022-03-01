@@ -1,17 +1,14 @@
 import React from 'react';
 
 import { CreateDatabase, ExistsDatabase, DropDatabase } from './database/general/general_services';
-import { 
-  GetUserPreferenceIsUserDataReady, 
-  SetUserPreferenceIsUserDataReady,
-  GetUserPreferenceIsMealReady,
-  GetUserPreferenceIsWorkoutReady 
-} from './database/services/user_services/user_preferences_services';
+import { SetSystemIsUserSetup, GetSystemIsUserSetup } from './database/screen/landing_services';
 
 import LoadingScreen from './screens/landing/loadingScreen';
 import LandingNavigation from './navigation/landing/landingNavigation';
 import SetupAllNavigation from './navigation/setup/setupAllNavigation';
 import MainNavigation from './navigation/main/mainNavigation';
+
+import { IsFlagCorrect } from './helpers/databaseValidations';
 
 
 
@@ -31,9 +28,11 @@ export default function App() {
 
     if(!existsDatabase && existsDatabase !== null) CreateDatabase();
 
-    if(!isUserDataReady || isUserDataReady === null || isUserDataReady === undefined) GetUserPreferenceIsUserDataReady().then((check) => { if(isGood) setIsUserDataReady(check); });
-    if(!isMealReady || isMealReady === null || isMealReady === undefined) GetUserPreferenceIsMealReady().then((check) => { if(isGood) setIsMealReady(check); });
-    if(!isWorkoutReady || isWorkoutReady === null || isWorkoutReady === undefined) GetUserPreferenceIsWorkoutReady().then((check) => { if(isGood) setIsWorkoutReady(check); });
+    // if(!isUserDataReady || isUserDataReady === null || isUserDataReady === undefined) GetUserPreferenceIsUserDataReady().then((check) => { if(isGood) setIsUserDataReady(check); });
+    // if(!isMealReady || isMealReady === null || isMealReady === undefined) GetUserPreferenceIsMealReady().then((check) => { if(isGood) setIsMealReady(check); });
+    // if(!isWorkoutReady || isWorkoutReady === null || isWorkoutReady === undefined) GetUserPreferenceIsWorkoutReady().then((check) => { if(isGood) setIsWorkoutReady(check); });
+
+    if(IsFlagCorrect(isUserDataReady)) GetSystemIsUserSetup().then((check) => { if(isGood) setIsUserDataReady(check); });
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
   }, [existsDatabase, isUserDataReady, isMealReady, isWorkoutReady]);
@@ -43,7 +42,8 @@ export default function App() {
   console.log('isWorkoutReady', isWorkoutReady);
 
   const dataReady = () => {
-    SetUserPreferenceIsUserDataReady(true);
+    // SetUserPreferenceIsUserDataReady(true);
+    SetSystemIsUserSetup(true);
     setIsUserDataReady(true);
   }
 

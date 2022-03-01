@@ -6,44 +6,39 @@ import { USER_PREFERENCES_SCHEMA } from '../../database_shemas';
 
 async function setUserPreferenceParameter(param_number, parameter) {
     try {
-        if(param_number == 0) { // add new user preference
+        const result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        if(param_number == 0) {
             await AsyncStorage.setItem(USER_PREFERENCES_STORE, JSON.stringify(parameter));
             return;
         }
 
-        await AsyncStorage.getItem(USER_PREFERENCES_STORE, async (err, result) => {
-            if (result == null || result == '') return; // object has no data
-            // object has data
-            const user = JSON.parse(result);
-            switch(param_number) {
-                case 1: user.current_workout_plan_key = parameter; break; // add / update current user workout plan
-                case 2: user.current_meals_log_key = parameter; break; // add / update current user meal
-                case 3: user.is_user_data_ready = parameter; break; // add / update user ready data
-                default: break;
-            }
-            await AsyncStorage.setItem(USER_PREFERENCES_STORE, JSON.stringify(user));
-            return;
-        });
+        const user = JSON.parse(result);
+        switch(param_number) {
+            case 1: user.is_workout_ready = parameter; break; 
+            case 2: user.is_meal_ready = parameter; break; 
+            case 3: user.is_user_data_ready = parameter; break;
+            default: break;
+        }
+        await AsyncStorage.setItem(USER_PREFERENCES_STORE, JSON.stringify(user));
+        return;
     } catch (error) {
         console.log(error);
     }
 }
 
-async function getUserPreferenceParameter(param_number, setParameter) {
+async function getUserPreferenceParameter(param_number) {
     try {
-        await AsyncStorage.getItem(USER_PREFERENCES_STORE, async (err, result) => {
-            if (result == null || result == '') return; // object has no data
-            // object has data
-            const user = JSON.parse(result);
-            switch(param_number) {
-                case 0: setParameter(user); break; // get user preference
-                case 1: setParameter(user.current_workout_plan_key); break; // get current user workout plan
-                case 2: setParameter(user.current_meals_log_key); break; // get current user meal
-                case 3: setParameter(user.is_user_data_ready); break; // get user ready data
-                default: break;
-            }
-            return;
-        });
+        const result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
+        if(result == null || result == '') return console.log('object has no data');
+
+        const user = JSON.parse(result);
+        if(param_number == 0) return user;
+        if(param_number == 1) return user.is_workout_ready;
+        if(param_number == 2) return user.is_meal_ready;
+        if(param_number == 3) return user.is_user_data_ready;
+        return console.log('not found');
     } catch (error) {
         console.log(error);
     }
@@ -59,22 +54,19 @@ export async function DeleteUserPreference() {
 
 
 // set user preference =====
-export async function SetUserPreference( current_workout_plan_key, current_meals_log_key, is_user_data_ready ) {
+export async function SetUserPreference( is_workout_ready, is_meal_ready, is_user_data_ready ) {
     setUserPreferenceParameter(0, {
-        current_workout_plan_key: current_workout_plan_key,
-        current_meals_log_key: current_meals_log_key,
+        is_workout_ready: is_workout_ready,
+        is_meal_ready: is_meal_ready,
         is_user_data_ready: is_user_data_ready
     });
 }
-// set current user workout key
-export async function SetUserPreferenceCurrentWorkoutPlanKey(current_workout_plan_key) {
-    return setUserPreferenceParameter(1, current_workout_plan_key);
+export async function SetUserPreferenceIsWorkoutReady(is_workout_ready) {
+    return setUserPreferenceParameter(1, is_workout_ready);
 }
-// set current user meal
-export async function SetUserPreferenceCurrentMealLogKey(current_meals_log_key) {
-    return setUserPreferenceParameter(2, current_meals_log_key);
+export async function SetUserPreferenceIsMealReady(is_meal_ready) {
+    return setUserPreferenceParameter(2, is_meal_ready);
 }
-// set user ready data
 export async function SetUserPreferenceIsUserDataReady(is_user_data_ready) {
     return setUserPreferenceParameter(3, is_user_data_ready);
 }
@@ -82,18 +74,15 @@ export async function SetUserPreferenceIsUserDataReady(is_user_data_ready) {
 
 
 // get user preference =====
-export async function GetUserPreference(setUserPreference) {
-    return getUserPreferenceParameter(0, setUserPreference);
+export async function GetUserPreference() {
+    return getUserPreferenceParameter(0);
 }
-// get current user workout key
-export async function GetUserPreferenceCurrentWorkoutPlanKey(setCurrentWorkoutPlanKey) {
-    return getUserPreferenceParameter(1, setCurrentWorkoutPlanKey);
+export async function GetUserPreferenceIsWorkoutReady() {
+    return getUserPreferenceParameter(1);
 }
-// get current user meal
-export async function GetUserPreferenceCurrentMealLogKey(setCurrentMealLogKey) {
-    return getUserPreferenceParameter(2, setCurrentMealLogKey);
+export async function GetUserPreferenceIsMealReady() {
+    return getUserPreferenceParameter(2);
 }
-// get user ready data
-export async function GetUserPreferenceIsUserDataReady(setIsUserDataReady) {
-    return getUserPreferenceParameter(3, setIsUserDataReady);
+export async function GetUserPreferenceIsUserDataReady() {
+    return getUserPreferenceParameter(3);
 }

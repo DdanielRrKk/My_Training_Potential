@@ -20,7 +20,12 @@ export default function MainMealScreen({ navigation }){
     const [protein, setProtein] = React.useState(null);
     const [fat, setFat] = React.useState(null);
     const [water, setWater] = React.useState(null);
+    
+    const [breakfastCalories, setBreakfastCalories] = React.useState(null);
+    const [lunchCalories, setLunchCalories] = React.useState(null);
+    const [dinnerCalories, setDinnerCalories] = React.useState(null);
 
+    const [isRefresh, setIsRefresh] = React.useState(false);
 
 
     const focus = useIsFocused();
@@ -29,17 +34,31 @@ export default function MainMealScreen({ navigation }){
         console.log('focus meal', focus);
 
         // SetUserPreferenceIsMealReady(false);
-        GetMealScreenData().then(({isMealReady, calories, carbs, protein, fat}) => { 
+        GetMealScreenData().then(({
+            isMealReady, 
+            calories, 
+            carbs, 
+            protein, 
+            fat,
+            breakfastCalories,
+            lunchCalories,
+            dinnerCalories
+        }) => { 
             if(isGood) {
                 setIsMealReady(isMealReady); 
                 setCalories(calories);
                 setCarbs(carbs);
                 setProtein(protein);
                 setFat(fat);
+                setBreakfastCalories(breakfastCalories);
+                setLunchCalories(lunchCalories);
+                setDinnerCalories(dinnerCalories);
             }
         });
+
+        if(isRefresh) setIsRefresh(false);
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [focus]);
+    }, [focus, isRefresh]);
 
 
 
@@ -59,9 +78,14 @@ export default function MainMealScreen({ navigation }){
         );
     }
 
-    const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1});
-    const openAddLunchScreen = () => navigation.navigate('AddMealScreen', {meal_number: 2});
-    const openAddDinnerScreen = () => navigation.navigate('AddMealScreen', {meal_number: 3});
+    const refresh = () => setIsRefresh(true);
+    const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1, refresh: refresh});
+    const openAddLunchScreen = () => navigation.navigate('AddMealScreen', {meal_number: 2, refresh: refresh});
+    const openAddDinnerScreen = () => navigation.navigate('AddMealScreen', {meal_number: 3, refresh: refresh});
+
+    const openBreackfastScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 1});
+    const openLunchScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 2});
+    const openDinnerScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 3});
 
     return(
         <SafeAreaView style={container}>
@@ -101,17 +125,23 @@ export default function MainMealScreen({ navigation }){
 
                 <MealBox 
                     title='Breackfast'
-                    pressHandler={() => openAddBreackfastScreen()}/>
+                    totalCalories={breakfastCalories}
+                    pressHandler={openAddBreackfastScreen}
+                    openHandler={openBreackfastScreen}/>
                     
                 <MealBox 
                     style={{marginTop: 16}}
                     title='Lunch'
-                    pressHandler={() => openAddLunchScreen()}/>
+                    totalCalories={lunchCalories}
+                    pressHandler={openAddLunchScreen}
+                    openHandler={openLunchScreen}/>
                     
                 <MealBox 
                     style={{marginTop: 16}}
                     title='Dinner'
-                    pressHandler={() => openAddDinnerScreen()}/>
+                    totalCalories={dinnerCalories}
+                    pressHandler={openAddDinnerScreen}
+                    openHandler={openDinnerScreen}/>
             </View>
         </SafeAreaView>
     );

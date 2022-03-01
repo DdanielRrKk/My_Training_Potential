@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TextInput, View, TouchableOpacity } from 'react-native';
 
-import { AntDesign } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 
@@ -11,7 +11,7 @@ export default function MealInput({ style, value, onChangeHandler, incValueHandl
             <TouchableOpacity 
                 style={styles.button}
                 onPress={decValueHandler}>
-                <AntDesign name="minuscircleo" size={24} color="black" />
+                <EvilIcons name="minus" size={36} color="black" />
             </TouchableOpacity>
 
             <TextInput 
@@ -23,7 +23,7 @@ export default function MealInput({ style, value, onChangeHandler, incValueHandl
             <TouchableOpacity 
                 style={styles.button}
                 onPress={incValueHandler}>
-                <AntDesign name="pluscircleo" size={24} color="black" />
+                <EvilIcons name="plus" size={36} color="black" />
             </TouchableOpacity>
         </View>
     );
