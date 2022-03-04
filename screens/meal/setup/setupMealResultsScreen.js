@@ -1,11 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { GetUserDataAge, GetUserDataWeight, GetUserDataHeight, GetUserDataGender } from '../../../database/services/user_services/user_data_services';
-import { GetUserMealsGoal, GetUserMealsActivityLevel, SetUserMealsNutritions } from '../../../database/services/user_services/user_meals_services';
-import { SetUserPreferenceIsMealReady } from '../../../database/services/user_services/user_preferences_services';
-
-import { calculateCalories, calculateCarbs, calculateProtein, calculateFat } from '../../../helpers/mealCalculations';
+import { SetAndGetMealResults } from '../../../database/screen/meal_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
@@ -22,12 +18,6 @@ const PROTEIN_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 const FAT_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 
 export default function SetupMealResultsScreen({ navigation }){
-    const [age, setAge] = React.useState(null);
-    const [weight, setWeight] = React.useState(null);
-    const [height, setHeight] = React.useState(null);
-    const [gender, setGender] = React.useState(null);
-    const [activity, setActivity] = React.useState(null);
-    const [goal, setGoal] = React.useState(null);
 
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
@@ -38,29 +28,21 @@ export default function SetupMealResultsScreen({ navigation }){
     React.useEffect(() => {
         let isGood = true;
 
-        GetUserDataAge().then((value) => { if(isGood) setAge(value); });
-        GetUserDataWeight().then((value) => { if(isGood) setWeight(value); });
-        GetUserDataHeight().then((value) => { if(isGood) setHeight(value); });
-        GetUserDataGender().then((value) => { if(isGood) setGender(value); });
-        GetUserMealsActivityLevel().then((value) => { if(isGood) setActivity(value); });
-        GetUserMealsGoal().then((value) => { if(isGood) setGoal(value); });
-
-        if(age !== null && weight !== null && height !== null && gender !== null && goal !== null) {
-            setCalories(parseInt(calculateCalories(weight, height, age, gender, activity, goal)));
-            setCarbs(parseInt(calculateCarbs(weight, height, age, gender, activity, goal)));
-            setProtein(parseInt(calculateProtein(weight, height, age, gender, activity, goal)));
-            setFat(parseInt(calculateFat(weight, height, age, gender, activity, goal)));
-        }
+        SetAndGetMealResults().then(({calories, carbs, protein, fat}) => { 
+            if(isGood) {
+                setCalories(calories);
+                setCarbs(carbs);
+                setProtein(protein);
+                setFat(fat);
+            }
+        });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [age, weight, height, gender, activity, goal]);
+    }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        SetUserMealsNutritions(calories, carbs, protein, fat);
-        SetUserPreferenceIsMealReady(true);
-
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }

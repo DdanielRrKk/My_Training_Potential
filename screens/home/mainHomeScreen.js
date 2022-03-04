@@ -38,7 +38,15 @@ export default function MainHomeScreen({ navigation }){
         let isGood = true;
         console.log('focus home', focus);
 
-        GetHomeScreenData().then(({isMealReady, name, weight, calories, carbs, protein, fat}) => { 
+        GetHomeScreenData().then(({
+            isMealReady, 
+            name, 
+            weight, 
+            calories, 
+            carbs, 
+            protein, 
+            fat
+        }) => { 
             if(isGood) {
                 setIsMealReady(isMealReady);
                 setName(name);

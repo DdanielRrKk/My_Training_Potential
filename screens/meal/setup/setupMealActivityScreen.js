@@ -1,10 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { 
-    SetUserMealsActivityLevel ,
-    GetUserMealsActivityLevel
-} from '../../../database/services/user_services/user_meals_services';
+import { SetActivityLevel, GetActivityLevel } from '../../../database/screen/meal_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
@@ -20,14 +17,14 @@ export default function SetupMealActivityScreen({ navigation }){
 
     React.useEffect(() => {
         let isGood = true;
-        GetUserMealsActivityLevel().then((value) => { if(isGood) setActivityLevel(value); });
+        GetActivityLevel().then((value) => { if(isGood) setActivityLevel(value); });
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        SetUserMealsActivityLevel(activityLevel);
+        SetActivityLevel(activityLevel);
         navigation.push('SetupMealResultsScreen');
     }
 

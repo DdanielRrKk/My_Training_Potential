@@ -42,6 +42,7 @@ export default function LandingNameScreen({ navigation }){
                     <TextInput
                         style={styles.entry}
                         onChangeText={setName}
+                        value={name}
                         maxLength={NAME_MAX_LENGTH}/>
                 </View>
             

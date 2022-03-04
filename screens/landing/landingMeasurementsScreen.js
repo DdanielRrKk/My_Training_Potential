@@ -50,6 +50,7 @@ export default function LandingMeasurementsScreen({ navigation, route }){
                     <TextInput
                         style={styles.entry}
                         onChangeText={setAge}
+                        value={age}
                         keyboardType='numeric'
                         maxLength={AGE_MAX_LENGTH}/>
 
@@ -58,6 +59,7 @@ export default function LandingMeasurementsScreen({ navigation, route }){
                         style={styles.entry}
                         placeholder='kg'
                         onChangeText={setWeight}
+                        value={weight}
                         keyboardType='numeric'
                         maxLength={WEIGHT_MAX_LENGTH}/>
 
@@ -66,6 +68,7 @@ export default function LandingMeasurementsScreen({ navigation, route }){
                         style={styles.entry}
                         placeholder='cm'
                         onChangeText={setHeight}
+                        value={height}
                         keyboardType='numeric'
                         maxLength={HEIGHT_MAX_LENGTH}/>
                 </View>

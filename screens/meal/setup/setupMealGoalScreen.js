@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { SetUserMealsGoal, GetUserMealsGoal } from '../../../database/services/user_services/user_meals_services';
-import { GetUserWorkoutsAvailableDays } from '../../../database/services/user_services/user_workouts_services';
+import { SetMealGoal, GetMealGoal, GetActivityLevel } from '../../../database/screen/meal_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
@@ -19,15 +18,15 @@ export default function SetupMealGoalScreen({ navigation }){
 
     React.useEffect(() => {
         let isGood = true;
-        GetUserMealsGoal().then((value) => { if(isGood) setGoal(value); });
-        /* GetUserWorkoutsAvailableDays().then((value) => { if(isGood) setActivity(value); }); */
+        GetMealGoal().then((value) => { if(isGood) setGoal(value); });
+        GetActivityLevel().then((value) => { if(isGood) setActivity(value); });
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        SetUserMealsGoal(goal);
+        SetMealGoal(goal);
         if(activity == null) {
             navigation.push('SetupMealActivityScreen');
             return;

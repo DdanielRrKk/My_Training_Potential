@@ -37,18 +37,21 @@ import {
     MEAL_BREAKFAST_TOTAL_CARBS,
     MEAL_BREAKFAST_TOTAL_PROTEIN,
     MEAL_BREAKFAST_TOTAL_FAT,
+    MEAL_BREAKFAST_FOODS,
     MEAL_LUNCH_RECOMMENDED_MIN,
     MEAL_LUNCH_RECOMMENDED_MAX,
     MEAL_LUNCH_TOTAL_CALORIES,
     MEAL_LUNCH_TOTAL_CARBS,
     MEAL_LUNCH_TOTAL_PROTEIN,
     MEAL_LUNCH_TOTAL_FAT,
+    MEAL_LUNCH_FOODS,
     MEAL_DINNER_RECOMMENDED_MIN,
     MEAL_DINNER_RECOMMENDED_MAX,
     MEAL_DINNER_TOTAL_CALORIES,
     MEAL_DINNER_TOTAL_CARBS,
     MEAL_DINNER_TOTAL_PROTEIN,
-    MEAL_DINNER_TOTAL_FAT
+    MEAL_DINNER_TOTAL_FAT,
+    MEAL_DINNER_FOODS
 } from '../database_stores';
 import {
     USER_DATA_SCHEMA,
@@ -118,6 +121,7 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_CARBS, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_PROTEIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_FAT, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_BREAKFAST_FOODS, JSON.stringify([]));
         
         await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MAX, JSON.stringify(null));
@@ -125,6 +129,7 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_CARBS, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_PROTEIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_FAT, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_LUNCH_FOODS, JSON.stringify([]));
         
         await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MAX, JSON.stringify(null));
@@ -132,6 +137,7 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_CARBS, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_PROTEIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_FAT, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_DINNER_FOODS, JSON.stringify([]));
         return;
     } catch (error) {
         console.log(error);
@@ -156,101 +162,6 @@ export async function ExistsDatabase() {
 export async function DropDatabase() {
     try {
         await AsyncStorage.clear();
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-
-
-function checkIsCorrectResult(result) {
-    return (result === null || result === '');
-}
-
-// get data for home screen
-export async function GetHomeScreenData() {
-    try {
-        const user_preference_result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
-        // console.log('user_preference_result', user_preference_result);
-        if(checkIsCorrectResult(user_preference_result)) return console.log('USER_PREFERENCES_STORE has no data'); 
-        
-        const user_data_result = await AsyncStorage.getItem(USER_DATA_STORE);
-        // console.log('user_data_result', user_data_result);
-        if(checkIsCorrectResult(user_data_result)) return console.log('USER_DATA_STORE has no data'); 
-        
-        const user_meal_result = await AsyncStorage.getItem(USER_MEALS_STORE);
-        // console.log('user_meal_result', user_meal_result);
-        if(checkIsCorrectResult(user_meal_result)) return console.log('USER_MEALS_STORE has no data'); 
-
-        // store has data
-        const user_preference = JSON.parse(user_preference_result);
-        const user_data = JSON.parse(user_data_result);
-        const user_meal = JSON.parse(user_meal_result);
-
-        // console.log('user_preference', user_preference);
-        // console.log('user_data', user_data);
-        // console.log('user_meal', user_meal);
-
-        return {
-            isMealReady: user_preference.is_meal_ready,
-            name: user_data.name,
-            weight: user_data.weight,
-            calories: user_meal.calories_goal,
-            carbs: user_meal.carbs_goal,
-            protein: user_meal.protein_goal,
-            fat: user_meal.fat_goal
-        }        
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-// get data for meal screen
-export async function GetMealScreenData() {
-    try {
-        const user_preference_result = await AsyncStorage.getItem(USER_PREFERENCES_STORE);
-        // console.log('user_preference_result', user_preference_result);
-        if(checkIsCorrectResult(user_preference_result)) return console.log('USER_PREFERENCES_STORE has no data'); 
-        
-        const user_meal_result = await AsyncStorage.getItem(USER_MEALS_STORE);
-        // console.log('user_meal_result', user_meal_result);
-        if(checkIsCorrectResult(user_meal_result)) return console.log('USER_MEALS_STORE has no data'); 
-
-        const meal_breakfast_result = await AsyncStorage.getItem(MEAL_BREAKFAST_STORE);
-        console.log('meal_breakfast_result', meal_breakfast_result);
-        if(checkIsCorrectResult(meal_breakfast_result)) return console.log('MEAL_BREAKFAST_STORE has no data'); 
-        
-        const meal_lunch_result = await AsyncStorage.getItem(MEAL_LUNCH_STORE);
-        // console.log('meal_lunch_result', meal_lunch_result);
-        if(checkIsCorrectResult(meal_lunch_result)) return console.log('MEAL_LUNCH_STORE has no data'); 
-
-        const meal_dinner_result = await AsyncStorage.getItem(MEAL_DINNER_STORE);
-        // console.log('meal_dinner_result', meal_dinner_result);
-        if(checkIsCorrectResult(meal_dinner_result)) return console.log('MEAL_DINNER_STORE has no data'); 
-
-        // store has data
-        const user_preference = JSON.parse(user_preference_result);
-        const user_meal = JSON.parse(user_meal_result);
-        const meal_breakfast = JSON.parse(meal_breakfast_result);
-        const meal_lunch = JSON.parse(meal_lunch_result);
-        const meal_dinner = JSON.parse(meal_dinner_result);
-
-        // console.log('user_preference', user_preference);
-        // console.log('user_meal', user_meal);
-        // console.log('meal_breakfast', meal_breakfast);
-        // console.log('meal_lunch', meal_lunch);
-        // console.log('meal_dinner', meal_dinner);
-
-        return {
-            isMealReady: user_preference.is_meal_ready,
-            calories: user_meal.calories_goal,
-            carbs: user_meal.carbs_goal,
-            protein: user_meal.protein_goal,
-            fat: user_meal.fat_goal,
-            breakfastCalories: meal_breakfast.total_calories,
-            lunchCalories: meal_lunch.total_calories,
-            dinnerCalories: meal_dinner.total_calories,
-        }        
     } catch (error) {
         console.log(error);
     }

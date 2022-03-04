@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
-import { AddMealFood } from '../../database/services/meal_services/meal_services';
+import { AddMealFoodData } from '../../database/screen/meal_services';
 
 import { container, back_button_container } from '../../styles/miscStyles';
 
@@ -50,7 +50,7 @@ export default function AddMealScreen({ navigation, route }){
     const decFatHandler = () => setFat(`${GetCorrectMealInput(fat, false)}`);
 
     const addMeal = () => {
-        AddMealFood(mealNumber, name, calories, carbs, protein, fat);
+        AddMealFoodData(mealNumber, name, calories, carbs, protein, fat);
         route.params.refresh();
         navigation.goBack();
     }

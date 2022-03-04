@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 
 import { useIsFocused  } from '@react-navigation/native';
 
-import { GetMealScreenData } from '../../database/general/general_services';
+import { GetMainMealScreenData } from '../../database/screen/meal_services';
 
 import { container } from '../../styles/miscStyles';
 
@@ -21,9 +21,9 @@ export default function MainMealScreen({ navigation }){
     const [fat, setFat] = React.useState(null);
     const [water, setWater] = React.useState(null);
     
-    const [breakfastCalories, setBreakfastCalories] = React.useState(null);
-    const [lunchCalories, setLunchCalories] = React.useState(null);
-    const [dinnerCalories, setDinnerCalories] = React.useState(null);
+    const [breakfastCalories, setBreakfastCalories] = React.useState('');
+    const [lunchCalories, setLunchCalories] = React.useState('');
+    const [dinnerCalories, setDinnerCalories] = React.useState('');
 
     const [isRefresh, setIsRefresh] = React.useState(false);
 
@@ -33,8 +33,7 @@ export default function MainMealScreen({ navigation }){
         let isGood = true;
         console.log('focus meal', focus);
 
-        // SetUserPreferenceIsMealReady(false);
-        GetMealScreenData().then(({
+        GetMainMealScreenData().then(({
             isMealReady, 
             calories, 
             carbs, 
@@ -63,6 +62,7 @@ export default function MainMealScreen({ navigation }){
 
 
     const openSetupScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('SetupMealGoalScreen');
     }
 

@@ -58,6 +58,7 @@ export const MEAL_BREAKFAST_TOTAL_CALORIES = 'meal_breakfast_total_calories';
 export const MEAL_BREAKFAST_TOTAL_CARBS = 'meal_breakfast_total_carbs';
 export const MEAL_BREAKFAST_TOTAL_PROTEIN = 'meal_breakfast_total_protein';
 export const MEAL_BREAKFAST_TOTAL_FAT = 'meal_breakfast_total_fat';
+export const MEAL_BREAKFAST_FOODS = 'meal_breakfast_foods';
 
 export const MEAL_LUNCH_RECOMMENDED_MIN = 'meal_lunch_recommended_min';
 export const MEAL_LUNCH_RECOMMENDED_MAX = 'meal_lunch_recommended_max';
@@ -65,6 +66,7 @@ export const MEAL_LUNCH_TOTAL_CALORIES = 'meal_lunch_total_calories';
 export const MEAL_LUNCH_TOTAL_CARBS = 'meal_lunch_total_carbs';
 export const MEAL_LUNCH_TOTAL_PROTEIN = 'meal_lunch_total_protein';
 export const MEAL_LUNCH_TOTAL_FAT = 'meal_lunch_total_fat';
+export const MEAL_LUNCH_FOODS = 'meal_lunch_foods';
 
 export const MEAL_DINNER_RECOMMENDED_MIN = 'meal_dinner_recommended_min';
 export const MEAL_DINNER_RECOMMENDED_MAX = 'meal_dinner_recommended_max';
@@ -72,3 +74,4 @@ export const MEAL_DINNER_TOTAL_CALORIES = 'meal_dinner_total_calories';
 export const MEAL_DINNER_TOTAL_CARBS = 'meal_dinner_total_carbs';
 export const MEAL_DINNER_TOTAL_PROTEIN = 'meal_dinner_total_protein';
 export const MEAL_DINNER_TOTAL_FAT = 'meal_dinner_total_fat';
+export const MEAL_DINNER_FOODS = 'meal_dinner_foods';

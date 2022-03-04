@@ -1,5 +1,5 @@
 export function IsResultEmpty(result) {
-    return (result == null || result == '');
+    return (result == null || result == '' || result == []);
 }
 
 export function IsFlagCorrect(flag) {
