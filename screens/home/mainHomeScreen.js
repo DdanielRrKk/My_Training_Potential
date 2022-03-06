@@ -14,22 +14,22 @@ import Progress from '../../components/meal/setup/progress';
 
 
 
-const CALORIES_PERCENTAGE = 0; // 100%
-const CARBS_PERCENTAGE_OF_CALORIES = 0; // 50%
-const PROTEIN_PERCENTAGE_OF_CALORIES = 0; // 25%
-const FAT_PERCENTAGE_OF_CALORIES = 0; // 25%
-
 export default function MainHomeScreen({ navigation }){
+    const [isMealReady, setIsMealReady] = React.useState(false);
+
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
     const [steps, setSteps] = React.useState(null);
-
-    const [isMealReady, setIsMealReady] = React.useState(false);
     
-    const [calories, setCalories] = React.useState(null);
-    const [carbs, setCarbs] = React.useState(null);
-    const [protein, setProtein] = React.useState(null);
-    const [fat, setFat] = React.useState(null);
+    const [caloriesPercentage, setCaloriesPercentage] = React.useState(null);
+    const [carbsPercentage, setCarbsPercentage] = React.useState(null);
+    const [proteinPercentage, setProteinPercentage] = React.useState(null);
+    const [fatPercentage, setFatPercentage] = React.useState(null);
+    
+    const [caloriesGoal, setCaloriesGoal] = React.useState(null);
+    const [carbsGoal, setCarbsGoal] = React.useState(null);
+    const [proteinGoal, setProteinGoal] = React.useState(null);
+    const [fatGoal, setFatGoal] = React.useState(null);
     
 
 
@@ -41,25 +41,47 @@ export default function MainHomeScreen({ navigation }){
         GetHomeScreenData().then(({
             isMealReady, 
             name, 
-            weight, 
-            calories, 
-            carbs, 
-            protein, 
-            fat
+            weight,
+            caloriesPercentage,
+            carbsPercentage,
+            proteinPercentage,
+            fatPercentage,
+            caloriesGoal,
+            carbsGoal,
+            proteinGoal,
+            fatGoal,
         }) => { 
             if(isGood) {
                 setIsMealReady(isMealReady);
                 setName(name);
                 setWeight(weight); 
-                setCalories(calories);
-                setCarbs(carbs);
-                setProtein(protein);
-                setFat(fat);
+                setCaloriesPercentage(parseFloat(caloriesPercentage));
+                setCarbsPercentage(parseFloat(carbsPercentage));
+                setProteinPercentage(parseFloat(proteinPercentage));
+                setFatPercentage(parseFloat(fatPercentage));
+
+                setCaloriesGoal(caloriesGoal);
+                setCarbsGoal(carbsGoal);
+                setProteinGoal(proteinGoal);
+                setFatGoal(fatGoal);
             }
         });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [focus]);
+    }, [
+        focus,
+        name,
+        weight,
+        steps,
+        caloriesPercentage,
+        carbsPercentage,
+        proteinPercentage,
+        fatPercentage,
+        caloriesGoal,
+        carbsGoal,
+        proteinGoal,
+        fatGoal,
+    ]);
 
 
 
@@ -95,42 +117,42 @@ export default function MainHomeScreen({ navigation }){
                         <View style={[styles.row, {marginTop: 16}]}>
                             <Text style={styles.labels}>Calories</Text>
                             
-                            <Text style={styles.labels}>{calories} cal</Text>
+                            <Text style={styles.labels}>{caloriesGoal} cal</Text>
                         </View>
 
                         <Progress
                             style={styles.progress} 
-                            progress={CALORIES_PERCENTAGE} />
+                            progress={caloriesPercentage} />
                         
                         <View style={styles.row}>
                             <Text style={styles.labels}>Carbs</Text>
                             
-                            <Text style={styles.labels}>{carbs} g</Text>
+                            <Text style={styles.labels}>{carbsGoal} g</Text>
                         </View>
 
                         <Progress 
                             style={styles.progress} 
-                            progress={CARBS_PERCENTAGE_OF_CALORIES} />
+                            progress={carbsPercentage} />
                         
                         <View style={styles.row}>
                             <Text style={styles.labels}>Protein</Text>
                             
-                            <Text style={styles.labels}>{protein} g</Text>
+                            <Text style={styles.labels}>{proteinGoal} g</Text>
                         </View>
 
                         <Progress 
                             style={styles.progress} 
-                            progress={PROTEIN_PERCENTAGE_OF_CALORIES} />
+                            progress={proteinPercentage} />
                         
                         <View style={styles.row}>
                             <Text style={styles.labels}>Fat</Text>
                             
-                            <Text style={styles.labels}>{fat} g</Text>
+                            <Text style={styles.labels}>{fatGoal} g</Text>
                         </View>
 
                         <Progress 
                             style={[styles.progress, {marginBottom: 20}]} 
-                            progress={FAT_PERCENTAGE_OF_CALORIES} />
+                            progress={fatPercentage} />
                     </View>
                     :
                     <SetupBox pressHandler={openSetupNutritionScreen}/>

@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 
 import { useIsFocused  } from '@react-navigation/native';
 
-import { GetMainMealScreenData } from '../../database/screen/meal_services';
+import { GetMainMealScreenData, AddWater, RemoveWater } from '../../database/screen/meal/main_meal_services';
 
 import { container } from '../../styles/miscStyles';
 
@@ -19,13 +19,18 @@ export default function MainMealScreen({ navigation }){
     const [carbs, setCarbs] = React.useState(null);
     const [protein, setProtein] = React.useState(null);
     const [fat, setFat] = React.useState(null);
+    
+    const [caloriesGoal, setCaloriesGoal] = React.useState(null);
+    const [carbsGoal, setCarbsGoal] = React.useState(null);
+    const [proteinGoal, setProteinGoal] = React.useState(null);
+    const [fatGoal, setFatGoal] = React.useState(null);
+
     const [water, setWater] = React.useState(null);
     
     const [breakfastCalories, setBreakfastCalories] = React.useState('');
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
-    const [isRefresh, setIsRefresh] = React.useState(false);
 
 
     const focus = useIsFocused();
@@ -39,25 +44,53 @@ export default function MainMealScreen({ navigation }){
             carbs, 
             protein, 
             fat,
+            caloriesGoal,
+            carbsGoal,
+            proteinGoal,
+            fatGoal,
+            water,
             breakfastCalories,
             lunchCalories,
             dinnerCalories
         }) => { 
             if(isGood) {
                 setIsMealReady(isMealReady); 
+
                 setCalories(calories);
                 setCarbs(carbs);
                 setProtein(protein);
                 setFat(fat);
+
+                setCaloriesGoal(caloriesGoal);
+                setCarbsGoal(carbsGoal);
+                setProteinGoal(proteinGoal);
+                setFatGoal(fatGoal);
+
+                setWater(water);
+
                 setBreakfastCalories(breakfastCalories);
                 setLunchCalories(lunchCalories);
                 setDinnerCalories(dinnerCalories);
             }
         });
 
-        if(isRefresh) setIsRefresh(false);
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [focus, isRefresh]);
+    }, [
+        focus, 
+        isMealReady,
+        calories,
+        carbs,
+        protein,
+        fat,
+        caloriesGoal,
+        carbsGoal,
+        proteinGoal,
+        fatGoal,
+        water,
+        breakfastCalories,
+        lunchCalories,
+        dinnerCalories
+    ]);
 
 
 
@@ -78,10 +111,23 @@ export default function MainMealScreen({ navigation }){
         );
     }
 
-    const refresh = () => setIsRefresh(true);
-    const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1, refresh: refresh});
-    const openAddLunchScreen = () => navigation.navigate('AddMealScreen', {meal_number: 2, refresh: refresh});
-    const openAddDinnerScreen = () => navigation.navigate('AddMealScreen', {meal_number: 3, refresh: refresh});
+    const addWaterHandler = () => {
+        AddWater();
+        setWater(water + 250);
+    }
+    
+    const removeWaterHandler = () => {
+        RemoveWater();
+        if((water - 250) <= 0) {
+            setWater(0);
+            return;
+        }
+        setWater(water - 250);
+    }
+
+    const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1});
+    const openAddLunchScreen = () => navigation.navigate('AddMealScreen', {meal_number: 2});
+    const openAddDinnerScreen = () => navigation.navigate('AddMealScreen', {meal_number: 3});
 
     const openBreackfastScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 1});
     const openLunchScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 2});
@@ -91,23 +137,23 @@ export default function MainMealScreen({ navigation }){
         <SafeAreaView style={container}>
             <View style={styles.header}>
                 <View style={styles.infoBox}>
-                    <Text style={styles.primaryText}>0 / {calories}</Text>
+                    <Text style={styles.primaryText}>{calories} / {caloriesGoal}</Text>
                     <Text style={styles.subText}>calories</Text>
                 </View>
 
                 <View style={styles.infoContainer}>
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / {carbs} g</Text>
+                        <Text style={styles.secondaryText}>{carbs} / {carbsGoal} g</Text>
                         <Text style={styles.subText}>carbs</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / {protein} g</Text>
+                        <Text style={styles.secondaryText}>{protein} / {proteinGoal} g</Text>
                         <Text style={styles.subText}>protein</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>0 / {fat} g</Text>
+                        <Text style={styles.secondaryText}>{fat} / {fatGoal} g</Text>
                         <Text style={styles.subText}>fat</Text>
                     </View>
                 </View>
@@ -118,8 +164,8 @@ export default function MainMealScreen({ navigation }){
 
                 <WaterBox 
                     mililiters={water}
-                    addWaterHandler={() => console.log('add')}
-                    removeWaterHandler={() => console.log('remove')}/>
+                    addWaterHandler={addWaterHandler}
+                    removeWaterHandler={removeWaterHandler}/>
                 
                 <Text style={styles.subtitle}>Meals</Text>
 

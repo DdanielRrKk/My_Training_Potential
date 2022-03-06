@@ -3,13 +3,11 @@ import React from 'react';
 import { CreateDatabase, ExistsDatabase, DropDatabase } from './database/general/general_services';
 import { GetAppData } from './database/screen/app_serices';
 
-import { SetSystemIsUserSetup, GetSystemIsUserSetup } from './database/screen/landing_services';
+import { SetSystemIsUserSetup } from './database/screen/landing_services';
 
 import LoadingScreen from './screens/landing/loadingScreen';
 import LandingNavigation from './navigation/landing/landingNavigation';
 import MainNavigation from './navigation/main/mainNavigation';
-
-import { IsFlagCorrect } from './helpers/databaseValidations';
 
 
 

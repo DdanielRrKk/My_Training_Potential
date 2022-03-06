@@ -14,30 +14,14 @@ import {
     USER_CARBS_GOAL,
     USER_PROTEIN_GOAL,
     USER_FAT_GOAL,
+    MEAL_TOTAL_CALORIES,
+    MEAL_TOTAL_CARBS,
+    MEAL_TOTAL_PROTEIN,
+    MEAL_TOTAL_FAT,
     MEAL_WATER,
-    MEAL_BREAKFAST_RECOMMENDED_MIN,
-    MEAL_BREAKFAST_RECOMMENDED_MAX,
-    MEAL_BREAKFAST_TOTAL_CALORIES,
-    MEAL_BREAKFAST_TOTAL_CARBS,
-    MEAL_BREAKFAST_TOTAL_PROTEIN,
-    MEAL_BREAKFAST_TOTAL_FAT,
-    MEAL_BREAKFAST_FOODS,
-    MEAL_LUNCH_RECOMMENDED_MIN,
-    MEAL_LUNCH_RECOMMENDED_MAX,
-    MEAL_LUNCH_TOTAL_CALORIES,
-    MEAL_LUNCH_TOTAL_CARBS,
-    MEAL_LUNCH_TOTAL_PROTEIN,
-    MEAL_LUNCH_TOTAL_FAT,
-    MEAL_LUNCH_FOODS,
-    MEAL_DINNER_RECOMMENDED_MIN,
-    MEAL_DINNER_RECOMMENDED_MAX,
-    MEAL_DINNER_TOTAL_CALORIES,
-    MEAL_DINNER_TOTAL_CARBS,
-    MEAL_DINNER_TOTAL_PROTEIN,
-    MEAL_DINNER_TOTAL_FAT,
-    MEAL_DINNER_FOODS
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/databaseValidations';
+import { valuePercentageOfValue } from '../../helpers/basicCalculations';
 
 
 
@@ -73,6 +57,24 @@ export async function GetHomeScreenData() {
         if(IsResultEmpty(mealFatGoalResult)) return console.log('fat goal has no data'); 
 
 
+        const totalCaloriesResult = await AsyncStorage.getItem(MEAL_TOTAL_CALORIES);
+        // console.log('totalCaloriesResult', totalCaloriesResult);
+        if(IsResultEmpty(totalCaloriesResult)) return console.log('total calories has no data'); 
+
+        const totalCarbsResult = await AsyncStorage.getItem(MEAL_TOTAL_CARBS);
+        // console.log('totalCarbsResult', totalCarbsResult);
+        if(IsResultEmpty(totalCarbsResult)) return console.log('total carbs has no data'); 
+
+        const totalProteinResult = await AsyncStorage.getItem(MEAL_TOTAL_PROTEIN);
+        // console.log('totalProteinResult', totalProteinResult);
+        if(IsResultEmpty(totalProteinResult)) return console.log('total protein has no data'); 
+
+        const totalFatResult = await AsyncStorage.getItem(MEAL_TOTAL_FAT);
+        // console.log('totalFatResult', totalFatResult);
+        if(IsResultEmpty(totalFatResult)) return console.log('totla fat has no data'); 
+
+
+
         // store has data
         const isMealSetup = JSON.parse(isMealSetupResult);
         const userName = JSON.parse(userNameResult);
@@ -81,6 +83,11 @@ export async function GetHomeScreenData() {
         const mealCarbsGoal = JSON.parse(mealCarbsGoalResult);
         const mealProteinGoal = JSON.parse(mealProteinGoalResult);
         const mealFatGoal = JSON.parse(mealFatGoalResult);
+        
+        const totalCalories = JSON.parse(totalCaloriesResult);
+        const totalCarbs = JSON.parse(totalCarbsResult);
+        const totalProtein = JSON.parse(totalProteinResult);
+        const totalFat = JSON.parse(totalFatResult);
 
         // console.log('isMealSetup', isMealSetup);
         // console.log('userName', userName);
@@ -89,15 +96,34 @@ export async function GetHomeScreenData() {
         // console.log('mealCarbsGoal', mealCarbsGoal);
         // console.log('mealProteinGoal', mealProteinGoal);
         // console.log('mealFatGoal', mealFatGoal);
+        
+        // console.log('totalCalories', totalCalories);
+        // console.log('totalCarbs', totalCarbs);
+        // console.log('totalProtein', totalProtein);
+        // console.log('totalFat', totalFat);
+
+        const percentageCalories = valuePercentageOfValue(totalCalories, mealCaloriesGoal);
+        const percentageCarbs = valuePercentageOfValue(totalCarbs, mealCarbsGoal);
+        const percentageProtein = valuePercentageOfValue(totalProtein, mealProteinGoal);
+        const percentageFat = valuePercentageOfValue(totalFat, mealFatGoal);
+
+        // console.log('percentageCalories', percentageCalories);
+        // console.log('percentageCarbs', percentageCarbs);
+        // console.log('percentageProtein', percentageProtein);
+        // console.log('percentageFat', percentageFat);
 
         return {
             isMealReady: isMealSetup,
             name: userName,
             weight: userWeight,
-            calories: mealCaloriesGoal,
-            carbs: mealCarbsGoal,
-            protein: mealProteinGoal,
-            fat: mealFatGoal
+            caloriesPercentage: percentageCalories,
+            carbsPercentage: percentageCarbs,
+            proteinPercentage: percentageProtein,
+            fatPercentage: percentageFat,
+            caloriesGoal: mealCaloriesGoal,
+            carbsGoal: mealCarbsGoal,
+            proteinGoal: mealProteinGoal,
+            fatGoal: mealFatGoal
         }        
     } catch (error) {
         console.log(error);

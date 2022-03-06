@@ -79,3 +79,22 @@ export function calculateFat(weight, height, age, gender, activity, goal = null)
     const calories_from_fat = (goal_based_amr * 0.25); // 25% from all calories
     return (calories_from_fat / 9); // grams of fat
 }
+
+
+
+export function calculateRecommendedCalories(calories) {
+    const breakfastCalories = parseInt(calories * 0.35); // 35% of total calories
+    const lunchCalories = parseInt(calories * 0.35); // 35% of total calories
+    const dinnerCalories = parseInt(calories * 0.30); // 30% of total calories
+
+    const range = 200; // range -200 and +200 cal from normal
+
+    return {
+        breakfastRecommendedMin: breakfastCalories - range,
+        breakfastRecommendedMax: breakfastCalories + range,
+        lunchRecommendedMin: lunchCalories - range,
+        lunchRecommendedMax: lunchCalories + range,
+        dinnerRecommendedMin: dinnerCalories - range,
+        dinnerRecommendedMax: dinnerCalories + range,
+    }
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
-import { AddMealFoodData } from '../../database/screen/meal_services';
+import { AddMealFoodData } from '../../database/screen/meal/add_meal_services';
 
 import { container, back_button_container } from '../../styles/miscStyles';
 
@@ -18,10 +18,10 @@ export default function AddMealScreen({ navigation, route }){
     const [mealNumber, setMealNumber] = React.useState(null);
 
     const [name, setName] = React.useState(null);
-    const [calories, setCalories] = React.useState('0');
-    const [carbs, setCarbs] = React.useState('0');
-    const [protein, setProtein] = React.useState('0');
-    const [fat, setFat] = React.useState('0');
+    const [calories, setCalories] = React.useState('');
+    const [carbs, setCarbs] = React.useState('');
+    const [protein, setProtein] = React.useState('');
+    const [fat, setFat] = React.useState('');
 
     React.useEffect(() => {
         if(route.params?.meal_number) setMealNumber(route.params.meal_number);
@@ -50,9 +50,9 @@ export default function AddMealScreen({ navigation, route }){
     const decFatHandler = () => setFat(`${GetCorrectMealInput(fat, false)}`);
 
     const addMeal = () => {
-        AddMealFoodData(mealNumber, name, calories, carbs, protein, fat);
-        route.params.refresh();
+        AddMealFoodData(mealNumber, name, (calories == '') ? 0 : calories, (carbs == '') ? 0 : carbs, (protein == '') ? 0 : protein, (fat == '') ? 0 : fat);
         navigation.goBack();
+        return;
     }
 
     return(

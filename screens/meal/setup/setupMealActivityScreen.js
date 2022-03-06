@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
-import { SetActivityLevel, GetActivityLevel } from '../../../database/screen/meal_services';
+import { SetActivityLevel, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container } from '../../../styles/miscStyles';
