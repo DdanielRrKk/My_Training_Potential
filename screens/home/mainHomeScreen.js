@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, StatusBar } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { useIsFocused } from '@react-navigation/native';
 
@@ -11,6 +11,8 @@ import SetupBox from '../../components/home/setupBox';
 import LogBox from '../../components/home/logBox';
 import GroupLogBox from '../../components/home/groupLogBox';
 import Progress from '../../components/meal/setup/progress';
+
+import { container } from '../../styles/miscStyles';
 
 
 
@@ -97,8 +99,8 @@ export default function MainHomeScreen({ navigation }){
     const openMealLogScreen = () => console.log('setup meal log');
  
     return(
-        <SafeAreaView style={[styles.container, {marginTop: StatusBar.currentHeight}]}>
-            <ScrollView style={{flex: 1, width: '100%', padding: 16}}>
+        <SafeAreaView style={[container, {paddingVertical: 0}]}>
+            <ScrollView style={{flex: 1, width: '100%'}} showsVerticalScrollIndicator={false}>
                 <View style={styles.top_button_container}>
                     <Text style={styles.title}>Welcome {name}</Text>
 
