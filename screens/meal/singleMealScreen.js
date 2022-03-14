@@ -77,7 +77,7 @@ export default function SingleMealScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={[container]}>
+        <SafeAreaView style={container}>
             <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
                 <View style={back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>

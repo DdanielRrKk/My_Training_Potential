@@ -63,3 +63,7 @@ export const MEAL_DINNER_TOTAL_CARBS = 'meal_dinner_total_carbs';
 export const MEAL_DINNER_TOTAL_PROTEIN = 'meal_dinner_total_protein';
 export const MEAL_DINNER_TOTAL_FAT = 'meal_dinner_total_fat';
 export const MEAL_DINNER_FOODS = 'meal_dinner_foods';
+
+
+// logs =====
+export const WEIGHT_LOG = 'weight_log';

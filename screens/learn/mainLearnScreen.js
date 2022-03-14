@@ -30,36 +30,35 @@ export default function MainLearnScreen(){
 
                 <>
                 {FAQ_LIST.map((item) => {
-                        if((openKey == item.key)) {
-                            return(
-                                <TouchableOpacity 
-                                    key={item.key}
-                                    style={styles.bigContainer}
-                                    onPress={() => openQuestionHandler(item.key)}>
-                                    <View style={styles.containerTop}>
-                                        <Text style={styles.question}>{item.question}</Text>
-                            
-                                        <EvilIcons name="chevron-up" size={38} color="black" />
-                                    </View>
-                                    <View style={styles.containerBottom}>
-                                        <Text style={styles.answer}>{item.answer}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            );
-                        }
-                    
+                    if((openKey == item.key)) {
                         return(
                             <TouchableOpacity 
                                 key={item.key}
-                                style={styles.container}
+                                style={styles.bigContainer}
                                 onPress={() => openQuestionHandler(item.key)}>
-                                <Text style={styles.question}>{item.question}</Text>
-                    
-                                <EvilIcons name="chevron-down" size={38} color="black" />
+                                <View style={styles.containerTop}>
+                                    <Text style={styles.question}>{item.question}</Text>
+                        
+                                    <EvilIcons name="chevron-up" size={38} color="black" />
+                                </View>
+                                <View style={styles.containerBottom}>
+                                    <Text style={styles.answer}>{item.answer}</Text>
+                                </View>
                             </TouchableOpacity>
                         );
                     }
-                )}
+                
+                    return(
+                        <TouchableOpacity 
+                            key={item.key}
+                            style={styles.container}
+                            onPress={() => openQuestionHandler(item.key)}>
+                            <Text style={styles.question}>{item.question}</Text>
+                
+                            <EvilIcons name="chevron-down" size={38} color="black" />
+                        </TouchableOpacity>
+                    );
+                })}
                 </>
             </ScrollView>
         </SafeAreaView>

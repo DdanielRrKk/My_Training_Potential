@@ -40,7 +40,9 @@ import {
     MEAL_DINNER_TOTAL_CARBS,
     MEAL_DINNER_TOTAL_PROTEIN,
     MEAL_DINNER_TOTAL_FAT,
-    MEAL_DINNER_FOODS
+    MEAL_DINNER_FOODS,
+    WEIGHT_LOG,
+    STEPS_LOG
 } from '../database_stores';
 
 
@@ -98,6 +100,8 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_PROTEIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_FAT, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_FOODS, JSON.stringify([]));
+
+        await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify([]));
         return;
     } catch (error) {
         console.log(error);

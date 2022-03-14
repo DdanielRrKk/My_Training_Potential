@@ -1,4 +1,4 @@
-export function getCurrentDateForLogs() {
+export function getCurrentDateForLog() {
     const today = new Date();
     let recordedDate = undefined;
     

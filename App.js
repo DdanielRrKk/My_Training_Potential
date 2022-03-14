@@ -27,10 +27,10 @@ export default function App() {
 
     if(!existsDatabase && existsDatabase !== null) CreateDatabase();
 
-    GetAppData().then(({ isUserSetup, isMealReady, isWorkoutSetup }) => { 
+    GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
       if(isGood) {
         setIsUserDataReady(isUserSetup);
-        setIsMealReady(isMealReady);
+        setIsMealReady(isMealSetup);
         setIsWorkoutReady(isWorkoutSetup);
       }
      });

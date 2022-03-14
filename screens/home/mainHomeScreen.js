@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 // import { GetHomeScreenData } from '../../database/general/general_services';
-import { GetHomeScreenData } from '../../database/screen/home_services';
+import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
@@ -93,8 +93,12 @@ export default function MainHomeScreen({ navigation }){
         navigation.navigate('SetupMealGoalScreen');
     }
     const openSetupWorkoutScreen = () => console.log('setup workout');
-    const openStepsLogScreen = () => console.log('setup steps log');
-    const openWeightLogScreen = () => console.log('setup weight log');
+
+    const openWeightLogScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('WeightScreen');
+    }
+
     const openWorkoutLogScreen = () => console.log('setup workout log');
     const openMealLogScreen = () => console.log('setup meal log');
  
@@ -164,13 +168,6 @@ export default function MainHomeScreen({ navigation }){
                     <Text style={styles.subtitle}>Workout</Text>
                     
                     <SetupBox pressHandler={openSetupWorkoutScreen}/>
-
-                    <Text style={styles.subtitle}>Steps Counter</Text>
-
-                    <LogBox 
-                        value={steps}
-                        title='steps today'
-                        pressHandler={openStepsLogScreen}/>
                     
                     <Text style={styles.subtitle}>Weight Log</Text>
                     

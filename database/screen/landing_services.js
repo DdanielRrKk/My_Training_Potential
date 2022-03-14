@@ -5,9 +5,11 @@ import {
     USER_AGE,
     USER_WEIGHT,
     USER_HEIGHT,
-    USER_GENDER
+    USER_GENDER,
+    WEIGHT_LOG
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/databaseValidations';
+import { getCurrentDateForLog } from '../../helpers/dateHelper';
 
 
 
@@ -52,6 +54,17 @@ export async function SetUserMeasurements(age, weight, height) {
         await AsyncStorage.setItem(USER_AGE, JSON.stringify(age));
         await AsyncStorage.setItem(USER_WEIGHT, JSON.stringify(weight));
         await AsyncStorage.setItem(USER_HEIGHT, JSON.stringify(height));
+        
+        const currentDate = getCurrentDateForLog();
+        const weightLog = [{
+            key: 1,
+            weight: weight,
+            date: currentDate
+        }];
+        console.log('weightLog', weightLog);
+
+        await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(weightLog));
+        return;
     } catch (error) {
         console.log(error);
     }

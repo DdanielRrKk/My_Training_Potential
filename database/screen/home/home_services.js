@@ -1,0 +1,131 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { 
+    SYSTEM_IS_WORKOUT_SETUP,
+    SYSTEM_IS_MEAL_SETUP,
+    SYSTEM_IS_USER_SETUP,
+    USER_NAME,
+    USER_AGE,
+    USER_WEIGHT,
+    USER_HEIGHT,
+    USER_GENDER,
+    USER_MEAL_GOAL,
+    USER_ACTIVITY_LEVEL,
+    USER_CALORIES_GOAL,
+    USER_CARBS_GOAL,
+    USER_PROTEIN_GOAL,
+    USER_FAT_GOAL,
+    MEAL_TOTAL_CALORIES,
+    MEAL_TOTAL_CARBS,
+    MEAL_TOTAL_PROTEIN,
+    MEAL_TOTAL_FAT,
+    MEAL_WATER,
+} from '../../database_stores';
+import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { valuePercentageOfValue } from '../../../helpers/basicCalculations';
+
+
+
+// get data for home screen
+export async function GetHomeScreenData() {
+    try {
+        const isMealSetupResult = await AsyncStorage.getItem(SYSTEM_IS_MEAL_SETUP);
+        // console.log('isMealSetupResult', isMealSetupResult);
+        if(IsResultEmpty(isMealSetupResult)) return console.log('system is meal setup has no data'); 
+        
+        const userNameResult = await AsyncStorage.getItem(USER_NAME);
+        // console.log('userNameResult', userNameResult);
+        if(IsResultEmpty(userNameResult)) return console.log('user name has no data'); 
+        
+        const userWeightResult = await AsyncStorage.getItem(USER_WEIGHT);
+        // console.log('userWeightResult', userWeightResult);
+        if(IsResultEmpty(userWeightResult)) return console.log('user weight has no data'); 
+
+        const mealCaloriesGoalResult = await AsyncStorage.getItem(USER_CALORIES_GOAL);
+        // console.log('mealCaloriesGoalResult', mealCaloriesGoalResult);
+        if(IsResultEmpty(mealCaloriesGoalResult)) return console.log('calories goal has no data'); 
+
+        const mealCarbsGoalResult = await AsyncStorage.getItem(USER_CARBS_GOAL);
+        // console.log('mealCarbsGoalResult', mealCarbsGoalResult);
+        if(IsResultEmpty(mealCarbsGoalResult)) return console.log('carbs goal has no data'); 
+
+        const mealProteinGoalResult = await AsyncStorage.getItem(USER_PROTEIN_GOAL);
+        // console.log('mealProteinGoalResult', mealProteinGoalResult);
+        if(IsResultEmpty(mealProteinGoalResult)) return console.log('protein goal has no data'); 
+
+        const mealFatGoalResult = await AsyncStorage.getItem(USER_FAT_GOAL);
+        // console.log('mealFatGoalResult', mealFatGoalResult);
+        if(IsResultEmpty(mealFatGoalResult)) return console.log('fat goal has no data'); 
+
+
+        const totalCaloriesResult = await AsyncStorage.getItem(MEAL_TOTAL_CALORIES);
+        // console.log('totalCaloriesResult', totalCaloriesResult);
+        if(IsResultEmpty(totalCaloriesResult)) return console.log('total calories has no data'); 
+
+        const totalCarbsResult = await AsyncStorage.getItem(MEAL_TOTAL_CARBS);
+        // console.log('totalCarbsResult', totalCarbsResult);
+        if(IsResultEmpty(totalCarbsResult)) return console.log('total carbs has no data'); 
+
+        const totalProteinResult = await AsyncStorage.getItem(MEAL_TOTAL_PROTEIN);
+        // console.log('totalProteinResult', totalProteinResult);
+        if(IsResultEmpty(totalProteinResult)) return console.log('total protein has no data'); 
+
+        const totalFatResult = await AsyncStorage.getItem(MEAL_TOTAL_FAT);
+        // console.log('totalFatResult', totalFatResult);
+        if(IsResultEmpty(totalFatResult)) return console.log('totla fat has no data'); 
+
+
+
+        // store has data
+        const isMealSetup = JSON.parse(isMealSetupResult);
+        const userName = JSON.parse(userNameResult);
+        const userWeight = JSON.parse(userWeightResult);
+        const mealCaloriesGoal = JSON.parse(mealCaloriesGoalResult);
+        const mealCarbsGoal = JSON.parse(mealCarbsGoalResult);
+        const mealProteinGoal = JSON.parse(mealProteinGoalResult);
+        const mealFatGoal = JSON.parse(mealFatGoalResult);
+        
+        const totalCalories = JSON.parse(totalCaloriesResult);
+        const totalCarbs = JSON.parse(totalCarbsResult);
+        const totalProtein = JSON.parse(totalProteinResult);
+        const totalFat = JSON.parse(totalFatResult);
+
+        // console.log('isMealSetup', isMealSetup);
+        // console.log('userName', userName);
+        // console.log('userWeight', userWeight);
+        // console.log('mealCaloriesGoal', mealCaloriesGoal);
+        // console.log('mealCarbsGoal', mealCarbsGoal);
+        // console.log('mealProteinGoal', mealProteinGoal);
+        // console.log('mealFatGoal', mealFatGoal);
+        
+        // console.log('totalCalories', totalCalories);
+        // console.log('totalCarbs', totalCarbs);
+        // console.log('totalProtein', totalProtein);
+        // console.log('totalFat', totalFat);
+
+        const percentageCalories = valuePercentageOfValue(totalCalories, mealCaloriesGoal);
+        const percentageCarbs = valuePercentageOfValue(totalCarbs, mealCarbsGoal);
+        const percentageProtein = valuePercentageOfValue(totalProtein, mealProteinGoal);
+        const percentageFat = valuePercentageOfValue(totalFat, mealFatGoal);
+
+        // console.log('percentageCalories', percentageCalories);
+        // console.log('percentageCarbs', percentageCarbs);
+        // console.log('percentageProtein', percentageProtein);
+        // console.log('percentageFat', percentageFat);
+
+        return {
+            isMealReady: isMealSetup,
+            name: userName,
+            weight: userWeight,
+            caloriesPercentage: percentageCalories,
+            carbsPercentage: percentageCarbs,
+            proteinPercentage: percentageProtein,
+            fatPercentage: percentageFat,
+            caloriesGoal: mealCaloriesGoal,
+            carbsGoal: mealCarbsGoal,
+            proteinGoal: mealProteinGoal,
+            fatGoal: mealFatGoal
+        }        
+    } catch (error) {
+        console.log(error);
+    }
+}

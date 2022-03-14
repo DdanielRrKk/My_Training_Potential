@@ -35,7 +35,7 @@ export async function GetAppData() {
 
         return {
             isUserSetup: isUserSetup,
-            isMealReady: isMealSetup,
+            isMealSetup: isMealSetup,
             isWorkoutSetup: isWorkoutSetup
         }        
     } catch (error) {

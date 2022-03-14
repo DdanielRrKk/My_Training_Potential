@@ -4,11 +4,16 @@ import { createStackNavigator } from '@react-navigation/stack';
 const NavStack = createStackNavigator();
 
 import TabNavigation from './tabNavigation';
-import AddMealScreen from '../../screens/meal/addMealScreen';
-import SingleMealScreen from '../../screens/meal/singleMealScreen';
+
 import SetupMealGoalScreen from '../../screens/meal/setup/setupMealGoalScreen';
 import SetupMealActivityScreen from '../../screens/meal/setup/setupMealActivityScreen';
 import SetupMealResultsScreen from '../../screens/meal/setup/setupMealResultsScreen';
+
+import WeightScreen from '../../screens/home/weightScreen';
+
+import AddMealScreen from '../../screens/meal/addMealScreen';
+import SingleMealScreen from '../../screens/meal/singleMealScreen';
+
 
 
 
@@ -27,6 +32,8 @@ export default function MainNavigation(isMealReady) {
                 </>
                 : 
                 null }
+
+                <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }}/>
 
                 <NavStack.Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }}/>
                 <NavStack.Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }}/>
