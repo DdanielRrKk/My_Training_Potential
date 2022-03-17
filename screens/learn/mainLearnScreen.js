@@ -75,7 +75,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 16,
         marginTop: 16,
-        borderRadius: 10
+        borderRadius: 10,
+        height: 80
     },
 
     subtitle: {

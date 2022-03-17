@@ -51,6 +51,8 @@ export async function GetUserGender() {
 
 export async function SetUserMeasurements(age, weight, height) {
     try {
+        await AsyncStorage.setItem(SYSTEM_IS_USER_SETUP, JSON.stringify(true));
+        
         await AsyncStorage.setItem(USER_AGE, JSON.stringify(age));
         await AsyncStorage.setItem(USER_WEIGHT, JSON.stringify(weight));
         await AsyncStorage.setItem(USER_HEIGHT, JSON.stringify(height));
@@ -61,7 +63,7 @@ export async function SetUserMeasurements(age, weight, height) {
             weight: weight,
             date: currentDate
         }];
-        console.log('weightLog', weightLog);
+        // console.log('weightLog', weightLog);
 
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(weightLog));
         return;

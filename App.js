@@ -2,8 +2,6 @@ import React from 'react';
 
 import { CreateDatabase, ExistsDatabase, DropDatabase } from './database/general/general_services';
 
-import { Provider } from 'react-redux';
-import { Store } from './redux/redux';
 import RootNavigation from './navigation/rootNavigation';
 
 
@@ -25,8 +23,6 @@ export default function App() {
   }, [existsDatabase]);
 
   return (
-    <Provider store={Store}>
-      <RootNavigation />
-    </Provider>
+    <RootNavigation />
   );
 }

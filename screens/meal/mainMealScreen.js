@@ -11,11 +11,10 @@ import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 
 
-import { useSelector } from 'react-redux';
 
+export default function MainMealScreen({ navigation, route }){
+    const [isMealReady, setIsMealReady] = React.useState(null);
 
-
-export default function MainMealScreen({ navigation }){
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
     const [protein, setProtein] = React.useState(null);
@@ -32,8 +31,9 @@ export default function MainMealScreen({ navigation }){
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
-    const { isUserReady, isMealReady, isWorkoutReady } = useSelector(state => state.systemReducer);
-
+    React.useEffect(() => {
+        if (route.params?.isMealReady) setIsMealReady(route.params?.isMealReady);
+    }, [route.params?.isMealReady]);
 
     const focus = useIsFocused();
     React.useEffect(() => {
@@ -76,6 +76,7 @@ export default function MainMealScreen({ navigation }){
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus, 
+        isMealReady,
         calories,
         carbs,
         protein,
@@ -135,23 +136,23 @@ export default function MainMealScreen({ navigation }){
         <SafeAreaView style={container}>
             <View style={styles.header}>
                 <View style={styles.infoBox}>
-                    <Text style={styles.primaryText}>{calories} / {caloriesGoal}</Text>
+                    <Text style={styles.primaryText}>{(calories) ? calories : '0'} / {(caloriesGoal) ? caloriesGoal : '0'}</Text>
                     <Text style={styles.subText}>calories</Text>
                 </View>
 
                 <View style={styles.infoContainer}>
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{carbs} / {carbsGoal} g</Text>
+                        <Text style={styles.secondaryText}>{(carbs) ? carbs : '0'} / {(carbsGoal) ? carbsGoal : '0'} g</Text>
                         <Text style={styles.subText}>carbs</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{protein} / {proteinGoal} g</Text>
+                        <Text style={styles.secondaryText}>{(protein) ? protein : '0'} / {(proteinGoal) ? proteinGoal : '0'} g</Text>
                         <Text style={styles.subText}>protein</Text>
                     </View>
 
                     <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{fat} / {fatGoal} g</Text>
+                        <Text style={styles.secondaryText}>{(fat) ? fat : '0'} / {(fatGoal) ? fatGoal : '0'} g</Text>
                         <Text style={styles.subText}>fat</Text>
                     </View>
                 </View>

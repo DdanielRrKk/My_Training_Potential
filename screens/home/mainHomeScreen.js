@@ -15,11 +15,11 @@ import Progress from '../../components/meal/setup/progress';
 import { container } from '../../styles/miscStyles';
 
 
-import { useSelector } from 'react-redux';
 
+export default function MainHomeScreen({ navigation, route }){
+    const [isMealReady, setIsMealReady] = React.useState(null);
+    const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
 
-
-export default function MainHomeScreen({ navigation }){
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
     const [steps, setSteps] = React.useState(null);
@@ -33,9 +33,11 @@ export default function MainHomeScreen({ navigation }){
     const [carbsGoal, setCarbsGoal] = React.useState(null);
     const [proteinGoal, setProteinGoal] = React.useState(null);
     const [fatGoal, setFatGoal] = React.useState(null);
-    
-    const { isUserReady, isMealReady, isWorkoutReady } = useSelector(state => state.systemReducer);
 
+    React.useEffect(() => {
+        if (route.params?.isMealReady) setIsMealReady(route.params?.isMealReady);
+        if (route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
+    }, [route.params?.isMealReady, route.params?.isWorkoutReady]);
 
     const focus = useIsFocused();
     React.useEffect(() => {
@@ -72,6 +74,8 @@ export default function MainHomeScreen({ navigation }){
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus,
+        isMealReady,
+        isWorkoutReady,
         name,
         weight,
         steps,

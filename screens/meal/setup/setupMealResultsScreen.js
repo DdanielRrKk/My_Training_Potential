@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, LogBox } from 'react-native';
 
 import { SetAndGetMealResults } from '../../../database/screen/meal/meal_setup_services';
 
@@ -10,9 +10,6 @@ import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
 import Progress from '../../../components/meal/setup/progress';
 
-import { useDispatch } from 'react-redux';
-import { setMealReady } from '../../../redux/redux';
-
 
 
 const CALORIES_PERCENTAGE = 1; // 100%
@@ -20,13 +17,13 @@ const CARBS_PERCENTAGE_OF_CALORIES = 0.5; // 50%
 const PROTEIN_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 const FAT_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 
-export default function SetupMealResultsScreen({ navigation }){
+export default function SetupMealResultsScreen({ navigation, route }){
+    LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
+
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
     const [protein, setProtein] = React.useState(null);
     const [fat, setFat] = React.useState(null);
-
-    const dispatch = useDispatch();
 
 
     React.useEffect(() => {
@@ -47,7 +44,7 @@ export default function SetupMealResultsScreen({ navigation }){
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        dispatch(setMealReady(true));
+        route.params?.setMealReady();
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }
