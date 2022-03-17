@@ -1,15 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    SYSTEM_IS_WORKOUT_SETUP,
     SYSTEM_IS_MEAL_SETUP,
-    SYSTEM_IS_USER_SETUP,
     USER_NAME,
-    USER_AGE,
     USER_WEIGHT,
-    USER_HEIGHT,
-    USER_GENDER,
-    USER_MEAL_GOAL,
-    USER_ACTIVITY_LEVEL,
     USER_CALORIES_GOAL,
     USER_CARBS_GOAL,
     USER_PROTEIN_GOAL,
@@ -18,7 +11,6 @@ import {
     MEAL_TOTAL_CARBS,
     MEAL_TOTAL_PROTEIN,
     MEAL_TOTAL_FAT,
-    MEAL_WATER,
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/databaseValidations';
 import { valuePercentageOfValue } from '../../helpers/basicCalculations';
@@ -28,10 +20,6 @@ import { valuePercentageOfValue } from '../../helpers/basicCalculations';
 // get data for home screen
 export async function GetHomeScreenData() {
     try {
-        const isMealSetupResult = await AsyncStorage.getItem(SYSTEM_IS_MEAL_SETUP);
-        // console.log('isMealSetupResult', isMealSetupResult);
-        if(IsResultEmpty(isMealSetupResult)) return console.log('system is meal setup has no data'); 
-        
         const userNameResult = await AsyncStorage.getItem(USER_NAME);
         // console.log('userNameResult', userNameResult);
         if(IsResultEmpty(userNameResult)) return console.log('user name has no data'); 
@@ -76,7 +64,6 @@ export async function GetHomeScreenData() {
 
 
         // store has data
-        const isMealSetup = JSON.parse(isMealSetupResult);
         const userName = JSON.parse(userNameResult);
         const userWeight = JSON.parse(userWeightResult);
         const mealCaloriesGoal = JSON.parse(mealCaloriesGoalResult);
@@ -89,7 +76,6 @@ export async function GetHomeScreenData() {
         const totalProtein = JSON.parse(totalProteinResult);
         const totalFat = JSON.parse(totalFatResult);
 
-        // console.log('isMealSetup', isMealSetup);
         // console.log('userName', userName);
         // console.log('userWeight', userWeight);
         // console.log('mealCaloriesGoal', mealCaloriesGoal);
@@ -113,7 +99,6 @@ export async function GetHomeScreenData() {
         // console.log('percentageFat', percentageFat);
 
         return {
-            isMealReady: isMealSetup,
             name: userName,
             weight: userWeight,
             caloriesPercentage: percentageCalories,

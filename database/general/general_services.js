@@ -41,8 +41,7 @@ import {
     MEAL_DINNER_TOTAL_PROTEIN,
     MEAL_DINNER_TOTAL_FAT,
     MEAL_DINNER_FOODS,
-    WEIGHT_LOG,
-    STEPS_LOG
+    WEIGHT_LOG
 } from '../database_stores';
 
 

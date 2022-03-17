@@ -1,9 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    SYSTEM_IS_WORKOUT_SETUP,
     SYSTEM_IS_MEAL_SETUP,
-    SYSTEM_IS_USER_SETUP,
-    USER_NAME,
     USER_AGE,
     USER_WEIGHT,
     USER_HEIGHT,
@@ -50,10 +47,6 @@ import {
 // get data for main meal screen
 export async function GetMainMealScreenData() {
     try {
-        const isMealSetupResult = await AsyncStorage.getItem(SYSTEM_IS_MEAL_SETUP);
-        // console.log('isMealSetupResult', isMealSetupResult);
-        if(IsResultEmpty(isMealSetupResult)) return console.log('system is meal setup has no data'); 
-        
         const mealCaloriesGoalResult = await AsyncStorage.getItem(USER_CALORIES_GOAL);
         // console.log('mealCaloriesGoalResult', mealCaloriesGoalResult);
         if(IsResultEmpty(mealCaloriesGoalResult)) return console.log('calories goal has no data'); 
@@ -84,7 +77,6 @@ export async function GetMainMealScreenData() {
 
 
         // store has data
-        const isMealSetup = JSON.parse(isMealSetupResult);
         const mealCaloriesGoal = JSON.parse(mealCaloriesGoalResult);
         const mealCarbsGoal = JSON.parse(mealCarbsGoalResult);
         const mealProteinGoal = JSON.parse(mealProteinGoalResult);
@@ -93,7 +85,6 @@ export async function GetMainMealScreenData() {
         const mealLunchCalories = JSON.parse(mealLunchCaloriesResult);
         const mealDinnerCalories = JSON.parse(mealDinnerCaloriesResult);
 
-        // console.log('isMealSetup', isMealSetup);
         // console.log('mealCaloriesGoal', mealCaloriesGoal);
         // console.log('mealCarbsGoal', mealCarbsGoal);
         // console.log('mealProteinGoal', mealProteinGoal);
@@ -103,36 +94,6 @@ export async function GetMainMealScreenData() {
         // console.log('mealDinnerCalories', mealDinnerCalories);
 
         return {
-            isMealReady: isMealSetup,
-            calories: mealCaloriesGoal,
-            carbs: mealCarbsGoal,
-            protein: mealProteinGoal,
-            fat: mealFatGoal,
-            breakfastCalories: mealBreakfastCalories,
-            lunchCalories: mealLunchCalories,
-            dinnerCalories: mealDinnerCalories
-        }        
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-export async function TEMPORARYAddMealFoodData(meal_number, name, calories, carbs, protein, fat) {
-    try {
-        let result = '';
-        if(meal_number == 1) result = await AsyncStorage.getItem(MEAL_BREAKFAST_FOODS);
-        if(meal_number == 2) result = await AsyncStorage.getItem(MEAL_LUNCH_FOODS);
-        if(meal_number == 3) result = await AsyncStorage.getItem(MEAL_DINNER_FOODS);
-        // console.log('foods', result);
-        if(IsResultEmpty(isMealSetupResult)) return console.log('foods has no data'); 
-
-        // store has data
-        const foods = JSON.parse(result);
-
-        // console.log('foods', foods);
-
-        return {
-            isMealReady: isMealSetup,
             calories: mealCaloriesGoal,
             carbs: mealCarbsGoal,
             protein: mealProteinGoal,

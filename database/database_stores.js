@@ -4,7 +4,6 @@
 // export const WORKOUT_DAYS_STORE = "workout_days_store";
 // export const WORKOUT_EXERCISES_STORE = "workout_exercises_store";
 // logs =====
-// export const LOG_STEPS_STORE = "log_steps_store";
 // export const LOG_WEIGHT_STORE = "log_weight_store";
 // export const LOG_MEALS_STORE = "log_meals_store";
 // export const LOG_WORKOUTS_STORE = "log_workouts_store";

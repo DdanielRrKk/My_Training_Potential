@@ -11,10 +11,11 @@ import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 
 
+import { useSelector } from 'react-redux';
+
+
 
 export default function MainMealScreen({ navigation }){
-    const [isMealReady, setIsMealReady] = React.useState(false);
-    
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
     const [protein, setProtein] = React.useState(null);
@@ -31,6 +32,7 @@ export default function MainMealScreen({ navigation }){
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
+    const { isUserReady, isMealReady, isWorkoutReady } = useSelector(state => state.systemReducer);
 
 
     const focus = useIsFocused();
@@ -39,7 +41,6 @@ export default function MainMealScreen({ navigation }){
         console.log('focus meal', focus);
 
         GetMainMealScreenData().then(({
-            isMealReady, 
             calories, 
             carbs, 
             protein, 
@@ -54,8 +55,6 @@ export default function MainMealScreen({ navigation }){
             dinnerCalories
         }) => { 
             if(isGood) {
-                setIsMealReady(isMealReady); 
-
                 setCalories(calories);
                 setCarbs(carbs);
                 setProtein(protein);
@@ -77,7 +76,6 @@ export default function MainMealScreen({ navigation }){
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus, 
-        isMealReady,
         calories,
         carbs,
         protein,

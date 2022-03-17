@@ -15,10 +15,11 @@ import Progress from '../../components/meal/setup/progress';
 import { container } from '../../styles/miscStyles';
 
 
+import { useSelector } from 'react-redux';
+
+
 
 export default function MainHomeScreen({ navigation }){
-    const [isMealReady, setIsMealReady] = React.useState(false);
-
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
     const [steps, setSteps] = React.useState(null);
@@ -33,6 +34,7 @@ export default function MainHomeScreen({ navigation }){
     const [proteinGoal, setProteinGoal] = React.useState(null);
     const [fatGoal, setFatGoal] = React.useState(null);
     
+    const { isUserReady, isMealReady, isWorkoutReady } = useSelector(state => state.systemReducer);
 
 
     const focus = useIsFocused();
@@ -41,7 +43,6 @@ export default function MainHomeScreen({ navigation }){
         console.log('focus home', focus);
 
         GetHomeScreenData().then(({
-            isMealReady, 
             name, 
             weight,
             caloriesPercentage,
@@ -54,7 +55,6 @@ export default function MainHomeScreen({ navigation }){
             fatGoal,
         }) => { 
             if(isGood) {
-                setIsMealReady(isMealReady);
                 setName(name);
                 setWeight(weight); 
                 setCaloriesPercentage(parseFloat(caloriesPercentage));
@@ -117,8 +117,7 @@ export default function MainHomeScreen({ navigation }){
                     <Text style={styles.subtitle}>Nutrition</Text>
                     
                     { // Nutritions ================ START
-                    isMealReady 
-                    ?
+                    isMealReady ?
                     <View style={styles.results}>
                         <View style={[styles.row, {marginTop: 16}]}>
                             <Text style={styles.labels}>Calories</Text>

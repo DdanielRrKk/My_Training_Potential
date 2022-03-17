@@ -9,15 +9,20 @@ import { container, content, back_button_container } from '../../styles/miscStyl
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 
+import { useDispatch } from 'react-redux';
+import { setUserReady } from '../../redux/redux';
+
 
 const AGE_MAX_LENGTH = 3;
 const WEIGHT_MAX_LENGTH = 3;
 const HEIGHT_MAX_LENGTH = 3;
 
-export default function LandingMeasurementsScreen({ navigation, route }){
+export default function LandingMeasurementsScreen({ navigation }){
     const [age, setAge] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
     const [height, setHeight] = React.useState(null);
+
+    const dispatch = useDispatch();
 
     React.useEffect(() => {
         let isGood = true;
@@ -28,14 +33,14 @@ export default function LandingMeasurementsScreen({ navigation, route }){
                 setHeight(height);
             }
         });
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
         SetUserMeasurements(age, weight, height);
-        route.params.dataReady();
+        dispatch(setUserReady(true));
     }
  
     return(

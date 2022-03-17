@@ -1,21 +1,15 @@
 import React from 'react';
 
 import { CreateDatabase, ExistsDatabase, DropDatabase } from './database/general/general_services';
-import { GetAppData } from './database/screen/app_serices';
 
-import { SetSystemIsUserSetup } from './database/screen/landing_services';
-
-import LoadingScreen from './screens/landing/loadingScreen';
-import LandingNavigation from './navigation/landing/landingNavigation';
-import MainNavigation from './navigation/main/mainNavigation';
+import { Provider } from 'react-redux';
+import { Store } from './redux/redux';
+import RootNavigation from './navigation/rootNavigation';
 
 
 
 export default function App() {
   const [existsDatabase, setExistsDatabase] = React.useState(null);
-  const [isUserDataReady, setIsUserDataReady] = React.useState(null);
-  const [isMealReady, setIsMealReady] = React.useState(null);
-  const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
 
   React.useEffect(() => {
     let isGood = true;
@@ -27,39 +21,12 @@ export default function App() {
 
     if(!existsDatabase && existsDatabase !== null) CreateDatabase();
 
-    GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
-      if(isGood) {
-        setIsUserDataReady(isUserSetup);
-        setIsMealReady(isMealSetup);
-        setIsWorkoutReady(isWorkoutSetup);
-      }
-     });
-
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
-  }, [existsDatabase, isUserDataReady, isMealReady, isWorkoutReady]);
-
-  // console.log('isUserDataReady', isUserDataReady);
-  console.log('isMealReady', isMealReady);
-  // console.log('isWorkoutReady', isWorkoutReady);
-
-  const dataReady = () => {
-    SetSystemIsUserSetup(true);
-    setIsUserDataReady(true);
-  }
-
-  if(isUserDataReady == null) {
-    return (
-      <LoadingScreen />
-    );
-  }
-
-  if(!isUserDataReady) {
-    return (
-      <LandingNavigation dataReady={dataReady}/>
-    );
-  }
+  }, [existsDatabase]);
 
   return (
-    <MainNavigation />
+    <Provider store={Store}>
+      <RootNavigation />
+    </Provider>
   );
 }
