@@ -92,11 +92,15 @@ export default function MainHomeScreen({ navigation, route }){
 
 
     const openOptionsScreen = () => console.log('options');
+    
     const openSetupNutritionScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('SetupMealGoalScreen');
     }
-    const openSetupWorkoutScreen = () => console.log('setup workout');
+    const openSetupWorkoutScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('SetupWorkoutPlanScreen');
+    }
 
     const openWeightLogScreen = () => {
         navigation.setOptions({ tabBarVisible: false });

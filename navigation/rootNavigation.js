@@ -20,6 +20,10 @@ import SetupMealResultsScreen from '../screens/meal/setup/setupMealResultsScreen
 import AddMealScreen from '../screens/meal/addMealScreen';
 import SingleMealScreen from '../screens/meal/singleMealScreen';
 
+import SetupWorkoutPlanScreen from '../screens/workout/setup/setupWorkoutPlanScreen';
+import SetupWorkoutDayScreen from '../screens/workout/setup/setupWorkoutDayScreen';
+import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExerciseScreen';
+
 
 import { GetAppData } from '../database/screen/app_serices';
 
@@ -85,6 +89,14 @@ export default function RootNavigation() {
             <NavStack.Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} initialParams={{ setMealReady: setMealReady }} />
+          </>
+        : null}
+
+        {!isWorkoutReady ?
+          <>
+            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
+            <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
+            <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
           </>
         : null}
 
