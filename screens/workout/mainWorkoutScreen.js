@@ -3,90 +3,63 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-na
 
 import { useIsFocused  } from '@react-navigation/native';
 
+import { getCurrentWorkoutDay, getWorkoutDaysWithoutToday } from '../../helpers/workoutHelper';
+
 import { container } from '../../styles/miscStyles';
+
+import WorkoutBox from '../../components/workout/workoutBox';
+
+import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
 
 
 export default function MainWorkoutScreen({ navigation, route }){
     const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
-
-    // const [calories, setCalories] = React.useState(null);
-    // const [carbs, setCarbs] = React.useState(null);
-    // const [protein, setProtein] = React.useState(null);
-    // const [fat, setFat] = React.useState(null);
     
-    // const [caloriesGoal, setCaloriesGoal] = React.useState(null);
-    // const [carbsGoal, setCarbsGoal] = React.useState(null);
-    // const [proteinGoal, setProteinGoal] = React.useState(null);
-    // const [fatGoal, setFatGoal] = React.useState(null);
-
-    // const [water, setWater] = React.useState(null);
+    const [name, setName] = React.useState(null);
+    const [days, setDays] = React.useState([
+        {day_number: 1, name: null, exercises: []},
+        {day_number: 2, name: null, exercises: []},
+        {day_number: 3, name: null, exercises: []},
+        {day_number: 4, name: null, exercises: []},
+        {day_number: 5, name: null, exercises: []},
+        {day_number: 6, name: null, exercises: []},
+        {day_number: 7, name: null, exercises: []},
+    ]);
     
-    // const [breakfastCalories, setBreakfastCalories] = React.useState('');
-    // const [lunchCalories, setLunchCalories] = React.useState('');
-    // const [dinnerCalories, setDinnerCalories] = React.useState('');
+    const [currentDay, setCurrentDay] = React.useState(null);
+
 
     React.useEffect(() => {
-        if (route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
+        console.log('route.params?.isWorkoutReady', route.params?.isWorkoutReady);
+        if(route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
     }, [route.params?.isWorkoutReady]);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
-        console.log('focus meal', focus);
+        console.log('focus workout', focus);
 
-        // GetMainMealScreenData().then(({
-        //     calories, 
-        //     carbs, 
-        //     protein, 
-        //     fat,
-        //     caloriesGoal,
-        //     carbsGoal,
-        //     proteinGoal,
-        //     fatGoal,
-        //     water,
-        //     breakfastCalories,
-        //     lunchCalories,
-        //     dinnerCalories
-        // }) => { 
-        //     if(isGood) {
-        //         setCalories(calories);
-        //         setCarbs(carbs);
-        //         setProtein(protein);
-        //         setFat(fat);
-
-        //         setCaloriesGoal(caloriesGoal);
-        //         setCarbsGoal(carbsGoal);
-        //         setProteinGoal(proteinGoal);
-        //         setFatGoal(fatGoal);
-
-        //         setWater(water);
-
-        //         setBreakfastCalories(breakfastCalories);
-        //         setLunchCalories(lunchCalories);
-        //         setDinnerCalories(dinnerCalories);
-        //     }
-        // });
+        GetWorkoutScreenData().then(({ name, days}) => { 
+            if(isGood) {
+                setName(name);
+                setDays(getWorkoutDaysWithoutToday(days));
+                setCurrentDay(getCurrentWorkoutDay(days));
+            }
+        });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus, 
         isWorkoutReady,
-        // calories,
-        // carbs,
-        // protein,
-        // fat,
-        // caloriesGoal,
-        // carbsGoal,
-        // proteinGoal,
-        // fatGoal,
-        // water,
-        // breakfastCalories,
-        // lunchCalories,
-        // dinnerCalories
+        name,
+        days
     ]);
 
-
+    
+    console.log('isWorkoutReady workout', isWorkoutReady);
+    console.log('days workout', days);
+    console.log('currentDay workout', currentDay);
 
     const openSetupScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
@@ -105,83 +78,65 @@ export default function MainWorkoutScreen({ navigation, route }){
         );
     }
 
-    // const addWaterHandler = () => {
-    //     AddWater();
-    //     setWater(water + 250);
-    // }
-    
-    // const removeWaterHandler = () => {
-    //     RemoveWater();
-    //     if((water - 250) <= 0) {
-    //         setWater(0);
-    //         return;
-    //     }
-    //     setWater(water - 250);
-    // }
-
-    // const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1});
-    // const openAddLunchScreen = () => navigation.navigate('AddMealScreen', {meal_number: 2});
-    // const openAddDinnerScreen = () => navigation.navigate('AddMealScreen', {meal_number: 3});
-
-    // const openBreackfastScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 1});
-    // const openLunchScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 2});
-    // const openDinnerScreen = () => navigation.navigate('SingleMealScreen', {meal_number: 3});
+    const openStartWorkoutScreen = () => {
+        console.log('start day', currentDay);
+    }
+    const openWorkoutScreen = () => {
+        console.log('open workout screen');
+    }
 
     return(
         <SafeAreaView style={container}>
             <View style={styles.header}>
-                <View style={styles.infoBox}>
-                    <Text style={styles.primaryText}>{(calories) ? calories : '0'} / {(caloriesGoal) ? caloriesGoal : '0'}</Text>
-                    <Text style={styles.subText}>calories</Text>
-                </View>
-
-                <View style={styles.infoContainer}>
-                    <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{(carbs) ? carbs : '0'} / {(carbsGoal) ? carbsGoal : '0'} g</Text>
-                        <Text style={styles.subText}>carbs</Text>
-                    </View>
-
-                    <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{(protein) ? protein : '0'} / {(proteinGoal) ? proteinGoal : '0'} g</Text>
-                        <Text style={styles.subText}>protein</Text>
-                    </View>
-
-                    <View style={styles.infoBox}>
-                        <Text style={styles.secondaryText}>{(fat) ? fat : '0'} / {(fatGoal) ? fatGoal : '0'} g</Text>
-                        <Text style={styles.subText}>fat</Text>
-                    </View>
-                </View>
+                <Text style={styles.primaryText}>{name}</Text>
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.subtitle}>Water</Text>
+                <Text style={styles.subtitle}>Today</Text>
 
-                <WaterBox 
-                    mililiters={water}
-                    addWaterHandler={addWaterHandler}
-                    removeWaterHandler={removeWaterHandler}/>
+                <WorkoutBox 
+                    day={currentDay}
+                    isToday={true}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
                 
-                <Text style={styles.subtitle}>Meals</Text>
+                <Text style={styles.subtitle}>Next days</Text>
 
-                <MealBox 
-                    title='Breackfast'
-                    totalCalories={breakfastCalories}
-                    pressHandler={openAddBreackfastScreen}
-                    openHandler={openBreackfastScreen}/>
+                <WorkoutBox 
+                    day={days[0]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
                     
-                <MealBox 
-                    style={{marginTop: 16}}
-                    title='Lunch'
-                    totalCalories={lunchCalories}
-                    pressHandler={openAddLunchScreen}
-                    openHandler={openLunchScreen}/>
+                <WorkoutBox 
+                    day={days[1]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
                     
-                <MealBox 
-                    style={{marginTop: 16}}
-                    title='Dinner'
-                    totalCalories={dinnerCalories}
-                    pressHandler={openAddDinnerScreen}
-                    openHandler={openDinnerScreen}/>
+                <WorkoutBox 
+                    day={days[2]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
+
+                <WorkoutBox 
+                    day={days[3]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
+
+                <WorkoutBox 
+                    day={days[4]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
+
+                <WorkoutBox 
+                    day={days[5]}
+                    isToday={false}
+                    startHandler={openStartWorkoutScreen}
+                    openHandler={openWorkoutScreen}/>
             </View>
         </SafeAreaView>
     );

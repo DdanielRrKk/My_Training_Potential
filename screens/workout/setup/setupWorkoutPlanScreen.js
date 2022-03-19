@@ -1,51 +1,60 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView, LogBox } from 'react-native';
 
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 
+import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
+
 
 
 const NAME_MAX_LENGTH = 40;
 
 export default function SetupWorkoutPlanScreen({ navigation, route }){
+    LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
+
     const [name, setName] = React.useState(null);
 
     const [monday, setMonday] = React.useState({
+        day_number: 1,
         name: null,
         exercises: []
     });
     const [tuesday, setTuesday] = React.useState({
+        day_number: 2,
         name: null,
         exercises: []
     });
     const [wednesday, setWednesday] = React.useState({
+        day_number: 3,
         name: null,
         exercises: []
     });
     const [thursday, setThursday] = React.useState({
+        day_number: 4,
         name: null,
         exercises: []
     });
     const [friday, setFriday] = React.useState({
+        day_number: 5,
         name: null,
         exercises: []
     });
     const [saturday, setSaturday] = React.useState({
+        day_number: 6,
         name: null,
         exercises: []
     });
     const [sunday, setSunday] = React.useState({
+        day_number: 7,
         name: null,
         exercises: []
     });
 
     React.useEffect(() => {
         if(route.params?.day_number) {
-            console.log('route.params?.day_number', route.params?.day_number);
-            console.log('route.params?.day', route.params?.day);
             if(route.params?.day_number == 1) setMonday(route.params?.day);
             if(route.params?.day_number == 2) setTuesday(route.params?.day);
             if(route.params?.day_number == 3) setWednesday(route.params?.day);
@@ -56,39 +65,30 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
         }
     }, [route.params?.day_number, route.params?.day]);
 
-
-    React.useEffect(() => {
-        let isGood = true;
-
-        // SetAndGetMealResults().then(({calories, carbs, protein, fat}) => { 
-        //     if(isGood) {
-        //         setCalories(calories);
-        //         setCarbs(carbs);
-        //         setProtein(protein);
-        //         setFat(fat);
-        //     }
-        // });
-
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, []);
-
     const openPrevScreen = () => navigation.goBack();
 
-    // const openNextScreen = () => {
-    //     route.params?.setMealReady();
-    //     navigation.setOptions({ tabBarVisible: true });
-    //     navigation.navigate('TabNavigation');
-    // }
-
-    const openWorkoutDaysScreen = (number) => navigation.navigate('SetupWorkoutDayScreen', {day_number: number});
-    const tempAdd = () => console.log('add');
+    const openWorkoutDaysScreen = (number) => {
+        if(number == 1) navigation.navigate('SetupWorkoutDayScreen', monday);
+        if(number == 2) navigation.navigate('SetupWorkoutDayScreen', tuesday);
+        if(number == 3) navigation.navigate('SetupWorkoutDayScreen', wednesday);
+        if(number == 4) navigation.navigate('SetupWorkoutDayScreen', thursday);
+        if(number == 5) navigation.navigate('SetupWorkoutDayScreen', friday);
+        if(number == 6) navigation.navigate('SetupWorkoutDayScreen', saturday);
+        if(number == 7) navigation.navigate('SetupWorkoutDayScreen', sunday);
+    }
+    const createWorkoutPlan = () => {
+        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
+        route.params?.setWorkoutReady();
+        navigation.setOptions({ tabBarVisible: true });
+        navigation.navigate('TabNavigation');
+    }
 
     return(
         <SafeAreaView style={container}>
             <View style={back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
-
+            
             <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
                 <Text style={styles.title}>Workout Plan Name</Text>
 
@@ -100,58 +100,60 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
 
                 <Text style={styles.subtitle}>Days</Text>
 
-                <SetupWorkoutBox 
-                    day='Monday'
-                    workoutName={monday.name}
-                    pressHandler={() => openWorkoutDaysScreen(1)}/>
+                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+                    <SetupWorkoutBox 
+                        day='Monday'
+                        workoutName={monday.name}
+                        pressHandler={() => openWorkoutDaysScreen(1)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Tuesday'
-                    workoutName={tuesday.name}
-                    pressHandler={() => openWorkoutDaysScreen(2)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Tuesday'
+                        workoutName={tuesday.name}
+                        pressHandler={() => openWorkoutDaysScreen(2)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Wednesday'
-                    workoutName={wednesday.name}
-                    pressHandler={() => openWorkoutDaysScreen(3)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Wednesday'
+                        workoutName={wednesday.name}
+                        pressHandler={() => openWorkoutDaysScreen(3)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Thursday'
-                    workoutName={thursday.name}
-                    pressHandler={() => openWorkoutDaysScreen(4)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Thursday'
+                        workoutName={thursday.name}
+                        pressHandler={() => openWorkoutDaysScreen(4)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Friday'
-                    workoutName={friday.name}
-                    pressHandler={() => openWorkoutDaysScreen(5)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Friday'
+                        workoutName={friday.name}
+                        pressHandler={() => openWorkoutDaysScreen(5)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Saturday'
-                    workoutName={saturday.name}
-                    pressHandler={() => openWorkoutDaysScreen(6)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Saturday'
+                        workoutName={saturday.name}
+                        pressHandler={() => openWorkoutDaysScreen(6)}/>
 
-                    
-                <SetupWorkoutBox 
-                    style={{marginTop: 16}}
-                    day='Sunday'
-                    workoutName={sunday.name}
-                    pressHandler={() => openWorkoutDaysScreen(7)}/>
+                        
+                    <SetupWorkoutBox 
+                        style={{marginTop: 16}}
+                        day='Sunday'
+                        workoutName={sunday.name}
+                        pressHandler={() => openWorkoutDaysScreen(7)}/>
 
+                </ScrollView>
             </View>
         
             <TouchableOpacity
                 style={styles.add}
-                onPress={tempAdd}>
+                onPress={createWorkoutPlan}>
                 <Text>Create</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -194,6 +196,7 @@ const styles = StyleSheet.create({
     },
 
     add: {
+        marginTop: 16,
         borderWidth: 1,
         borderColor: 'black',
         borderRadius: 10,

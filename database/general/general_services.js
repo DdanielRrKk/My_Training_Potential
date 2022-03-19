@@ -41,7 +41,17 @@ import {
     MEAL_DINNER_TOTAL_PROTEIN,
     MEAL_DINNER_TOTAL_FAT,
     MEAL_DINNER_FOODS,
-    WEIGHT_LOG
+    WORKOUT_PLAN_NAME,
+    WORKOUT_MONDAY,
+    WORKOUT_TUESDAY,
+    WORKOUT_WEDNESDAY,
+    WORKOUT_THURSDAY,
+    WORKOUT_FRIDAY,
+    WORKOUT_SATURDAY,
+    WORKOUT_SUNDAY,
+    WEIGHT_LOG,
+    MEAL_LOG,
+    WORKOUT_LOG
 } from '../database_stores';
 
 
@@ -99,8 +109,20 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_PROTEIN, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_TOTAL_FAT, JSON.stringify(null));
         await AsyncStorage.setItem(MEAL_DINNER_FOODS, JSON.stringify([]));
+        
+        await AsyncStorage.setItem(WORKOUT_PLAN_NAME, JSON.stringify(null));
+        
+        await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(null));
+        await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(null));
 
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify([]));
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify([]));
+        await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify([]));
         return;
     } catch (error) {
         console.log(error);

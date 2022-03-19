@@ -39,6 +39,10 @@ export default function MainHomeScreen({ navigation, route }){
         if (route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
     }, [route.params?.isMealReady, route.params?.isWorkoutReady]);
 
+    
+    console.log('isMealReady home', isMealReady);
+    console.log('isWorkoutReady home', isWorkoutReady);
+
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;

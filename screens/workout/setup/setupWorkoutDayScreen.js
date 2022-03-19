@@ -19,32 +19,26 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     React.useEffect(() => {
         if(route.params?.day_number) setDayNumber(route.params.day_number);
-    }, [route.params?.day_number]);
+        if(route.params?.name) setName(route.params.name);
+        if(route.params?.exercises) setExercises(route.params.exercises);
+    }, [route.params?.day_number, route.params?.name, route.params?.exercises]);
 
     React.useEffect(() => {
         if(route.params?.exercise) {
-            console.log('exercises before', exercises);
-            console.log('route.params?.exercise', route.params?.exercise);
             const tempObject = route.params?.exercise;
             if(exercises.length == 0) {
                 tempObject.key = 1;
                 setExercises([tempObject]);
-                console.log('exercises after', exercises);
                 return;
             }
             tempObject.key = exercises[exercises.length - 1].key + 1;
-
-            // const tempArray = exercises;
-            // tempArray.push(tempObject);
-
             setExercises([...exercises, tempObject]);
-            console.log('exercises after', exercises);
             return;
         }
     }, [route.params?.exercise]);
     
-    console.log('exercises outside', exercises);
-    console.log('day number', dayNumber);
+    // console.log('exercises', exercises);
+    // console.log('day number', dayNumber);
 
     const openPrevScreen = () => navigation.navigate('SetupWorkoutPlanScreen', {
         day_number: dayNumber,

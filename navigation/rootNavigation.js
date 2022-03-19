@@ -55,6 +55,7 @@ export default function RootNavigation() {
   
   const setUserReady = () => setIsUserReady(true);
   const setMealReady = () => setIsMealReady(true);
+  const setWorkoutReady = () => setIsWorkoutReady(true);
 
   const Tabs = () => TabNavigation(isMealReady, isWorkoutReady);
 
@@ -94,7 +95,7 @@ export default function RootNavigation() {
 
         {!isWorkoutReady ?
           <>
-            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
+            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} initialParams={{ setWorkoutReady: setWorkoutReady }} />
             <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
           </>

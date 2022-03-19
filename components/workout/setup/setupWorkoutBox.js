@@ -14,7 +14,7 @@ export default function SetupWorkoutBox({ style, pressHandler, day, workoutName 
                     <Text style={styles.text}>{day}</Text>
         
                     <TouchableOpacity onPress={() => pressHandler()}>
-                        <Feather name="edit-2" size={28} color="black" />
+                        <Feather name="edit-2" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.containerBottom}>

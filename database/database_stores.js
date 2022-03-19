@@ -1,13 +1,3 @@
-// workouts =====
-// tips ( not for use )
-// export const WORKOUT_PLANS_STORE = "workout_plans_store";
-// export const WORKOUT_DAYS_STORE = "workout_days_store";
-// export const WORKOUT_EXERCISES_STORE = "workout_exercises_store";
-// logs =====
-// export const LOG_WEIGHT_STORE = "log_weight_store";
-// export const LOG_MEALS_STORE = "log_meals_store";
-// export const LOG_WORKOUTS_STORE = "log_workouts_store";
-
 
 // system =====
 export const SYSTEM_IS_DATABASE_CREATED = 'system_is_database_created';
@@ -64,5 +54,19 @@ export const MEAL_DINNER_TOTAL_FAT = 'meal_dinner_total_fat';
 export const MEAL_DINNER_FOODS = 'meal_dinner_foods';
 
 
+// workouts =====
+export const WORKOUT_PLAN_NAME = 'workout_plan_name';
+
+export const WORKOUT_MONDAY = 'workout_monday';
+export const WORKOUT_TUESDAY = 'workout_tuesday';
+export const WORKOUT_WEDNESDAY = 'workout_wednesday';
+export const WORKOUT_THURSDAY = 'workout_thursday';
+export const WORKOUT_FRIDAY = 'workout_friday';
+export const WORKOUT_SATURDAY = 'workout_saturday';
+export const WORKOUT_SUNDAY = 'workout_sunday';
+
+
 // logs =====
 export const WEIGHT_LOG = 'weight_log';
+export const MEAL_LOG = 'meal_log';
+export const WORKOUT_LOG = 'workout_log';
