@@ -6,6 +6,7 @@ import { container, content, back_button_container } from '../../../styles/miscS
 import BackButton from '../../../components/misc/backButton';
 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { EvilIcons } from '@expo/vector-icons';
 
 
 
@@ -40,15 +41,17 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
     // console.log('exercises', exercises);
     // console.log('day number', dayNumber);
 
-    const openPrevScreen = () => navigation.navigate('SetupWorkoutPlanScreen', {
-        day_number: dayNumber,
+    const openPrevScreen = () => navigation.goBack();
+
+    const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
+
+    const createDay = () => navigation.navigate('SetupWorkoutPlanScreen', {
         day: {
+            day_number: dayNumber,
             name: name,
             exercises: exercises
         }
     });
-
-    const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
 
     return(
         <SafeAreaView style={container}>
@@ -68,31 +71,37 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
                 <Text style={styles.subtitle}>Exercises</Text>
 
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    {exercises.map((item) => (
-                        <View key={item.key} style={styles.box}>
-                            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <MaterialCommunityIcons name="drag" size={24} color="black" />
+                    <View style={{ width: '100%', alignItems: 'center' }}>
+                        {exercises.map((item) => (
+                            <View key={item.key} style={styles.box}>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <MaterialCommunityIcons name="drag" size={24} color="black" />
 
-                                <View style={{marginLeft: 8}}>
-                                    <Text style={styles.bigText}>{item.name}</Text>
-                                    
-                                    <Text style={styles.smallText}>{item.description}</Text>
+                                    <View style={{marginLeft: 8}}>
+                                        <Text style={styles.bigText}>{item.name}</Text>
+                                        
+                                        <Text style={styles.smallText}>{item.description}</Text>
+                                    </View>
                                 </View>
-                            </View>
 
-                            <TouchableOpacity onPress={() => console.log('press')}>
-                                <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
-                            </TouchableOpacity>
-                        </View>
-                    ))}
+                                <TouchableOpacity onPress={() => console.log('press')}>
+                                    <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
+                                </TouchableOpacity>
+                            </View>
+                        ))}
+
+                        <TouchableOpacity onPress={addWorkout}>
+                            <EvilIcons name="plus" size={42} color="black" />
+                        </TouchableOpacity>
+                    </View>
                 </ScrollView>
 
             </View>
         
             <TouchableOpacity
                 style={styles.add}
-                onPress={addWorkout}>
-                <Text>Add</Text>
+                onPress={createDay}>
+                <Text>Create</Text>
             </TouchableOpacity>
         </SafeAreaView>
     );

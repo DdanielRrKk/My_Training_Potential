@@ -10,6 +10,13 @@ import {
     MEAL_TOTAL_CARBS,
     MEAL_TOTAL_PROTEIN,
     MEAL_TOTAL_FAT,
+    WORKOUT_MONDAY,
+    WORKOUT_TUESDAY,
+    WORKOUT_WEDNESDAY,
+    WORKOUT_THURSDAY,
+    WORKOUT_FRIDAY,
+    WORKOUT_SATURDAY,
+    WORKOUT_SUNDAY
 } from '../../database_stores';
 import { IsResultEmpty } from '../../../helpers/databaseValidations';
 import { valuePercentageOfValue } from '../../../helpers/basicCalculations';
@@ -60,6 +67,19 @@ export async function GetHomeScreenData() {
         // console.log('totalFatResult', totalFatResult);
         if(IsResultEmpty(totalFatResult)) return console.log('totla fat has no data'); 
 
+        let todaysWorkoutResult = null;
+        const today = new Date();
+        switch(today.getDay()) {
+            case 0: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_SUNDAY); break;
+            case 1: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_MONDAY); break;
+            case 2: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_TUESDAY); break;
+            case 3: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_WEDNESDAY); break;
+            case 4: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_THURSDAY); break;
+            case 5: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_FRIDAY); break;
+            case 6: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_SATURDAY); break;
+            default: todaysWorkoutResult= '';
+        }// console.log('todaysWorkoutResult', todaysWorkoutResult);
+        if(IsResultEmpty(todaysWorkoutResult)) return console.log('todays workout has no data'); 
 
 
         // store has data
@@ -74,6 +94,8 @@ export async function GetHomeScreenData() {
         const totalCarbs = JSON.parse(totalCarbsResult);
         const totalProtein = JSON.parse(totalProteinResult);
         const totalFat = JSON.parse(totalFatResult);
+        
+        const todaysWorkout = JSON.parse(todaysWorkoutResult);
 
         // console.log('isMealSetup', isMealSetup);
         // console.log('userName', userName);
@@ -87,6 +109,8 @@ export async function GetHomeScreenData() {
         // console.log('totalCarbs', totalCarbs);
         // console.log('totalProtein', totalProtein);
         // console.log('totalFat', totalFat);
+        
+        // console.log('todaysWorkout', todaysWorkout);
 
         const percentageCalories = valuePercentageOfValue(totalCalories, mealCaloriesGoal);
         const percentageCarbs = valuePercentageOfValue(totalCarbs, mealCarbsGoal);
@@ -108,7 +132,8 @@ export async function GetHomeScreenData() {
             caloriesGoal: mealCaloriesGoal,
             carbsGoal: mealCarbsGoal,
             proteinGoal: mealProteinGoal,
-            fatGoal: mealFatGoal
+            fatGoal: mealFatGoal,
+            todaysWorkout: todaysWorkout
         }        
     } catch (error) {
         console.log(error);

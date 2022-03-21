@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         padding: 16,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'gray'
@@ -70,8 +70,8 @@ const styles = StyleSheet.create({
     containerBottom: {
         width: '100%',
         padding: 10,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white'

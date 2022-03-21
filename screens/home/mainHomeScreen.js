@@ -11,6 +11,7 @@ import SetupBox from '../../components/home/setupBox';
 import LogBox from '../../components/home/logBox';
 import GroupLogBox from '../../components/home/groupLogBox';
 import Progress from '../../components/meal/setup/progress';
+import WorkoutBox from '../../components/workout/workoutBox';
 
 import { container } from '../../styles/miscStyles';
 
@@ -33,6 +34,12 @@ export default function MainHomeScreen({ navigation, route }){
     const [carbsGoal, setCarbsGoal] = React.useState(null);
     const [proteinGoal, setProteinGoal] = React.useState(null);
     const [fatGoal, setFatGoal] = React.useState(null);
+    
+    const [todaysWorkout, setTodaysWorkout] = React.useState({
+        day_number: 0,
+        name: null,
+        exercises: []
+    });
 
     React.useEffect(() => {
         if (route.params?.isMealReady) setIsMealReady(route.params?.isMealReady);
@@ -59,6 +66,7 @@ export default function MainHomeScreen({ navigation, route }){
             carbsGoal,
             proteinGoal,
             fatGoal,
+            todaysWorkout
         }) => { 
             if(isGood) {
                 setName(name);
@@ -72,6 +80,8 @@ export default function MainHomeScreen({ navigation, route }){
                 setCarbsGoal(carbsGoal);
                 setProteinGoal(proteinGoal);
                 setFatGoal(fatGoal);
+
+                setTodaysWorkout(todaysWorkout);
             }
         });
 
@@ -90,7 +100,7 @@ export default function MainHomeScreen({ navigation, route }){
         caloriesGoal,
         carbsGoal,
         proteinGoal,
-        fatGoal,
+        fatGoal
     ]);
 
 
@@ -109,6 +119,13 @@ export default function MainHomeScreen({ navigation, route }){
     const openWeightLogScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('WeightScreen');
+    }
+
+    const openStartWorkoutScreen = () => {
+        console.log('start day todaysWorkout', todaysWorkout);
+    }
+    const openWorkoutScreen = () => {
+        console.log('open workout screen');
     }
 
     const openWorkoutLogScreen = () => console.log('setup workout log');
@@ -130,55 +147,65 @@ export default function MainHomeScreen({ navigation, route }){
                     
                     { // Nutritions ================ START
                     isMealReady ?
-                    <View style={styles.results}>
-                        <View style={[styles.row, {marginTop: 16}]}>
-                            <Text style={styles.labels}>Calories</Text>
-                            
-                            <Text style={styles.labels}>{caloriesGoal} cal</Text>
-                        </View>
+                        <View style={styles.results}>
+                            <View style={[styles.row, {marginTop: 16}]}>
+                                <Text style={styles.labels}>Calories</Text>
+                                
+                                <Text style={styles.labels}>{caloriesGoal} cal</Text>
+                            </View>
 
-                        <Progress
-                            style={styles.progress} 
-                            progress={caloriesPercentage} />
-                        
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Carbs</Text>
+                            <Progress
+                                style={styles.progress} 
+                                progress={caloriesPercentage} />
                             
-                            <Text style={styles.labels}>{carbsGoal} g</Text>
-                        </View>
+                            <View style={styles.row}>
+                                <Text style={styles.labels}>Carbs</Text>
+                                
+                                <Text style={styles.labels}>{carbsGoal} g</Text>
+                            </View>
 
-                        <Progress 
-                            style={styles.progress} 
-                            progress={carbsPercentage} />
-                        
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Protein</Text>
+                            <Progress 
+                                style={styles.progress} 
+                                progress={carbsPercentage} />
                             
-                            <Text style={styles.labels}>{proteinGoal} g</Text>
-                        </View>
+                            <View style={styles.row}>
+                                <Text style={styles.labels}>Protein</Text>
+                                
+                                <Text style={styles.labels}>{proteinGoal} g</Text>
+                            </View>
 
-                        <Progress 
-                            style={styles.progress} 
-                            progress={proteinPercentage} />
-                        
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Fat</Text>
+                            <Progress 
+                                style={styles.progress} 
+                                progress={proteinPercentage} />
                             
-                            <Text style={styles.labels}>{fatGoal} g</Text>
-                        </View>
+                            <View style={styles.row}>
+                                <Text style={styles.labels}>Fat</Text>
+                                
+                                <Text style={styles.labels}>{fatGoal} g</Text>
+                            </View>
 
-                        <Progress 
-                            style={[styles.progress, {marginBottom: 20}]} 
-                            progress={fatPercentage} />
-                    </View>
+                            <Progress 
+                                style={[styles.progress, {marginBottom: 20}]} 
+                                progress={fatPercentage} />
+                        </View>
                     :
-                    <SetupBox pressHandler={openSetupNutritionScreen}/>
-                     // Nutritions ================ END
+                        <SetupBox pressHandler={openSetupNutritionScreen}/>
+                    // Nutritions ================ END
                     } 
 
                     <Text style={styles.subtitle}>Workout</Text>
                     
-                    <SetupBox pressHandler={openSetupWorkoutScreen}/>
+                    { // Workout ================ START
+                    isWorkoutReady ?
+                        <WorkoutBox 
+                            day={todaysWorkout}
+                            isToday={true}
+                            startHandler={openStartWorkoutScreen}
+                            openHandler={openWorkoutScreen}/>
+                    : 
+                        <SetupBox pressHandler={openSetupWorkoutScreen}/>
+                    // Workout ================ END
+                    } 
                     
                     <Text style={styles.subtitle}>Weight Log</Text>
                     

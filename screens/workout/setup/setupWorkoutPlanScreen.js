@@ -54,16 +54,16 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
     });
 
     React.useEffect(() => {
-        if(route.params?.day_number) {
-            if(route.params?.day_number == 1) setMonday(route.params?.day);
-            if(route.params?.day_number == 2) setTuesday(route.params?.day);
-            if(route.params?.day_number == 3) setWednesday(route.params?.day);
-            if(route.params?.day_number == 4) setThursday(route.params?.day);
-            if(route.params?.day_number == 5) setFriday(route.params?.day);
-            if(route.params?.day_number == 6) setSaturday(route.params?.day);
-            if(route.params?.day_number == 7) setSunday(route.params?.day);
+        if(route.params?.day) {
+            if(route.params?.day.day_number == 1) setMonday(route.params?.day);
+            if(route.params?.day.day_number == 2) setTuesday(route.params?.day);
+            if(route.params?.day.day_number == 3) setWednesday(route.params?.day);
+            if(route.params?.day.day_number == 4) setThursday(route.params?.day);
+            if(route.params?.day.day_number == 5) setFriday(route.params?.day);
+            if(route.params?.day.day_number == 6) setSaturday(route.params?.day);
+            if(route.params?.day.day_number == 7) setSunday(route.params?.day);
         }
-    }, [route.params?.day_number, route.params?.day]);
+    }, [route.params?.day]);
 
     const openPrevScreen = () => navigation.goBack();
 

@@ -31,7 +31,7 @@ export default function SetupWorkoutExerciseScreen({ navigation }){
         exercise: {
             key: null,
             name: name,
-            description: `${sets} sets X ${minReps} - ${maxReps} reps / ${rest}s rest`,
+            description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
             sets: sets,
             type: type,
             minReps: minReps,
@@ -43,7 +43,7 @@ export default function SetupWorkoutExerciseScreen({ navigation }){
         exercise: {
             key: null,
             name: name,
-            description: `${sets} sets X ${duration}s / ${rest}s rest`,
+            description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
             sets: sets,
             type: type,
             duration: duration,

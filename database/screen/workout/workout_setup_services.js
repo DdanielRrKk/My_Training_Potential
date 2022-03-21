@@ -8,7 +8,8 @@ import {
     WORKOUT_THURSDAY,
     WORKOUT_FRIDAY,
     WORKOUT_SATURDAY,
-    WORKOUT_SUNDAY
+    WORKOUT_SUNDAY,
+    USER_ACTIVITY_LEVEL
 } from '../../database_stores';
 
 
@@ -24,6 +25,16 @@ export async function SetWorkoutPlan(
     sunday
 ) {
     try {
+        let activity_level = 0;
+        if(monday.name != null) activity_level++;
+        if(tuesday.name != null) activity_level++;
+        if(wednesday.name != null) activity_level++;
+        if(thursday.name != null) activity_level++;
+        if(friday.name != null) activity_level++;
+        if(saturday.name != null) activity_level++;
+        if(sunday.name != null) activity_level++;
+        await AsyncStorage.setItem(USER_ACTIVITY_LEVEL, JSON.stringify(activity_level));
+
         await AsyncStorage.setItem(WORKOUT_PLAN_NAME, plan_name);
 
         await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(monday));

@@ -35,7 +35,7 @@ export default function SetupMealActivityScreen({ navigation }){
             </View>
 
             <View style={[content, {width: '100%'}]}>
-                <Text style={styles.question}>What is youractivity level?</Text>
+                <Text style={styles.question}>What is your activity level?</Text>
 
                 <SelectionButton 
                     style={styles.buttons}

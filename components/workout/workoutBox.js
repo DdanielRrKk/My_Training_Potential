@@ -1,31 +1,19 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import { getDayName } from '../../helpers/workoutHelper';
 
 
-function getDayName(day_number) {
-    switch(day_number) {
-        case 1: return 'Monday';
-        case 1: return 'Tuesday';
-        case 1: return 'Wednesday';
-        case 1: return 'Thursday';
-        case 1: return 'Friday';
-        case 1: return 'Saturday';
-        case 1: return 'Sunday';
-        default: return null;
-    }
-}
 
 export default function WorkoutBox({ style, startHandler, openHandler, isToday, day }){ 
-    console.log('day.name', day.name);
-    console.log('day.exercises.length', day.exercises.length);  
+    const day_name = getDayName(day.day_number);
 
     if((day.name == null || day.exercises == 0) && (isToday || !isToday)) {
         return(
             <View style={[styles.container, style]}>
-                <Text style={styles.text}>{getDayName(day.day_number)}</Text>
+                <Text style={styles.text}>{day_name}</Text>
                 
-                <Text style={styles.text}>Rest</Text>
+                <Text style={[styles.text, {marginTop: 16}]}>Rest</Text>
             </View>
         );
     }
@@ -39,10 +27,12 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
                 style={[styles.bigContainer, style]}
                 onPress={() => openHandler()}>
                 <View style={styles.containerTop}>
-                    <Text style={styles.text}>{getDayName(day.day_number)}</Text>
-                    
-                    <Text style={styles.text}>{workout_name}</Text>
-                    <Text style={styles.subtext}>{exercises_count} exercises</Text>
+                    <Text style={styles.text}>{day_name}</Text>
+                
+                    <View style={styles.containerSmall}>
+                        <Text style={styles.text}>{workout_name}</Text>
+                        <Text style={styles.subtext}>{exercises_count} exercises</Text>
+                    </View>
                 </View>
 
                 <TouchableOpacity 
@@ -58,23 +48,32 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
         <TouchableOpacity 
             style={[styles.container, style]}
             onPress={() => openHandler()}>
-            <Text style={styles.text}>{getDayName(day.day_number)}</Text>
+            <Text style={styles.text}>{day_name}</Text>
             
-            <Text style={styles.text}>{workout_name}</Text>
-            <Text style={styles.subtext}>{exercises_count} exercises</Text>
+            <View style={styles.containerSmall}>
+                <Text style={styles.text}>{workout_name}</Text>
+                <Text style={styles.subtext}>{exercises_count} exercises</Text>
+            </View>
         </TouchableOpacity>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        flexDirection: 'row',
         width: '100%',
         padding: 16,
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'gray'
+    },
+
+    containerSmall: {
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 16
     },
 
     text: {
@@ -89,11 +88,10 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     containerTop: {
-        flexDirection: 'row',
         width: '100%',
         padding: 16,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: 'gray'
@@ -101,8 +99,8 @@ const styles = StyleSheet.create({
     containerBottom: {
         width: '100%',
         padding: 10,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white'
