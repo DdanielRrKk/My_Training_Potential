@@ -6,6 +6,8 @@ export const SYSTEM_IS_WORKOUT_SETUP = 'system_is_workout_setup';
 export const SYSTEM_IS_MEAL_SETUP = 'system_is_meal_setup';
 export const SYSTEM_IS_USER_SETUP = 'system_is_user_setup';
 
+export const SYSTEM_LAST_DAY_OPENED = 'system_last_day_opened';
+
 
 // users =====
 export const USER_NAME = 'user_name';

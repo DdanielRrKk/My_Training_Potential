@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_IS_WORKOUT_SETUP,
     SYSTEM_IS_MEAL_SETUP,
-    SYSTEM_IS_USER_SETUP
+    SYSTEM_IS_USER_SETUP,
+    SYSTEM_LAST_DAY_OPENED
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/databaseValidations';
 
@@ -38,6 +39,32 @@ export async function GetAppData() {
             isMealSetup: isMealSetup,
             isWorkoutSetup: isWorkoutSetup
         }        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+// get data for home screen
+export async function SaveDataIfDayChanged() {
+    try {
+        const lastDayOpenedResult = await AsyncStorage.getItem(SYSTEM_LAST_DAY_OPENED);
+        // console.log('lastDayOpenedResult', lastDayOpenedResult);
+        if(IsResultEmpty(lastDayOpenedResult)) return console.log('system last day opened has no data'); 
+
+        const lastDayOpened = JSON.parse(lastDayOpenedResult);
+        console.log('lastDayOpened', lastDayOpened);
+
+        if(lastDayOpened != null) {
+            console.log('not first time opening');
+            
+            return;
+        }
+
+        console.log('first time opening');
+
+        return;      
     } catch (error) {
         console.log(error);
     }

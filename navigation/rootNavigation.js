@@ -13,6 +13,8 @@ import LandingMeasurementsScreen from '../screens/landing/landingMeasurementsScr
 import TabNavigation from './tabNavigation';
 import WeightScreen from '../screens/home/weightScreen';
 
+import MainSettingsScreen from '../screens/home/settings/mainSettings';
+
 import SetupMealGoalScreen from '../screens/meal/setup/setupMealGoalScreen';
 import SetupMealActivityScreen from '../screens/meal/setup/setupMealActivityScreen';
 import SetupMealResultsScreen from '../screens/meal/setup/setupMealResultsScreen';
@@ -27,53 +29,46 @@ import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExe
 
 import { GetAppData } from '../database/screen/app_serices';
 
+import { useSystemFlagsGlobal } from '../helpers/globalState';
+
 
 
 export default function RootNavigation() {
-  const [isUserReady, setIsUserReady] = React.useState(null);
-  const [isMealReady, setIsMealReady] = React.useState(null);
-  const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
+  const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
   React.useEffect(() => {
     let isGood = true;
 
     GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
       if(isGood) {
-        setIsUserReady(isUserSetup);
-        setIsMealReady(isMealSetup);
-        setIsWorkoutReady(isWorkoutSetup);
+        setSystemFlags({
+          isUserReady: isUserSetup,
+          isMealReady: isMealSetup,
+          isWorkoutReady: isWorkoutSetup
+        });
       }
     });
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
-  }, [isUserReady, isMealReady, isWorkoutReady]);
+  }, []);
+  const Tabs = () => TabNavigation(systemFlags.isMealReady, systemFlags.isWorkoutReady);
 
-  console.log('isUserReady root', isUserReady);
-  console.log('isMealReady root', isMealReady);
-  console.log('isWorkoutReady root', isWorkoutReady);
+  console.log('systemFlags root', systemFlags);
 
-  
-  const setUserReady = () => setIsUserReady(true);
-  const setMealReady = () => setIsMealReady(true);
-  const setWorkoutReady = () => setIsWorkoutReady(true);
-
-  const Tabs = () => TabNavigation(isMealReady, isWorkoutReady);
-
-
-  if(isUserReady == null || isMealReady == null || isWorkoutReady == null) {
+  if(systemFlags == null) {
     return (
       <LoadingScreen />
     );
   }
 
-  if(!isUserReady) {
+  if(!systemFlags.isUserReady) {
     return (
       <NavigationContainer>
         <NavStack.Navigator initialRouteName='LandingScreen'>
           <NavStack.Screen name='LandingScreen' component={LandingScreen} options={{ headerMode: 'none' }} />
           <NavStack.Screen name='LandingNameScreen' component={LandingNameScreen} options={{ headerMode: 'none' }} />
           <NavStack.Screen name='LandingGenderScreen' component={LandingGenderScreen} options={{ headerMode: 'none' }} />
-          <NavStack.Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }} initialParams={{ setUserReady: setUserReady }} />
+          <NavStack.Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }} />
         </NavStack.Navigator>
       </NavigationContainer>
     );
@@ -84,18 +79,19 @@ export default function RootNavigation() {
       <NavStack.Navigator initialRouteName='TabNavigation'>
         <NavStack.Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
-
-        {!isMealReady ?
+        <NavStack.Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
+        
+        {!systemFlags.isMealReady ?
           <>
             <NavStack.Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
-            <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} initialParams={{ setMealReady: setMealReady }} />
+            <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} />
           </>
         : null}
 
-        {!isWorkoutReady ?
+        {!systemFlags.isWorkoutReady ?
           <>
-            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} initialParams={{ setWorkoutReady: setWorkoutReady }} />
+            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
             <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
           </>

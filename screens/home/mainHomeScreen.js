@@ -15,15 +15,15 @@ import WorkoutBox from '../../components/workout/workoutBox';
 
 import { container } from '../../styles/miscStyles';
 
+import { useSystemFlagsGlobal } from '../../helpers/globalState';
 
 
-export default function MainHomeScreen({ navigation, route }){
-    const [isMealReady, setIsMealReady] = React.useState(null);
-    const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
+
+export default function MainHomeScreen({ navigation }){
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
-    const [steps, setSteps] = React.useState(null);
     
     const [caloriesPercentage, setCaloriesPercentage] = React.useState(null);
     const [carbsPercentage, setCarbsPercentage] = React.useState(null);
@@ -40,15 +40,8 @@ export default function MainHomeScreen({ navigation, route }){
         name: null,
         exercises: []
     });
-
-    React.useEffect(() => {
-        if (route.params?.isMealReady) setIsMealReady(route.params?.isMealReady);
-        if (route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
-    }, [route.params?.isMealReady, route.params?.isWorkoutReady]);
-
     
-    console.log('isMealReady home', isMealReady);
-    console.log('isWorkoutReady home', isWorkoutReady);
+    console.log('systemFlags home', systemFlags);
 
     const focus = useIsFocused();
     React.useEffect(() => {
@@ -88,11 +81,8 @@ export default function MainHomeScreen({ navigation, route }){
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus,
-        isMealReady,
-        isWorkoutReady,
         name,
         weight,
-        steps,
         caloriesPercentage,
         carbsPercentage,
         proteinPercentage,
@@ -105,7 +95,7 @@ export default function MainHomeScreen({ navigation, route }){
 
 
 
-    const openOptionsScreen = () => console.log('options');
+    const openOptionsScreen = () => navigation.navigate('MainSettingsScreen');
     
     const openSetupNutritionScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
@@ -146,7 +136,7 @@ export default function MainHomeScreen({ navigation, route }){
                     <Text style={styles.subtitle}>Nutrition</Text>
                     
                     { // Nutritions ================ START
-                    isMealReady ?
+                    systemFlags.isMealReady ?
                         <View style={styles.results}>
                             <View style={[styles.row, {marginTop: 16}]}>
                                 <Text style={styles.labels}>Calories</Text>
@@ -196,7 +186,7 @@ export default function MainHomeScreen({ navigation, route }){
                     <Text style={styles.subtitle}>Workout</Text>
                     
                     { // Workout ================ START
-                    isWorkoutReady ?
+                    systemFlags.isWorkoutReady ?
                         <WorkoutBox 
                             day={todaysWorkout}
                             isToday={true}

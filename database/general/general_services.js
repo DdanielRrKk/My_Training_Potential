@@ -4,6 +4,7 @@ import {
     SYSTEM_IS_WORKOUT_SETUP,
     SYSTEM_IS_MEAL_SETUP,
     SYSTEM_IS_USER_SETUP,
+    SYSTEM_LAST_DAY_OPENED,
     USER_NAME,
     USER_AGE,
     USER_WEIGHT,
@@ -66,6 +67,8 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(SYSTEM_IS_WORKOUT_SETUP, JSON.stringify(false));
         await AsyncStorage.setItem(SYSTEM_IS_MEAL_SETUP, JSON.stringify(false));
         await AsyncStorage.setItem(SYSTEM_IS_USER_SETUP, JSON.stringify(false));
+        
+        await AsyncStorage.setItem(SYSTEM_LAST_DAY_OPENED, JSON.stringify(null));
         
         await AsyncStorage.setItem(USER_NAME, JSON.stringify(null));
         await AsyncStorage.setItem(USER_AGE, JSON.stringify(null));

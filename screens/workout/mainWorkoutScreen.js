@@ -11,11 +11,13 @@ import WorkoutBox from '../../components/workout/workoutBox';
 
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
+import { useSystemFlagsGlobal } from '../../helpers/globalState';
+
 
 
 export default function MainWorkoutScreen({ navigation, route }){
-    const [isWorkoutReady, setIsWorkoutReady] = React.useState(null);
-    
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+
     const [name, setName] = React.useState(null);
     const [days, setDays] = React.useState([
         {day_number: 1, name: null, exercises: []},
@@ -26,12 +28,6 @@ export default function MainWorkoutScreen({ navigation, route }){
         {day_number: 6, name: null, exercises: []},
         {day_number: 7, name: null, exercises: []},
     ]);
-
-
-    React.useEffect(() => {
-        console.log('route.params?.isWorkoutReady', route.params?.isWorkoutReady);
-        if(route.params?.isWorkoutReady) setIsWorkoutReady(route.params?.isWorkoutReady);
-    }, [route.params?.isWorkoutReady]);
 
     const focus = useIsFocused();
     React.useEffect(() => {
@@ -47,22 +43,17 @@ export default function MainWorkoutScreen({ navigation, route }){
         });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [
-        focus, 
-        isWorkoutReady,
-        name
-    ]);
-
+    }, [focus, name]);
     
-    console.log('isWorkoutReady workout', isWorkoutReady);
-    console.log('days workout', days);
+    console.log('systemFlags workout', systemFlags);
+
 
     const openSetupScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('SetupWorkoutPlanScreen');
     }
 
-    if(!isWorkoutReady || isWorkoutReady == null) {
+    if(!systemFlags.isWorkoutReady || systemFlags == null) {
         return(
             <SafeAreaView style={container}>
                 <TouchableOpacity 

@@ -43,6 +43,8 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     const openPrevScreen = () => navigation.goBack();
 
+    const editExercise = (exercise) => navigation.navigate('SetupWorkoutExerciseScreen', { exercise: exercise });
+
     const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
 
     const createDay = () => navigation.navigate('SetupWorkoutPlanScreen', {
@@ -84,7 +86,7 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
                                     </View>
                                 </View>
 
-                                <TouchableOpacity onPress={() => console.log('press')}>
+                                <TouchableOpacity onPress={() => editExercise(item)}>
                                     <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
                                 </TouchableOpacity>
                             </View>

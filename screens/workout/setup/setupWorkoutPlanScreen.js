@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView, LogBox } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
@@ -8,13 +8,15 @@ import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
 
+import { useSystemFlagsGlobal } from '../../../helpers/globalState';
+
 
 
 const NAME_MAX_LENGTH = 40;
 
 export default function SetupWorkoutPlanScreen({ navigation, route }){
-    LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
-
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+    
     const [name, setName] = React.useState(null);
 
     const [monday, setMonday] = React.useState({
@@ -78,7 +80,7 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
     }
     const createWorkoutPlan = () => {
         SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-        route.params?.setWorkoutReady();
+        setSystemFlags({...systemFlags, isWorkoutReady: true});
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }

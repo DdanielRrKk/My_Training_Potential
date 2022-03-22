@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView, LogBox } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserMeasurements, GetUserMeasurements } from '../../database/screen/landing_services';
 
@@ -9,14 +9,16 @@ import { container, content, back_button_container } from '../../styles/miscStyl
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 
+import { useSystemFlagsGlobal } from '../../helpers/globalState';
+
 
 
 const AGE_MAX_LENGTH = 3;
 const WEIGHT_MAX_LENGTH = 3;
 const HEIGHT_MAX_LENGTH = 3;
 
-export default function LandingMeasurementsScreen({ navigation, route }){
-    LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
+export default function LandingMeasurementsScreen({ navigation }){
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
     const [age, setAge] = React.useState(null);
     const [weight, setWeight] = React.useState(null);
@@ -38,7 +40,7 @@ export default function LandingMeasurementsScreen({ navigation, route }){
 
     const openNextScreen = () => {
         SetUserMeasurements(age, weight, height);
-        route.params?.setUserReady();
+        setSystemFlags({...systemFlags, isUserReady: true});
     }
  
     return(

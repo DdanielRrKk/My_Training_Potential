@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, LogBox } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import { SetAndGetMealResults } from '../../../database/screen/meal/meal_setup_services';
 
@@ -10,6 +10,8 @@ import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
 import Progress from '../../../components/meal/setup/progress';
 
+import { useSystemFlagsGlobal } from '../../../helpers/globalState';
+
 
 
 const CALORIES_PERCENTAGE = 1; // 100%
@@ -17,8 +19,8 @@ const CARBS_PERCENTAGE_OF_CALORIES = 0.5; // 50%
 const PROTEIN_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 const FAT_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 
-export default function SetupMealResultsScreen({ navigation, route }){
-    LogBox.ignoreLogs([ 'Non-serializable values were found in the navigation state', ]);
+export default function SetupMealResultsScreen({ navigation }){
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
@@ -44,7 +46,7 @@ export default function SetupMealResultsScreen({ navigation, route }){
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        route.params?.setMealReady();
+        setSystemFlags({...systemFlags, isMealReady: true});
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }

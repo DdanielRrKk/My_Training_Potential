@@ -13,7 +13,7 @@ import { GetCorrectWorkoutInput } from '../../../helpers/workoutValidations';
 
 const NAME_MAX_LENGTH = 40;
 
-export default function SetupWorkoutExerciseScreen({ navigation }){
+export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [name, setName] = React.useState(null);
     const [sets, setSets] = React.useState(null);
     const [rest, setRest] = React.useState(null);
@@ -24,6 +24,20 @@ export default function SetupWorkoutExerciseScreen({ navigation }){
     const [maxReps, setMaxReps] = React.useState(null);
     
     const [duration, setDuration] = React.useState(null);
+
+    React.useEffect(() => {
+        if(route.params?.exercise) {
+            setName(route.params.exercise.name);
+            setSets(route.params.exercise.sets);
+            setRest(route.params.exercise.rest);
+            setIsLastUntilFailure(route.params.exercise.isLastUntilFailure);
+            setType(route.params.exercise.type);
+            setMinReps(route.params.exercise.minReps);
+            setMaxReps(route.params.exercise.maxReps);
+            setDuration(route.params.exercise.duration);
+        }
+    }, [route.params?.exercise]);
+
 
     const openPrevScreen = () => navigation.goBack();
 
@@ -141,7 +155,7 @@ export default function SetupWorkoutExerciseScreen({ navigation }){
                     </>
                     : 
                         <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Duration</Text>
+                            <Text style={styles.text}>Duration (sec)</Text>
 
                             <WorkoutInput
                                 value={duration}
@@ -152,7 +166,7 @@ export default function SetupWorkoutExerciseScreen({ navigation }){
                     }
 
                     <View style={[styles.subBox, {marginTop: 16}]}>
-                        <Text style={styles.text}>Rest</Text>
+                        <Text style={styles.text}>Rest (sec)</Text>
 
                         <WorkoutInput
                             value={rest}

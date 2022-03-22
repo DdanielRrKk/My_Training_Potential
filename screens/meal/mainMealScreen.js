@@ -10,10 +10,12 @@ import { container } from '../../styles/miscStyles';
 import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 
+import { useSystemFlagsGlobal } from '../../helpers/globalState';
+
 
 
 export default function MainMealScreen({ navigation, route }){
-    const [isMealReady, setIsMealReady] = React.useState(null);
+    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
@@ -30,10 +32,6 @@ export default function MainMealScreen({ navigation, route }){
     const [breakfastCalories, setBreakfastCalories] = React.useState('');
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
-
-    React.useEffect(() => {
-        if (route.params?.isMealReady) setIsMealReady(route.params?.isMealReady);
-    }, [route.params?.isMealReady]);
 
     const focus = useIsFocused();
     React.useEffect(() => {
@@ -76,7 +74,6 @@ export default function MainMealScreen({ navigation, route }){
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus, 
-        isMealReady,
         calories,
         carbs,
         protein,
@@ -91,6 +88,7 @@ export default function MainMealScreen({ navigation, route }){
         dinnerCalories
     ]);
 
+    console.log('systemFlags meal', systemFlags);
 
 
     const openSetupScreen = () => {
@@ -98,7 +96,7 @@ export default function MainMealScreen({ navigation, route }){
         navigation.navigate('SetupMealGoalScreen');
     }
 
-    if(!isMealReady || isMealReady == null) {
+    if(!systemFlags.isMealReady || systemFlags == null) {
         return(
             <SafeAreaView style={container}>
                 <TouchableOpacity 
