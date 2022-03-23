@@ -27,7 +27,7 @@ import SetupWorkoutDayScreen from '../screens/workout/setup/setupWorkoutDayScree
 import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExerciseScreen';
 
 
-import { GetAppData } from '../database/screen/app_serices';
+import { GetAppData, SaveDataIfDayChanged } from '../database/screen/app_serices';
 
 import { useSystemFlagsGlobal } from '../helpers/globalState';
 
@@ -39,6 +39,8 @@ export default function RootNavigation() {
   React.useEffect(() => {
     let isGood = true;
 
+    SaveDataIfDayChanged();
+    
     GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
       if(isGood) {
         setSystemFlags({

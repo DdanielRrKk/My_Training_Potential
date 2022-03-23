@@ -1,26 +1,26 @@
 import React from 'react';
 
-import { CreateDatabase, ExistsDatabase, DropDatabase } from './database/general/general_services';
+import { CreateDatabase, ExistsDatabase } from './database/general/general_services';
 
 import RootNavigation from './navigation/rootNavigation';
+
+import { useAppStateGlobal } from './helpers/globalState';
 
 
 
 export default function App() {
-  const [existsDatabase, setExistsDatabase] = React.useState(null);
+  const [appState, setAppState] = useAppStateGlobal();
+  console.log('appState', appState);
 
   React.useEffect(() => {
     let isGood = true;
 
-    // DropDatabase();
+    ExistsDatabase().then((check) => { if(isGood) setAppState(check); });
 
-    ExistsDatabase().then((check) => { if(isGood) setExistsDatabase(check); });
-    console.log('existsDatabase', existsDatabase);
-
-    if(!existsDatabase && existsDatabase !== null) CreateDatabase();
+    if(!appState) CreateDatabase();
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
-  }, [existsDatabase]);
+  }, []);
 
   return (
     <RootNavigation />

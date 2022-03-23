@@ -57,6 +57,11 @@ import {
 
 
 
+function getCurrentDateString() {
+    const today = new Date();
+    return `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+}
+
 const CREATED_DATABASE_MESSAGE = 'created';
 
 // create the database
@@ -68,7 +73,7 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(SYSTEM_IS_MEAL_SETUP, JSON.stringify(false));
         await AsyncStorage.setItem(SYSTEM_IS_USER_SETUP, JSON.stringify(false));
         
-        await AsyncStorage.setItem(SYSTEM_LAST_DAY_OPENED, JSON.stringify(null));
+        await AsyncStorage.setItem(SYSTEM_LAST_DAY_OPENED, getCurrentDateString());
         
         await AsyncStorage.setItem(USER_NAME, JSON.stringify(null));
         await AsyncStorage.setItem(USER_AGE, JSON.stringify(null));

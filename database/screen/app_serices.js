@@ -6,10 +6,11 @@ import {
     SYSTEM_LAST_DAY_OPENED
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/databaseValidations';
+import { isLastDayOpenedCurrentDay } from '../../helpers/dateHelper';
 
 
 
-// get data for home screen
+// get data for root navigation
 export async function GetAppData() {
     try {
         const isUserSetupResult = await AsyncStorage.getItem(SYSTEM_IS_USER_SETUP);
@@ -46,25 +47,29 @@ export async function GetAppData() {
 
 
 
-// get data for home screen
+// save data if day changed
 export async function SaveDataIfDayChanged() {
     try {
-        const lastDayOpenedResult = await AsyncStorage.getItem(SYSTEM_LAST_DAY_OPENED);
-        // console.log('lastDayOpenedResult', lastDayOpenedResult);
-        if(IsResultEmpty(lastDayOpenedResult)) return console.log('system last day opened has no data'); 
-
-        const lastDayOpened = JSON.parse(lastDayOpenedResult);
-        console.log('lastDayOpened', lastDayOpened);
-
-        if(lastDayOpened != null) {
-            console.log('not first time opening');
-            
+        const lastDayOpenedString = await AsyncStorage.getItem(SYSTEM_LAST_DAY_OPENED);
+        console.log('lastDayOpenedString', lastDayOpenedString);
+        
+        const today = new Date();
+        const savedString = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
+        
+        if(lastDayOpenedString == 'null' || lastDayOpenedString == null) {
+            console.log('lastDayOpenedString has no data');
             return;
         }
 
-        console.log('first time opening');
+        if(isLastDayOpenedCurrentDay(lastDayOpenedString)) {
+            console.log('lastDayOpenedString is current day');
+            return;
+        }
 
-        return;      
+        console.log('lastDayOpenedString is old');
+        console.log('doing work');
+        await AsyncStorage.setItem(SYSTEM_LAST_DAY_OPENED, savedString);
+        return;
     } catch (error) {
         console.log(error);
     }

@@ -5,14 +5,15 @@ import BackButton from '../../../components/misc/backButton';
 
 import { container, back_button_container } from '../../../styles/miscStyles';
 
-import { DropDatabase } from '../../../database/general/general_services';
+import { CreateDatabase } from '../../../database/general/general_services';
 
-import { useSystemFlagsGlobal } from '../../../helpers/globalState';
+import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
 
 
 
 export default function MainSettingsScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+    const [appState, setAppState] = useAppStateGlobal();
 
     const openPrevScreen = () => navigation.goBack();
 
@@ -36,7 +37,8 @@ export default function MainSettingsScreen({ navigation }){
                         isMealReady: false,
                         isWorkoutReady: false
                     });
-                    DropDatabase();
+                    CreateDatabase();
+                    setAppState(false);
                     console.log('deleted');
                   }
                 }
