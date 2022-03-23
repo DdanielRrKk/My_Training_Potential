@@ -35,11 +35,10 @@ import { useSystemFlagsGlobal } from '../helpers/globalState';
 
 export default function RootNavigation() {
   const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+  const [allGood, setAllGood] = React.useState(false);
 
   React.useEffect(() => {
     let isGood = true;
-
-    SaveDataIfDayChanged();
     
     GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
       if(isGood) {
@@ -48,8 +47,11 @@ export default function RootNavigation() {
           isMealReady: isMealSetup,
           isWorkoutReady: isWorkoutSetup
         });
+        setAllGood(true);
       }
     });
+    
+    if(systemFlags.isMealReady) SaveDataIfDayChanged(isMealSetup);
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
   }, []);
@@ -57,13 +59,13 @@ export default function RootNavigation() {
 
   console.log('systemFlags root', systemFlags);
 
-  if(systemFlags == null) {
+  if(systemFlags == null || !allGood) {
     return (
       <LoadingScreen />
     );
   }
 
-  if(!systemFlags.isUserReady) {
+  if(!systemFlags.isUserReady && allGood) {
     return (
       <NavigationContainer>
         <NavStack.Navigator initialRouteName='LandingScreen'>

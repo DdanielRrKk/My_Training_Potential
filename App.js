@@ -15,12 +15,16 @@ export default function App() {
   React.useEffect(() => {
     let isGood = true;
 
-    ExistsDatabase().then((check) => { if(isGood) setAppState(check); });
-
-    if(!appState) CreateDatabase();
+    ExistsDatabase().then((check) => { 
+      if(isGood) {
+        console.log('check', check);
+        setAppState(check);
+        if(!check) CreateDatabase();
+      }
+    });
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
-  }, []);
+  }, [appState]);
 
   return (
     <RootNavigation />

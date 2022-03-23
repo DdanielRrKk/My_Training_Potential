@@ -26,6 +26,18 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     React.useEffect(() => {
         if(route.params?.exercise) {
+            if(route.params?.exercise.key !== null) {
+                const tempArray = [...exercises]; // shallow copy of array
+                tempArray.find((item, index) => {
+                    if (item.key === route.params?.exercise.key) {
+                        tempArray[index] = route.params?.exercise;
+                        setExercises(tempArray);
+                        return true; // stop searching
+                    }
+                });
+                return;
+            }
+
             const tempObject = route.params?.exercise;
             if(exercises.length == 0) {
                 tempObject.key = 1;
@@ -43,7 +55,10 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const editExercise = (exercise) => navigation.navigate('SetupWorkoutExerciseScreen', { exercise: exercise });
+    const editExercise = (exercise) => navigation.navigate('SetupWorkoutExerciseScreen', { 
+        exercise: exercise, 
+        isFromEdit: true 
+    });
 
     const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
 

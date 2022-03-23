@@ -14,6 +14,9 @@ import { GetCorrectWorkoutInput } from '../../../helpers/workoutValidations';
 const NAME_MAX_LENGTH = 40;
 
 export default function SetupWorkoutExerciseScreen({ navigation, route }){
+    const [isFromEdit, setIsFromEdit] = React.useState(false);
+    const [key, setKey] = React.useState(null);
+
     const [name, setName] = React.useState(null);
     const [sets, setSets] = React.useState(null);
     const [rest, setRest] = React.useState(null);
@@ -26,7 +29,9 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [duration, setDuration] = React.useState(null);
 
     React.useEffect(() => {
+        if(route.params?.isFromEdit) setIsFromEdit(route.params?.isFromEdit);
         if(route.params?.exercise) {
+            setKey(route.params.exercise.key);
             setName(route.params.exercise.name);
             setSets(route.params.exercise.sets);
             setRest(route.params.exercise.rest);
@@ -36,7 +41,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             setMaxReps(route.params.exercise.maxReps);
             setDuration(route.params.exercise.duration);
         }
-    }, [route.params?.exercise]);
+    }, [route.params?.exercise, route.params?.isFromEdit]);
 
 
     const openPrevScreen = () => navigation.goBack();
@@ -56,6 +61,31 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     } : {
         exercise: {
             key: null,
+            name: name,
+            description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
+            sets: sets,
+            type: type,
+            duration: duration,
+            rest: rest,
+            isLastUntilFailure: isLastUntilFailure
+        }
+    });
+
+    const editWorkout= () => navigation.navigate('SetupWorkoutDayScreen', (type == 0) ? {
+        exercise: {
+            key: key,
+            name: name,
+            description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
+            sets: sets,
+            type: type,
+            minReps: minReps,
+            maxReps: maxReps,
+            rest: rest,
+            isLastUntilFailure: isLastUntilFailure
+        }
+    } : {
+        exercise: {
+            key: key,
             name: name,
             description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
             sets: sets,
@@ -189,11 +219,19 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
 
             </View>
         
+            {isFromEdit ?
+            <TouchableOpacity
+                style={styles.add}
+                onPress={editWorkout}>
+                <Text>Edit</Text>
+            </TouchableOpacity>
+            :
             <TouchableOpacity
                 style={styles.add}
                 onPress={addWorkout}>
                 <Text>Add</Text>
             </TouchableOpacity>
+            }
         </SafeAreaView>
     );
 };
