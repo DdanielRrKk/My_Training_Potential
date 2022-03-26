@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, Switch } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, Switch, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
+import CheckButton from '../../../components/misc/checkButton';
 import GroupButton from '../../../components/workout/setup/groupButton';
 import WorkoutInput from '../../../components/workout/setup/workoutInput';
 
@@ -12,6 +13,7 @@ import { GetCorrectWorkoutInput } from '../../../helpers/workoutValidations';
 
 
 const NAME_MAX_LENGTH = 40;
+const INSTRUCTIONS_MAX_LENGTH = 255;
 
 export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [isFromEdit, setIsFromEdit] = React.useState(false);
@@ -28,11 +30,14 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     
     const [duration, setDuration] = React.useState(null);
 
+    const [instructions, setInstructions] = React.useState(null);
+
     React.useEffect(() => {
         if(route.params?.isFromEdit) setIsFromEdit(route.params?.isFromEdit);
         if(route.params?.exercise) {
             setKey(route.params.exercise.key);
             setName(route.params.exercise.name);
+            setInstructions(route.params.exercise.instructions);
             setSets(route.params.exercise.sets);
             setRest(route.params.exercise.rest);
             setIsLastUntilFailure(route.params.exercise.isLastUntilFailure);
@@ -51,6 +56,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             key: null,
             name: name,
             description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
+            instructions: instructions,
             sets: sets,
             type: type,
             minReps: minReps,
@@ -63,6 +69,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             key: null,
             name: name,
             description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
+            instructions: instructions,
             sets: sets,
             type: type,
             duration: duration,
@@ -76,6 +83,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             key: key,
             name: name,
             description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
+            instructions: instructions,
             sets: sets,
             type: type,
             minReps: minReps,
@@ -88,6 +96,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             key: key,
             name: name,
             description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
+            instructions: instructions,
             sets: sets,
             type: type,
             duration: duration,
@@ -124,114 +133,114 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const toggleSwitch = () => setIsLastUntilFailure(!isLastUntilFailure);
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
-                <BackButton pressHandler={openPrevScreen}/>
-            </View>
+        <SafeAreaView style={[container, { paddingBottom: 0 }]}>
+            <KeyboardAvoidingView style={[content, {width: '100%'}]}>
+                <View style={[back_button_container, {justifyContent: 'space-between'}]}>
+                    <BackButton pressHandler={openPrevScreen}/>
 
-            <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
-                <Text style={styles.title}>Exercise Name</Text>
-
-                <TextInput
-                    style={styles.entry}
-                    onChangeText={setName}
-                    value={name}
-                    maxLength={NAME_MAX_LENGTH}/>
-
-                <View style={styles.middle_button_container}>
-                    <GroupButton 
-                        is_selected={(type == 0)? true : false}
-                        title={'Dynamic'}
-                        pressHandler={() => setType(0)}/>
-
-                    <GroupButton 
-                        is_selected={(type == 1)? true : false}
-                        title={'Static'}
-                        pressHandler={() => setType(1)}/>
+                    <CheckButton pressHandler={(isFromEdit) ? editWorkout : addWorkout }/>
                 </View>
 
-                <View style={styles.box}>
-                    <View style={styles.subBox}>
-                        <Text style={styles.text}>Sets</Text>
+                <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
+                    <Text style={styles.title}>Exercise Name</Text>
 
-                        <WorkoutInput
-                            value={sets}
-                            onChangeHandler={changeSetsHandler}
-                            incValueHandler={incSetsHandler}
-                            decValueHandler={decSetsHandler}/>
+                    <TextInput
+                        style={styles.entry}
+                        onChangeText={setName}
+                        value={name}
+                        maxLength={NAME_MAX_LENGTH}/>
+
+                    <View style={styles.middle_button_container}>
+                        <GroupButton 
+                            is_selected={(type == 0)? true : false}
+                            title={'Dynamic'}
+                            pressHandler={() => setType(0)}/>
+
+                        <GroupButton 
+                            is_selected={(type == 1)? true : false}
+                            title={'Static'}
+                            pressHandler={() => setType(1)}/>
                     </View>
 
-                    {(type == 0) ? 
-                    <>
-                        <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Min Reps</Text>
+                    <View style={styles.box}>
+                        <View style={styles.subBox}>
+                            <Text style={styles.text}>Sets</Text>
 
                             <WorkoutInput
-                                value={minReps}
-                                onChangeHandler={changeMinRepsHandler}
-                                incValueHandler={incMinRepsHandler}
-                                decValueHandler={decMinRepsHandler}/>
+                                value={sets}
+                                onChangeHandler={changeSetsHandler}
+                                incValueHandler={incSetsHandler}
+                                decValueHandler={decSetsHandler}/>
+                        </View>
+
+                        {(type == 0) ? 
+                        <>
+                            <View style={[styles.subBox, {marginTop: 16}]}>
+                                <Text style={styles.text}>Min Reps</Text>
+
+                                <WorkoutInput
+                                    value={minReps}
+                                    onChangeHandler={changeMinRepsHandler}
+                                    incValueHandler={incMinRepsHandler}
+                                    decValueHandler={decMinRepsHandler}/>
+                            </View>
+
+                            <View style={[styles.subBox, {marginTop: 16}]}>
+                                <Text style={styles.text}>Max Reps</Text>
+
+                                <WorkoutInput
+                                    value={maxReps}
+                                    onChangeHandler={changeMaxRepsHandler}
+                                    incValueHandler={incMaxRepsHandler}
+                                    decValueHandler={decMaxRepsHandler}/>
+                            </View>
+                        </>
+                        : 
+                            <View style={[styles.subBox, {marginTop: 16}]}>
+                                <Text style={styles.text}>Duration (sec)</Text>
+
+                                <WorkoutInput
+                                    value={duration}
+                                    onChangeHandler={changeDurationHandler}
+                                    incValueHandler={incDurationHandler}
+                                    decValueHandler={decDurationHandler}/>
+                            </View>
+                        }
+
+                        <View style={[styles.subBox, {marginTop: 16}]}>
+                            <Text style={styles.text}>Rest (sec)</Text>
+
+                            <WorkoutInput
+                                value={rest}
+                                onChangeHandler={changeRestHandler}
+                                incValueHandler={incRestHandler}
+                                decValueHandler={decRestHandler}/>
                         </View>
 
                         <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Max Reps</Text>
+                            <Text style={styles.text}>Last Set Until Failure</Text>
 
-                            <WorkoutInput
-                                value={maxReps}
-                                onChangeHandler={changeMaxRepsHandler}
-                                incValueHandler={incMaxRepsHandler}
-                                decValueHandler={decMaxRepsHandler}/>
+                            <Switch
+                                style={{marginRight: 48}}
+                                trackColor={{ false: 'black', true: 'white' }}
+                                thumbColor={(isLastUntilFailure) ? 'white' : 'white'}
+                                onValueChange={toggleSwitch}
+                                value={isLastUntilFailure} />
                         </View>
-                    </>
-                    : 
-                        <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Duration (sec)</Text>
-
-                            <WorkoutInput
-                                value={duration}
-                                onChangeHandler={changeDurationHandler}
-                                incValueHandler={incDurationHandler}
-                                decValueHandler={decDurationHandler}/>
-                        </View>
-                    }
-
-                    <View style={[styles.subBox, {marginTop: 16}]}>
-                        <Text style={styles.text}>Rest (sec)</Text>
-
-                        <WorkoutInput
-                            value={rest}
-                            onChangeHandler={changeRestHandler}
-                            incValueHandler={incRestHandler}
-                            decValueHandler={decRestHandler}/>
                     </View>
 
-                    <View style={[styles.subBox, {marginTop: 16}]}>
-                        <Text style={styles.text}>Last Set Until Failure</Text>
+                    <View style={styles.box}>
+                        <Text style={styles.instructionsText}>Instructions</Text>
 
-                        <Switch
-                            style={{marginRight: 48}}
-                            trackColor={{ false: 'black', true: 'white' }}
-                            thumbColor={(isLastUntilFailure) ? 'white' : 'white'}
-                            onValueChange={toggleSwitch}
-                            value={isLastUntilFailure} />
+                        <TextInput
+                            style={styles.instructions}
+                            onChangeText={setInstructions}
+                            value={instructions}
+                            maxLength={INSTRUCTIONS_MAX_LENGTH}
+                            multiline={true}/>
                     </View>
                 </View>
-
-            </View>
-        
-            {isFromEdit ?
-            <TouchableOpacity
-                style={styles.add}
-                onPress={editWorkout}>
-                <Text>Edit</Text>
-            </TouchableOpacity>
-            :
-            <TouchableOpacity
-                style={styles.add}
-                onPress={addWorkout}>
-                <Text>Add</Text>
-            </TouchableOpacity>
-            }
+            </KeyboardAvoidingView>
         </SafeAreaView>
     );
 };
@@ -264,6 +273,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
 
+    instructionsText: {
+        fontSize: 16,
+        alignSelf: 'flex-start',
+        marginBottom: 16
+    }, 
+
+    instructions: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 5,
+        borderRadius: 10,
+        justifyContent: 'center',
+        backgroundColor: 'white'
+    },
+
     subtitle: {
         justifyContent: 'center',
         alignSelf: 'flex-start',
@@ -289,15 +313,5 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 16
-    },
-
-    add: {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
     },
 });

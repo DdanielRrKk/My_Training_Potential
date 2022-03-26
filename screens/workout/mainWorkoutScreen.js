@@ -66,7 +66,8 @@ export default function MainWorkoutScreen({ navigation, route }){
     }
 
     const openStartWorkoutScreen = () => {
-        console.log('start day days[0]', days[0]);
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('StartWorkoutScreen', {exercises: days[0].exercises});
     }
     const openWorkoutScreen = () => {
         console.log('open workout screen');

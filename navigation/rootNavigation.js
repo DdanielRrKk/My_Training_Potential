@@ -26,6 +26,9 @@ import SetupWorkoutPlanScreen from '../screens/workout/setup/setupWorkoutPlanScr
 import SetupWorkoutDayScreen from '../screens/workout/setup/setupWorkoutDayScreen';
 import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExerciseScreen';
 
+import StartWorkoutScreen from '../screens/workout/startWorkoutScreen';
+import RestWorkoutScreen from '../screens/workout/restWorkoutScreen';
+
 
 import { GetAppData, SaveDataIfDayChanged } from '../database/screen/app_serices';
 
@@ -103,6 +106,9 @@ export default function RootNavigation() {
 
         <NavStack.Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }} />
+
+        <NavStack.Screen name='StartWorkoutScreen' component={StartWorkoutScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='RestWorkoutScreen' component={RestWorkoutScreen} options={{ headerMode: 'none' }} />
       </NavStack.Navigator>
     </NavigationContainer>
   );
