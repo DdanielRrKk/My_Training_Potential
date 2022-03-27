@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
 import { container, back_button_container } from '../../styles/miscStyles';
 
@@ -44,6 +44,7 @@ export default function StartWorkoutScreen({ navigation, route }){
     const [isLastUntilFailure, setIsLastUntilFailure] = React.useState(false);
 
     const [duration, setDuration] = React.useState(0);
+    const [durationString, setDurationString] = React.useState(null);
     const [startDuration, setStartDuration] = React.useState(false);
     
     const [minReps, setMinReps] = React.useState(0);
@@ -102,6 +103,16 @@ export default function StartWorkoutScreen({ navigation, route }){
         const good = setTimeout(() => {
             setTotalTimeString(calculateTimeString(totalTime));
             setTotalTime(totalTime + 1);
+        }, 1000);
+        return () => clearTimeout(good);
+    });
+
+    // duration
+    React.useEffect(() => {
+        const good = setTimeout(() => {
+            if(!startDuration) return;
+            setDurationString(calculateTimeString(duration));
+            setDuration(duration + 1);
         }, 1000);
         return () => clearTimeout(good);
     });
@@ -182,7 +193,7 @@ export default function StartWorkoutScreen({ navigation, route }){
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                            <Text style={{fontSize: 20, marginBottom: 16}}>{duration}</Text>
+                            <Text style={{fontSize: 20, marginBottom: 16}}>{durationString}</Text>
                             
                             <TouchableOpacity 
                                 style={(startDuration) ? styles.btn_active : styles.btn_unactive}

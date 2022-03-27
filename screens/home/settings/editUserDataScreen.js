@@ -5,89 +5,34 @@ import BackButton from '../../../components/misc/backButton';
 
 import { container, back_button_container } from '../../../styles/miscStyles';
 
-import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
-
-import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
+import { GetEditUserDataScreenData } from '../../../database/screen/home/settings_services';
 
 
 
-export default function MainSettingsScreen({ navigation }){
-    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
-    const [appState, setAppState] = useAppStateGlobal();
+export default function EditUserDataScreen({ navigation }){
+    const [name, setName] = React.useState(null);
+    const [age, setAge] = React.useState(null);
+    const [weight, setWeight] = React.useState(null);
+    const [height, setHeight] = React.useState(null);
+    const [gender, setGender] = React.useState(null);
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openScreen = () => console.log('open screen');
+    React.useEffect(() => {
+        let isGood = true;
 
-    const resetMealSetup = () => {
-        Alert.alert(
-            "Warning !",
-            "If you reset your meal setup, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({...systemFlags, isMealReady: false});
-                    ResetMealSetup();
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
-    }
-    const resetWorkoutSetup = () => {
-        Alert.alert(
-            "Warning !",
-            "If you reset your workout setup, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({...systemFlags, isWorkoutReady: false});
-                    ResetWorkoutSetup();
-                    setAppState(false);
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
-    }
-    const deleteAccount = () => {
-        Alert.alert(
-            "Warning !",
-            "If you delete your account, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({
-                        isUserReady: false,
-                        isMealReady: false,
-                        isWorkoutReady: false
-                    });
-                    CreateDatabase();
-                    setAppState(false);
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
-    }
+        GetEditUserDataScreenData().then(({ name, age, weight, height, gender }) => { 
+            if(isGood) {
+                setName(name);
+                setAge(age); 
+                setWeight(weight); 
+                setHeight(height); 
+                setGender(gender); 
+            }
+        });
+
+        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+    }, [name, age, weight, height, gender]);
  
     return(
         <SafeAreaView style={container}>
