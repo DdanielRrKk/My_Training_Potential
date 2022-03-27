@@ -17,7 +17,43 @@ export default function MainSettingsScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openScreen = () => console.log('open screen');
+    const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
+    const openEditMealDataScreen = () => {
+        if(!systemFlags.isMealReady) {
+            Alert.alert(
+                "Warning !",
+                "You have not set the Meal plan. Please setup the plan to be able to edit it.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("canceled"),
+                        style: "cancel"
+                    }
+                ]
+            );
+            return;
+        }
+
+        navigation.navigate('EditMealDataScreen');
+    }
+    const openEditWorkoutDataScreen = () => {
+        if(!systemFlags.isWorkoutReady) {
+            Alert.alert(
+                "Warning !",
+                "You have not set the Workout plan. Please setup the plan to be able to edit it.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("canceled"),
+                        style: "cancel"
+                    }
+                ]
+            );
+            return;
+        }
+
+        console.log('EditWorkoutDataScreen');
+    }
 
     const resetMealSetup = () => {
         Alert.alert(
@@ -101,19 +137,19 @@ export default function MainSettingsScreen({ navigation }){
 
                     <TouchableOpacity
                         style={styles.box}
-                        onPress={openScreen}>
+                        onPress={openEditUserDataScreen}>
                         <Text style={{fontSize: 16}}>Edit User Data</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.box}
-                        onPress={openScreen}>
+                        onPress={openEditMealDataScreen}>
                         <Text style={{fontSize: 16}}>Edit Nutritions Data</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.box}
-                        onPress={openScreen}>
+                        onPress={openEditWorkoutDataScreen}>
                         <Text style={{fontSize: 16}}>Edit Workout Plan</Text>
                     </TouchableOpacity>
                     

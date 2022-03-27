@@ -1,87 +1,70 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native';
-
-import BackButton from '../../../components/misc/backButton';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
 
 import { container, back_button_container } from '../../../styles/miscStyles';
 
-import { GetEditUserDataScreenData } from '../../../database/screen/home/settings_services';
+import { GetEditUserDataScreenData, SetEditUserData } from '../../../database/screen/home/settings_services';
+
+import BackButton from '../../../components/misc/backButton';
 
 
+
+const NAME_MAX_LENGTH = 40;
+const AGE_MAX_LENGTH = 3;
 
 export default function EditUserDataScreen({ navigation }){
     const [name, setName] = React.useState(null);
     const [age, setAge] = React.useState(null);
-    const [weight, setWeight] = React.useState(null);
-    const [height, setHeight] = React.useState(null);
-    const [gender, setGender] = React.useState(null);
-
-    const openPrevScreen = () => navigation.goBack();
 
     React.useEffect(() => {
         let isGood = true;
 
-        GetEditUserDataScreenData().then(({ name, age, weight, height, gender }) => { 
+        GetEditUserDataScreenData().then(({ name, age }) => { 
             if(isGood) {
                 setName(name);
                 setAge(age); 
-                setWeight(weight); 
-                setHeight(height); 
-                setGender(gender); 
             }
         });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [name, age, weight, height, gender]);
- 
+    }, []);
+
+    const openPrevScreen = () => navigation.goBack();
+
+    const saveEditData = () => {
+        SetEditUserData(name, age);
+        navigation.goBack();
+    }
+
     return(
         <SafeAreaView style={container}>
-            <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={back_button_container}>
-                    <BackButton pressHandler={openPrevScreen}/>
-                </View>
+            <View style={back_button_container}>
+                <BackButton pressHandler={openPrevScreen}/>
+            </View>
 
-                <View style={styles.content}>
-                    <Text style={styles.subtitle}>Settings</Text>
+            <View style={styles.content}>
+                <Text style={styles.subtitle}>Name</Text>
 
-                    <TouchableOpacity
-                        style={styles.box}
-                        onPress={openScreen}>
-                        <Text style={{fontSize: 16}}>Edit User Data</Text>
-                    </TouchableOpacity>
+                <TextInput
+                    style={styles.entry}
+                    onChangeText={setName}
+                    value={name}
+                    maxLength={NAME_MAX_LENGTH}/>
 
-                    <TouchableOpacity
-                        style={styles.box}
-                        onPress={openScreen}>
-                        <Text style={{fontSize: 16}}>Edit Nutritions Data</Text>
-                    </TouchableOpacity>
+                <Text style={styles.subtitle}>Age</Text>
 
-                    <TouchableOpacity
-                        style={styles.box}
-                        onPress={openScreen}>
-                        <Text style={{fontSize: 16}}>Edit Workout Plan</Text>
-                    </TouchableOpacity>
-                    
+                <TextInput
+                    style={styles.entry}
+                    onChangeText={setAge}
+                    value={age}
+                    maxLength={AGE_MAX_LENGTH}/>
+            </View>
 
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={resetMealSetup}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Reset Meal Setup</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={resetWorkoutSetup}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Reset Workout Setup</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={deleteAccount}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Delete Account</Text>
-                    </TouchableOpacity>
-                </View>
-            </ScrollView>
+            <TouchableOpacity
+                style={styles.add}
+                onPress={saveEditData}>
+                <Text>Save</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 };
@@ -103,21 +86,24 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    box: {
+    entry:{
         width: '100%',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        padding: 16,
+        paddingHorizontal: 16,
+        paddingVertical: 5,
+        borderWidth: 1,
+        borderColor: 'black',
         borderRadius: 10,
-        backgroundColor: 'gray',
         marginBottom: 16
     },
 
-    textBox: {
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: 16,
-        padding: 16
-    }
+    add: {
+        marginTop: 16,
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        alignItems: 'center',
+        width: '100%'
+    },
 });

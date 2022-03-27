@@ -14,6 +14,8 @@ import TabNavigation from './tabNavigation';
 import WeightScreen from '../screens/home/weightScreen';
 
 import MainSettingsScreen from '../screens/home/settings/mainSettings';
+import EditUserDataScreen from '../screens/home/settings/editUserDataScreen';
+import EditMealDataScreen from '../screens/home/settings/editMealDataScreen';
 
 import SetupMealGoalScreen from '../screens/meal/setup/setupMealGoalScreen';
 import SetupMealActivityScreen from '../screens/meal/setup/setupMealActivityScreen';
@@ -86,7 +88,10 @@ export default function RootNavigation() {
       <NavStack.Navigator initialRouteName='TabNavigation'>
         <NavStack.Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
+        
         <NavStack.Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='EditMealDataScreen' component={EditMealDataScreen} options={{ headerMode: 'none' }} />
         
         {!systemFlags.isMealReady ?
           <>
