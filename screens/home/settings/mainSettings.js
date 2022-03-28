@@ -52,7 +52,7 @@ export default function MainSettingsScreen({ navigation }){
             return;
         }
 
-        console.log('EditWorkoutDataScreen');
+        navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
 
     const resetMealSetup = () => {

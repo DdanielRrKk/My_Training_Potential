@@ -40,7 +40,8 @@ export default function EditMealDataScreen({ navigation }){
 
     const saveEditData = () => {
         SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatGoal);
-        navigation.goBack();
+        navigation.setOptions({ tabBarVisible: true });
+        navigation.navigate('TabNavigation');
     }
 
     return(

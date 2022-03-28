@@ -116,14 +116,21 @@ export default function MainHomeScreen({ navigation }){
         navigation.navigate('StartWorkoutScreen', {exercises: todaysWorkout.exercises});
     }
     const openWorkoutScreen = () => {
-        console.log('open workout screen');
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('OpenWorkoutScreen', {day_number: todaysWorkout.day_number});
     }
 
-    const openWorkoutLogScreen = () => console.log('setup workout log');
-    const openMealLogScreen = () => console.log('setup meal log');
+    const openWorkoutLogScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('WorkoutLogsScreen');
+    }
+    const openMealLogScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('MealLogsScreen');
+    }
  
     return(
-        <SafeAreaView style={[container, {paddingVertical: 0}]}>
+        <SafeAreaView style={[container, {paddingBottom: 0}]}>
             <ScrollView style={{flex: 1, width: '100%'}} showsVerticalScrollIndicator={false}>
                 <View style={styles.top_button_container}>
                     <Text style={styles.title}>Welcome {name}</Text>

@@ -33,7 +33,8 @@ export default function EditUserDataScreen({ navigation }){
 
     const saveEditData = () => {
         SetEditUserData(name, age);
-        navigation.goBack();
+        navigation.setOptions({ tabBarVisible: true });
+        navigation.navigate('TabNavigation');
     }
 
     return(

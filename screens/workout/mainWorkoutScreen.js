@@ -70,7 +70,8 @@ export default function MainWorkoutScreen({ navigation, route }){
         navigation.navigate('StartWorkoutScreen', {exercises: days[0].exercises});
     }
     const openWorkoutScreen = () => {
-        console.log('open workout screen');
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('OpenWorkoutScreen', {day_number: days[0].day_number});
     }
 
     return(

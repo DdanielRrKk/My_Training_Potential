@@ -7,6 +7,7 @@ import BackButton from '../../../components/misc/backButton';
 import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
+import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
 
 import { useSystemFlagsGlobal } from '../../../helpers/globalState';
 
@@ -66,6 +67,36 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
             if(route.params?.day.day_number == 7) setSunday(route.params?.day);
         }
     }, [route.params?.day]);
+
+    React.useEffect(() => {
+        if(route.params?.isFromEdit) {
+            let isGood = true;
+
+            GetEditWorkoutDataScreenData().then(({
+                name, 
+                monday,
+                tuesday,
+                wednesday,
+                thursday,
+                friday,
+                saturday,
+                sunday
+            }) => { 
+                if(isGood) {
+                    setName(name);
+                    setMonday(monday);
+                    setTuesday(tuesday);
+                    setWednesday(wednesday);
+                    setThursday(thursday);
+                    setFriday(friday);
+                    setSaturday(saturday);
+                    setSunday(sunday);
+                }
+            });
+
+            return () => {  isGood = false; } // to prevent memory leaks (clean up)
+        }
+    }, [route.params?.isFromEdit]);
 
     const openPrevScreen = () => navigation.goBack();
 

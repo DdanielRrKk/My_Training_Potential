@@ -12,6 +12,8 @@ import LandingMeasurementsScreen from '../screens/landing/landingMeasurementsScr
 
 import TabNavigation from './tabNavigation';
 import WeightScreen from '../screens/home/weightScreen';
+import MealLogsScreen from '../screens/home/mealLogsScreen';
+import WorkoutLogsScreen from '../screens/home/workoutLogScreen';
 
 import MainSettingsScreen from '../screens/home/settings/mainSettings';
 import EditUserDataScreen from '../screens/home/settings/editUserDataScreen';
@@ -28,6 +30,7 @@ import SetupWorkoutPlanScreen from '../screens/workout/setup/setupWorkoutPlanScr
 import SetupWorkoutDayScreen from '../screens/workout/setup/setupWorkoutDayScreen';
 import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExerciseScreen';
 
+import OpenWorkoutScreen from '../screens/workout/openWorkoutScreen';
 import StartWorkoutScreen from '../screens/workout/startWorkoutScreen';
 import RestWorkoutScreen from '../screens/workout/restWorkoutScreen';
 
@@ -55,8 +58,8 @@ export default function RootNavigation() {
         setAllGood(true);
       }
     });
-    
-    if(systemFlags.isMealReady) SaveDataIfDayChanged(isMealSetup);
+
+    if(systemFlags.isMealReady) SaveDataIfDayChanged(systemFlags.isMealReady);
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
   }, []);
@@ -88,6 +91,8 @@ export default function RootNavigation() {
       <NavStack.Navigator initialRouteName='TabNavigation'>
         <NavStack.Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='MealLogsScreen' component={MealLogsScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='WorkoutLogsScreen' component={WorkoutLogsScreen} options={{ headerMode: 'none' }} />
         
         <NavStack.Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
@@ -101,17 +106,14 @@ export default function RootNavigation() {
           </>
         : null}
 
-        {!systemFlags.isWorkoutReady ?
-          <>
-            <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
-            <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
-            <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
-          </>
-        : null}
+        <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
 
         <NavStack.Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }} />
 
+        <NavStack.Screen name='OpenWorkoutScreen' component={OpenWorkoutScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='StartWorkoutScreen' component={StartWorkoutScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='RestWorkoutScreen' component={RestWorkoutScreen} options={{ headerMode: 'none' }} />
       </NavStack.Navigator>

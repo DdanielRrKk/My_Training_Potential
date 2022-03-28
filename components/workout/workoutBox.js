@@ -13,7 +13,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
             <View style={[styles.container, style]}>
                 <Text style={styles.text}>{day_name}</Text>
                 
-                <Text style={[styles.text, {marginTop: 16}]}>Rest</Text>
+                <Text style={[styles.text, {marginTop: 16, alignSelf: 'flex-start'}]}>Rest</Text>
             </View>
         );
     }
