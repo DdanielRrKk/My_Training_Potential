@@ -13,13 +13,13 @@ import { GetCorrectWorkoutInput } from '../../../helpers/workoutValidations';
 
 
 const NAME_MAX_LENGTH = 40;
-const INSTRUCTIONS_MAX_LENGTH = 255;
+const INSTRUCTIONS_MAX_LENGTH = 100;
 
 export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [isFromEdit, setIsFromEdit] = React.useState(false);
     const [key, setKey] = React.useState(null);
 
-    const [name, setName] = React.useState(null);
+    const [name, setName] = React.useState('');
     const [sets, setSets] = React.useState(null);
     const [rest, setRest] = React.useState(null);
     const [isLastUntilFailure, setIsLastUntilFailure] = React.useState(null);
@@ -30,7 +30,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     
     const [duration, setDuration] = React.useState(null);
 
-    const [instructions, setInstructions] = React.useState(null);
+    const [instructions, setInstructions] = React.useState('');
 
     React.useEffect(() => {
         if(route.params?.isFromEdit) setIsFromEdit(route.params?.isFromEdit);
@@ -234,10 +234,12 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
 
                         <TextInput
                             style={styles.instructions}
+                            placeholder='(optional)'
                             onChangeText={setInstructions}
                             value={instructions}
                             maxLength={INSTRUCTIONS_MAX_LENGTH}
-                            multiline={true}/>
+                            multiline={true}
+                            numberOfLines={4}/>
                     </View>
                 </View>
             </KeyboardAvoidingView>

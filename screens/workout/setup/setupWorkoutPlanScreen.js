@@ -18,7 +18,7 @@ const NAME_MAX_LENGTH = 40;
 export default function SetupWorkoutPlanScreen({ navigation, route }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
     
-    const [name, setName] = React.useState(null);
+    const [name, setName] = React.useState('');
 
     const [monday, setMonday] = React.useState({
         day_number: 1,

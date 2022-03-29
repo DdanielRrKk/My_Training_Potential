@@ -15,7 +15,7 @@ const NAME_MAX_LENGTH = 40;
 export default function SetupWorkoutDayScreen({ navigation, route }){
     const [dayNumber, setDayNumber] = React.useState(null);
 
-    const [name, setName] = React.useState(null);
+    const [name, setName] = React.useState('');
     const [exercises, setExercises] = React.useState([]);
 
     React.useEffect(() => {

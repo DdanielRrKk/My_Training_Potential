@@ -67,11 +67,11 @@ export default function MainWorkoutScreen({ navigation, route }){
 
     const openStartWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('StartWorkoutScreen', {exercises: days[0].exercises});
+        navigation.navigate('StartWorkoutScreen', {exercises: days[0].exercises, day_name: days[0].name});
     }
-    const openWorkoutScreen = () => {
+    const openWorkoutScreen = (day_number) => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('OpenWorkoutScreen', {day_number: days[0].day_number});
+        navigation.navigate('OpenWorkoutScreen', {day_number: day_number});
     }
 
     return(
@@ -88,7 +88,7 @@ export default function MainWorkoutScreen({ navigation, route }){
                         day={days[0]}
                         isToday={true}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[0].day_number)}/>
                     
                     <Text style={styles.subtitle}>Next days</Text>
 
@@ -97,42 +97,42 @@ export default function MainWorkoutScreen({ navigation, route }){
                         day={days[1]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[1].day_number)}/>
                         
                     <WorkoutBox 
                         style={{marginBottom: 16}}
                         day={days[2]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[2].day_number)}/>
                         
                     <WorkoutBox 
                         style={{marginBottom: 16}}
                         day={days[3]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[3].day_number)}/>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
                         day={days[4]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[4].day_number)}/>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
                         day={days[5]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[5].day_number)}/>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
                         day={days[6]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={openWorkoutScreen}/>
+                        openHandler={() => openWorkoutScreen(days[6].day_number)}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -19,6 +19,7 @@ function getAverage(min, max) {
 }
 
 export default function StartWorkoutScreen({ navigation, route }){
+    const [dayName, setDayName] = React.useState(null);
     const [exercises, setExercises] = React.useState(null);
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
@@ -45,7 +46,6 @@ export default function StartWorkoutScreen({ navigation, route }){
 
     const [duration, setDuration] = React.useState(0);
     const [durationString, setDurationString] = React.useState(null);
-    const [startDuration, setStartDuration] = React.useState(false);
     
     const [minReps, setMinReps] = React.useState(0);
     const [maxReps, setMaxReps] = React.useState(0);
@@ -53,6 +53,9 @@ export default function StartWorkoutScreen({ navigation, route }){
     
     const [totalTime, setTotalTime] = React.useState(0);
     const [totalTimeString, setTotalTimeString] = React.useState(null);
+
+    const [totalReps, setTotalReps] = React.useState(0);
+    const [finishedExercises, setFinishedExercises] = React.useState([]);
 
     const [next, setNext] = React.useState(0);
 
@@ -71,8 +74,11 @@ export default function StartWorkoutScreen({ navigation, route }){
             setRest(route.params.exercises[currentIndex].rest);
             setDuration(route.params.exercises[currentIndex].duration);
             setIsLastUntilFailure(route.params.exercises[currentIndex].isLastUntilFailure);
+        
+            setDurationString(calculateTimeString(route.params.exercises[currentIndex].duration));
         }
-    }, [route.params?.exercises]);
+        if(route.params?.day_name) setDayName(route.params?.day_name);
+    }, [route.params?.exercises, route.params?.day_name]);
 
     // next set / exercise
     React.useEffect(() => {
@@ -82,37 +88,48 @@ export default function StartWorkoutScreen({ navigation, route }){
 
             if(currentSet < sets) {
                 console.log('next set');
+                setTotalReps(totalReps + parseInt(reps));
                 setCurrentSet(currentSet + 1);
                 return;
             }
 
+            const lastKey = (finishedExercises.length == 0) ? 1 : finishedExercises[finishedExercises.length - 1].key + 1;
+
             if(currentIndex == exercises.length - 1) {
                 console.log('exercises ended');
+                navigation.navigate('FinalWorkoutScreen', {
+                    day_name: dayName,
+                    total_time: totalTimeString, 
+                    finished_exercises: [...finishedExercises, {
+                        key: lastKey,
+                        name: name,
+                        sets: sets,
+                        type: type,
+                        totals: (type == 0) ? (totalReps + parseInt(reps)) : (sets * duration)
+                    }]
+                });
                 return;
             }
 
             console.log('next exercise');
+            setFinishedExercises([...finishedExercises, {
+                key: lastKey,
+                name: name,
+                sets: sets,
+                type: type,
+                totals: (type == 0) ? (totalReps + parseInt(reps)) : (sets * duration)
+            }]);
             setCurrentIndex(currentIndex + 1);
             setCurrentSet(1);
             return;
         }
     }, [route.params?.next]);
 
-    // timer
+    // timer 
     React.useEffect(() => {
         const good = setTimeout(() => {
             setTotalTimeString(calculateTimeString(totalTime));
             setTotalTime(totalTime + 1);
-        }, 1000);
-        return () => clearTimeout(good);
-    });
-
-    // duration
-    React.useEffect(() => {
-        const good = setTimeout(() => {
-            if(!startDuration) return;
-            setDurationString(calculateTimeString(duration));
-            setDuration(duration + 1);
         }, 1000);
         return () => clearTimeout(good);
     });
@@ -132,6 +149,7 @@ export default function StartWorkoutScreen({ navigation, route }){
             setReps(getAverage(exercises[currentIndex].minReps, exercises[currentIndex].maxReps));
             setRest(exercises[currentIndex].rest);
             setDuration(exercises[currentIndex].duration);
+            setDurationString(calculateTimeString(exercises[currentIndex].duration));
             setIsLastUntilFailure(exercises[currentIndex].isLastUntilFailure);
         }
 
@@ -150,13 +168,13 @@ export default function StartWorkoutScreen({ navigation, route }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const doneSet = () => navigation.navigate('RestWorkoutScreen', {rest: rest, next: next});
+    const doneSet = () => navigation.navigate('TimeWorkoutScreen', {time: rest, next: next, isDuration: false});
 
     const changeRepsHandler = (value) => setReps(value);
     const incRepsHandler = () => setReps(`${GetCorrectWorkoutInput(reps, true)}`);
     const decRepsHandler = () => setReps(`${GetCorrectWorkoutInput(reps, false)}`);
 
-    const toggleStartDuration = () => setStartDuration(!startDuration);
+    const startDuration = () => navigation.navigate('TimeWorkoutScreen', {time: duration, next: next, isDuration: true});
 
     return(
         <SafeAreaView style={container}>
@@ -172,14 +190,11 @@ export default function StartWorkoutScreen({ navigation, route }){
 
                     <Text style={{fontSize: 20, marginTop: 16}}>Set {currentSet} / {sets}</Text>
 
-                    <View style={{
-                        backgroundColor: 'gray',
-                        borderRadius: 10,
-                        padding: 8,
-                        marginVertical: 36
-                    }}>
+                    {(instructions != '') ? 
+                     <View style={{ backgroundColor: 'gray', borderRadius: 10, padding: 8, marginVertical: 36 }}>
                         <Text style={{color: 'white', fontSize: 16}}>Instruction: {instructions}</Text>
                     </View>
+                    : null }
 
                     {(type == 0) ?
                         <WorkoutInput
@@ -196,9 +211,9 @@ export default function StartWorkoutScreen({ navigation, route }){
                             <Text style={{fontSize: 20, marginBottom: 16}}>{durationString}</Text>
                             
                             <TouchableOpacity 
-                                style={(startDuration) ? styles.btn_active : styles.btn_unactive}
-                                onPress={toggleStartDuration}>
-                                <Text style={{fontSize: 16}}>{(startDuration) ? 'Continue' : 'Start'}</Text>
+                                style={styles.btn_unactive}
+                                onPress={startDuration}>
+                                <Text style={{fontSize: 16}}>Start</Text>
                             </TouchableOpacity>
                         </View>
                     }

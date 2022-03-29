@@ -36,7 +36,7 @@ export default function WorkoutLogsScreen({ navigation }){
                     { (workoutLog) ?
                     workoutLog.map((item) => (
                         <View key={item.key} style={styles.box}>
-                            <Text style={styles.labels}>{item.name} cal</Text>
+                            <Text style={styles.labels}>{item.name}</Text>
                 
                             <Text style={styles.labels}>{item.date}</Text>
                         </View>

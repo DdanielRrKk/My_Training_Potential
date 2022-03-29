@@ -1,9 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { useIsFocused } from '@react-navigation/native';
-
-// import { GetHomeScreenData } from '../../database/general/general_services';
 import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
 import OptionsButton from '../../components/home/optionsButton';
@@ -43,10 +40,8 @@ export default function MainHomeScreen({ navigation }){
     
     console.log('systemFlags home', systemFlags);
 
-    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
-        console.log('focus home', focus);
 
         GetHomeScreenData().then(({
             name, 
@@ -80,7 +75,6 @@ export default function MainHomeScreen({ navigation }){
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
-        focus,
         name,
         weight,
         caloriesPercentage,
@@ -90,7 +84,7 @@ export default function MainHomeScreen({ navigation }){
         caloriesGoal,
         carbsGoal,
         proteinGoal,
-        fatGoal
+        fatGoal        
     ]);
 
 
@@ -113,7 +107,7 @@ export default function MainHomeScreen({ navigation }){
 
     const openStartWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('StartWorkoutScreen', {exercises: todaysWorkout.exercises});
+        navigation.navigate('StartWorkoutScreen', {exercises: todaysWorkout.exercises, day_name: todaysWorkout.name});
     }
     const openWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
