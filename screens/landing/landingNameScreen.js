@@ -9,9 +9,9 @@ import { container, content, back_button_container } from '../../styles/miscStyl
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 
+import { NAME_MAX_LENGTH } from '../../helpers/constants';
 
 
-const NAME_MAX_LENGTH = 40;
 
 export default function LandingNameScreen({ navigation }){
     const [name, setName] = React.useState(null);

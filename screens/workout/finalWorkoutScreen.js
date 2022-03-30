@@ -5,9 +5,9 @@ import { SetWorkoutLogData } from '../../database/screen/workout/final_workout_s
 
 import { container } from '../../styles/miscStyles';
 
+import { LONG_TEXT_MAX_LENGTH } from '../../helpers/constants';
 
 
-const NOTE_MAX_LENGTH = 100;
 
 export default function FinalWorkoutScreen({ navigation, route }){
     const [dayName, setDayName] = React.useState(null);
@@ -85,7 +85,7 @@ export default function FinalWorkoutScreen({ navigation, route }){
                                 placeholder='(optional)'
                                 onChangeText={setNote}
                                 value={note}
-                                maxLength={NOTE_MAX_LENGTH}
+                                maxLength={LONG_TEXT_MAX_LENGTH}
                                 multiline={true}
                                 numberOfLines={4}/>
                         </View>

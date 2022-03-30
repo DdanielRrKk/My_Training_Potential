@@ -1,15 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { container, back_button_container } from '../../../styles/miscStyles';
-
 import { GetEditMealDataScreenData, SetEditMealData } from '../../../database/screen/home/settings_services';
+
+import { container, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 
+import { NUTRITIONS_MAX_LENGTH } from '../../../helpers/constants';
 
 
-const NUTRITIONS_MAX_LENGTH = 5;
 
 export default function EditMealDataScreen({ navigation }){
     const [caloriesGoal, setCaloriesGoal] = React.useState('0');

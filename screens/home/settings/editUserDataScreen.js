@@ -1,16 +1,15 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { container, back_button_container } from '../../../styles/miscStyles';
-
 import { GetEditUserDataScreenData, SetEditUserData } from '../../../database/screen/home/settings_services';
+
+import { container, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 
+import { NAME_MAX_LENGTH, AGE_MAX_LENGTH } from '../../../helpers/constants';
 
 
-const NAME_MAX_LENGTH = 40;
-const AGE_MAX_LENGTH = 3;
 
 export default function EditUserDataScreen({ navigation }){
     const [name, setName] = React.useState(null);

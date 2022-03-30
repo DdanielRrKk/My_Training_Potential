@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native';
 
-import BackButton from '../../../components/misc/backButton';
+import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
 import { container, back_button_container } from '../../../styles/miscStyles';
 
-import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
+import BackButton from '../../../components/misc/backButton';
 
 import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
 
@@ -22,7 +22,7 @@ export default function MainSettingsScreen({ navigation }){
         if(!systemFlags.isMealReady) {
             Alert.alert(
                 "Warning !",
-                "You have not set the Meal plan. Please setup the plan to be able to edit it.",
+                "You have not set a Meal plan.",
                 [
                     {
                         text: "OK",
@@ -40,7 +40,7 @@ export default function MainSettingsScreen({ navigation }){
         if(!systemFlags.isWorkoutReady) {
             Alert.alert(
                 "Warning !",
-                "You have not set the Workout plan. Please setup the plan to be able to edit it.",
+                "You have not set a Workout plan.",
                 [
                     {
                         text: "OK",
@@ -56,6 +56,20 @@ export default function MainSettingsScreen({ navigation }){
     }
 
     const resetMealSetup = () => {
+        if(!systemFlags.isMealReady) {
+            Alert.alert(
+                "Warning !",
+                "You have not set a Meal plan.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("canceled"),
+                        style: "cancel"
+                    }
+                ]
+            );
+            return;
+        }
         Alert.alert(
             "Warning !",
             "If you reset your meal setup, you will lose all of your data and progress. Do you want to continue ?",
@@ -69,7 +83,8 @@ export default function MainSettingsScreen({ navigation }){
                   text: "Yes", 
                   onPress: () => {
                     setSystemFlags({...systemFlags, isMealReady: false});
-                    ResetMealSetup();
+                    ResetMealSetup(systemFlags.isWorkoutReady);
+                    navigation.goBack();
                     console.log('deleted');
                   }
                 }
@@ -77,6 +92,20 @@ export default function MainSettingsScreen({ navigation }){
         );
     }
     const resetWorkoutSetup = () => {
+        if(!systemFlags.isWorkoutReady) {
+            Alert.alert(
+                "Warning !",
+                "You have not set a Workout plan.",
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("canceled"),
+                        style: "cancel"
+                    }
+                ]
+            );
+            return;
+        }
         Alert.alert(
             "Warning !",
             "If you reset your workout setup, you will lose all of your data and progress. Do you want to continue ?",
@@ -91,7 +120,7 @@ export default function MainSettingsScreen({ navigation }){
                   onPress: () => {
                     setSystemFlags({...systemFlags, isWorkoutReady: false});
                     ResetWorkoutSetup();
-                    setAppState(false);
+                    navigation.goBack();
                     console.log('deleted');
                   }
                 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
 
-import { useIsFocused  } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 import { GetMainMealScreenData, AddWater, RemoveWater } from '../../database/screen/meal/main_meal_services';
 
@@ -33,10 +33,11 @@ export default function MainMealScreen({ navigation, route }){
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
+    // console.log('systemFlags meal', systemFlags);
+
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
-        console.log('focus meal', focus);
 
         GetMainMealScreenData().then(({
             calories, 
@@ -73,7 +74,7 @@ export default function MainMealScreen({ navigation, route }){
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
-        focus, 
+        focus,
         calories,
         carbs,
         protein,
@@ -87,8 +88,6 @@ export default function MainMealScreen({ navigation, route }){
         lunchCalories,
         dinnerCalories
     ]);
-
-    console.log('systemFlags meal', systemFlags);
 
 
     const openSetupScreen = () => {

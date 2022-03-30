@@ -1,14 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-export default function GroupLogBox({ pressHandler, title, value, subtitle }){    
+
+
+export default function GroupLogBox({ pressHandler, title }){    
     return(
         <TouchableOpacity 
             style={styles.container}
             onPress={pressHandler}>
                 <Text style={styles.title}>{title}</Text>
-                <Text style={styles.value}>{value}</Text>
-                <Text style={styles.title}>{subtitle}</Text>
         </TouchableOpacity>
     );
 };

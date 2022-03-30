@@ -1,9 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { 
-    USER_WEIGHT,
-    WEIGHT_LOG 
-} from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { USER_WEIGHT, WEIGHT_LOG } from '../../database_stores';
+
+import { IsResultEmpty } from '../../../helpers/validations';
 import { getCurrentDateForLog } from '../../../helpers/dateHelper';
 
 

@@ -7,7 +7,7 @@ import BackButton from '../../components/misc/backButton';
 import WorkoutInput from '../../components/workout/setup/workoutInput';
 
 import { calculateTimeString } from '../../helpers/timer';
-import { GetCorrectWorkoutInput } from '../../helpers/workoutValidations';
+import { GetCorrectTextInput } from '../../helpers/helpers';
 
 
 
@@ -24,25 +24,13 @@ export default function StartWorkoutScreen({ navigation, route }){
     const [currentIndex, setCurrentIndex] = React.useState(0);
 
     const [currentSet, setCurrentSet] = React.useState(1);
-    /* exercise object
-        key: key,
-        name: name,
-        description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
-        instructions: instructions,
-        sets: sets,
-        type: type,
-        minReps: minReps,
-        maxReps: maxReps,
-        rest: rest,
-        isLastUntilFailure: isLastUntilFailure
-    */
+    
     const [name, setName] = React.useState(null);
     const [instructions, setInstructions] = React.useState(null);
 
     const [type, setType] = React.useState(0);
     const [sets, setSets] = React.useState(0);
     const [rest, setRest] = React.useState(0);
-    const [isLastUntilFailure, setIsLastUntilFailure] = React.useState(false);
 
     const [duration, setDuration] = React.useState(0);
     const [durationString, setDurationString] = React.useState(null);
@@ -73,7 +61,6 @@ export default function StartWorkoutScreen({ navigation, route }){
             setReps(getAverage(route.params.exercises[currentIndex].minReps, route.params.exercises[currentIndex].maxReps));
             setRest(route.params.exercises[currentIndex].rest);
             setDuration(route.params.exercises[currentIndex].duration);
-            setIsLastUntilFailure(route.params.exercises[currentIndex].isLastUntilFailure);
         
             setDurationString(calculateTimeString(route.params.exercises[currentIndex].duration));
         }
@@ -150,7 +137,6 @@ export default function StartWorkoutScreen({ navigation, route }){
             setRest(exercises[currentIndex].rest);
             setDuration(exercises[currentIndex].duration);
             setDurationString(calculateTimeString(exercises[currentIndex].duration));
-            setIsLastUntilFailure(exercises[currentIndex].isLastUntilFailure);
         }
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
@@ -162,8 +148,7 @@ export default function StartWorkoutScreen({ navigation, route }){
         minReps,
         maxReps,
         rest,
-        duration,
-        isLastUntilFailure
+        duration
     ]);
 
     const openPrevScreen = () => navigation.goBack();
@@ -171,8 +156,8 @@ export default function StartWorkoutScreen({ navigation, route }){
     const doneSet = () => navigation.navigate('TimeWorkoutScreen', {time: rest, next: next, isDuration: false});
 
     const changeRepsHandler = (value) => setReps(value);
-    const incRepsHandler = () => setReps(`${GetCorrectWorkoutInput(reps, true)}`);
-    const decRepsHandler = () => setReps(`${GetCorrectWorkoutInput(reps, false)}`);
+    const incRepsHandler = () => setReps(`${GetCorrectTextInput(reps, true)}`);
+    const decRepsHandler = () => setReps(`${GetCorrectTextInput(reps, false)}`);
 
     const startDuration = () => navigation.navigate('TimeWorkoutScreen', {time: duration, next: next, isDuration: true});
 

@@ -8,11 +8,10 @@ import { container, back_button_container } from '../../styles/miscStyles';
 import BackButton from '../../components/misc/backButton';
 import MealInput from '../../components/meal/mealInput';
 
-import { GetCorrectMealInput } from '../../helpers/mealValidations';
+import { GetCorrectTextInput } from '../../helpers/helpers';
+import { NAME_MAX_LENGTH } from '../../helpers/constants';
 
 
-
-const NAME_MAX_LENGTH = 40;
 
 export default function AddMealScreen({ navigation, route }){
     const [mealNumber, setMealNumber] = React.useState(null);
@@ -31,23 +30,23 @@ export default function AddMealScreen({ navigation, route }){
 
     // calories
     const changeCaloriesHandler = (value) => setCalories(value);
-    const incCaloriesHandler = () => setCalories(`${GetCorrectMealInput(calories, true)}`);
-    const decCaloriesHandler = () => setCalories(`${GetCorrectMealInput(calories, false)}`);
+    const incCaloriesHandler = () => setCalories(`${GetCorrectTextInput(calories, true)}`);
+    const decCaloriesHandler = () => setCalories(`${GetCorrectTextInput(calories, false)}`);
 
     // carbs
     const changeCarbsHandler = (value) => setCarbs(value);
-    const incCarbsHandler = () => setCarbs(`${GetCorrectMealInput(carbs, true)}`);
-    const decCarbsHandler = () => setCarbs(`${GetCorrectMealInput(carbs, false)}`);
+    const incCarbsHandler = () => setCarbs(`${GetCorrectTextInput(carbs, true)}`);
+    const decCarbsHandler = () => setCarbs(`${GetCorrectTextInput(carbs, false)}`);
 
     // protein
     const changeProteinHandler = (value) => setProtein(value);
-    const incProteinHandler = () => setProtein(`${GetCorrectMealInput(protein, true)}`);
-    const decProteinHandler = () => setProtein(`${GetCorrectMealInput(protein, false)}`);
+    const incProteinHandler = () => setProtein(`${GetCorrectTextInput(protein, true)}`);
+    const decProteinHandler = () => setProtein(`${GetCorrectTextInput(protein, false)}`);
 
     // fat
     const changeFatHandler = (value) => setFat(value);
-    const incFatHandler = () => setFat(`${GetCorrectMealInput(fat, true)}`);
-    const decFatHandler = () => setFat(`${GetCorrectMealInput(fat, false)}`);
+    const incFatHandler = () => setFat(`${GetCorrectTextInput(fat, true)}`);
+    const decFatHandler = () => setFat(`${GetCorrectTextInput(fat, false)}`);
 
     const addMeal = () => {
         AddMealFoodData(mealNumber, name, (calories == '') ? 0 : calories, (carbs == '') ? 0 : carbs, (protein == '') ? 0 : protein, (fat == '') ? 0 : fat);

@@ -10,12 +10,10 @@ import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
+import { AGE_MAX_LENGTH, WEIGHT_MAX_LENGTH, HEIGHT_MAX_LENGTH } from '../../helpers/constants';
 
 
 
-const AGE_MAX_LENGTH = 3;
-const WEIGHT_MAX_LENGTH = 3;
-const HEIGHT_MAX_LENGTH = 3;
 
 export default function LandingMeasurementsScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();

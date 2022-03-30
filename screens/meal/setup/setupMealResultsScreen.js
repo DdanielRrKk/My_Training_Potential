@@ -11,13 +11,9 @@ import ContinueButton from '../../../components/misc/setup/continueButton';
 import Progress from '../../../components/meal/setup/progress';
 
 import { useSystemFlagsGlobal } from '../../../helpers/globalState';
+import { CALORIES_PERCENTAGE, CARBS_PERCENTAGE_OF_CALORIES, PROTEIN_PERCENTAGE_OF_CALORIES, FAT_PERCENTAGE_OF_CALORIES } from '../../../helpers/constants';
 
 
-
-const CALORIES_PERCENTAGE = 1; // 100%
-const CARBS_PERCENTAGE_OF_CALORIES = 0.5; // 50%
-const PROTEIN_PERCENTAGE_OF_CALORIES = 0.25; // 25%
-const FAT_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 
 export default function SetupMealResultsScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();

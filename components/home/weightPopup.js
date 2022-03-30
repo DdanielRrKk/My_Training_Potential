@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
 
+import { WEIGHT_MAX_LENGTH } from '../../helpers/constants';
 
 
-const WEIGHT_MAX_LENGTH = 3;
 
 export default function WeightPopup({ flag, closeHandler, weight, weightChangeHandler, updateHandler }){    
     return(

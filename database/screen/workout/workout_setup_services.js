@@ -26,7 +26,7 @@ import {
     MEAL_DINNER_RECOMMENDED_MIN,
     MEAL_DINNER_RECOMMENDED_MAX,
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { IsResultEmpty } from '../../../helpers/validations';
 import {
     calculateCalories,
     calculateCarbs,

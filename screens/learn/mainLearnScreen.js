@@ -1,9 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 
-import { EvilIcons } from '@expo/vector-icons';
-
 import { container } from '../../styles/miscStyles';
+
+import { EvilIcons } from '@expo/vector-icons';
 
 
 

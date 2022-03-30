@@ -14,7 +14,7 @@ import {
     MEAL_TOTAL_FAT,
     MEAL_WATER,
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { IsResultEmpty } from '../../../helpers/validations';
 
 
 

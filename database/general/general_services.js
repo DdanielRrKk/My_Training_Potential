@@ -163,10 +163,13 @@ export async function DropDatabase() {
 
 
 // reset meal setup
-export async function ResetMealSetup() {
+export async function ResetMealSetup(isWorkoutSetup) {
     try {
         await AsyncStorage.setItem(SYSTEM_IS_MEAL_SETUP, JSON.stringify(false));
         
+        console.log('isWorkoutSetup', isWorkoutSetup);
+        if(!isWorkoutSetup) await AsyncStorage.setItem(USER_ACTIVITY_LEVEL, JSON.stringify(null));
+
         await AsyncStorage.setItem(USER_MEAL_GOAL, JSON.stringify(null));
         await AsyncStorage.setItem(USER_CALORIES_GOAL, JSON.stringify(null));
         await AsyncStorage.setItem(USER_CARBS_GOAL, JSON.stringify(null));

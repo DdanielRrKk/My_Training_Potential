@@ -5,12 +5,12 @@ import { container, content, back_button_container } from '../../../styles/miscS
 
 import BackButton from '../../../components/misc/backButton';
 
+import { NAME_MAX_LENGTH } from '../../../helpers/constants';
+
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 
 
-
-const NAME_MAX_LENGTH = 40;
 
 export default function SetupWorkoutDayScreen({ navigation, route }){
     const [dayNumber, setDayNumber] = React.useState(null);
@@ -92,8 +92,6 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
                         {exercises.map((item) => (
                             <View key={item.key} style={styles.box}>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <MaterialCommunityIcons name="drag" size={24} color="black" />
-
                                     <View style={{marginLeft: 8}}>
                                         <Text style={styles.bigText}>{item.name}</Text>
                                         

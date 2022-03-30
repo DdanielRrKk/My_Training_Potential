@@ -26,7 +26,7 @@ import {
     MEAL_DINNER_TOTAL_FAT,
     MEAL_DINNER_FOODS
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { IsResultEmpty } from '../../../helpers/validations';
 
 
 

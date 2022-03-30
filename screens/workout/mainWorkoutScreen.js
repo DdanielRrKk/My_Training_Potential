@@ -1,17 +1,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 
-import { useIsFocused  } from '@react-navigation/native';
-
-import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
+import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
 import { container } from '../../styles/miscStyles';
 
 import WorkoutBox from '../../components/workout/workoutBox';
 
-import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
-
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
+import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
 
 
 
@@ -28,11 +25,11 @@ export default function MainWorkoutScreen({ navigation, route }){
         {day_number: 6, name: null, exercises: []},
         {day_number: 7, name: null, exercises: []},
     ]);
+    
+    // console.log('systemFlags workout', systemFlags);
 
-    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
-        console.log('focus workout', focus);
 
         GetWorkoutScreenData().then(({ name, days}) => { 
             if(isGood) {
@@ -43,9 +40,7 @@ export default function MainWorkoutScreen({ navigation, route }){
         });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [focus, name]);
-    
-    console.log('systemFlags workout', systemFlags);
+    }, [name]);
 
 
     const openSetupScreen = () => {

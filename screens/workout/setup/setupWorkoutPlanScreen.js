@@ -1,19 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 
+import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
+import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
+
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 
-import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
-import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
-
 import { useSystemFlagsGlobal } from '../../../helpers/globalState';
+import { NAME_MAX_LENGTH } from '../../../helpers/constants';
 
 
-
-const NAME_MAX_LENGTH = 40;
 
 export default function SetupWorkoutPlanScreen({ navigation, route }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();

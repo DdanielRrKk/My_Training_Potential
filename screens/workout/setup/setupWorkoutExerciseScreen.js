@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, Switch, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, Switch, KeyboardAvoidingView } from 'react-native';
 
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
@@ -8,12 +8,10 @@ import CheckButton from '../../../components/misc/checkButton';
 import GroupButton from '../../../components/workout/setup/groupButton';
 import WorkoutInput from '../../../components/workout/setup/workoutInput';
 
-import { GetCorrectWorkoutInput } from '../../../helpers/workoutValidations';
+import { GetCorrectTextInput } from '../../../helpers/helpers';
+import { NAME_MAX_LENGTH, LONG_TEXT_MAX_LENGTH } from '../../../helpers/constants';
 
 
-
-const NAME_MAX_LENGTH = 40;
-const INSTRUCTIONS_MAX_LENGTH = 100;
 
 export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [isFromEdit, setIsFromEdit] = React.useState(false);
@@ -22,7 +20,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const [name, setName] = React.useState('');
     const [sets, setSets] = React.useState(null);
     const [rest, setRest] = React.useState(null);
-    const [isLastUntilFailure, setIsLastUntilFailure] = React.useState(null);
     const [type, setType] = React.useState(0);
 
     const [minReps, setMinReps] = React.useState(null);
@@ -40,7 +37,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             setInstructions(route.params.exercise.instructions);
             setSets(route.params.exercise.sets);
             setRest(route.params.exercise.rest);
-            setIsLastUntilFailure(route.params.exercise.isLastUntilFailure);
             setType(route.params.exercise.type);
             setMinReps(route.params.exercise.minReps);
             setMaxReps(route.params.exercise.maxReps);
@@ -61,8 +57,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             type: type,
             minReps: minReps,
             maxReps: maxReps,
-            rest: rest,
-            isLastUntilFailure: isLastUntilFailure
+            rest: rest
         }
     } : {
         exercise: {
@@ -73,8 +68,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             sets: sets,
             type: type,
             duration: duration,
-            rest: rest,
-            isLastUntilFailure: isLastUntilFailure
+            rest: rest
         }
     });
 
@@ -88,8 +82,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             type: type,
             minReps: minReps,
             maxReps: maxReps,
-            rest: rest,
-            isLastUntilFailure: isLastUntilFailure
+            rest: rest
         }
     } : {
         exercise: {
@@ -100,37 +93,34 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             sets: sets,
             type: type,
             duration: duration,
-            rest: rest,
-            isLastUntilFailure: isLastUntilFailure
+            rest: rest
         }
     });
 
     // Sets
     const changeSetsHandler = (value) => setSets(value);
-    const incSetsHandler = () => setSets(`${GetCorrectWorkoutInput(sets, true)}`);
-    const decSetsHandler = () => setSets(`${GetCorrectWorkoutInput(sets, false)}`);
+    const incSetsHandler = () => setSets(`${GetCorrectTextInput(sets, true)}`);
+    const decSetsHandler = () => setSets(`${GetCorrectTextInput(sets, false)}`);
     
     // MinReps
     const changeMinRepsHandler = (value) => setMinReps(value);
-    const incMinRepsHandler = () => setMinReps(`${GetCorrectWorkoutInput(minReps, true)}`);
-    const decMinRepsHandler = () => setMinReps(`${GetCorrectWorkoutInput(minReps, false)}`);
+    const incMinRepsHandler = () => setMinReps(`${GetCorrectTextInput(minReps, true)}`);
+    const decMinRepsHandler = () => setMinReps(`${GetCorrectTextInput(minReps, false)}`);
     
     // MaxReps
     const changeMaxRepsHandler = (value) => setMaxReps(value);
-    const incMaxRepsHandler = () => setMaxReps(`${GetCorrectWorkoutInput(maxReps, true)}`);
-    const decMaxRepsHandler = () => setMaxReps(`${GetCorrectWorkoutInput(maxReps, false)}`);
+    const incMaxRepsHandler = () => setMaxReps(`${GetCorrectTextInput(maxReps, true)}`);
+    const decMaxRepsHandler = () => setMaxReps(`${GetCorrectTextInput(maxReps, false)}`);
     
     // Duration
     const changeDurationHandler = (value) => setDuration(value);
-    const incDurationHandler = () => setDuration(`${GetCorrectWorkoutInput(duration, true)}`);
-    const decDurationHandler = () => setDuration(`${GetCorrectWorkoutInput(duration, false)}`);
+    const incDurationHandler = () => setDuration(`${GetCorrectTextInput(duration, true)}`);
+    const decDurationHandler = () => setDuration(`${GetCorrectTextInput(duration, false)}`);
     
     // Rest
     const changeRestHandler = (value) => setRest(value);
-    const incRestHandler = () => setRest(`${GetCorrectWorkoutInput(rest, true)}`);
-    const decRestHandler = () => setRest(`${GetCorrectWorkoutInput(rest, false)}`);
-
-    const toggleSwitch = () => setIsLastUntilFailure(!isLastUntilFailure);
+    const incRestHandler = () => setRest(`${GetCorrectTextInput(rest, true)}`);
+    const decRestHandler = () => setRest(`${GetCorrectTextInput(rest, false)}`);
 
     return(
         <SafeAreaView style={[container, { paddingBottom: 0 }]}>
@@ -216,17 +206,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                                 incValueHandler={incRestHandler}
                                 decValueHandler={decRestHandler}/>
                         </View>
-
-                        <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Last Set Until Failure</Text>
-
-                            <Switch
-                                style={{marginRight: 48}}
-                                trackColor={{ false: 'black', true: 'white' }}
-                                thumbColor={(isLastUntilFailure) ? 'white' : 'white'}
-                                onValueChange={toggleSwitch}
-                                value={isLastUntilFailure} />
-                        </View>
                     </View>
 
                     <View style={styles.box}>
@@ -237,7 +216,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                             placeholder='(optional)'
                             onChangeText={setInstructions}
                             value={instructions}
-                            maxLength={INSTRUCTIONS_MAX_LENGTH}
+                            maxLength={LONG_TEXT_MAX_LENGTH}
                             multiline={true}
                             numberOfLines={4}/>
                     </View>

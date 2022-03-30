@@ -3,9 +3,9 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetMealLogData } from '../../database/screen/home/logs_services';
 
-import BackButton from '../../components/misc/backButton';
-
 import { container, back_button_container } from '../../styles/miscStyles';
+
+import BackButton from '../../components/misc/backButton';
 
 
 

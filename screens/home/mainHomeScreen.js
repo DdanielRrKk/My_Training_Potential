@@ -1,7 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
+import { useIsFocused } from '@react-navigation/native';
+
 import { GetHomeScreenData } from '../../database/screen/home/home_services';
+
+import { container } from '../../styles/miscStyles';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
@@ -9,8 +13,6 @@ import LogBox from '../../components/home/logBox';
 import GroupLogBox from '../../components/home/groupLogBox';
 import Progress from '../../components/meal/setup/progress';
 import WorkoutBox from '../../components/workout/workoutBox';
-
-import { container } from '../../styles/miscStyles';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
 
@@ -38,8 +40,9 @@ export default function MainHomeScreen({ navigation }){
         exercises: []
     });
     
-    console.log('systemFlags home', systemFlags);
+    // console.log('systemFlags home', systemFlags);
 
+    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
@@ -75,6 +78,7 @@ export default function MainHomeScreen({ navigation }){
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
+        focus,
         name,
         weight,
         caloriesPercentage,
@@ -210,15 +214,11 @@ export default function MainHomeScreen({ navigation }){
 
                     <View style={styles.middle_button_container}>
                         <GroupLogBox 
-                            title='Workouts'
-                            value={0}
-                            subtitle='max squads'
+                            title='Workout History'
                             pressHandler={openWorkoutLogScreen}/>
 
                         <GroupLogBox 
-                            title='Meals'
-                            value={0}
-                            subtitle='yesterday'
+                            title='Meal History'
                             pressHandler={openMealLogScreen}/>
                     </View>
 

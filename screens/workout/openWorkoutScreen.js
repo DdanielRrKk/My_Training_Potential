@@ -7,7 +7,6 @@ import { container, back_button_container } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 export default function OpenWorkoutScreen({ navigation, route }){
@@ -39,7 +38,7 @@ export default function OpenWorkoutScreen({ navigation, route }){
 
     const openStartWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('StartWorkoutScreen', {exercises: exercises});
+        navigation.navigate('StartWorkoutScreen', {exercises: exercises, day_name: name});
     }
 
     return(
@@ -60,8 +59,6 @@ export default function OpenWorkoutScreen({ navigation, route }){
                         {exercises.map((item) => (
                             <View key={item.key} style={styles.box}>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <MaterialCommunityIcons name="drag" size={24} color="black" />
-
                                     <View style={{marginLeft: 8}}>
                                         <Text style={styles.bigText}>{item.name}</Text>
                                         

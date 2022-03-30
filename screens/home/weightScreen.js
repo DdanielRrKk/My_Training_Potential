@@ -3,10 +3,10 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } fr
 
 import { GetWeightScreenData, SetWeightLogData } from '../../database/screen/home/weight_services';
 
+import { container, back_button_container } from '../../styles/miscStyles';
+
 import BackButton from '../../components/misc/backButton';
 import WeightPopup from '../../components/home/weightPopup';
-
-import { container, back_button_container } from '../../styles/miscStyles';
 
 
 

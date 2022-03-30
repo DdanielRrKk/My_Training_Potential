@@ -18,8 +18,8 @@ import {
     WORKOUT_SATURDAY,
     WORKOUT_SUNDAY
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
-import { valuePercentageOfValue } from '../../../helpers/basicCalculations';
+import { IsResultEmpty } from '../../../helpers/validations';
+import { GetPercentageOfSmallValueInBigValue } from '../../../helpers/helpers';
 
 
 
@@ -67,6 +67,7 @@ export async function GetHomeScreenData() {
         // console.log('totalFatResult', totalFatResult);
         if(IsResultEmpty(totalFatResult)) return console.log('totla fat has no data'); 
 
+        
         let todaysWorkoutResult = null;
         const today = new Date();
         switch(today.getDay()) {
@@ -78,7 +79,8 @@ export async function GetHomeScreenData() {
             case 5: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_FRIDAY); break;
             case 6: todaysWorkoutResult = await AsyncStorage.getItem(WORKOUT_SATURDAY); break;
             default: todaysWorkoutResult= '';
-        }// console.log('todaysWorkoutResult', todaysWorkoutResult);
+        }
+        // console.log('todaysWorkoutResult', todaysWorkoutResult);
         if(IsResultEmpty(todaysWorkoutResult)) return console.log('todays workout has no data'); 
 
 
@@ -112,10 +114,10 @@ export async function GetHomeScreenData() {
         
         // console.log('todaysWorkout', todaysWorkout);
 
-        const percentageCalories = valuePercentageOfValue(totalCalories, mealCaloriesGoal);
-        const percentageCarbs = valuePercentageOfValue(totalCarbs, mealCarbsGoal);
-        const percentageProtein = valuePercentageOfValue(totalProtein, mealProteinGoal);
-        const percentageFat = valuePercentageOfValue(totalFat, mealFatGoal);
+        const percentageCalories = GetPercentageOfSmallValueInBigValue(totalCalories, mealCaloriesGoal);
+        const percentageCarbs = GetPercentageOfSmallValueInBigValue(totalCarbs, mealCarbsGoal);
+        const percentageProtein = GetPercentageOfSmallValueInBigValue(totalProtein, mealProteinGoal);
+        const percentageFat = GetPercentageOfSmallValueInBigValue(totalFat, mealFatGoal);
 
         // console.log('percentageCalories', percentageCalories);
         // console.log('percentageCarbs', percentageCarbs);

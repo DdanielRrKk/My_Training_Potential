@@ -1,9 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { 
-    MEAL_LOG,
-    WORKOUT_LOG
-} from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/databaseValidations';
+import { MEAL_LOG, WORKOUT_LOG } from '../../database_stores';
+
+import { IsResultEmpty } from '../../../helpers/validations';
 
 
 
