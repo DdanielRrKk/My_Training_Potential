@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Modal, TextInput } from 'react-native';
 
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+
 import { WEIGHT_MAX_LENGTH } from '../../helpers/constants';
 
 
@@ -29,7 +31,7 @@ export default function WeightPopup({ flag, closeHandler, weight, weightChangeHa
                     <TouchableOpacity 
                         style={styles.popupButton}
                         onPress={() => updateHandler()}>
-                        <Text>Update Weight</Text>
+                        <Text style={styles.buttonText}>Update Weight</Text>
                     </TouchableOpacity>
                 </View>
             </TouchableOpacity>
@@ -73,10 +75,14 @@ const styles = StyleSheet.create({
         width: '90%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderWidth: 1,
+        backgroundColor: PRIMARY_COLOR,
         borderRadius: 10,
-        borderColor: 'black',
         padding: 10,
         margin: 10,
+    },
+    buttonText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     }
 });

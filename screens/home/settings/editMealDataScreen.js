@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native';
 
 import { GetEditMealDataScreenData, SetEditMealData } from '../../../database/screen/home/settings_services';
 
-import { container, back_button_container } from '../../../styles/miscStyles';
+import { container, back_button_container, subtitle } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
+import ActionButton from '../../../components/misc/actionButton';
 
 import { NUTRITIONS_MAX_LENGTH } from '../../../helpers/constants';
 
@@ -51,7 +52,7 @@ export default function EditMealDataScreen({ navigation }){
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.subtitle}>Calories Goal</Text>
+                <Text style={subtitle}>Calories Goal</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -59,7 +60,7 @@ export default function EditMealDataScreen({ navigation }){
                     value={caloriesGoal}
                     maxLength={NUTRITIONS_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Carbs Goal</Text>
+                <Text style={subtitle}>Carbs Goal</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -67,7 +68,7 @@ export default function EditMealDataScreen({ navigation }){
                     value={carbsGoal}
                     maxLength={NUTRITIONS_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Protein Goal</Text>
+                <Text style={subtitle}>Protein Goal</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -75,7 +76,7 @@ export default function EditMealDataScreen({ navigation }){
                     value={proteinGoal}
                     maxLength={NUTRITIONS_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Fat Goal</Text>
+                <Text style={subtitle}>Fat Goal</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -84,11 +85,7 @@ export default function EditMealDataScreen({ navigation }){
                     maxLength={NUTRITIONS_MAX_LENGTH}/>
             </View>
 
-            <TouchableOpacity
-                style={styles.add}
-                onPress={saveEditData}>
-                <Text>Save</Text>
-            </TouchableOpacity>
+            <ActionButton title='Save' pressHandler={saveEditData}/>
         </SafeAreaView>
     );
 };
@@ -96,13 +93,6 @@ export default function EditMealDataScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
     content: {
         flex: 1,
         width: '100%',
@@ -118,16 +108,5 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 10,
         marginBottom: 16
-    },
-
-    add: {
-        marginTop: 16,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
     },
 });

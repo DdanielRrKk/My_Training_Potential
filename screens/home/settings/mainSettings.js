@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 
 import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
-import { container, back_button_container } from '../../../styles/miscStyles';
+import { container, back_button_container, shadow, subtitle } from '../../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
 
 import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
+import { AlertOK, AlertYESNO } from '../../../helpers/alerts';
 
 
 
@@ -15,144 +17,71 @@ export default function MainSettingsScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
     const [appState, setAppState] = useAppStateGlobal();
 
+
+
+    const warningTitle = "Warning !";
+    const notSetupPlanText = "You have not setted a plan.";
+    const resetSetupPlanText = "If you reset your plan setup, you will lose all of your data and progress. Do you want to continue ?";
+    const deleteAccountText = "If you delete your account, you will lose all of your data and progress. Do you want to continue ?";
+    const canceledEvent = () => console.log("canceled");
+    const resetMealSetupHandler = () => {
+        setSystemFlags({...systemFlags, isMealReady: false});
+        ResetMealSetup(systemFlags.isWorkoutReady);
+        navigation.goBack();
+        console.log('deleted');
+    }
+    const resetWorkoutSetupHandler = () => {
+        setSystemFlags({...systemFlags, isWorkoutReady: false});
+        ResetWorkoutSetup();
+        navigation.goBack();
+        console.log('deleted');
+    }
+    const deleteAccountHandler = () => {
+        setSystemFlags({
+            isUserReady: false,
+            isMealReady: false,
+            isWorkoutReady: false
+        });
+        CreateDatabase();
+        setAppState(false);
+        console.log('deleted');
+    }
+
+
+
     const openPrevScreen = () => navigation.goBack();
 
+    
     const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
     const openEditMealDataScreen = () => {
         if(!systemFlags.isMealReady) {
-            Alert.alert(
-                "Warning !",
-                "You have not set a Meal plan.",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => console.log("canceled"),
-                        style: "cancel"
-                    }
-                ]
-            );
+            AlertOK(warningTitle, notSetupPlanText, canceledEvent);
             return;
         }
-
         navigation.navigate('EditMealDataScreen');
     }
     const openEditWorkoutDataScreen = () => {
         if(!systemFlags.isWorkoutReady) {
-            Alert.alert(
-                "Warning !",
-                "You have not set a Workout plan.",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => console.log("canceled"),
-                        style: "cancel"
-                    }
-                ]
-            );
+            AlertOK(warningTitle, notSetupPlanText, canceledEvent);
             return;
         }
-
         navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
-
     const resetMealSetup = () => {
         if(!systemFlags.isMealReady) {
-            Alert.alert(
-                "Warning !",
-                "You have not set a Meal plan.",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => console.log("canceled"),
-                        style: "cancel"
-                    }
-                ]
-            );
+            AlertOK(warningTitle, notSetupPlanText, canceledEvent);
             return;
         }
-        Alert.alert(
-            "Warning !",
-            "If you reset your meal setup, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({...systemFlags, isMealReady: false});
-                    ResetMealSetup(systemFlags.isWorkoutReady);
-                    navigation.goBack();
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
+        AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetMealSetupHandler);
     }
     const resetWorkoutSetup = () => {
         if(!systemFlags.isWorkoutReady) {
-            Alert.alert(
-                "Warning !",
-                "You have not set a Workout plan.",
-                [
-                    {
-                        text: "OK",
-                        onPress: () => console.log("canceled"),
-                        style: "cancel"
-                    }
-                ]
-            );
+            AlertOK(warningTitle, notSetupPlanText, canceledEvent);
             return;
         }
-        Alert.alert(
-            "Warning !",
-            "If you reset your workout setup, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({...systemFlags, isWorkoutReady: false});
-                    ResetWorkoutSetup();
-                    navigation.goBack();
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
+        AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetWorkoutSetupHandler);
     }
-    const deleteAccount = () => {
-        Alert.alert(
-            "Warning !",
-            "If you delete your account, you will lose all of your data and progress. Do you want to continue ?",
-            [
-                {
-                    text: "No",
-                    onPress: () => console.log("canceled"),
-                    style: "cancel"
-                },
-                { 
-                  text: "Yes", 
-                  onPress: () => {
-                    setSystemFlags({
-                        isUserReady: false,
-                        isMealReady: false,
-                        isWorkoutReady: false
-                    });
-                    CreateDatabase();
-                    setAppState(false);
-                    console.log('deleted');
-                  }
-                }
-            ]
-        );
-    }
+    const deleteAccount = () => AlertYESNO(warningTitle, deleteAccountText, canceledEvent, deleteAccountHandler);
  
     return(
         <SafeAreaView style={container}>
@@ -162,43 +91,43 @@ export default function MainSettingsScreen({ navigation }){
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.subtitle}>Settings</Text>
+                    <Text style={subtitle}>Settings</Text>
 
                     <TouchableOpacity
-                        style={styles.box}
+                        style={[styles.box, shadow]}
                         onPress={openEditUserDataScreen}>
-                        <Text style={{fontSize: 16}}>Edit User Data</Text>
+                        <Text style={styles.labels}>Edit User Data</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={styles.box}
+                        style={[styles.box, shadow]}
                         onPress={openEditMealDataScreen}>
-                        <Text style={{fontSize: 16}}>Edit Nutritions Data</Text>
+                        <Text style={styles.labels}>Edit Nutritions Data</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={styles.box}
+                        style={[styles.box, shadow]}
                         onPress={openEditWorkoutDataScreen}>
-                        <Text style={{fontSize: 16}}>Edit Workout Plan</Text>
+                        <Text style={styles.labels}>Edit Workout Plan</Text>
                     </TouchableOpacity>
                     
 
                     <TouchableOpacity
                         style={styles.textBox}
                         onPress={resetMealSetup}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Reset Meal Setup</Text>
+                        <Text style={styles.labelsImportant}>Reset Meal Setup</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.textBox}
                         onPress={resetWorkoutSetup}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Reset Workout Setup</Text>
+                        <Text style={styles.labelsImportant}>Reset Workout Setup</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity
                         style={styles.textBox}
                         onPress={deleteAccount}>
-                        <Text style={{fontSize: 16, color: 'red'}}>Delete Account</Text>
+                        <Text style={styles.labelsImportant}>Delete Account</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
@@ -209,13 +138,6 @@ export default function MainSettingsScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
     content: {
         flex: 1,
         width: '100%',
@@ -229,8 +151,18 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start',
         padding: 16,
         borderRadius: 10,
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         marginBottom: 16
+    },
+
+    labels: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
+    },
+    labelsImportant: {
+        fontSize: 16,
+        color: 'red'
     },
 
     textBox: {

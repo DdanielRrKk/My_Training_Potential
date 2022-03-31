@@ -1,6 +1,9 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import { shadow } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+
 import { getDayName } from '../../helpers/workoutHelper';
 
 
@@ -10,7 +13,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
 
     if((day.name == null || day.exercises == 0) && (isToday || !isToday)) {
         return(
-            <View style={[styles.container, style]}>
+            <View style={[styles.container, style, shadow]}>
                 <Text style={styles.text}>{day_name}</Text>
                 
                 <Text style={[styles.text, {marginTop: 16, alignSelf: 'flex-start'}]}>Rest</Text>
@@ -36,9 +39,9 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
                 </View>
 
                 <TouchableOpacity 
-                    style={styles.containerBottom}
+                    style={[styles.containerBottom, shadow]}
                     onPress={() => startHandler()}>
-                    <Text style={styles.text}>Start</Text>
+                    <Text style={styles.stratText}>Start</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
         );
@@ -46,7 +49,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
 
     return(
         <TouchableOpacity 
-            style={[styles.container, style]}
+            style={[styles.container, style, shadow]}
             onPress={() => openHandler()}>
             <Text style={styles.text}>{day_name}</Text>
             
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray'
+        backgroundColor: SECONDARY_COLOR
     },
 
     containerSmall: {
@@ -77,10 +80,19 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
     subtext: {
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
+    },
+    stratText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 
 
@@ -94,7 +106,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray'
+        backgroundColor: SECONDARY_COLOR
     },
     containerBottom: {
         width: '100%',
@@ -103,6 +115,6 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: PRIMARY_COLOR
     },
 });

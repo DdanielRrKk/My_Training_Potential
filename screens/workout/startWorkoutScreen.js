@@ -5,6 +5,7 @@ import { container, back_button_container } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import WorkoutInput from '../../components/workout/setup/workoutInput';
+import ActionButton from '../../components/misc/actionButton';
 
 import { calculateTimeString } from '../../helpers/timer';
 import { GetCorrectTextInput } from '../../helpers/helpers';
@@ -204,11 +205,12 @@ export default function StartWorkoutScreen({ navigation, route }){
                     }
                 </View>
             
-                <TouchableOpacity
+                <ActionButton title='Next' pressHandler={doneSet}/>
+                {/* <TouchableOpacity
                     style={styles.next}
                     onPress={doneSet}>
                     <Text>Next</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </KeyboardAvoidingView>
         </SafeAreaView>
     );

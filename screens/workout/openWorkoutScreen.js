@@ -1,11 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetOpenWorkoutScreenData } from '../../database/screen/workout/open_workout_services';
 
-import { container, back_button_container } from '../../styles/miscStyles';
+import { container, back_button_container, shadow, subtitle } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
 
 import BackButton from '../../components/misc/backButton';
+import ActionButton from '../../components/misc/actionButton';
 
 
 
@@ -48,21 +50,21 @@ export default function OpenWorkoutScreen({ navigation, route }){
             </View>
 
             <View style={styles.content}>
-                <View style={styles.header}>
-                    <Text style={{ fontSize: 20 }}>{name}</Text>
+                <View style={[styles.header, shadow]}>
+                    <Text style={styles.headerText}>{name}</Text>
                 </View>
 
-                <Text style={styles.subtitle}>Exercises</Text>
+                <Text style={subtitle}>Exercises</Text>
 
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <View style={{ width: '100%', alignItems: 'center' }}>
                         {exercises.map((item) => (
-                            <View key={item.key} style={styles.box}>
+                            <View key={item.key} style={[styles.box, shadow]}>
                                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                     <View style={{marginLeft: 8}}>
-                                        <Text style={styles.bigText}>{item.name}</Text>
+                                        <Text style={styles.boxText}>{item.name}</Text>
                                         
-                                        <Text style={styles.smallText}>{item.description}</Text>
+                                        <Text style={styles.boxText}>{item.description}</Text>
                                     </View>
                                 </View>
                             </View>
@@ -72,11 +74,7 @@ export default function OpenWorkoutScreen({ navigation, route }){
             </View>
             
             {(isToday) ?
-                <TouchableOpacity
-                    style={styles.add}
-                    onPress={openStartWorkoutScreen}>
-                    <Text>Start</Text>
-                </TouchableOpacity>
+            <ActionButton title='Start' pressHandler={openStartWorkoutScreen}/>
             : null }
         </SafeAreaView>
     );
@@ -85,16 +83,8 @@ export default function OpenWorkoutScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-    setUp: {
-        backgroundColor: 'gray',
-        width: '100%',
-        padding: 10,
-        borderRadius: 20,
-        alignItems: 'center'
-    },
-
     header: {
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -103,17 +93,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 80
     },
-
-    primaryText: {
-        fontSize: 24
-    },
-
-    secondaryText: {
-        fontSize: 18
-    },
-
-    subText: {
-        fontSize: 14
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 
     content: {
@@ -123,13 +106,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
     box: {
         flexDirection: 'row',
         width: '100%',
@@ -137,18 +113,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray',
+        backgroundColor: SECONDARY_COLOR,
         marginBottom: 16
     },
-
-    add: {
-        marginTop: 16,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
+    boxText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
 });

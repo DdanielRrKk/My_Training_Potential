@@ -1,9 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import { SetWorkoutLogData } from '../../database/screen/workout/final_workout_services';
 
-import { container } from '../../styles/miscStyles';
+import { container, subtitle } from '../../styles/miscStyles';
+
+import ActionButton from '../../components/misc/actionButton';
 
 import { LONG_TEXT_MAX_LENGTH } from '../../helpers/constants';
 
@@ -39,13 +41,13 @@ export default function FinalWorkoutScreen({ navigation, route }){
                             <Text style={{fontSize: 18}}>{dayName}</Text>
                         </View>
 
-                        <Text style={styles.subtitle}>Total Time</Text>
+                        <Text style={subtitle}>Total Time</Text>
 
                         <View style={styles.header}>
                             <Text style={styles.bigText}>{totalTime}</Text>
                         </View>
 
-                        <Text style={styles.subtitle}>Exercises</Text>
+                        <Text style={subtitle}>Exercises</Text>
 
                         <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                             <View style={{ width: '100%', alignItems: 'center' }}>
@@ -77,7 +79,7 @@ export default function FinalWorkoutScreen({ navigation, route }){
                             </View>
                         </ScrollView>
 
-                        <Text style={styles.subtitle}>Note</Text>
+                        <Text style={subtitle}>Note</Text>
 
                         <View style={styles.boxNote}>
                             <TextInput
@@ -90,11 +92,12 @@ export default function FinalWorkoutScreen({ navigation, route }){
                                 numberOfLines={4}/>
                         </View>
 
-                        <TouchableOpacity
+                        <ActionButton title='Finish' pressHandler={finish}/>
+                        {/* <TouchableOpacity
                             style={styles.add}
                             onPress={finish}>
                             <Text>Finish</Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
 
             </KeyboardAvoidingView>
@@ -139,13 +142,6 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'space-between',
         alignItems: 'center'
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
     },
 
     box: {

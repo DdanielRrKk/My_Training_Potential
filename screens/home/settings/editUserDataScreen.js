@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native';
 
 import { GetEditUserDataScreenData, SetEditUserData } from '../../../database/screen/home/settings_services';
 
-import { container, back_button_container } from '../../../styles/miscStyles';
+import { container, back_button_container, subtitle } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
+import ActionButton from '../../../components/misc/actionButton';
 
 import { NAME_MAX_LENGTH, AGE_MAX_LENGTH } from '../../../helpers/constants';
 
@@ -43,7 +44,7 @@ export default function EditUserDataScreen({ navigation }){
             </View>
 
             <View style={styles.content}>
-                <Text style={styles.subtitle}>Name</Text>
+                <Text style={subtitle}>Name</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -51,7 +52,7 @@ export default function EditUserDataScreen({ navigation }){
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Age</Text>
+                <Text style={subtitle}>Age</Text>
 
                 <TextInput
                     style={styles.entry}
@@ -60,11 +61,7 @@ export default function EditUserDataScreen({ navigation }){
                     maxLength={AGE_MAX_LENGTH}/>
             </View>
 
-            <TouchableOpacity
-                style={styles.add}
-                onPress={saveEditData}>
-                <Text>Save</Text>
-            </TouchableOpacity>
+            <ActionButton title='Save' pressHandler={saveEditData}/>
         </SafeAreaView>
     );
 };
@@ -72,13 +69,6 @@ export default function EditUserDataScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
     content: {
         flex: 1,
         width: '100%',
@@ -94,16 +84,5 @@ const styles = StyleSheet.create({
         borderColor: 'black',
         borderRadius: 10,
         marginBottom: 16
-    },
-
-    add: {
-        marginTop: 16,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
     },
 });

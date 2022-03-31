@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
 
-import { container } from '../../styles/miscStyles';
+import { container, shadow, subtitle } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import { EvilIcons } from '@expo/vector-icons';
 
@@ -22,11 +23,11 @@ export default function MainLearnScreen(){
     return(
         <SafeAreaView style={[container, {justifyContent: 'flex-start', paddingVertical: 0}]}>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Text style={{ fontSize: 20 }}>Learning</Text>
+                <View style={[styles.header, shadow]}>
+                    <Text style={styles.headerText}>Learning</Text>
                 </View>
 
-                <Text style={styles.subtitle}>FAQ</Text>
+                <Text style={subtitle}>FAQ</Text>
 
                 <>
                 {FAQ_LIST.map((item) => {
@@ -39,9 +40,9 @@ export default function MainLearnScreen(){
                                 <View style={styles.containerTop}>
                                     <Text style={styles.question}>{item.question}</Text>
                         
-                                    <EvilIcons name="chevron-up" size={38} color="black" />
+                                    <EvilIcons name="chevron-up" size={40} color={PRIMARY_COLOR} />
                                 </View>
-                                <View style={styles.containerBottom}>
+                                <View style={[styles.containerBottom, shadow]}>
                                     <Text style={styles.answer}>{item.answer}</Text>
                                 </View>
                             </TouchableOpacity>
@@ -51,11 +52,11 @@ export default function MainLearnScreen(){
                     return(
                         <TouchableOpacity 
                             key={item.key}
-                            style={styles.container}
+                            style={[styles.container, shadow]}
                             onPress={() => openQuestionHandler(item.key)}>
                             <Text style={styles.question}>{item.question}</Text>
                 
-                            <EvilIcons name="chevron-down" size={38} color="black" />
+                            <EvilIcons name="chevron-down" size={40} color={PRIMARY_COLOR} />
                         </TouchableOpacity>
                     );
                 })}
@@ -69,7 +70,7 @@ export default function MainLearnScreen(){
 
 const styles = StyleSheet.create({
     header: {
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -78,12 +79,10 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 80
     },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 
 
@@ -95,15 +94,19 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray',
+        backgroundColor: SECONDARY_COLOR,
         marginBottom: 16
     },
 
     question: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
     answer: {
-        fontSize: 16
+        fontSize: 16,
+        // fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
 
 
@@ -119,16 +122,18 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray'
+        backgroundColor: SECONDARY_COLOR
     },
     containerBottom: {
         width: '100%',
         padding: 10,
+        // borderTopColor: PRIMARY_COLOR,
+        // borderTopWidth: 1,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: PRIMARY_COLOR
     },
 });
 

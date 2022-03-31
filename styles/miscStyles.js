@@ -1,5 +1,7 @@
 import { StyleSheet, StatusBar } from 'react-native';
 
+import { TERTIARY_COLOR } from './colors';
+
 
 
 export const container = {
@@ -21,6 +23,23 @@ export const back_button_container = {
     flexDirection: 'row',
     justifyContent: 'flex-start'
 };
+
+export const subtitle = {
+    justifyContent: 'center',
+    alignSelf: 'flex-start',
+    fontSize: 18,
+    paddingVertical: 16,
+    color: TERTIARY_COLOR
+};
+
+
+
+export const shadow = {
+    shadowColor: TERTIARY_COLOR,
+    shadowOpacity: 1,
+    shadowRadius: 5,
+    elevation: 3,
+}
 
 
 

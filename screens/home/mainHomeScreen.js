@@ -5,14 +5,16 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
-import { container } from '../../styles/miscStyles';
+import { container, subtitle} from '../../styles/miscStyles';
+import { TERTIARY_COLOR } from '../../styles/colors';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
 import LogBox from '../../components/home/logBox';
 import GroupLogBox from '../../components/home/groupLogBox';
-import Progress from '../../components/meal/setup/progress';
 import WorkoutBox from '../../components/workout/workoutBox';
+
+import NutritionsBox from '../../components/home/nutritionsBox';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
 
@@ -139,57 +141,25 @@ export default function MainHomeScreen({ navigation }){
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.subtitle}>Nutrition</Text>
+                    <Text style={subtitle}>Nutrition</Text>
                     
                     { // Nutritions ================ START
                     systemFlags.isMealReady ?
-                        <View style={styles.results}>
-                            <View style={[styles.row, {marginTop: 16}]}>
-                                <Text style={styles.labels}>Calories</Text>
-                                
-                                <Text style={styles.labels}>{caloriesGoal} cal</Text>
-                            </View>
-
-                            <Progress
-                                style={styles.progress} 
-                                progress={caloriesPercentage} />
-                            
-                            <View style={styles.row}>
-                                <Text style={styles.labels}>Carbs</Text>
-                                
-                                <Text style={styles.labels}>{carbsGoal} g</Text>
-                            </View>
-
-                            <Progress 
-                                style={styles.progress} 
-                                progress={carbsPercentage} />
-                            
-                            <View style={styles.row}>
-                                <Text style={styles.labels}>Protein</Text>
-                                
-                                <Text style={styles.labels}>{proteinGoal} g</Text>
-                            </View>
-
-                            <Progress 
-                                style={styles.progress} 
-                                progress={proteinPercentage} />
-                            
-                            <View style={styles.row}>
-                                <Text style={styles.labels}>Fat</Text>
-                                
-                                <Text style={styles.labels}>{fatGoal} g</Text>
-                            </View>
-
-                            <Progress 
-                                style={[styles.progress, {marginBottom: 20}]} 
-                                progress={fatPercentage} />
-                        </View>
+                        <NutritionsBox 
+                            caloriesGoal={caloriesGoal}
+                            caloriesPercentage={caloriesPercentage}
+                            carbsGoal={carbsGoal}
+                            carbsPercentage={carbsPercentage}
+                            proteinGoal={proteinGoal}
+                            proteinPercentage={proteinPercentage}
+                            fatGoal={fatGoal}
+                            fatPercentage={fatPercentage}/>
                     :
                         <SetupBox pressHandler={openSetupNutritionScreen}/>
                     // Nutritions ================ END
                     } 
 
-                    <Text style={styles.subtitle}>Workout</Text>
+                    <Text style={subtitle}>Workout</Text>
                     
                     { // Workout ================ START
                     systemFlags.isWorkoutReady ?
@@ -203,14 +173,14 @@ export default function MainHomeScreen({ navigation }){
                     // Workout ================ END
                     } 
                     
-                    <Text style={styles.subtitle}>Weight Log</Text>
+                    <Text style={subtitle}>Weight Log</Text>
                     
                     <LogBox 
                         value={weight}
                         title='current weight'
                         pressHandler={openWeightLogScreen}/>
                     
-                    <Text style={styles.subtitle}>History</Text>
+                    <Text style={subtitle}>History</Text>
 
                     <View style={styles.middle_button_container}>
                         <GroupLogBox 
@@ -244,17 +214,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
 
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
     title: {
         justifyContent: 'center',
         alignItems: 'center',
-        fontSize: 24
+        fontSize: 24,
+        color: TERTIARY_COLOR
     },
 
     content: {
@@ -271,24 +235,4 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 32
     },
-
-    results: {
-        width: '100%',
-        backgroundColor: 'gray',
-        borderRadius: 10
-    },
-
-    labels: {
-        fontSize: 16
-    },
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16
-    },
-
-    progress: {
-        margin: 16
-    }
 });

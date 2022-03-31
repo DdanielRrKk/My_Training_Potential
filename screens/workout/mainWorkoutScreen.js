@@ -3,7 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } fr
 
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
-import { container } from '../../styles/miscStyles';
+import { container, shadow, subtitle } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
 
 import WorkoutBox from '../../components/workout/workoutBox';
 
@@ -54,7 +55,7 @@ export default function MainWorkoutScreen({ navigation, route }){
                 <TouchableOpacity 
                     style={styles.setUp}
                     onPress={openSetupScreen}>
-                    <Text>Set Up Plan</Text>
+                    <Text style={styles.setupText}>Set Up Plan</Text>
                 </TouchableOpacity>
             </SafeAreaView>
         );
@@ -72,12 +73,12 @@ export default function MainWorkoutScreen({ navigation, route }){
     return(
         <SafeAreaView style={[container, {paddingVertical: 0}]}>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                <View style={styles.header}>
-                    <Text style={styles.primaryText}>{name}</Text>
+                <View style={[styles.header, shadow]}>
+                    <Text style={styles.headerText}>{name}</Text>
                 </View>
 
                 <View style={styles.content}>
-                    <Text style={styles.subtitle}>Today</Text>
+                    <Text style={subtitle}>Today</Text>
 
                     <WorkoutBox 
                         day={days[0]}
@@ -85,7 +86,7 @@ export default function MainWorkoutScreen({ navigation, route }){
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[0].day_number)}/>
                     
-                    <Text style={styles.subtitle}>Next days</Text>
+                    <Text style={subtitle}>Next days</Text>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
@@ -138,15 +139,20 @@ export default function MainWorkoutScreen({ navigation, route }){
 
 const styles = StyleSheet.create({
     setUp: {
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         width: '100%',
         padding: 10,
         borderRadius: 20,
         alignItems: 'center'
     },
+    setupText: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
+    },
 
     header: {
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -154,6 +160,11 @@ const styles = StyleSheet.create({
         marginTop: 16,
         borderRadius: 10,
         height: 80
+    },
+    headerText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 
     infoBox: {
@@ -164,10 +175,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         marginTop: 20
-    },
-
-    primaryText: {
-        fontSize: 20
     },
 
     secondaryText: {
@@ -183,12 +190,5 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'flex-start',
         alignItems: 'center',
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
     },
 });

@@ -11,6 +11,8 @@ import MainLearnScreen from '../screens/learn/mainLearnScreen';
 
 const Tab = createBottomTabNavigator();
 
+import { PRIMARY_COLOR } from '../styles/colors';
+
 
 
 export default function TabNavigation(isMealReady, isWorkoutReady) {
@@ -22,8 +24,8 @@ export default function TabNavigation(isMealReady, isWorkoutReady) {
                 options={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarIcon: ({color}) => (
-                        <Octicons name="home" size={24} color={color} />
+                    tabBarIcon: ({focused, color}) => (
+                        <Octicons name="home" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}
                 initialParams={{
@@ -36,8 +38,8 @@ export default function TabNavigation(isMealReady, isWorkoutReady) {
                 options={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarIcon: ({color}) => (
-                        <MaterialCommunityIcons name="dumbbell" size={24} color={color} />
+                    tabBarIcon: ({focused, color}) => (
+                        <MaterialCommunityIcons name="dumbbell" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}
                 initialParams={{
@@ -49,8 +51,8 @@ export default function TabNavigation(isMealReady, isWorkoutReady) {
                 options={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarIcon: ({color}) => (
-                        <MaterialCommunityIcons name="food-apple-outline" size={24} color={color} />
+                    tabBarIcon: ({focused, color}) => (
+                        <MaterialCommunityIcons name="food-apple-outline" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}
                 initialParams={{
@@ -62,8 +64,8 @@ export default function TabNavigation(isMealReady, isWorkoutReady) {
                 options={{
                     headerShown: false,
                     tabBarShowLabel: false,
-                    tabBarIcon: ({color}) => (
-                        <MaterialCommunityIcons name="book-open-variant" size={24} color={color} />
+                    tabBarIcon: ({focused, color}) => (
+                        <MaterialCommunityIcons name="book-open-variant" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}/>
         </Tab.Navigator>
