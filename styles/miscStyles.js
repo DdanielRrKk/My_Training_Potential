@@ -4,6 +4,12 @@ import { TERTIARY_COLOR } from './colors';
 
 
 
+export const question = {
+    fontSize: 18,
+    marginBottom: 32
+}
+
+
 export const container = {
     flex: 1,
     justifyContent: 'center',
@@ -14,14 +20,30 @@ export const container = {
 
 export const content = {
     flex: 1,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: 'red'
+};
+export const content_start = {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'flex-start',
+    alignItems: 'center'
 };
 
 export const back_button_container = {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'flex-start'
+};
+
+export const middle_button_container = {
+    width: '100%',
+    marginTop: 32,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
 };
 
 export const subtitle = {

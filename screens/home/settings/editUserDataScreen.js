@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native';
+import { Text , View, SafeAreaView } from 'react-native';
 
 import { GetEditUserDataScreenData, SetEditUserData } from '../../../database/screen/home/settings_services';
 
-import { container, back_button_container, subtitle } from '../../../styles/miscStyles';
+import { container, back_button_container, subtitle, content_start } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import ActionButton from '../../../components/misc/actionButton';
+import TextEntry from '../../../components/misc/textEntry';
 
 import { NAME_MAX_LENGTH, AGE_MAX_LENGTH } from '../../../helpers/constants';
 
@@ -43,46 +44,24 @@ export default function EditUserDataScreen({ navigation }){
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={styles.content}>
+            <View style={content_start}>
                 <Text style={subtitle}>Name</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={subtitle}>Age</Text>
+                <Text style={[subtitle, {marginTop: 32}]}>Age</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
                     onChangeText={setAge}
                     value={age}
-                    maxLength={AGE_MAX_LENGTH}/>
+                    maxLength={AGE_MAX_LENGTH}
+                    isNumeric={true}/>
             </View>
 
             <ActionButton title='Save' pressHandler={saveEditData}/>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-
-    entry:{
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        marginBottom: 16
-    },
-});

@@ -66,7 +66,7 @@ export default function RootNavigation() {
   }, []);
   const Tabs = () => TabNavigation(systemFlags.isMealReady, systemFlags.isWorkoutReady);
 
-  console.log('systemFlags root', systemFlags);
+  // console.log('systemFlags root', systemFlags);
 
   if(systemFlags == null || !allGood) {
     return (

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, Switch, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, View, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { container, content, back_button_container } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import CheckButton from '../../../components/misc/checkButton';
-import GroupButton from '../../../components/workout/setup/groupButton';
+import GroupButton from '../../../components/misc/groupButton';
 import WorkoutInput from '../../../components/workout/setup/workoutInput';
 
 import { GetCorrectTextInput } from '../../../helpers/helpers';

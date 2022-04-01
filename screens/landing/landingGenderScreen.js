@@ -1,13 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetUserGender, GetUserGender } from '../../database/screen/landing_services';
 
 import { continue_button_container } from '../../styles/setupStyles';
-import { container, content, back_button_container } from '../../styles/miscStyles';
+import { container, content, back_button_container, middle_button_container, question } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
-import GroupButton from '../../components/landing/groupButton';
+import GroupButton from '../../components/misc/groupButton';
 import BackButton from '../../components/misc/backButton';
 
 
@@ -35,9 +35,9 @@ export default function LandingGenderScreen({ navigation }){
             </View>
 
             <View style={content}>
-                <Text style={styles.question}>What is your gender?</Text>
+                <Text style={[question, {marginBottom: 16}]}>What is your gender?</Text>
 
-                <View style={styles.middle_button_container}>
+                <View style={middle_button_container}>
                     <GroupButton 
                         is_selected={(gender == 1)? true : false}
                         title={'Male'}
@@ -56,20 +56,3 @@ export default function LandingGenderScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-});

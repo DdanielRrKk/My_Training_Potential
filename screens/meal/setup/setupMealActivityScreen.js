@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetActivityLevel, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import SelectionButton from '../../../components/misc/setup/selectionButton';
 import BackButton from '../../../components/misc/backButton';
@@ -34,35 +34,34 @@ export default function SetupMealActivityScreen({ navigation }){
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={[content, {width: '100%'}]}>
-                <Text style={styles.question}>What is your activity level?</Text>
+            <View style={content}>
+                <Text style={question}>What is your activity level?</Text>
 
                 <SelectionButton 
-                    style={styles.buttons}
                     is_selected={(activityLevel == 1)? true : false}
                     title='Little to no Exercise'
                     pressHandler={() => setActivityLevel(1)}/>
 
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(activityLevel == 2)? true : false}
                     title='Exercise 1 - 3 Days per Week'
                     pressHandler={() => setActivityLevel(2)}/>
 
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(activityLevel == 3)? true : false}
                     title='Exercise 3 - 5 Days per Week'
                     pressHandler={() => setActivityLevel(3)}/>
                     
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(activityLevel == 4)? true : false}
                     title='Exercise 6 - 7 Days per Week'
                     pressHandler={() => setActivityLevel(4)}/>
                     
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(activityLevel == 5)? true : false}
                     title='Hard Exercise 6 - 7 Days per Week'
                     pressHandler={() => setActivityLevel(5)}/>
@@ -74,24 +73,3 @@ export default function SetupMealActivityScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    buttons: {
-        marginTop: 24
-    }
-});

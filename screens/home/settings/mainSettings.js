@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
-import { container, back_button_container, shadow, subtitle } from '../../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../../styles/colors';
+import { container, back_button_container, subtitle, content_start } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
+import SettingsOption from '../../../components/home/settings/settingsOption';
 
 import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
 import { AlertOK, AlertYESNO } from '../../../helpers/alerts';
@@ -18,11 +18,11 @@ export default function MainSettingsScreen({ navigation }){
     const [appState, setAppState] = useAppStateGlobal();
 
 
-
     const warningTitle = "Warning !";
     const notSetupPlanText = "You have not setted a plan.";
     const resetSetupPlanText = "If you reset your plan setup, you will lose all of your data and progress. Do you want to continue ?";
     const deleteAccountText = "If you delete your account, you will lose all of your data and progress. Do you want to continue ?";
+
     const canceledEvent = () => console.log("canceled");
     const resetMealSetupHandler = () => {
         setSystemFlags({...systemFlags, isMealReady: false});
@@ -90,86 +90,38 @@ export default function MainSettingsScreen({ navigation }){
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={styles.content}>
+                <View style={content_start}>
                     <Text style={subtitle}>Settings</Text>
 
-                    <TouchableOpacity
-                        style={[styles.box, shadow]}
-                        onPress={openEditUserDataScreen}>
-                        <Text style={styles.labels}>Edit User Data</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[styles.box, shadow]}
-                        onPress={openEditMealDataScreen}>
-                        <Text style={styles.labels}>Edit Nutritions Data</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={[styles.box, shadow]}
-                        onPress={openEditWorkoutDataScreen}>
-                        <Text style={styles.labels}>Edit Workout Plan</Text>
-                    </TouchableOpacity>
+                    <SettingsOption 
+                        title='Edit User Data'
+                        pressHandler={openEditUserDataScreen}/>
+                        
+                    <SettingsOption 
+                        title=' Edit Nutritions Data'
+                        pressHandler={openEditMealDataScreen}/>
+                        
+                    <SettingsOption 
+                        title='Edit Workout Plan'
+                        pressHandler={openEditWorkoutDataScreen}/>
                     
-
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={resetMealSetup}>
-                        <Text style={styles.labelsImportant}>Reset Meal Setup</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={resetWorkoutSetup}>
-                        <Text style={styles.labelsImportant}>Reset Workout Setup</Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        style={styles.textBox}
-                        onPress={deleteAccount}>
-                        <Text style={styles.labelsImportant}>Delete Account</Text>
-                    </TouchableOpacity>
+                    
+                    <SettingsOption 
+                        title='Reset Meal Setup'
+                        pressHandler={resetMealSetup}
+                        isImportant={true}/>
+                        
+                    <SettingsOption 
+                        title='Reset Workout Setup'
+                        pressHandler={resetWorkoutSetup}
+                        isImportant={true}/>
+                        
+                    <SettingsOption 
+                        title='Delete Account'
+                        pressHandler={deleteAccount}
+                        isImportant={true}/>
                 </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center'
-    },
-
-    box: {
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        padding: 16,
-        borderRadius: 10,
-        backgroundColor: PRIMARY_COLOR,
-        marginBottom: 16
-    },
-
-    labels: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-    labelsImportant: {
-        fontSize: 16,
-        color: 'red'
-    },
-
-    textBox: {
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'flex-start',
-        marginBottom: 16,
-        padding: 16
-    }
-});

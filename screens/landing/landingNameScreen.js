@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, KeyboardAvoidingView, TextInput } from 'react-native';
+import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserName, GetUserName } from '../../database/screen/landing_services';
 
 import { continue_button_container } from '../../styles/setupStyles';
-import { container, content, back_button_container } from '../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
+import TextEntry from '../../components/misc/textEntry';
 
 import { NAME_MAX_LENGTH } from '../../helpers/constants';
 
@@ -36,11 +37,10 @@ export default function LandingNameScreen({ navigation }){
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content}>
-                    <Text style={styles.question}>What is your name?</Text>
+                <View style={[content, {width: 'auto'}]}>
+                    <Text style={question}>What is your name?</Text>
 
-                    <TextInput
-                        style={styles.entry}
+                    <TextEntry 
                         onChangeText={setName}
                         value={name}
                         maxLength={NAME_MAX_LENGTH}/>
@@ -53,23 +53,3 @@ export default function LandingNameScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18
-    },
-
-    entry:{
-        width: '100%',
-        marginTop: 32,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-});

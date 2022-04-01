@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserMeasurements, GetUserMeasurements } from '../../database/screen/landing_services';
 
 import { continue_button_container } from '../../styles/setupStyles';
-import { container, content, back_button_container } from '../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
+import TextEntry from '../../components/misc/textEntry';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
 import { AGE_MAX_LENGTH, WEIGHT_MAX_LENGTH, HEIGHT_MAX_LENGTH } from '../../helpers/constants';
@@ -48,32 +49,32 @@ export default function LandingMeasurementsScreen({ navigation }){
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content}>
-                    <Text style={styles.question}>Age</Text>
-                    <TextInput
-                        style={styles.entry}
+                <View style={[content, {width: 'auto'}]}>
+                    <Text style={question}>Age</Text>
+                    <TextEntry
+                        style={{width: '50%'}}
                         onChangeText={setAge}
                         value={age}
-                        keyboardType='numeric'
-                        maxLength={AGE_MAX_LENGTH}/>
+                        maxLength={AGE_MAX_LENGTH}
+                        isNumeric={true}/>
 
-                    <Text style={[styles.question, {marginTop: 32}]}>Weight</Text>
-                    <TextInput
-                        style={styles.entry}
+                    <Text style={[question, {marginTop: 32}]}>Weight</Text>
+                    <TextEntry
+                        style={{width: '50%'}}
                         placeholder='kg'
                         onChangeText={setWeight}
                         value={weight}
-                        keyboardType='numeric'
-                        maxLength={WEIGHT_MAX_LENGTH}/>
+                        maxLength={WEIGHT_MAX_LENGTH}
+                        isNumeric={true}/>
 
-                    <Text style={[styles.question, {marginTop: 32}]}>Height</Text>
-                    <TextInput
-                        style={styles.entry}
+                    <Text style={[question, {marginTop: 32}]}>Height</Text>
+                    <TextEntry
+                        style={{width: '50%'}}
                         placeholder='cm'
                         onChangeText={setHeight}
                         value={height}
-                        keyboardType='numeric'
-                        maxLength={HEIGHT_MAX_LENGTH}/>
+                        maxLength={HEIGHT_MAX_LENGTH}
+                        isNumeric={true}/>
                 </View>
             
                 <View style={continue_button_container}>
@@ -83,30 +84,3 @@ export default function LandingMeasurementsScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18,
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-evenly'
-    },
-    
-    entry:{
-        width: '50%',
-        marginTop: 16,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-});

@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetMealGoal, GetMealGoal, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import SelectionButton from '../../../components/misc/setup/selectionButton';
 import BackButton from '../../../components/misc/backButton';
@@ -41,23 +41,22 @@ export default function SetupMealGoalScreen({ navigation }){
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={[content, {width: '100%'}]}>
-                <Text style={styles.question}>What is your goal?</Text>
+            <View style={content}>
+                <Text style={question}>What is your goal?</Text>
 
                 <SelectionButton 
-                    style={styles.buttons}
                     is_selected={(goal == 1)? true : false}
                     title='Lose Weight'
                     pressHandler={() => setGoal(1)}/>
 
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(goal == 2)? true : false}
                     title='Maintain Weight'
                     pressHandler={() => setGoal(2)}/>
 
                 <SelectionButton 
-                    style={styles.buttons}
+                    style={{marginTop: 24}}
                     is_selected={(goal == 3)? true : false}
                     title='Build Muscle'
                     pressHandler={() => setGoal(3)}/>
@@ -69,24 +68,3 @@ export default function SetupMealGoalScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    buttons: {
-        marginTop: 24
-    }
-});

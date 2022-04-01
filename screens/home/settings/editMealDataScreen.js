@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import { GetEditMealDataScreenData, SetEditMealData } from '../../../database/screen/home/settings_services';
 
@@ -7,6 +7,7 @@ import { container, back_button_container, subtitle } from '../../../styles/misc
 
 import BackButton from '../../../components/misc/backButton';
 import ActionButton from '../../../components/misc/actionButton';
+import TextEntry from '../../../components/misc/textEntry';
 
 import { NUTRITIONS_MAX_LENGTH } from '../../../helpers/constants';
 
@@ -54,35 +55,39 @@ export default function EditMealDataScreen({ navigation }){
             <View style={styles.content}>
                 <Text style={subtitle}>Calories Goal</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
+                    // style={styles.entry}
                     onChangeText={setCaloriesGoal}
                     value={caloriesGoal}
-                    maxLength={NUTRITIONS_MAX_LENGTH}/>
+                    maxLength={NUTRITIONS_MAX_LENGTH}
+                    isNumeric={true}/>
 
                 <Text style={subtitle}>Carbs Goal</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
+                    // style={styles.entry}
                     onChangeText={setCarbsGoal}
                     value={carbsGoal}
-                    maxLength={NUTRITIONS_MAX_LENGTH}/>
+                    maxLength={NUTRITIONS_MAX_LENGTH}
+                    isNumeric={true}/>
 
                 <Text style={subtitle}>Protein Goal</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
+                    // style={styles.entry}
                     onChangeText={setProteinGoal}
                     value={proteinGoal}
-                    maxLength={NUTRITIONS_MAX_LENGTH}/>
+                    maxLength={NUTRITIONS_MAX_LENGTH}
+                    isNumeric={true}/>
 
                 <Text style={subtitle}>Fat Goal</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
+                    // style={styles.entry}
                     onChangeText={setFatGoal}
                     value={fatGoal}
-                    maxLength={NUTRITIONS_MAX_LENGTH}/>
+                    maxLength={NUTRITIONS_MAX_LENGTH}
+                    isNumeric={true}/>
             </View>
 
             <ActionButton title='Save' pressHandler={saveEditData}/>

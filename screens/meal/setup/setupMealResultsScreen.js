@@ -1,14 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetAndGetMealResults } from '../../../database/screen/meal/meal_setup_services';
 
 import { continue_button_container } from '../../../styles/setupStyles';
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
-import Progress from '../../../components/meal/setup/progress';
+import NutritionsBox from '../../../components/home/nutritionsBox';
 
 import { useSystemFlagsGlobal } from '../../../helpers/globalState';
 import { CALORIES_PERCENTAGE, CARBS_PERCENTAGE_OF_CALORIES, PROTEIN_PERCENTAGE_OF_CALORIES, FAT_PERCENTAGE_OF_CALORIES } from '../../../helpers/constants';
@@ -18,10 +18,10 @@ import { CALORIES_PERCENTAGE, CARBS_PERCENTAGE_OF_CALORIES, PROTEIN_PERCENTAGE_O
 export default function SetupMealResultsScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
-    const [calories, setCalories] = React.useState(null);
-    const [carbs, setCarbs] = React.useState(null);
-    const [protein, setProtein] = React.useState(null);
-    const [fat, setFat] = React.useState(null);
+    const [calories, setCalories] = React.useState(0);
+    const [carbs, setCarbs] = React.useState(0);
+    const [protein, setProtein] = React.useState(0);
+    const [fat, setFat] = React.useState(0);
 
 
     React.useEffect(() => {
@@ -53,50 +53,18 @@ export default function SetupMealResultsScreen({ navigation }){
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={[content, {width: '100%'}]}>
-                <Text style={styles.question}>Your daily nutritional recommendations</Text>
+            <View style={content}>
+                <Text style={question}>Your daily nutritional recommendations</Text>
 
-                <View style={styles.results}>
-                    <View style={[styles.row, {marginTop: 16}]}>
-                        <Text style={styles.labels}>Calories</Text>
-                        
-                        <Text style={styles.labels}>{calories} cal</Text>
-                    </View>
-
-                    <Progress
-                        style={styles.progress} 
-                        progress={CALORIES_PERCENTAGE} />
-                    
-                    <View style={styles.row}>
-                        <Text style={styles.labels}>Carbs</Text>
-                        
-                        <Text style={styles.labels}>{carbs} g</Text>
-                    </View>
-
-                    <Progress 
-                        style={styles.progress} 
-                        progress={CARBS_PERCENTAGE_OF_CALORIES} />
-                    
-                    <View style={styles.row}>
-                        <Text style={styles.labels}>Protein</Text>
-                        
-                        <Text style={styles.labels}>{protein} g</Text>
-                    </View>
-
-                    <Progress 
-                        style={styles.progress} 
-                        progress={PROTEIN_PERCENTAGE_OF_CALORIES} />
-                    
-                    <View style={styles.row}>
-                        <Text style={styles.labels}>Fat</Text>
-                        
-                        <Text style={styles.labels}>{fat} g</Text>
-                    </View>
-
-                    <Progress 
-                        style={[styles.progress, {marginBottom: 20}]} 
-                        progress={FAT_PERCENTAGE_OF_CALORIES} />
-                </View>
+                <NutritionsBox 
+                    caloriesGoal={calories}
+                    caloriesPercentage={CALORIES_PERCENTAGE}
+                    carbsGoal={carbs}
+                    carbsPercentage={CARBS_PERCENTAGE_OF_CALORIES}
+                    proteinGoal={protein}
+                    proteinPercentage={PROTEIN_PERCENTAGE_OF_CALORIES}
+                    fatGoal={fat}
+                    fatPercentage={FAT_PERCENTAGE_OF_CALORIES}/>
             </View>
         
             <View style={continue_button_container}>
@@ -105,41 +73,3 @@ export default function SetupMealResultsScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    results: {
-        marginTop: 32,
-        width: '100%',
-        backgroundColor: 'gray',
-        borderRadius: 10
-    },
-
-    labels: {
-        fontSize: 16
-    },
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16
-    },
-
-    progress: {
-        margin: 16
-    }
-});

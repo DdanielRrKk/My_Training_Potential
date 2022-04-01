@@ -15,6 +15,8 @@ export default function App() {
   React.useEffect(() => {
     let isGood = true;
 
+    // CreateDatabase();
+
     ExistsDatabase().then((check) => { 
       if(isGood) {
         console.log('check', check);
