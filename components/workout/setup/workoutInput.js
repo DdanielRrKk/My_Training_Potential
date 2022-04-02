@@ -29,6 +29,8 @@ export default function WorkoutInput({ style, value, onChangeHandler, incValueHa
     );
 };
 
+
+
 const styles = StyleSheet.create({
     container: {
         width: '40%',

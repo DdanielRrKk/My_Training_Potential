@@ -3,9 +3,11 @@ import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, KeyboardAv
 
 import { SetWorkoutLogData } from '../../database/screen/workout/final_workout_services';
 
-import { container, subtitle } from '../../styles/miscStyles';
+import { container, content, subtitle } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import ActionButton from '../../components/misc/actionButton';
+import Header from '../../components/misc/header';
 
 import { LONG_TEXT_MAX_LENGTH } from '../../helpers/constants';
 
@@ -36,15 +38,26 @@ export default function FinalWorkoutScreen({ navigation, route }){
         <SafeAreaView style={container}>
             <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
                 
-                    <View style={styles.content}>
-                        <View style={styles.header}>
-                            <Text style={{fontSize: 18}}>{dayName}</Text>
-                        </View>
+                    <View style={content}>
+                        <Header title={dayName}/>
 
                         <Text style={subtitle}>Total Time</Text>
 
                         <View style={styles.header}>
-                            <Text style={styles.bigText}>{totalTime}</Text>
+                            <Text style={[styles.bigText, {fontSize: 18}]}>{totalTime}</Text>
+                        </View>
+
+                        <Text style={subtitle}>Note</Text>
+
+                        <View style={styles.note_box}>
+                            <TextInput
+                                style={styles.note}
+                                placeholder='(optional)'
+                                onChangeText={setNote}
+                                value={note}
+                                maxLength={LONG_TEXT_MAX_LENGTH}
+                                multiline={true}
+                                numberOfLines={4}/>
                         </View>
 
                         <Text style={subtitle}>Exercises</Text>
@@ -79,25 +92,7 @@ export default function FinalWorkoutScreen({ navigation, route }){
                             </View>
                         </ScrollView>
 
-                        <Text style={subtitle}>Note</Text>
-
-                        <View style={styles.boxNote}>
-                            <TextInput
-                                style={styles.note}
-                                placeholder='(optional)'
-                                onChangeText={setNote}
-                                value={note}
-                                maxLength={LONG_TEXT_MAX_LENGTH}
-                                multiline={true}
-                                numberOfLines={4}/>
-                        </View>
-
                         <ActionButton title='Finish' pressHandler={finish}/>
-                        {/* <TouchableOpacity
-                            style={styles.add}
-                            onPress={finish}>
-                            <Text>Finish</Text>
-                        </TouchableOpacity> */}
                     </View>
 
             </KeyboardAvoidingView>
@@ -108,40 +103,23 @@ export default function FinalWorkoutScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-    setUp: {
-        backgroundColor: 'gray',
-        width: '100%',
-        padding: 10,
-        borderRadius: 20,
-        alignItems: 'center'
-    },
-
     header: {
-        backgroundColor: 'gray',
+        backgroundColor: SECONDARY_COLOR,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
-        borderRadius: 10
-    },
-
-    note: {
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingVertical: 5,
         borderRadius: 10,
-        backgroundColor: 'white'
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     bigText: {
-        fontSize: 16
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'space-between',
-        alignItems: 'center'
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
 
     box: {
@@ -150,28 +128,35 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'flex-start',
-        backgroundColor: 'gray',
-        marginBottom: 16
+        backgroundColor: SECONDARY_COLOR,
+        marginBottom: 16,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
-    boxNote: {
+    
+    note_box: {
         flexDirection: 'row',
         width: '100%',
         padding: 16,
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray',
-        marginBottom: 16
+        backgroundColor: PRIMARY_COLOR,
+        marginBottom: 16,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
-
-    add: {
-        marginTop: 32,
-        borderWidth: 1,
-        borderColor: 'black',
+    note: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 5,
         borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
+        justifyContent: 'center',
+        backgroundColor: SECONDARY_COLOR,
+        color: TERTIARY_COLOR
     },
 });

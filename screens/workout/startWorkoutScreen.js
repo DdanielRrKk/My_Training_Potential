@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
-import { container, back_button_container } from '../../styles/miscStyles';
+import { container, back_button_container, content, label_18 } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import BackButton from '../../components/misc/backButton';
-import WorkoutInput from '../../components/workout/setup/workoutInput';
+import NumberInput from '../../components/misc/numberInput';
 import ActionButton from '../../components/misc/actionButton';
 
 import { calculateTimeString } from '../../helpers/timer';
@@ -168,49 +169,42 @@ export default function StartWorkoutScreen({ navigation, route }){
                 <View style={[back_button_container, {justifyContent: 'space-between'}]}>
                     <BackButton pressHandler={openPrevScreen}/>
 
-                    <Text style={{fontSize: 18, marginRight:16}}>{totalTimeString}</Text>
+                    <Text style={[label_18, {marginRight:16}]}>{totalTimeString}</Text>
                 </View>
 
-                <View style={styles.content}>
-                    <Text style={{fontSize: 28}}>{name}</Text>
+                <View style={content}>
+                    <Text style={styles.name}>{name}</Text>
 
-                    <Text style={{fontSize: 20, marginTop: 16}}>Set {currentSet} / {sets}</Text>
+                    <Text style={styles.sets}>Set {currentSet} / {sets}</Text>
 
                     {(instructions != '') ? 
-                     <View style={{ backgroundColor: 'gray', borderRadius: 10, padding: 8, marginVertical: 36 }}>
-                        <Text style={{color: 'white', fontSize: 16}}>Instruction: {instructions}</Text>
+                     <View style={styles.instructionBox}>
+                        <Text style={[styles.instructionText, {fontWeight: 'bold'}]}>Instruction: </Text>
+                        <Text style={styles.instructionText}>{instructions}</Text>
                     </View>
                     : null }
 
                     {(type == 0) ?
-                        <WorkoutInput
-                            style={{padding: 8, borderRadius: 10}}
+                        <NumberInput
+                            style={styles.input}
                             value={`${reps}`}
                             onChangeHandler={changeRepsHandler}
                             incValueHandler={incRepsHandler}
                             decValueHandler={decRepsHandler}/>
                     :
-                        <View style={{
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}>
-                            <Text style={{fontSize: 20, marginBottom: 16}}>{durationString}</Text>
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={styles.duration_text}>{durationString}</Text>
                             
                             <TouchableOpacity 
-                                style={styles.btn_unactive}
+                                style={styles.btn}
                                 onPress={startDuration}>
-                                <Text style={{fontSize: 16}}>Start</Text>
+                                <Text style={styles.text_btn}>Start</Text>
                             </TouchableOpacity>
                         </View>
                     }
                 </View>
             
                 <ActionButton title='Next' pressHandler={doneSet}/>
-                {/* <TouchableOpacity
-                    style={styles.next}
-                    onPress={doneSet}>
-                    <Text>Next</Text>
-                </TouchableOpacity> */}
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
@@ -219,75 +213,60 @@ export default function StartWorkoutScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%'
+    name: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
+    },
+    sets: {
+        marginTop: 16,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
 
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
+    instructionBox: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        backgroundColor: SECONDARY_COLOR, 
+        borderRadius: 10, 
+        padding: 8, 
+        marginVertical: 36
+    },
+    instructionText: {
+        fontSize: 16,
+        color: PRIMARY_COLOR
     },
 
-    entry:{
-        width: '100%',
-        marginVertical: 32,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-
-    results: {
-        width: '100%',
-        backgroundColor: 'gray',
-        borderRadius: 10
-    },
-
-    labels: {
-        fontSize: 18
-    },
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        marginBottom: 24
-    },
-
-    next: {
-        borderWidth: 1,
-        borderColor: 'black',
+    input: {
+        padding: 8, 
         borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
+        backgroundColor: SECONDARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
-    btn_active: {
-        fontSize: 16,
-        backgroundColor: 'lightgray',
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 10
+    duration_text: {
+        marginBottom: 16,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
-    btn_unactive: {
+    btn: {
         fontSize: 16,
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    text_btn: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     }
 });

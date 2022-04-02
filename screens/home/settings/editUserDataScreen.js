@@ -52,7 +52,7 @@ export default function EditUserDataScreen({ navigation }){
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={[subtitle, {marginTop: 16}]}>Age</Text>
+                <Text style={subtitle}>Age</Text>
 
                 <TextEntry
                     onChangeText={setAge}

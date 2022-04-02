@@ -1,6 +1,6 @@
-import { StyleSheet, StatusBar } from 'react-native';
+import { StatusBar } from 'react-native';
 
-import { TERTIARY_COLOR } from './colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from './colors';
 
 
 
@@ -57,15 +57,34 @@ export const subtitle = {
 
 
 
-export const shadow = {
+export const results = {
+    marginTop: 32,
+    width: '100%',
+    backgroundColor: SECONDARY_COLOR,
+    borderRadius: 10,
     shadowColor: TERTIARY_COLOR,
     shadowOpacity: 1,
     shadowRadius: 5,
     elevation: 3,
+};
+
+export const label_18 = {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: PRIMARY_COLOR
+};
+
+export const row = {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    marginBottom: 24
+};
+
+
+
+export const title = {
+    fontSize: 18,
+    marginVertical: 32,
+    color: TERTIARY_COLOR
 }
-
-
-
-const test_styles = StyleSheet.create({
-    
-});

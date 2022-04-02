@@ -1,9 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
 import { AddMealFoodData } from '../../database/screen/meal/add_meal_services';
 
-import { container, back_button_container, question, content_start } from '../../styles/miscStyles';
+import { container, back_button_container, question, content_start, results, label_18, row } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import TextEntry from '../../components/misc/textEntry';
@@ -12,7 +12,6 @@ import NumberInput from '../../components/misc/numberInput';
 
 import { GetCorrectTextInput } from '../../helpers/helpers';
 import { NAME_MAX_LENGTH, NUTRITIONS_MAX_LENGTH } from '../../helpers/constants';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
 
@@ -71,9 +70,9 @@ export default function AddMealScreen({ navigation, route }){
                         onChangeText={setName}
                         maxLength={NAME_MAX_LENGTH}/>
 
-                    <View style={styles.results}>
-                        <View style={[styles.row, {marginTop: 16}]}>
-                            <Text style={styles.labels}>Calories (cal)</Text>
+                    <View style={results}>
+                        <View style={[row, {marginTop: 16}]}>
+                            <Text style={label_18}>Calories (cal)</Text>
                             
                             <NumberInput
                                 value={calories}
@@ -83,8 +82,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Carbohydrates (g)</Text>
+                        <View style={row}>
+                            <Text style={label_18}>Carbohydrates (g)</Text>
                             
                             <NumberInput
                                 value={carbs}
@@ -94,8 +93,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Protein (g)</Text>
+                        <View style={row}>
+                            <Text style={label_18}>Protein (g)</Text>
                             
                             <NumberInput
                                 value={protein}
@@ -105,8 +104,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
 
-                        <View style={[styles.row, {marginBottom: 16}]}>
-                            <Text style={styles.labels}>Fat (g)</Text>
+                        <View style={[row, {marginBottom: 16}]}>
+                            <Text style={label_18}>Fat (g)</Text>
                             
                             <NumberInput
                                 value={fat}
@@ -123,31 +122,3 @@ export default function AddMealScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    results: {
-        marginTop: 32,
-        width: '100%',
-        backgroundColor: SECONDARY_COLOR,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    labels: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        marginBottom: 24
-    },
-});

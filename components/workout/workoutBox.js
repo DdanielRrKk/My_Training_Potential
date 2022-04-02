@@ -1,8 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import { shadow } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import { getDayName } from '../../helpers/workoutHelper';
 
@@ -13,7 +12,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
 
     if((day.name == null || day.exercises == 0) && (isToday || !isToday)) {
         return(
-            <View style={[styles.container, style, shadow]}>
+            <View style={[styles.container, style]}>
                 <Text style={styles.text}>{day_name}</Text>
                 
                 <Text style={[styles.text, {marginTop: 16, alignSelf: 'flex-start'}]}>Rest</Text>
@@ -39,7 +38,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
                 </View>
 
                 <TouchableOpacity 
-                    style={[styles.containerBottom, shadow]}
+                    style={styles.containerBottom}
                     onPress={() => startHandler()}>
                     <Text style={styles.stratText}>Start</Text>
                 </TouchableOpacity>
@@ -49,7 +48,7 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
 
     return(
         <TouchableOpacity 
-            style={[styles.container, style, shadow]}
+            style={[styles.container, style]}
             onPress={() => openHandler()}>
             <Text style={styles.text}>{day_name}</Text>
             
@@ -61,6 +60,8 @@ export default function WorkoutBox({ style, startHandler, openHandler, isToday, 
     );
 };
 
+
+
 const styles = StyleSheet.create({
     container: {
         width: '100%',
@@ -68,7 +69,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR
+        backgroundColor: SECONDARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     containerSmall: {
@@ -115,6 +120,10 @@ const styles = StyleSheet.create({
         borderBottomRightRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: PRIMARY_COLOR
+        backgroundColor: PRIMARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 });

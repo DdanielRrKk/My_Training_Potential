@@ -1,14 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-import { shadow } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
 
 export default function SetupBox({ pressHandler }){    
     return(
-        <View style={[styles.container, shadow]}>
+        <View style={styles.container}>
             <TouchableOpacity 
                 style={styles.button}
                 onPress={() => pressHandler()}>
@@ -25,7 +24,11 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR
+        backgroundColor: SECONDARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     button: {

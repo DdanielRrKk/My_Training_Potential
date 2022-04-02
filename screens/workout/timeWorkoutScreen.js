@@ -1,7 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 
-import { container } from '../../styles/miscStyles';
+import { container, content } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import { calculateTimeString } from '../../helpers/timer';
 
@@ -54,22 +55,22 @@ export default function TimeWorkoutScreen({ navigation, route }){
 
     return(
         <SafeAreaView style={container}>
-                <View style={styles.content}>
+                <View style={content}>
                     <Text style={styles.subtext}>{(isDuration) ? 'Duration' : 'Rest'}</Text>
 
                     <Text style={styles.text}>{timeDurationString}</Text>
 
-                    <View style={styles.row}>
+                    <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
                             style={(pause) ? styles.btn_active : styles.btn_unactive}
                             onPress={togglePause}>
-                            <Text style={styles.subtext}>{(pause) ? 'Continue' : 'Pause'}</Text>
+                            <Text style={(pause) ? styles.subtext_active : styles.subtext_unactive}>{(pause) ? 'Continue' : 'Pause'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             style={[styles.btn_active, {marginLeft: 16}]}
                             onPress={skipRest}>
-                            <Text style={styles.subtext}>Skip</Text>
+                            <Text style={styles.subtext_active}>Skip</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -80,36 +81,48 @@ export default function TimeWorkoutScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-    content: {
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        width: '100%'
-    },
-
     text: {
         fontSize: 36,
-        marginBottom: 16
+        marginBottom: 16,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
     subtext: {
-        fontSize: 24
-    },
-
-    row: {
-        flexDirection: 'row'
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
 
     btn_active: {
         fontSize: 24,
-        backgroundColor: 'lightgray',
+        backgroundColor: PRIMARY_COLOR,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    subtext_active: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
     btn_unactive: {
         fontSize: 24,
-        backgroundColor: 'gray',
+        backgroundColor: SECONDARY_COLOR,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        borderRadius: 10
-    }
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+    subtext_unactive: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
+    },
 });

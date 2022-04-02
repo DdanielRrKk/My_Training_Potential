@@ -5,7 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
-import { container, subtitle} from '../../styles/miscStyles';
+import { container, subtitle, content_start } from '../../styles/miscStyles';
 import { TERTIARY_COLOR } from '../../styles/colors';
 
 import OptionsButton from '../../components/home/optionsButton';
@@ -140,7 +140,7 @@ export default function MainHomeScreen({ navigation }){
                         pressHandler={openOptionsScreen}/>
                 </View>
 
-                <View style={styles.content}>
+                <View style={content_start}>
                     <Text style={subtitle}>Nutrition</Text>
                     
                     { // Nutritions ================ START
@@ -201,12 +201,6 @@ export default function MainHomeScreen({ navigation }){
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
     top_button_container: {
         width: '100%',
         flexDirection: 'row',
@@ -219,13 +213,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontSize: 24,
         color: TERTIARY_COLOR
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
     },
 
     middle_button_container: {

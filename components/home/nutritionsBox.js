@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import ProgressBar from 'react-native-progress/Bar';
 
-import { shadow } from '../../styles/miscStyles';
 import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
@@ -19,7 +18,7 @@ export default function NutritionsBox({
     fatPercentage
 }){    
     return(
-        <View style={[styles.results, shadow]}>
+        <View style={styles.results}>
             <View style={[styles.row, {marginTop: 0}]}>
                 <Text style={styles.labels}>Calories</Text>
                 
@@ -80,7 +79,11 @@ const styles = StyleSheet.create({
         width: '100%',
         borderRadius: 10,
         backgroundColor: PRIMARY_COLOR,
-        padding: 16
+        padding: 16,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     labels: {

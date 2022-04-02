@@ -37,6 +37,8 @@ export default function SetupWorkoutBox({ style, pressHandler, day, workoutName 
     );
 };
 
+
+
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
