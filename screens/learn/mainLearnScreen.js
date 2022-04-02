@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { container, shadow, subtitle } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { container, subtitle } from '../../styles/miscStyles';
 
-import { EvilIcons } from '@expo/vector-icons';
+import Header from '../../components/misc/header';
+import LearnItemList from '../../components/learn/learnItemList';
 
 
 
@@ -23,119 +23,17 @@ export default function MainLearnScreen(){
     return(
         <SafeAreaView style={[container, {justifyContent: 'flex-start', paddingVertical: 0}]}>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                <View style={[styles.header, shadow]}>
-                    <Text style={styles.headerText}>Learning</Text>
-                </View>
+                <Header title='Learning'/>
 
                 <Text style={subtitle}>FAQ</Text>
 
-                <>
-                {FAQ_LIST.map((item) => {
-                    if((openKey == item.key)) {
-                        return(
-                            <TouchableOpacity 
-                                key={item.key}
-                                style={styles.bigContainer}
-                                onPress={() => openQuestionHandler(item.key)}>
-                                <View style={styles.containerTop}>
-                                    <Text style={styles.question}>{item.question}</Text>
-                        
-                                    <EvilIcons name="chevron-up" size={40} color={PRIMARY_COLOR} />
-                                </View>
-                                <View style={[styles.containerBottom, shadow]}>
-                                    <Text style={styles.answer}>{item.answer}</Text>
-                                </View>
-                            </TouchableOpacity>
-                        );
-                    }
-                
-                    return(
-                        <TouchableOpacity 
-                            key={item.key}
-                            style={[styles.container, shadow]}
-                            onPress={() => openQuestionHandler(item.key)}>
-                            <Text style={styles.question}>{item.question}</Text>
-                
-                            <EvilIcons name="chevron-down" size={40} color={PRIMARY_COLOR} />
-                        </TouchableOpacity>
-                    );
-                })}
-                </>
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                    <>{LearnItemList(FAQ_LIST, openQuestionHandler, openKey)}</>
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        marginTop: 16,
-        borderRadius: 10,
-        height: 80
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-
-
-
-    container: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR,
-        marginBottom: 16
-    },
-
-    question: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-    answer: {
-        fontSize: 16,
-        // fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-
-
-    bigContainer: {
-        width: '100%',
-        marginBottom: 16
-    },
-    containerTop: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 16,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR
-    },
-    containerBottom: {
-        width: '100%',
-        padding: 10,
-        // borderTopColor: PRIMARY_COLOR,
-        // borderTopWidth: 1,
-        borderBottomLeftRadius: 20,
-        borderBottomRightRadius: 20,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: PRIMARY_COLOR
-    },
-});
 
 
 

@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetOpenWorkoutScreenData } from '../../database/screen/workout/open_workout_services';
 
-import { container, back_button_container, shadow, subtitle } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+import { container, back_button_container, subtitle, content_start } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import ActionButton from '../../components/misc/actionButton';
+import WorkoutItemList from '../../components/workout/workoutItemList';
+import Header from '../../components/misc/header';
 
 
 
@@ -49,26 +50,14 @@ export default function OpenWorkoutScreen({ navigation, route }){
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={styles.content}>
-                <View style={[styles.header, shadow]}>
-                    <Text style={styles.headerText}>{name}</Text>
-                </View>
+            <View style={content_start}>
+                <Header title={name}/>
 
                 <Text style={subtitle}>Exercises</Text>
 
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <View style={{ width: '100%', alignItems: 'center' }}>
-                        {exercises.map((item) => (
-                            <View key={item.key} style={[styles.box, shadow]}>
-                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <View style={{marginLeft: 8}}>
-                                        <Text style={styles.boxText}>{item.name}</Text>
-                                        
-                                        <Text style={styles.boxText}>{item.description}</Text>
-                                    </View>
-                                </View>
-                            </View>
-                        ))}
+                        {exercises ? <>{WorkoutItemList(exercises, null, true)}</> : null }
                     </View>
                 </ScrollView>
             </View>
@@ -79,46 +68,3 @@ export default function OpenWorkoutScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        marginTop: 16,
-        borderRadius: 10,
-        height: 80
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    box: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR,
-        marginBottom: 16
-    },
-    boxText: {
-        fontSize: 14,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-});

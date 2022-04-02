@@ -6,7 +6,8 @@ import { TERTIARY_COLOR } from './colors';
 
 export const question = {
     fontSize: 18,
-    marginBottom: 32
+    marginBottom: 32,
+    color: TERTIARY_COLOR
 }
 
 

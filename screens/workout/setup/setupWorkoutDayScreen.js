@@ -1,13 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question, subtitle } from '../../../styles/miscStyles';
+import { TERTIARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
+import TextEntry from '../../../components/misc/textEntry';
+import ActionButton from '../../../components/misc/actionButton';
+import WorkoutItemList from '../../../components/workout/workoutItemList';
 
 import { NAME_MAX_LENGTH } from '../../../helpers/constants';
 
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { EvilIcons } from '@expo/vector-icons';
 
 
@@ -77,104 +80,28 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
             </View>
 
             <View style={[content, {width: '100%'}]}>
-                <Text style={styles.title}>Workout Name</Text>
+                <Text style={question}>Workout Name</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Exercises</Text>
+                <Text style={subtitle}>Exercises</Text>
 
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <View style={{ width: '100%', alignItems: 'center' }}>
-                        {exercises.map((item) => (
-                            <View key={item.key} style={styles.box}>
-                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                    <View style={{marginLeft: 8}}>
-                                        <Text style={styles.bigText}>{item.name}</Text>
-                                        
-                                        <Text style={styles.smallText}>{item.description}</Text>
-                                    </View>
-                                </View>
-
-                                <TouchableOpacity onPress={() => editExercise(item)}>
-                                    <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
-                                </TouchableOpacity>
-                            </View>
-                        ))}
+                        {exercises ? <>{WorkoutItemList(exercises, editExercise)}</> : null }
 
                         <TouchableOpacity onPress={addWorkout}>
-                            <EvilIcons name="plus" size={42} color="black" />
+                            <EvilIcons name="plus" size={42} color={TERTIARY_COLOR} />
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
 
             </View>
         
-            <TouchableOpacity
-                style={styles.add}
-                onPress={createDay}>
-                <Text>Create</Text>
-            </TouchableOpacity>
+            <ActionButton title='Save' pressHandler={createDay}/>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    title: {
-        marginTop: 16,
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    entry:{
-        width: '100%',
-        marginTop: 16,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
-    box: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'gray',
-        marginBottom: 16
-    },
-
-    add: {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
-    },
-});

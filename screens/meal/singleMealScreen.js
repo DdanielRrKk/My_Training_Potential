@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetSingleMealScreenData, RemoveMealFoodData } from '../../database/screen/meal/single_meal_services';
 
-import { container, back_button_container } from '../../styles/miscStyles';
+import { container, back_button_container, subtitle, content_start, question } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import BackButton from '../../components/misc/backButton';
 import MealItemList from '../../components/meal/mealItemList';
+import ActionButton from '../../components/misc/actionButton';
 
 
 
@@ -83,13 +85,13 @@ export default function SingleMealScreen({ navigation, route }){
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={styles.content}>
-                    <Text style={styles.title}>{name}</Text>
+                <View style={content_start}>
+                    <Text style={[question, {fontSize: 24, marginBottom: 0}]}>{name}</Text>
 
-                    <Text style={styles.subtitle}>Total</Text>
+                    <Text style={subtitle}>Total</Text>
 
                     <View style={styles.results}>
-                        <Text style={[styles.title, {marginTop: 16}]}>{calories} cal</Text>
+                        <Text style={styles.title}>{calories} cal</Text>
 
                         <View style={[styles.row, {marginTop: 16}]}>
                             <Text style={styles.labels}>Recommended</Text>
@@ -122,17 +124,13 @@ export default function SingleMealScreen({ navigation, route }){
                         </View>
                     </View>
 
-                    <Text style={styles.subtitle}>Meals</Text>
+                    <Text style={subtitle}>Meals</Text>
 
                     {foods ? <>{MealItemList(foods, removeFoodItem)}</> : null }
                 </View>
             </ScrollView>
         
-            <TouchableOpacity
-                style={styles.add}
-                onPress={openAddScreen}>
-                <Text>Add</Text>
-            </TouchableOpacity>
+            <ActionButton title='Add' pressHandler={openAddScreen}/>
         </SafeAreaView>
     );
 };
@@ -140,63 +138,28 @@ export default function SingleMealScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-
-    footer: {
-        flex: 1,
-        padding: 16,
-        justifyContent: 'flex-end',
-    },
-
-    content: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        width: '100%'
-    },
-
     title: {
+        textAlign: 'center',
         fontSize: 24,
-        textAlign: 'center'
-    },
-    
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    entry:{
-        width: '100%',
-        marginVertical: 32,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR,
+        marginTop: 16
     },
 
     results: {
         width: '100%',
-        backgroundColor: 'gray',
-        borderRadius: 10
+        backgroundColor: SECONDARY_COLOR,
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     labels: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR,
     },
 
     row: {
@@ -204,16 +167,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
         marginBottom: 24
-    },
-
-    add: {
-        width: '100%',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        marginTop: 16,
-        alignItems: 'center',
     },
 });

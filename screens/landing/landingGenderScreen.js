@@ -3,7 +3,6 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetUserGender, GetUserGender } from '../../database/screen/landing_services';
 
-import { continue_button_container } from '../../styles/setupStyles';
 import { container, content, back_button_container, middle_button_container, question } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
@@ -50,9 +49,7 @@ export default function LandingGenderScreen({ navigation }){
                 </View>
             </View>
         
-            <View style={continue_button_container}>
-                <ContinueButton pressHandler={openNextScreen}/>
-            </View>
+            <ContinueButton pressHandler={openNextScreen}/>
         </SafeAreaView>
     );
 };

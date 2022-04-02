@@ -1,40 +1,43 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import { EvilIcons } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 
 
 
-export default function SetupWorkoutBox({ style, pressHandler, day, workoutName }){    
-    if(workoutName != null) {
+export default function LearnItemList(learn, openHandler, openKey){
+    return learn.map((item) => {
+        if((openKey == item.key)) {
+            return(
+                <TouchableOpacity 
+                    key={item.key}
+                    style={styles.bigContainer}
+                    onPress={() => openHandler(item.key)}>
+                    <View style={styles.containerTop}>
+                        <Text style={styles.question}>{item.question}</Text>
+            
+                        <EvilIcons name="chevron-up" size={40} color={PRIMARY_COLOR} />
+                    </View>
+                    <View style={styles.containerBottom}>
+                        <Text style={styles.answer}>{item.answer}</Text>
+                    </View>
+                </TouchableOpacity>
+            );
+        }
+    
         return(
-            <View style={[styles.bigContainer, style]}>
-                <View style={styles.containerTop}>
-                    <Text style={styles.text}>{day}</Text>
-        
-                    <TouchableOpacity onPress={() => pressHandler()}>
-                        <Feather name="edit-2" size={26} color={PRIMARY_COLOR} />
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.containerBottom}>
-                    <Text style={styles.subText}>{workoutName}</Text>
-                </View>
-            </View>
-        );
-    }
-
-    return(
-        <View style={[styles.container, style]}>
-            <Text style={styles.text}>{day}</Text>
-
-            <TouchableOpacity onPress={() => pressHandler()}>
-                <EvilIcons name="plus" size={40} color={PRIMARY_COLOR} />
+            <TouchableOpacity 
+                key={item.key}
+                style={styles.container}
+                onPress={() => openHandler(item.key)}>
+                <Text style={styles.question}>{item.question}</Text>
+    
+                <EvilIcons name="chevron-down" size={40} color={PRIMARY_COLOR} />
             </TouchableOpacity>
-        </View>
-    );
+        );
+    });
 };
 
 const styles = StyleSheet.create({
@@ -46,26 +49,27 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: SECONDARY_COLOR,
+        marginBottom: 16,
         shadowColor: TERTIARY_COLOR,
         shadowOpacity: 1,
         shadowRadius: 5,
         elevation: 3,
     },
 
-    text: {
+    question: {
         fontSize: 18,
         fontWeight: 'bold',
         color: PRIMARY_COLOR
     },
-    subText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
+    answer: {
+        fontSize: 16,
+        color: TERTIARY_COLOR
     },
 
 
     bigContainer: {
         width: '100%',
+        marginBottom: 16
     },
     containerTop: {
         flexDirection: 'row',

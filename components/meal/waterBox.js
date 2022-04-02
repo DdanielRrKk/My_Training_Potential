@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+
 
 
 export default function WaterBox({ style, addWaterHandler, removeWaterHandler, mililiters }){    
@@ -31,19 +33,27 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'gray'
+        backgroundColor: SECONDARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     button: {
-        borderWidth: 1,
+        backgroundColor: PRIMARY_COLOR,
         borderRadius: 5,
-        padding: 5
+        padding: 6
     },
 
     text: {
-        fontSize: 20
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
     subText: {
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 });

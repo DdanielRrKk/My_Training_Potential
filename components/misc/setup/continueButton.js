@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
 
@@ -7,15 +7,23 @@ import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/
 
 export default function ContinueButton({ pressHandler }){    
     return(
-        <TouchableOpacity 
-            style={styles.button}
-            onPress={pressHandler}>
-                <Text style={styles.text}>Continue</Text>
-        </TouchableOpacity>
+        <View style={styles.container}>
+            <TouchableOpacity 
+                style={styles.button}
+                onPress={pressHandler}>
+                    <Text style={styles.text}>Continue</Text>
+            </TouchableOpacity>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    },
+
     button:{
         paddingHorizontal: 20,
         paddingVertical: 8,

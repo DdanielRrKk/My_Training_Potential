@@ -1,15 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
 import { AddMealFoodData } from '../../database/screen/meal/add_meal_services';
 
-import { container, back_button_container } from '../../styles/miscStyles';
+import { container, back_button_container, question, content_start } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
-import MealInput from '../../components/meal/mealInput';
+import TextEntry from '../../components/misc/textEntry';
+import ActionButton from '../../components/misc/actionButton';
+import NumberInput from '../../components/misc/numberInput';
 
 import { GetCorrectTextInput } from '../../helpers/helpers';
-import { NAME_MAX_LENGTH } from '../../helpers/constants';
+import { NAME_MAX_LENGTH, NUTRITIONS_MAX_LENGTH } from '../../helpers/constants';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
 
@@ -61,11 +64,10 @@ export default function AddMealScreen({ navigation, route }){
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={styles.content}>
-                    <Text style={styles.question}>Meal Name</Text>
+                <View style={content_start}>
+                    <Text style={question}>Meal Name</Text>
 
-                    <TextInput
-                        style={styles.entry}
+                    <TextEntry
                         onChangeText={setName}
                         maxLength={NAME_MAX_LENGTH}/>
 
@@ -73,50 +75,50 @@ export default function AddMealScreen({ navigation, route }){
                         <View style={[styles.row, {marginTop: 16}]}>
                             <Text style={styles.labels}>Calories (cal)</Text>
                             
-                            <MealInput
+                            <NumberInput
                                 value={calories}
                                 onChangeHandler={changeCaloriesHandler}
                                 incValueHandler={incCaloriesHandler}
-                                decValueHandler={decCaloriesHandler}/>
+                                decValueHandler={decCaloriesHandler}
+                                maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
                         <View style={styles.row}>
                             <Text style={styles.labels}>Carbohydrates (g)</Text>
                             
-                            <MealInput
+                            <NumberInput
                                 value={carbs}
                                 onChangeHandler={changeCarbsHandler}
                                 incValueHandler={incCarbsHandler}
-                                decValueHandler={decCarbsHandler}/>
+                                decValueHandler={decCarbsHandler}
+                                maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
                         <View style={styles.row}>
                             <Text style={styles.labels}>Protein (g)</Text>
                             
-                            <MealInput
+                            <NumberInput
                                 value={protein}
                                 onChangeHandler={changeProteinHandler}
                                 incValueHandler={incProteinHandler}
-                                decValueHandler={decProteinHandler}/>
+                                decValueHandler={decProteinHandler}
+                                maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
 
                         <View style={[styles.row, {marginBottom: 16}]}>
                             <Text style={styles.labels}>Fat (g)</Text>
                             
-                            <MealInput
+                            <NumberInput
                                 value={fat}
                                 onChangeHandler={changeFatHandler}
                                 incValueHandler={incFatHandler}
-                                decValueHandler={decFatHandler}/>
+                                decValueHandler={decFatHandler}
+                                maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                     </View>
                 </View>
             
-                <TouchableOpacity
-                    style={styles.add}
-                    onPress={addMeal}>
-                    <Text>Add</Text>
-                </TouchableOpacity>
+                <ActionButton title='Add' pressHandler={addMeal}/>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
@@ -125,45 +127,21 @@ export default function AddMealScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-
-    content: {
-        flex: 1,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        width: '100%'
-    },
-
-    question: {
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    entry:{
-        width: '100%',
-        marginVertical: 32,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-
     results: {
+        marginTop: 32,
         width: '100%',
-        backgroundColor: 'gray',
-        borderRadius: 10
+        backgroundColor: SECONDARY_COLOR,
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     labels: {
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
 
     row: {
@@ -171,14 +149,5 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 16,
         marginBottom: 24
-    },
-
-    add: {
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
     },
 });

@@ -3,7 +3,6 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetMealGoal, GetMealGoal, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
-import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import SelectionButton from '../../../components/misc/setup/selectionButton';
@@ -61,10 +60,8 @@ export default function SetupMealGoalScreen({ navigation }){
                     title='Build Muscle'
                     pressHandler={() => setGoal(3)}/>
             </View>
-        
-            <View style={continue_button_container}>
-                <ContinueButton pressHandler={openNextScreen}/>
-            </View>
+            
+            <ContinueButton pressHandler={openNextScreen}/>
         </SafeAreaView>
     );
 };

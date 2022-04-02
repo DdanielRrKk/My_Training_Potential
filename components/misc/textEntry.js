@@ -31,6 +31,7 @@ export default function TextEntry({ style, onChangeText, value, maxLength, isNum
 const styles = StyleSheet.create({
     entry:{
         width: '100%',
+        color: TERTIARY_COLOR,
         paddingHorizontal: 16,
         paddingVertical: 5,
         backgroundColor: SECONDARY_COLOR,

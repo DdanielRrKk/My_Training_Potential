@@ -1,13 +1,15 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
 import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
 
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question, subtitle } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
+import TextEntry from '../../../components/misc/textEntry';
+import ActionButton from '../../../components/misc/actionButton';
 
 import { useSystemFlagsGlobal } from '../../../helpers/globalState';
 import { NAME_MAX_LENGTH } from '../../../helpers/constants';
@@ -16,6 +18,7 @@ import { NAME_MAX_LENGTH } from '../../../helpers/constants';
 
 export default function SetupWorkoutPlanScreen({ navigation, route }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+    const [fromEdit, setFromEdit] = React.useState(false);
     
     const [name, setName] = React.useState('');
 
@@ -93,6 +96,8 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
                 }
             });
 
+            setFromEdit(true);
+
             return () => {  isGood = false; } // to prevent memory leaks (clean up)
         }
     }, [route.params?.isFromEdit]);
@@ -114,6 +119,11 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }
+    const saveWorkoutPlan = () => {
+        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
+        navigation.setOptions({ tabBarVisible: true });
+        navigation.navigate('TabNavigation');
+    }
 
     return(
         <SafeAreaView style={container}>
@@ -122,15 +132,14 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
             </View>
             
             <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
-                <Text style={styles.title}>Workout Plan Name</Text>
+                <Text style={question}>Workout Plan Name</Text>
 
-                <TextInput
-                    style={styles.entry}
+                <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={styles.subtitle}>Days</Text>
+                <Text style={subtitle}>Days</Text>
 
                 <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                     <SetupWorkoutBox 
@@ -183,58 +192,7 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
                 </ScrollView>
             </View>
         
-            <TouchableOpacity
-                style={styles.add}
-                onPress={createWorkoutPlan}>
-                <Text>Create</Text>
-            </TouchableOpacity>
+            <ActionButton title={(fromEdit) ? 'Save' : 'Create'} pressHandler={(fromEdit) ? saveWorkoutPlan : createWorkoutPlan}/>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-
-    title: {
-        marginTop: 16,
-        fontSize: 18
-    },
-
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    entry:{
-        width: '100%',
-        marginTop: 16,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
-
-    add: {
-        marginTop: 16,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 10,
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        alignItems: 'center',
-        width: '100%'
-    },
-});

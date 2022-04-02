@@ -3,7 +3,6 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetAndGetMealResults } from '../../../database/screen/meal/meal_setup_services';
 
-import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
@@ -67,9 +66,7 @@ export default function SetupMealResultsScreen({ navigation }){
                     fatPercentage={FAT_PERCENTAGE_OF_CALORIES}/>
             </View>
         
-            <View style={continue_button_container}>
-                <ContinueButton pressHandler={openNextScreen}/>
-            </View>
+            <ContinueButton pressHandler={openNextScreen}/>
         </SafeAreaView>
     );
 };

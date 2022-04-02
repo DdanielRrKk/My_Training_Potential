@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
-import { container, shadow, subtitle } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../styles/colors';
+import { container, subtitle, content_start } from '../../styles/miscStyles';
 
 import WorkoutBox from '../../components/workout/workoutBox';
+import Header from '../../components/misc/header';
+import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
 import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
@@ -51,13 +52,7 @@ export default function MainWorkoutScreen({ navigation, route }){
 
     if(!systemFlags.isWorkoutReady || systemFlags == null) {
         return(
-            <SafeAreaView style={container}>
-                <TouchableOpacity 
-                    style={styles.setUp}
-                    onPress={openSetupScreen}>
-                    <Text style={styles.setupText}>Set Up Plan</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+            <SetupButtonView style={container} pressHandler={openSetupScreen}/>
         );
     }
 
@@ -73,11 +68,9 @@ export default function MainWorkoutScreen({ navigation, route }){
     return(
         <SafeAreaView style={[container, {paddingVertical: 0}]}>
             <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                <View style={[styles.header, shadow]}>
-                    <Text style={styles.headerText}>{name}</Text>
-                </View>
+                <Header title={name}/>
 
-                <View style={styles.content}>
+                <View style={content_start}>
                     <Text style={subtitle}>Today</Text>
 
                     <WorkoutBox 
@@ -134,61 +127,3 @@ export default function MainWorkoutScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    setUp: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        padding: 10,
-        borderRadius: 20,
-        alignItems: 'center'
-    },
-    setupText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-
-    header: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        marginTop: 16,
-        borderRadius: 10,
-        height: 80
-    },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-
-    infoBox: {
-        alignItems: 'center',
-    },
-
-    infoContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        marginTop: 20
-    },
-
-    secondaryText: {
-        fontSize: 18
-    },
-
-    subText: {
-        fontSize: 14
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-});

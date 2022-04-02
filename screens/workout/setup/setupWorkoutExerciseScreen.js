@@ -1,15 +1,17 @@
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
-import { container, content, back_button_container } from '../../../styles/miscStyles';
+import { container, content, back_button_container, question } from '../../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
 import CheckButton from '../../../components/misc/checkButton';
 import GroupButton from '../../../components/misc/groupButton';
-import WorkoutInput from '../../../components/workout/setup/workoutInput';
+import NumberInput from '../../../components/misc/numberInput';
+import TextEntry from '../../../components/misc/textEntry';
 
 import { GetCorrectTextInput } from '../../../helpers/helpers';
-import { NAME_MAX_LENGTH, LONG_TEXT_MAX_LENGTH } from '../../../helpers/constants';
+import { NAME_MAX_LENGTH, LONG_TEXT_MAX_LENGTH, WORKOUT_NUMBER_MAX_LENGTH, WORKOUT_TIME_MAX_LENGTH } from '../../../helpers/constants';
 
 
 
@@ -132,10 +134,9 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                 </View>
 
                 <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
-                    <Text style={styles.title}>Exercise Name</Text>
+                    <Text style={question}>Exercise Name</Text>
 
-                    <TextInput
-                        style={styles.entry}
+                    <TextEntry
                         onChangeText={setName}
                         value={name}
                         maxLength={NAME_MAX_LENGTH}/>
@@ -156,11 +157,12 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                         <View style={styles.subBox}>
                             <Text style={styles.text}>Sets</Text>
 
-                            <WorkoutInput
+                            <NumberInput
                                 value={sets}
                                 onChangeHandler={changeSetsHandler}
                                 incValueHandler={incSetsHandler}
-                                decValueHandler={decSetsHandler}/>
+                                decValueHandler={decSetsHandler}
+                                maxLength={WORKOUT_NUMBER_MAX_LENGTH}/>
                         </View>
 
                         {(type == 0) ? 
@@ -168,47 +170,51 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                             <View style={[styles.subBox, {marginTop: 16}]}>
                                 <Text style={styles.text}>Min Reps</Text>
 
-                                <WorkoutInput
+                                <NumberInput
                                     value={minReps}
                                     onChangeHandler={changeMinRepsHandler}
                                     incValueHandler={incMinRepsHandler}
-                                    decValueHandler={decMinRepsHandler}/>
+                                    decValueHandler={decMinRepsHandler}
+                                    maxLength={WORKOUT_NUMBER_MAX_LENGTH}/>
                             </View>
 
                             <View style={[styles.subBox, {marginTop: 16}]}>
                                 <Text style={styles.text}>Max Reps</Text>
 
-                                <WorkoutInput
+                                <NumberInput
                                     value={maxReps}
                                     onChangeHandler={changeMaxRepsHandler}
                                     incValueHandler={incMaxRepsHandler}
-                                    decValueHandler={decMaxRepsHandler}/>
+                                    decValueHandler={decMaxRepsHandler}
+                                    maxLength={WORKOUT_NUMBER_MAX_LENGTH}/>
                             </View>
                         </>
                         : 
                             <View style={[styles.subBox, {marginTop: 16}]}>
                                 <Text style={styles.text}>Duration (sec)</Text>
 
-                                <WorkoutInput
+                                <NumberInput
                                     value={duration}
                                     onChangeHandler={changeDurationHandler}
                                     incValueHandler={incDurationHandler}
-                                    decValueHandler={decDurationHandler}/>
+                                    decValueHandler={decDurationHandler}
+                                    maxLength={WORKOUT_TIME_MAX_LENGTH}/>
                             </View>
                         }
 
                         <View style={[styles.subBox, {marginTop: 16}]}>
                             <Text style={styles.text}>Rest (sec)</Text>
 
-                            <WorkoutInput
+                            <NumberInput
                                 value={rest}
                                 onChangeHandler={changeRestHandler}
                                 incValueHandler={incRestHandler}
-                                decValueHandler={decRestHandler}/>
+                                decValueHandler={decRestHandler}
+                                maxLength={WORKOUT_TIME_MAX_LENGTH}/>
                         </View>
                     </View>
 
-                    <View style={styles.box}>
+                    <View style={styles.boxInstruction}>
                         <Text style={styles.instructionsText}>Instructions</Text>
 
                         <TextInput
@@ -229,60 +235,25 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-
-    title: {
-        marginTop: 16,
-        fontSize: 18
-    },
-
     middle_button_container: {
         width: '100%',
         marginTop: 32,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-    },
-
-    entry:{
-        width: '100%',
-        marginTop: 16,
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 20,
-        justifyContent: 'center',
-    },
-
-    instructionsText: {
-        fontSize: 16,
-        alignSelf: 'flex-start',
-        marginBottom: 16
     }, 
-
-    instructions: {
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderRadius: 10,
-        justifyContent: 'center',
-        backgroundColor: 'white'
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
-        fontSize: 18,
-        paddingVertical: 16
-    },
 
     box: {
         width: '100%',
         padding: 16,
         borderRadius: 10,
         alignItems: 'center',
-        backgroundColor: 'gray',
-        marginTop: 16
+        backgroundColor: SECONDARY_COLOR,
+        marginTop: 16,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     subBox: {
@@ -293,6 +264,39 @@ const styles = StyleSheet.create({
     },
 
     text: {
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR,
+    },
+
+    boxInstruction: {
+        width: '100%',
+        padding: 16,
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: PRIMARY_COLOR,
+        marginTop: 16,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+
+    instructionsText: {
+        fontSize: 16,
+        alignSelf: 'flex-start',
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR,
+        marginBottom: 16
+    },
+
+    instructions: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 5,
+        borderRadius: 10,
+        justifyContent: 'center',
+        backgroundColor: SECONDARY_COLOR,
+        color: TERTIARY_COLOR
     },
 });

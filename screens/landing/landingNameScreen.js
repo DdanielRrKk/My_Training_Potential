@@ -3,7 +3,6 @@ import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserName, GetUserName } from '../../database/screen/landing_services';
 
-import { continue_button_container } from '../../styles/setupStyles';
 import { container, content, back_button_container, question } from '../../styles/miscStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
@@ -46,9 +45,7 @@ export default function LandingNameScreen({ navigation }){
                         maxLength={NAME_MAX_LENGTH}/>
                 </View>
             
-                <View style={continue_button_container}>
-                    <ContinueButton pressHandler={openNextScreen}/>
-                </View>
+                <ContinueButton pressHandler={openNextScreen}/>
             </KeyboardAvoidingView>
         </SafeAreaView>
     );

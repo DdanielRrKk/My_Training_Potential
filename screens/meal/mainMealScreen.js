@@ -1,14 +1,16 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import { useIsFocused } from '@react-navigation/native';
 
 import { GetMainMealScreenData, AddWater, RemoveWater } from '../../database/screen/meal/main_meal_services';
 
-import { container } from '../../styles/miscStyles';
+import { container, subtitle, content_start } from '../../styles/miscStyles';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
+import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
 import { useSystemFlagsGlobal } from '../../helpers/globalState';
 
@@ -97,13 +99,7 @@ export default function MainMealScreen({ navigation, route }){
 
     if(!systemFlags.isMealReady || systemFlags == null) {
         return(
-            <SafeAreaView style={container}>
-                <TouchableOpacity 
-                    style={styles.setUp}
-                    onPress={openSetupScreen}>
-                    <Text>Set Up Plan</Text>
-                </TouchableOpacity>
-            </SafeAreaView>
+            <SetupButtonView style={container} pressHandler={openSetupScreen}/>
         );
     }
 
@@ -155,15 +151,15 @@ export default function MainMealScreen({ navigation, route }){
                 </View>
             </View>
 
-            <View style={styles.content}>
-                <Text style={styles.subtitle}>Water</Text>
+            <View style={content_start}>
+                <Text style={subtitle}>Water</Text>
 
                 <WaterBox 
                     mililiters={water}
                     addWaterHandler={addWaterHandler}
                     removeWaterHandler={removeWaterHandler}/>
                 
-                <Text style={styles.subtitle}>Meals</Text>
+                <Text style={subtitle}>Meals</Text>
 
                 <MealBox 
                     title='Breackfast'
@@ -192,19 +188,15 @@ export default function MainMealScreen({ navigation, route }){
 
 
 const styles = StyleSheet.create({
-    setUp: {
-        backgroundColor: 'gray',
-        width: '100%',
-        padding: 10,
-        borderRadius: 20,
-        alignItems: 'center'
-    },
-
     header: {
-        backgroundColor: 'gray',
+        backgroundColor: PRIMARY_COLOR,
         width: '100%',
         padding: 20,
-        borderRadius: 10
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
 
     infoBox: {
@@ -218,28 +210,18 @@ const styles = StyleSheet.create({
     },
 
     primaryText: {
-        fontSize: 24
+        fontSize: 24,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
-
     secondaryText: {
-        fontSize: 18
-    },
-
-    subText: {
-        fontSize: 14
-    },
-
-    content: {
-        flex: 1,
-        width: '100%',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-    },
-
-    subtitle: {
-        justifyContent: 'center',
-        alignSelf: 'flex-start',
         fontSize: 18,
-        paddingVertical: 16
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
+    },
+    subText: {
+        fontSize: 14,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 });

@@ -3,7 +3,6 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetActivityLevel, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
-import { continue_button_container } from '../../../styles/setupStyles';
 import { container, content, back_button_container, question } from '../../../styles/miscStyles';
 
 import SelectionButton from '../../../components/misc/setup/selectionButton';
@@ -67,9 +66,7 @@ export default function SetupMealActivityScreen({ navigation }){
                     pressHandler={() => setActivityLevel(5)}/>
             </View>
         
-            <View style={continue_button_container}>
-                <ContinueButton pressHandler={openNextScreen}/>
-            </View>
+            <ContinueButton pressHandler={openNextScreen}/>
         </SafeAreaView>
     );
 };
