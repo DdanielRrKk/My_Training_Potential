@@ -12,7 +12,7 @@ import {
     MEAL_WATER
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/validations';
-import { isLastDayOpenedCurrentDay, getCurrentDateForLog } from '../../helpers/dateHelper';
+import { getCurrentDateForLog } from '../../helpers/dateHelper';
 
 
 
@@ -61,13 +61,14 @@ export async function SaveDataIfDayChanged() {
         
         const today = new Date();
         const savedString = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
-        
+        console.log('savedString', savedString);
+
         if(lastDayOpenedString == 'null' || lastDayOpenedString == null) {
             console.log('lastDayOpenedString has no data');
             return;
         }
 
-        if(isLastDayOpenedCurrentDay(lastDayOpenedString)) {
+        if(lastDayOpenedString == savedString) {
             console.log('lastDayOpenedString is current day');
             return;
         }
@@ -118,35 +119,29 @@ export async function SaveDataIfDayChanged() {
 
         
         console.log('mealLog before', mealLog);
+        
         const currentDate = getCurrentDateForLog();
-        if(mealLog.length == 0) {
-            mealLog.push({
-                key: 1,
+        const lastKey = (mealLog.length == 0) ? 1 : mealLog[mealLog.length - 1].key + 1;
+        const log = [...mealLog, {
+            key: lastKey,
                 water: water,
                 calories: totalCalories,
                 carbs: totalCarbs,
                 protein: totalProtein,
                 fat: totalFat,
                 date: currentDate
-            });
-        }
-        else {
-            const lastKey = mealLog[mealLog.length - 1].key + 1;
-            mealLog.push({
-                key: lastKey,
-                water: water,
-                calories: totalCalories,
-                carbs: totalCarbs,
-                protein: totalProtein,
-                fat: totalFat,
-                date: currentDate
-            });
-        }
+        }];
 
-        console.log('mealLog after', mealLog);
+        console.log('mealLog after', log);
 
-        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(log));
         await AsyncStorage.setItem(SYSTEM_LAST_DAY_OPENED, savedString);
+        
+        await AsyncStorage.setItem(MEAL_WATER, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_TOTAL_CALORIES, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_TOTAL_CARBS, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_TOTAL_PROTEIN, JSON.stringify(null));
+        await AsyncStorage.setItem(MEAL_TOTAL_FAT, JSON.stringify(null));
         
         console.log('work done');
         return;

@@ -57,10 +57,9 @@ export default function RootNavigation() {
           isWorkoutReady: isWorkoutSetup
         });
         setAllGood(true);
+        if(isMealSetup) SaveDataIfDayChanged(isMealSetup);
       }
     });
-
-    if(systemFlags.isMealReady) SaveDataIfDayChanged(systemFlags.isMealReady);
 
     return () => {  isGood = false; } // to prevent memory leaks (clean up)
   }, []);

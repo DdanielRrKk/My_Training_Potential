@@ -27,14 +27,3 @@ export function isCurrentDateForLogs(recorderDate) {
     const today = new Date();
     return (today.getDate() == date) ? true : false;
 }
-
-
-export function isLastDayOpenedCurrentDay(lastDayOpened) {
-    const today = new Date();
-    const todayString = `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
-    
-    // console.log('todayString helper', todayString);
-    // console.log('lastDayOpened helper', lastDayOpened);
-
-    return (todayString === lastDayOpened);
-}
