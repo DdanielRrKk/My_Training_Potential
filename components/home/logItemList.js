@@ -1,33 +1,33 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
 import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
 
-export function MealLogItemList(log){
-    return log.map((item) => (
-        <View key={item.key} style={styles.container}>
-            <Text style={styles.text}>{(item.calories == null) ? '0' : item.calories} cal</Text>
-
-            <Text style={styles.text}>{item.date}</Text>
-        </View>
-    ));
+export function MealLogItemList(log, pressHandler){
+    return log.map((item) => {
+        const text = `${(item.totalCalories == null) ? '0' : item.totalCalories} / ${(item.caloriesGoal == null) ? '0' : item.caloriesGoal} cal`;
+        return (
+            <TouchableOpacity key={item.key} style={styles.container} onPress={() => pressHandler(item)}>
+                <Text style={styles.text}>{text}</Text>
+                <Text style={styles.text}>{item.date}</Text>
+            </TouchableOpacity>
+        );
+    });
 };
-export function WorkoutLogItemList(log){
+export function WorkoutLogItemList(log, pressHandler){
     return log.map((item) => (
-        <View key={item.key} style={styles.container}>
+        <TouchableOpacity key={item.key} style={styles.container} onPress={() => pressHandler(item)}>
             <Text style={styles.text}>{item.name}</Text>
-
             <Text style={styles.text}>{item.date}</Text>
-        </View>
+        </TouchableOpacity>
     ));
 };
 export function WeightLogItemList(log){
     return log.map((item) => (
         <View key={item.key} style={styles.container}>
             <Text style={styles.text}>{item.weight} kg</Text>
-
             <Text style={styles.text}>{item.date}</Text>
         </View>
     ));

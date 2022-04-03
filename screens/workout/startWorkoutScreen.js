@@ -179,7 +179,7 @@ export default function StartWorkoutScreen({ navigation, route }){
 
                     {(instructions != '') ? 
                      <View style={styles.instructionBox}>
-                        <Text style={[styles.instructionText, {fontWeight: 'bold'}]}>Instruction: </Text>
+                        <Text style={styles.instructionText}>Instruction: </Text>
                         <Text style={styles.instructionText}>{instructions}</Text>
                     </View>
                     : null }
@@ -230,10 +230,15 @@ const styles = StyleSheet.create({
         backgroundColor: SECONDARY_COLOR, 
         borderRadius: 10, 
         padding: 8, 
-        marginVertical: 36
+        marginVertical: 36,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
     },
     instructionText: {
         fontSize: 16,
+        fontWeight: 'bold',
         color: PRIMARY_COLOR
     },
 

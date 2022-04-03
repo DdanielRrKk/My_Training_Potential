@@ -14,6 +14,8 @@ import TabNavigation from './tabNavigation';
 import WeightScreen from '../screens/home/weightScreen';
 import MealLogsScreen from '../screens/home/mealLogsScreen';
 import WorkoutLogsScreen from '../screens/home/workoutLogScreen';
+import OpenMealLogScreen from '../screens/home/openMealLogScreen';
+import OpenWorkoutLogScreen from '../screens/home/openWorkoutLogScreen';
 
 import MainSettingsScreen from '../screens/home/settings/mainSettings';
 import EditUserDataScreen from '../screens/home/settings/editUserDataScreen';
@@ -93,6 +95,8 @@ export default function RootNavigation() {
         <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='MealLogsScreen' component={MealLogsScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='WorkoutLogsScreen' component={WorkoutLogsScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='OpenMealLogScreen' component={OpenMealLogScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='OpenWorkoutLogScreen' component={OpenWorkoutLogScreen} options={{ headerMode: 'none' }} />
         
         <NavStack.Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />

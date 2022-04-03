@@ -1,8 +1,8 @@
 import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 
 import { container, content, back_button_container, question, subtitle } from '../../../styles/miscStyles';
-import { TERTIARY_COLOR } from '../../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
 import TextEntry from '../../../components/misc/textEntry';
@@ -11,7 +11,7 @@ import WorkoutItemList from '../../../components/workout/workoutItemList';
 
 import { NAME_MAX_LENGTH } from '../../../helpers/constants';
 
-import { EvilIcons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 
@@ -93,8 +93,8 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
                     <View style={{ width: '100%', alignItems: 'center' }}>
                         {exercises ? <>{WorkoutItemList(exercises, editExercise)}</> : null }
 
-                        <TouchableOpacity onPress={addWorkout}>
-                            <EvilIcons name="plus" size={42} color={TERTIARY_COLOR} />
+                        <TouchableOpacity style={styles.btn} onPress={addWorkout}>
+                            <AntDesign name="plus" size={24} color={SECONDARY_COLOR} />
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -105,3 +105,21 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
+
+
+
+
+const styles = StyleSheet.create({
+    btn: {
+        backgroundColor: PRIMARY_COLOR,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 2,
+        paddingHorizontal: 16,
+        borderRadius: 10,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+});

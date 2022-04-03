@@ -184,7 +184,7 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={{marginVertical: 16}}
                         day='Sunday'
                         workoutName={sunday.name}
                         pressHandler={() => openWorkoutDaysScreen(7)}/>

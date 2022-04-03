@@ -8,6 +8,7 @@ import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/col
 
 
 export default function NutritionsBox({ 
+    isDetailed = false,
     caloriesGoal,
     caloriesPercentage,
     carbsGoal,
@@ -15,8 +16,70 @@ export default function NutritionsBox({
     proteinGoal,
     proteinPercentage,
     fatGoal,
-    fatPercentage
+    fatPercentage,
+    caloriesTotal = null,
+    carbsTotal = null,
+    proteinTotal = null,
+    fatTotal = null,
 }){    
+    if(isDetailed) {
+        return(
+            <View style={styles.results}>
+                <View style={[styles.row, {marginTop: 0}]}>
+                    <Text style={styles.labels}>Calories</Text>
+                    
+                    <Text style={styles.labels}>{caloriesTotal} / {caloriesGoal} cal</Text>
+                </View>
+    
+                <ProgressBar 
+                    progress={caloriesPercentage}
+                    width={null}
+                    color={TERTIARY_COLOR}
+                    borderColor={TERTIARY_COLOR}
+                    borderRadius={0}/>
+                
+                <View style={styles.row}>
+                    <Text style={styles.labels}>Carbs</Text>
+                    
+                    <Text style={styles.labels}>{carbsTotal} / {carbsGoal} g</Text>
+                </View>
+    
+                <ProgressBar 
+                    progress={carbsPercentage}
+                    width={null}
+                    color={TERTIARY_COLOR}
+                    borderColor={TERTIARY_COLOR}
+                    borderRadius={0}/>
+                
+                <View style={styles.row}>
+                    <Text style={styles.labels}>Protein</Text>
+                    
+                    <Text style={styles.labels}>{proteinTotal} / {proteinGoal} g</Text>
+                </View>
+    
+                <ProgressBar 
+                    progress={proteinPercentage}
+                    width={null}
+                    color={TERTIARY_COLOR}
+                    borderColor={TERTIARY_COLOR}
+                    borderRadius={0}/>
+                
+                <View style={styles.row}>
+                    <Text style={styles.labels}>Fat</Text>
+                    
+                    <Text style={styles.labels}>{fatTotal} / {fatGoal} g</Text>
+                </View>
+    
+                <ProgressBar 
+                    progress={fatPercentage}
+                    width={null}
+                    color={TERTIARY_COLOR}
+                    borderColor={TERTIARY_COLOR}
+                    borderRadius={0}/>
+            </View>
+        );
+    }
+
     return(
         <View style={styles.results}>
             <View style={[styles.row, {marginTop: 0}]}>

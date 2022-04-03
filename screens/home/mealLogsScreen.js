@@ -22,6 +22,8 @@ export default function MealLogsScreen({ navigation }){
     console.log('mealLog', mealLog);
 
     const openPrevScreen = () => navigation.goBack();
+
+    const openLog = (item) => navigation.navigate('OpenMealLogScreen', {item: item});
  
     return(
         <SafeAreaView style={container}>
@@ -33,7 +35,7 @@ export default function MealLogsScreen({ navigation }){
                 <View style={content_start}>
                     <Text style={subtitle}>Meals History</Text>
                     
-                    {mealLog ? <>{MealLogItemList(mealLog)}</> : null }
+                    {mealLog ? <>{MealLogItemList(mealLog, openLog)}</> : null }
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -4,6 +4,10 @@ import {
     SYSTEM_IS_MEAL_SETUP,
     SYSTEM_IS_USER_SETUP,
     SYSTEM_LAST_DAY_OPENED,
+    USER_CALORIES_GOAL,
+    USER_CARBS_GOAL,
+    USER_PROTEIN_GOAL,
+    USER_FAT_GOAL,
     MEAL_LOG,
     MEAL_TOTAL_CALORIES,
     MEAL_TOTAL_CARBS,
@@ -101,6 +105,23 @@ export async function SaveDataIfDayChanged() {
         if(IsResultEmpty(totalFatResult)) return console.log('totla fat has no data'); 
 
 
+        const mealCaloriesGoalResult = await AsyncStorage.getItem(USER_CALORIES_GOAL);
+        // console.log('mealCaloriesGoalResult', mealCaloriesGoalResult);
+        if(IsResultEmpty(mealCaloriesGoalResult)) return console.log('calories goal has no data'); 
+
+        const mealCarbsGoalResult = await AsyncStorage.getItem(USER_CARBS_GOAL);
+        // console.log('mealCarbsGoalResult', mealCarbsGoalResult);
+        if(IsResultEmpty(mealCarbsGoalResult)) return console.log('carbs goal has no data'); 
+
+        const mealProteinGoalResult = await AsyncStorage.getItem(USER_PROTEIN_GOAL);
+        // console.log('mealProteinGoalResult', mealProteinGoalResult);
+        if(IsResultEmpty(mealProteinGoalResult)) return console.log('protein goal has no data'); 
+
+        const mealFatGoalResult = await AsyncStorage.getItem(USER_FAT_GOAL);
+        // console.log('mealFatGoalResult', mealFatGoalResult);
+        if(IsResultEmpty(mealFatGoalResult)) return console.log('fat goal has no data'); 
+
+
         const mealLog = JSON.parse(mealLogResult);
 
         const water = JSON.parse(waterResult);
@@ -108,6 +129,11 @@ export async function SaveDataIfDayChanged() {
         const totalCarbs = JSON.parse(totalCarbsResult);
         const totalProtein = JSON.parse(totalProteinResult);
         const totalFat = JSON.parse(totalFatResult);
+
+        const mealCaloriesGoal = JSON.parse(mealCaloriesGoalResult);
+        const mealCarbsGoal = JSON.parse(mealCarbsGoalResult);
+        const mealProteinGoal = JSON.parse(mealProteinGoalResult);
+        const mealFatGoal = JSON.parse(mealFatGoalResult);
         
         // console.log('mealLog', mealLog);
 
@@ -116,7 +142,11 @@ export async function SaveDataIfDayChanged() {
         // console.log('totalCarbs', totalCarbs);
         // console.log('totalProtein', totalProtein);
         // console.log('totalFat', totalFat);
-
+        
+        // console.log('mealCaloriesGoal', mealCaloriesGoal);
+        // console.log('mealCarbsGoal', mealCarbsGoal);
+        // console.log('mealProteinGoal', mealProteinGoal);
+        // console.log('mealFatGoal', mealFatGoal);
         
         console.log('mealLog before', mealLog);
         
@@ -125,10 +155,14 @@ export async function SaveDataIfDayChanged() {
         const log = [...mealLog, {
             key: lastKey,
                 water: water,
-                calories: totalCalories,
-                carbs: totalCarbs,
-                protein: totalProtein,
-                fat: totalFat,
+                totalCalories: totalCalories,
+                totalCarbs: totalCarbs,
+                totalProtein: totalProtein,
+                totalFat: totalFat,
+                caloriesGoal: mealCaloriesGoal,
+                carbsGoal: mealCarbsGoal,
+                proteinGoal: mealProteinGoal,
+                fatGoal: mealFatGoal,
                 date: currentDate
         }];
 

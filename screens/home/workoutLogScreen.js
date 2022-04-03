@@ -22,6 +22,8 @@ export default function WorkoutLogsScreen({ navigation }){
     console.log('workoutLog', workoutLog);
 
     const openPrevScreen = () => navigation.goBack();
+
+    const openLog = (item) => navigation.navigate('OpenWorkoutLogScreen', {item: item}); 
  
     return(
         <SafeAreaView style={container}>
@@ -33,7 +35,7 @@ export default function WorkoutLogsScreen({ navigation }){
                 <View style={content_start}>
                     <Text style={subtitle}>Workouts History</Text>
                     
-                    {workoutLog ? <>{WorkoutLogItemList(workoutLog)}</> : null }
+                    {workoutLog ? <>{WorkoutLogItemList(workoutLog, openLog)}</> : null }
                 </View>
             </ScrollView>
         </SafeAreaView>

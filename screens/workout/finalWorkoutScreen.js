@@ -8,6 +8,7 @@ import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/col
 
 import ActionButton from '../../components/misc/actionButton';
 import Header from '../../components/misc/header';
+import ExercisesItemList from '../../components/workout/exercisesItemList';
 
 import { LONG_TEXT_MAX_LENGTH } from '../../helpers/constants';
 
@@ -44,7 +45,7 @@ export default function FinalWorkoutScreen({ navigation, route }){
                         <Text style={subtitle}>Total Time</Text>
 
                         <View style={styles.header}>
-                            <Text style={[styles.bigText, {fontSize: 18}]}>{totalTime}</Text>
+                            <Text style={styles.bigText}>{totalTime}</Text>
                         </View>
 
                         <Text style={subtitle}>Note</Text>
@@ -64,31 +65,7 @@ export default function FinalWorkoutScreen({ navigation, route }){
 
                         <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
                             <View style={{ width: '100%', alignItems: 'center' }}>
-                                {finishedExercises.map((item) => (
-                                    <View key={item.key} style={styles.box}>
-                                        <Text style={[styles.bigText, {alignSelf: 'center'}]}>{item.name}</Text>
-                                                
-                                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                            <Text style={styles.bigText}>Sets</Text>
-
-                                            <Text style={styles.bigText}>{item.sets}</Text>
-                                        </View>
-
-                                        {(item.type == 0) ? 
-                                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                            <Text style={styles.bigText}>Total Reps</Text>
-
-                                            <Text style={styles.bigText}>{item.totals}</Text>
-                                        </View>
-                                        :
-                                        <View style={{width: '100%', flexDirection: 'row', justifyContent: 'space-between'}}>
-                                            <Text style={styles.bigText}>Total Duration</Text>
-
-                                            <Text style={styles.bigText}>{item.totals}s</Text>
-                                        </View>
-                                        }
-                                    </View>
-                                ))}
+                                {finishedExercises ? <>{ExercisesItemList(finishedExercises)}</> : null }
                             </View>
                         </ScrollView>
 
@@ -117,23 +94,9 @@ const styles = StyleSheet.create({
     },
 
     bigText: {
-        fontSize: 16,
+        fontSize: 18,
         fontWeight: 'bold',
         color: PRIMARY_COLOR
-    },
-
-    box: {
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        alignItems: 'flex-start',
-        backgroundColor: SECONDARY_COLOR,
-        marginBottom: 16,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
     },
     
     note_box: {
