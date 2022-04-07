@@ -1,9 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    MEAL_TOTAL_CALORIES,
-    MEAL_TOTAL_CARBS,
-    MEAL_TOTAL_PROTEIN,
-    MEAL_TOTAL_FAT,
     MEAL_BREAKFAST_RECOMMENDED_MIN,
     MEAL_BREAKFAST_RECOMMENDED_MAX,
     MEAL_BREAKFAST_TOTAL_CALORIES,
@@ -224,10 +220,17 @@ async function removeDataWithResult(store, result, value) {
 export async function RemoveMealFoodData(meal_number, food_key) {
     try {
         // TOTALS =====
-        const totalCaloriesResult = await AsyncStorage.getItem(MEAL_TOTAL_CALORIES);        
-        const totalCarbsResult = await AsyncStorage.getItem(MEAL_TOTAL_CARBS);        
-        const totalProteinResult = await AsyncStorage.getItem(MEAL_TOTAL_PROTEIN);        
-        const totalFatResult = await AsyncStorage.getItem(MEAL_TOTAL_FAT);
+        const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
+        // console.log('mealLogResult', mealLogResult);
+        if(IsResultEmpty(mealLogResult)) return console.log('meal log has no data'); 
+
+        const mealLog = JSON.parse(mealLogResult);
+        // console.log('mealLog', mealLog);
+        const totalCalories = parseInt(mealLog[mealLog.length - 1].totalCalories);
+        const totalCarbs = parseInt(mealLog[mealLog.length - 1].totalCarbs);
+        const totalProtein = parseInt(mealLog[mealLog.length - 1].totalProtein);
+        const totalFat = parseInt(mealLog[mealLog.length - 1].totalFat);
+
 
         if(meal_number == 1) { // BREAKFAST =====
             const breakfastCaloriesResult = await AsyncStorage.getItem(MEAL_BREAKFAST_TOTAL_CALORIES);
@@ -257,11 +260,13 @@ export async function RemoveMealFoodData(meal_number, food_key) {
             removeDataWithResult(MEAL_BREAKFAST_TOTAL_PROTEIN, breakfastProteinResult, protein);
             removeDataWithResult(MEAL_BREAKFAST_TOTAL_FAT, breakfastFatResult, fat);
 
-            removeDataWithResult(MEAL_TOTAL_CALORIES, totalCaloriesResult, calories);
-            removeDataWithResult(MEAL_TOTAL_CARBS, totalCarbsResult, carbs);
-            removeDataWithResult(MEAL_TOTAL_PROTEIN, totalProteinResult, protein);
-            removeDataWithResult(MEAL_TOTAL_FAT, totalFatResult, fat);
-    
+            mealLog[mealLog.length - 1].totalCalories = (totalCalories == 0) ? 0 : totalCalories - calories;
+            mealLog[mealLog.length - 1].totalCarbs = (totalCarbs == 0) ? 0 : totalCarbs - carbs;
+            mealLog[mealLog.length - 1].totalProtein = (totalProtein == 0) ? 0 : totalProtein - protein;
+            mealLog[mealLog.length - 1].totalFat = (totalFat == 0) ? 0 : totalFat - fat;
+            // console.log('mealLog', mealLog);
+            await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
+            
             breakfastFoods.splice(foodIndex, 1);
             // console.log('breakfast foods after', breakfastFoods);
             await AsyncStorage.setItem(MEAL_BREAKFAST_FOODS, JSON.stringify(breakfastFoods));
@@ -293,10 +298,12 @@ export async function RemoveMealFoodData(meal_number, food_key) {
             removeDataWithResult(MEAL_LUNCH_TOTAL_PROTEIN, lunchProteinResult, protein);
             removeDataWithResult(MEAL_LUNCH_TOTAL_FAT, lunchFatResult, fat);
 
-            removeDataWithResult(MEAL_TOTAL_CALORIES, totalCaloriesResult, calories);
-            removeDataWithResult(MEAL_TOTAL_CARBS, totalCarbsResult, carbs);
-            removeDataWithResult(MEAL_TOTAL_PROTEIN, totalProteinResult, protein);
-            removeDataWithResult(MEAL_TOTAL_FAT, totalFatResult, fat);   
+            mealLog[mealLog.length - 1].totalCalories = (totalCalories == 0) ? 0 : totalCalories - calories;
+            mealLog[mealLog.length - 1].totalCarbs = (totalCarbs == 0) ? 0 : totalCarbs - carbs;
+            mealLog[mealLog.length - 1].totalProtein = (totalProtein == 0) ? 0 : totalProtein - protein;
+            mealLog[mealLog.length - 1].totalFat = (totalFat == 0) ? 0 : totalFat - fat;
+            // console.log('mealLog', mealLog);
+            await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog)); 
 
             lunchFoods.splice(foodIndex, 1);
             // console.log('lunch foods after', lunchfoods);
@@ -329,10 +336,12 @@ export async function RemoveMealFoodData(meal_number, food_key) {
             removeDataWithResult(MEAL_DINNER_TOTAL_PROTEIN, dinnerProteinResult, protein);
             removeDataWithResult(MEAL_DINNER_TOTAL_FAT, dinnerFatResult, fat);
 
-            removeDataWithResult(MEAL_TOTAL_CALORIES, totalCaloriesResult, calories);
-            removeDataWithResult(MEAL_TOTAL_CARBS, totalCarbsResult, carbs);
-            removeDataWithResult(MEAL_TOTAL_PROTEIN, totalProteinResult, protein);
-            removeDataWithResult(MEAL_TOTAL_FAT, totalFatResult, fat);   
+            mealLog[mealLog.length - 1].totalCalories = (totalCalories == 0) ? 0 : totalCalories - calories;
+            mealLog[mealLog.length - 1].totalCarbs = (totalCarbs == 0) ? 0 : totalCarbs - carbs;
+            mealLog[mealLog.length - 1].totalProtein = (totalProtein == 0) ? 0 : totalProtein - protein;
+            mealLog[mealLog.length - 1].totalFat = (totalFat == 0) ? 0 : totalFat - fat;
+            // console.log('mealLog', mealLog);
+            await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));  
 
             dinnerFoods.splice(foodIndex, 1);
             // console.log('dinner foods after', dinnerfoods);

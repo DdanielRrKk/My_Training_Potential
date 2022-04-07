@@ -35,7 +35,7 @@ export default function MainMealScreen({ navigation }){
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
-    // console.log('systemFlags meal', systemFlags);
+    console.log('systemFlags meal', systemFlags);
 
     const focus = useIsFocused();
     React.useEffect(() => {

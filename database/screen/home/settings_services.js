@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    USER_NAME, 
-    USER_AGE,
+    USER_INFO,
     USER_CALORIES_GOAL,
     USER_CARBS_GOAL,
     USER_PROTEIN_GOAL,
@@ -22,25 +21,13 @@ import { IsResultEmpty } from '../../../helpers/validations';
 // get data for home screen
 export async function GetEditUserDataScreenData() {
     try {
-        const userNameResult = await AsyncStorage.getItem(USER_NAME);
-        // console.log('userNameResult', userNameResult);
-        if(IsResultEmpty(userNameResult)) return console.log('user name has no data'); 
-        
-        const userAgeResult = await AsyncStorage.getItem(USER_AGE);
-        // console.log('userAgeResult', userAgeResult);
-        if(IsResultEmpty(userAgeResult)) return console.log('user age has no data'); 
-
-        // store has data
-        const userName = JSON.parse(userNameResult);
-        const userAge = JSON.parse(userAgeResult);
-
-        // console.log('userName', userName);
-        // console.log('userAge', userAge);
-
+        const userResult = await AsyncStorage.getItem(USER_INFO);
+        const user = JSON.parse(userResult);
+        // console.log('user back', user);
         return {
-            name: userName,
-            age: userAge
-        }        
+            name: user.name,
+            age: `${user.age}`
+        };
     } catch (error) {
         console.log(error);
     }
@@ -48,9 +35,14 @@ export async function GetEditUserDataScreenData() {
 
 export async function SetEditUserData(name, age) {
     try {
-        await AsyncStorage.setItem(USER_NAME, JSON.stringify(name));
-        await AsyncStorage.setItem(USER_AGE, JSON.stringify(age));
-        return;        
+        const userResult = await AsyncStorage.getItem(USER_INFO);
+        const user = JSON.parse(userResult);
+        // console.log('user before', user);
+
+        user.name = name;
+        user.age = parseInt(age);
+
+        await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
     } catch (error) {
         console.log(error);
     }

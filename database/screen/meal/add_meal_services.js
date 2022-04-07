@@ -1,9 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    MEAL_TOTAL_CALORIES,
-    MEAL_TOTAL_CARBS,
-    MEAL_TOTAL_PROTEIN,
-    MEAL_TOTAL_FAT,
     MEAL_BREAKFAST_TOTAL_CALORIES,
     MEAL_BREAKFAST_TOTAL_CARBS,
     MEAL_BREAKFAST_TOTAL_PROTEIN,
@@ -18,7 +14,8 @@ import {
     MEAL_DINNER_TOTAL_CARBS,
     MEAL_DINNER_TOTAL_PROTEIN,
     MEAL_DINNER_TOTAL_FAT,
-    MEAL_DINNER_FOODS
+    MEAL_DINNER_FOODS,
+    MEAL_LOG
 } from '../../database_stores';
 
 
@@ -137,15 +134,19 @@ export async function AddMealFoodData(meal_number, name, calories, carbs, protei
         }
 
         // TOTALS =====
-        const totalCaloriesResult = await AsyncStorage.getItem(MEAL_TOTAL_CALORIES);        
-        const totalCarbsResult = await AsyncStorage.getItem(MEAL_TOTAL_CARBS);        
-        const totalProteinResult = await AsyncStorage.getItem(MEAL_TOTAL_PROTEIN);        
-        const totalFatResult = await AsyncStorage.getItem(MEAL_TOTAL_FAT);
-        
-        await setDataWithResult(MEAL_TOTAL_CALORIES, totalCaloriesResult, calories);
-        await setDataWithResult(MEAL_TOTAL_CARBS, totalCarbsResult, carbs);
-        await setDataWithResult(MEAL_TOTAL_PROTEIN, totalProteinResult, protein);
-        await setDataWithResult(MEAL_TOTAL_FAT, totalFatResult, fat); 
+        const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
+        // console.log('mealLogResult', mealLogResult);
+        if(IsResultEmpty(mealLogResult)) return console.log('meal log has no data'); 
+
+        const mealLog = JSON.parse(mealLogResult);
+        // console.log('mealLog', mealLog);
+        mealLog[mealLog.length - 1].totalCalories = parseInt(mealLog[mealLog.length - 1].totalCalories) + calories;
+        mealLog[mealLog.length - 1].totalCarbs = parseInt(mealLog[mealLog.length - 1].totalCarbs) + carbs;
+        mealLog[mealLog.length - 1].totalProtein = parseInt(mealLog[mealLog.length - 1].totalProtein) + protein;
+        mealLog[mealLog.length - 1].totalFat = parseInt(mealLog[mealLog.length - 1].totalFat) + fat;
+        // console.log('mealLog[mealLog.length - 1]', mealLog[mealLog.length - 1]);
+
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
         return;
     } catch (error) {
         console.log(error);

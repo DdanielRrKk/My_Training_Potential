@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { USER_WEIGHT, WEIGHT_LOG } from '../../database_stores';
+import { USER_INFO, WEIGHT_LOG } from '../../database_stores';
 
-import { IsResultEmpty } from '../../../helpers/validations';
 import { getCurrentDateForLog } from '../../../helpers/dateHelper';
 
 
@@ -10,23 +9,17 @@ import { getCurrentDateForLog } from '../../../helpers/dateHelper';
 export async function GetWeightScreenData() {
     try {
         const weightLogResult = await AsyncStorage.getItem(WEIGHT_LOG);
-        // console.log('weightLogResult', weightLogResult);
-        if(IsResultEmpty(weightLogResult)) return console.log('weight log has no data'); 
-
-        const weightResult = await AsyncStorage.getItem(USER_WEIGHT);
-        // console.log('weightResult', weightResult);
-        if(IsResultEmpty(weightResult)) return console.log('user weight has no data'); 
-
-        // store has data
         const weightLog = JSON.parse(weightLogResult);
-        const weight = JSON.parse(weightResult);
         // console.log('weightLog', weightLog);
-        // console.log('weight', weight);
+
+        const userResult = await AsyncStorage.getItem(USER_INFO);
+        const user = JSON.parse(userResult);
+        // console.log('user back', user);
 
         return{
             weightLog: weightLog,
-            weight: weight
-        };      
+            weight: `${user.weight}`
+        }; 
     } catch (error) {
         console.log(error);
     }
@@ -35,16 +28,15 @@ export async function GetWeightScreenData() {
 // set weight log data
 export async function SetWeightLogData(weight) {
     try {
-        await AsyncStorage.setItem(USER_WEIGHT, JSON.stringify(weight));
+        const userResult = await AsyncStorage.getItem(USER_INFO);
+        const user = JSON.parse(userResult);
+        user.weight = parseInt(weight);
+        // console.log('user back', user);
+        await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
 
         const weightLogResult = await AsyncStorage.getItem(WEIGHT_LOG);
-        // console.log('weightLogResult', weightLogResult);
-        if(IsResultEmpty(weightLogResult)) return console.log('weight log has no data'); 
-
-        // store has data
         const weightLog = JSON.parse(weightLogResult);
-        // console.log('weightLog before', weightLog);
-
+        // console.log('weightLog', weightLog);
         const currentDate = getCurrentDateForLog();
         const lastKey = weightLog[weightLog.length - 1].key + 1;
         weightLog.push({
@@ -53,9 +45,7 @@ export async function SetWeightLogData(weight) {
             date: currentDate
         });
         // console.log('weightLog after', weightLog);
-
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(weightLog));
-        return;    
     } catch (error) {
         console.log(error);
     }

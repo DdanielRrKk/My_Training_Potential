@@ -51,15 +51,11 @@ export default function RootNavigation() {
   React.useEffect(() => {
     let isGood = true;
     
-    GetAppData().then(({ isUserSetup, isMealSetup, isWorkoutSetup }) => { 
+    GetAppData().then((systemFlags) => { 
       if(isGood) {
-        setSystemFlags({
-          isUserReady: isUserSetup,
-          isMealReady: isMealSetup,
-          isWorkoutReady: isWorkoutSetup
-        });
+        setSystemFlags(systemFlags);
         setAllGood(true);
-        if(isMealSetup) SaveDataIfDayChanged(isMealSetup);
+        if(systemFlags.isMealSetup) SaveDataIfDayChanged(systemFlags.isMealSetup);
       }
     });
 
