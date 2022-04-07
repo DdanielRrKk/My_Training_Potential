@@ -3,7 +3,8 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetUserGender, GetUserGender } from '../../database/screen/landing_services';
 
-import { container, content, back_button_container, middle_button_container, question } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesLanding } from '../../styles/landingStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
 import GroupButton from '../../components/misc/groupButton';
@@ -28,15 +29,15 @@ export default function LandingGenderScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content}>
-                <Text style={[question, {marginBottom: 16}]}>What is your gender?</Text>
+            <View style={stylesMisc.content}>
+                <Text style={stylesLanding.question_gender}>What is your gender?</Text>
 
-                <View style={middle_button_container}>
+                <View style={stylesMisc.middle_button_container}>
                     <GroupButton 
                         is_selected={(gender == 1)? true : false}
                         title={'Male'}

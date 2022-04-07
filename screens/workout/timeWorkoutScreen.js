@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
+import { Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 
-import { container, content } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesWorkout } from '../../styles/workoutStyles';
 
 import { calculateTimeString } from '../../helpers/timer';
 
@@ -54,75 +54,26 @@ export default function TimeWorkoutScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-                <View style={content}>
-                    <Text style={styles.subtext}>{(isDuration) ? 'Duration' : 'Rest'}</Text>
+        <SafeAreaView style={stylesMisc.container}>
+                <View style={stylesMisc.content}>
+                    <Text style={stylesWorkout.subtext}>{(isDuration) ? 'Duration' : 'Rest'}</Text>
 
-                    <Text style={styles.text}>{timeDurationString}</Text>
+                    <Text style={stylesWorkout.text}>{timeDurationString}</Text>
 
-                    <View style={{flexDirection: 'row'}}>
+                    <View style={stylesWorkout.row}>
                         <TouchableOpacity
-                            style={(pause) ? styles.btn_active : styles.btn_unactive}
+                            style={(pause) ? stylesWorkout.btn_active : stylesWorkout.btn_unactive}
                             onPress={togglePause}>
-                            <Text style={(pause) ? styles.subtext_active : styles.subtext_unactive}>{(pause) ? 'Continue' : 'Pause'}</Text>
+                            <Text style={(pause) ? stylesWorkout.subtext_active : stylesWorkout.subtext_unactive}>{(pause) ? 'Continue' : 'Pause'}</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            style={[styles.btn_active, {marginLeft: 16}]}
+                            style={stylesWorkout.btn_active_down}
                             onPress={skipRest}>
-                            <Text style={styles.subtext_active}>Skip</Text>
+                            <Text style={stylesWorkout.subtext_active}>Skip</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 36,
-        marginBottom: 16,
-        fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-    subtext: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-
-    btn_active: {
-        fontSize: 24,
-        backgroundColor: PRIMARY_COLOR,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    subtext_active: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-    btn_unactive: {
-        fontSize: 24,
-        backgroundColor: SECONDARY_COLOR,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    subtext_unactive: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-});

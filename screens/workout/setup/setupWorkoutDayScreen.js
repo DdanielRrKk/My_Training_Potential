@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
 
-import { container, content, back_button_container, question, subtitle } from '../../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
+import { stylesMisc } from '../../../styles/miscStyles';
+import { stylesWorkoutSetup } from '../../../styles/workoutStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import TextEntry from '../../../components/misc/textEntry';
@@ -74,26 +74,26 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
     });
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={[content, {width: '100%'}]}>
-                <Text style={question}>Workout Name</Text>
+            <View style={stylesMisc.content}>
+                <Text style={stylesMisc.question}>Workout Name</Text>
 
                 <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={subtitle}>Exercises</Text>
+                <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    <View style={{ width: '100%', alignItems: 'center' }}>
+                <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                    <View style={stylesMisc.view}>
                         {exercises ? <>{WorkoutItemList(exercises, editExercise)}</> : null }
 
-                        <TouchableOpacity style={styles.btn} onPress={addWorkout}>
+                        <TouchableOpacity style={stylesWorkoutSetup.btn} onPress={addWorkout}>
                             <AntDesign name="plus" size={24} color={SECONDARY_COLOR} />
                         </TouchableOpacity>
                     </View>
@@ -105,21 +105,3 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-
-const styles = StyleSheet.create({
-    btn: {
-        backgroundColor: PRIMARY_COLOR,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 2,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-});

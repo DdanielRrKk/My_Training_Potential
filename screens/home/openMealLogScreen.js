@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
-import { container, back_button_container, subtitle, content_start } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesOpenLog } from '../../styles/homeStyles';
 
 import BackButton from '../../components/misc/backButton';
 import Header from '../../components/misc/header';
@@ -70,21 +70,21 @@ export default function OpenMealLogScreen({ navigation, route }){
     const openPrevScreen = () => navigation.goBack();
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content_start}>
+            <View style={stylesMisc.content_start}>
                 <Header title={date} />
                 
-                <Text style={subtitle}>Water</Text>
+                <Text style={stylesMisc.subtitle}>Water</Text>
                 
-                <View style={styles.header}>
-                    <Text style={styles.bigText}>{water} ml</Text>
+                <View style={stylesOpenLog.header}>
+                    <Text style={stylesOpenLog.bigText}>{water} ml</Text>
                 </View>
 
-                <Text style={subtitle}>Nutritions</Text>
+                <Text style={stylesMisc.subtitle}>Nutritions</Text>
 
                 <NutritionsBox 
                     isDetailed={true}
@@ -104,26 +104,3 @@ export default function OpenMealLogScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    bigText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-});

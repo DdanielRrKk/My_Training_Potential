@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { GetEditMealDataScreenData, SetEditMealData } from '../../../database/screen/home/settings_services';
 
-import { container, back_button_container, subtitle, content_start } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import ActionButton from '../../../components/misc/actionButton';
@@ -47,13 +47,13 @@ export default function EditMealDataScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content_start}>
-                <Text style={subtitle}>Calories Goal</Text>
+            <View style={stylesMisc.content_start}>
+                <Text style={stylesMisc.subtitle}>Calories Goal</Text>
 
                 <TextEntry
                     onChangeText={setCaloriesGoal}
@@ -61,7 +61,7 @@ export default function EditMealDataScreen({ navigation }){
                     maxLength={NUTRITIONS_MAX_LENGTH}
                     isNumeric={true}/>
 
-                <Text style={subtitle}>Carbs Goal</Text>
+                <Text style={stylesMisc.subtitle}>Carbs Goal</Text>
 
                 <TextEntry
                     onChangeText={setCarbsGoal}
@@ -69,7 +69,7 @@ export default function EditMealDataScreen({ navigation }){
                     maxLength={NUTRITIONS_MAX_LENGTH}
                     isNumeric={true}/>
 
-                <Text style={subtitle}>Protein Goal</Text>
+                <Text style={stylesMisc.subtitle}>Protein Goal</Text>
 
                 <TextEntry
                     onChangeText={setProteinGoal}
@@ -77,7 +77,7 @@ export default function EditMealDataScreen({ navigation }){
                     maxLength={NUTRITIONS_MAX_LENGTH}
                     isNumeric={true}/>
 
-                <Text style={subtitle}>Fat Goal</Text>
+                <Text style={stylesMisc.subtitle}>Fat Goal</Text>
 
                 <TextEntry
                     onChangeText={setFatGoal}

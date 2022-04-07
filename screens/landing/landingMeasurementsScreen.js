@@ -3,7 +3,8 @@ import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserMeasurements, GetUserMeasurements } from '../../database/screen/landing_services';
 
-import { container, content, back_button_container, question } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesLanding } from '../../styles/landingStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
@@ -42,33 +43,33 @@ export default function LandingMeasurementsScreen({ navigation }){
     }
  
     return(
-        <SafeAreaView style={container}>
+        <SafeAreaView style={stylesMisc.container}>
             <KeyboardAvoidingView>
-                <View style={back_button_container}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={[content, {width: 'auto'}]}>
-                    <Text style={question}>Age</Text>
+                <View style={stylesLanding.content}>
+                    <Text style={stylesLanding.question}>Age</Text>
                     <TextEntry
-                        style={{width: '50%'}}
+                        style={stylesLanding.entry}
                         onChangeText={setAge}
                         value={age}
                         maxLength={AGE_MAX_LENGTH}
                         isNumeric={true}/>
 
-                    <Text style={[question, {marginTop: 32}]}>Weight</Text>
+                    <Text style={stylesLanding.question_middle}>Weight</Text>
                     <TextEntry
-                        style={{width: '50%'}}
+                        style={stylesLanding.entry}
                         placeholder='kg'
                         onChangeText={setWeight}
                         value={weight}
                         maxLength={WEIGHT_MAX_LENGTH}
                         isNumeric={true}/>
 
-                    <Text style={[question, {marginTop: 32}]}>Height</Text>
+                    <Text style={stylesLanding.question_middle}>Height</Text>
                     <TextEntry
-                        style={{width: '50%'}}
+                        style={stylesLanding.entry}
                         placeholder='cm'
                         onChangeText={setHeight}
                         value={height}

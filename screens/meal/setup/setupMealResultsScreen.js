@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetAndGetMealResults } from '../../../database/screen/meal/meal_setup_services';
 
-import { container, content, back_button_container, question } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
@@ -47,13 +47,13 @@ export default function SetupMealResultsScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content}>
-                <Text style={question}>Your daily nutritional recommendations</Text>
+            <View style={stylesMisc.content}>
+                <Text style={stylesMisc.question}>Your daily nutritional recommendations</Text>
 
                 <NutritionsBox 
                     caloriesGoal={calories}

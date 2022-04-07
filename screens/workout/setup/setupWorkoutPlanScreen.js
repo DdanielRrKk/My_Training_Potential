@@ -4,7 +4,8 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
 import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
 
-import { container, content, back_button_container, question, subtitle } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
+import { stylesWorkoutSetup } from '../../../styles/workoutStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
@@ -126,22 +127,22 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
             
-            <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
-                <Text style={question}>Workout Plan Name</Text>
+            <View style={stylesMisc.content_start}>
+                <Text style={stylesMisc.question}>Workout Plan Name</Text>
 
                 <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={subtitle}>Days</Text>
+                <Text style={stylesMisc.subtitle}>Days</Text>
 
-                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+                <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
                     <SetupWorkoutBox 
                         day='Monday'
                         workoutName={monday.name}
@@ -149,42 +150,42 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={stylesWorkoutSetup.box_margin}
                         day='Tuesday'
                         workoutName={tuesday.name}
                         pressHandler={() => openWorkoutDaysScreen(2)}/>
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={stylesWorkoutSetup.box_margin}
                         day='Wednesday'
                         workoutName={wednesday.name}
                         pressHandler={() => openWorkoutDaysScreen(3)}/>
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={stylesWorkoutSetup.box_margin}
                         day='Thursday'
                         workoutName={thursday.name}
                         pressHandler={() => openWorkoutDaysScreen(4)}/>
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={stylesWorkoutSetup.box_margin}
                         day='Friday'
                         workoutName={friday.name}
                         pressHandler={() => openWorkoutDaysScreen(5)}/>
 
                         
                     <SetupWorkoutBox 
-                        style={{marginTop: 16}}
+                        style={stylesWorkoutSetup.box_margin}
                         day='Saturday'
                         workoutName={saturday.name}
                         pressHandler={() => openWorkoutDaysScreen(6)}/>
 
                         
                     <SetupWorkoutBox 
-                        style={{marginVertical: 16}}
+                        style={stylesWorkoutSetup.box_margin_v}
                         day='Sunday'
                         workoutName={sunday.name}
                         pressHandler={() => openWorkoutDaysScreen(7)}/>

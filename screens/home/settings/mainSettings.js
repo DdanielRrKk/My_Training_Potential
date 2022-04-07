@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
-import { container, back_button_container, subtitle, content_start } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import SettingsOption from '../../../components/home/settings/settingsOption';
@@ -84,14 +84,14 @@ export default function MainSettingsScreen({ navigation }){
     const deleteAccount = () => AlertYESNO(warningTitle, deleteAccountText, canceledEvent, deleteAccountHandler);
  
     return(
-        <SafeAreaView style={container}>
-            <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={subtitle}>Settings</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.subtitle}>Settings</Text>
 
                     <SettingsOption 
                         title='Edit User Data'

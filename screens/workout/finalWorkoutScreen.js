@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
 
 import { SetWorkoutLogData } from '../../database/screen/workout/final_workout_services';
 
-import { container, content, subtitle } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesWorkout } from '../../styles/workoutStyles';
 
 import ActionButton from '../../components/misc/actionButton';
 import Header from '../../components/misc/header';
@@ -36,23 +36,23 @@ export default function FinalWorkoutScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
+        <SafeAreaView style={stylesMisc.container}>
+            <KeyboardAvoidingView style={stylesMisc.keyboardContainer}>
                 
-                    <View style={content}>
+                    <View style={stylesMisc.content}>
                         <Header title={dayName}/>
 
-                        <Text style={subtitle}>Total Time</Text>
+                        <Text style={stylesMisc.subtitle}>Total Time</Text>
 
-                        <View style={styles.header}>
-                            <Text style={styles.bigText}>{totalTime}</Text>
+                        <View style={stylesWorkout.header}>
+                            <Text style={stylesWorkout.bigText}>{totalTime}</Text>
                         </View>
 
-                        <Text style={subtitle}>Note</Text>
+                        <Text style={stylesMisc.subtitle}>Note</Text>
 
-                        <View style={styles.note_box}>
+                        <View style={stylesWorkout.note_box}>
                             <TextInput
-                                style={styles.note}
+                                style={stylesWorkout.note}
                                 placeholder='(optional)'
                                 onChangeText={setNote}
                                 value={note}
@@ -61,10 +61,10 @@ export default function FinalWorkoutScreen({ navigation, route }){
                                 numberOfLines={4}/>
                         </View>
 
-                        <Text style={subtitle}>Exercises</Text>
+                        <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                        <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                            <View style={{ width: '100%', alignItems: 'center' }}>
+                        <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                            <View style={stylesMisc.view}>
                                 {finishedExercises ? <>{ExercisesItemList(finishedExercises)}</> : null }
                             </View>
                         </ScrollView>
@@ -76,50 +76,3 @@ export default function FinalWorkoutScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: SECONDARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    bigText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-    
-    note_box: {
-        flexDirection: 'row',
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: PRIMARY_COLOR,
-        marginBottom: 16,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    note: {
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderRadius: 10,
-        justifyContent: 'center',
-        backgroundColor: SECONDARY_COLOR,
-        color: TERTIARY_COLOR
-    },
-});

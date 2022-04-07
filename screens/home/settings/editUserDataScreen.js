@@ -3,7 +3,7 @@ import { Text , View, SafeAreaView } from 'react-native';
 
 import { GetEditUserDataScreenData, SetEditUserData } from '../../../database/screen/home/settings_services';
 
-import { container, back_button_container, subtitle, content_start } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import ActionButton from '../../../components/misc/actionButton';
@@ -39,20 +39,20 @@ export default function EditUserDataScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content_start}>
-                <Text style={subtitle}>Name</Text>
+            <View style={stylesMisc.content_start}>
+                <Text style={stylesMisc.subtitle}>Name</Text>
 
                 <TextEntry
                     onChangeText={setName}
                     value={name}
                     maxLength={NAME_MAX_LENGTH}/>
 
-                <Text style={subtitle}>Age</Text>
+                <Text style={stylesMisc.subtitle}>Age</Text>
 
                 <TextEntry
                     onChangeText={setAge}

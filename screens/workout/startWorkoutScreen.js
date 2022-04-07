@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
+import { Text, TouchableOpacity, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
-import { container, back_button_container, content, label_18 } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesWorkout } from '../../styles/workoutStyles';
 
 import BackButton from '../../components/misc/backButton';
 import NumberInput from '../../components/misc/numberInput';
@@ -164,41 +164,41 @@ export default function StartWorkoutScreen({ navigation, route }){
     const startDuration = () => navigation.navigate('TimeWorkoutScreen', {time: duration, next: next, isDuration: true});
 
     return(
-        <SafeAreaView style={container}>
-            <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
-                <View style={[back_button_container, {justifyContent: 'space-between'}]}>
+        <SafeAreaView style={stylesMisc.container}>
+            <KeyboardAvoidingView style={stylesMisc.keyboardContainer}>
+                <View style={stylesWorkout.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
 
-                    <Text style={[label_18, {marginRight:16}]}>{totalTimeString}</Text>
+                    <Text style={stylesWorkout.label_18}>{totalTimeString}</Text>
                 </View>
 
-                <View style={content}>
-                    <Text style={styles.name}>{name}</Text>
+                <View style={stylesMisc.content}>
+                    <Text style={stylesWorkout.name}>{name}</Text>
 
-                    <Text style={styles.sets}>Set {currentSet} / {sets}</Text>
+                    <Text style={stylesWorkout.sets}>Set {currentSet} / {sets}</Text>
 
                     {(instructions != '') ? 
-                     <View style={styles.instructionBox}>
-                        <Text style={styles.instructionText}>Instruction: </Text>
-                        <Text style={styles.instructionText}>{instructions}</Text>
+                     <View style={stylesWorkout.instructionBox}>
+                        <Text style={stylesWorkout.instructionText}>Instruction: </Text>
+                        <Text style={stylesWorkout.instructionText}>{instructions}</Text>
                     </View>
                     : null }
 
                     {(type == 0) ?
                         <NumberInput
-                            style={styles.input}
+                            style={stylesWorkout.input}
                             value={`${reps}`}
                             onChangeHandler={changeRepsHandler}
                             incValueHandler={incRepsHandler}
                             decValueHandler={decRepsHandler}/>
                     :
-                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                            <Text style={styles.duration_text}>{durationString}</Text>
+                        <View style={stylesWorkout.view}>
+                            <Text style={stylesWorkout.duration_text}>{durationString}</Text>
                             
                             <TouchableOpacity 
-                                style={styles.btn}
+                                style={stylesWorkout.btn}
                                 onPress={startDuration}>
-                                <Text style={styles.text_btn}>Start</Text>
+                                <Text style={stylesWorkout.text_btn}>Start</Text>
                             </TouchableOpacity>
                         </View>
                     }
@@ -209,69 +209,3 @@ export default function StartWorkoutScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    name: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-    sets: {
-        marginTop: 16,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-
-    instructionBox: {
-        flexDirection: 'row',
-        backgroundColor: SECONDARY_COLOR, 
-        borderRadius: 10, 
-        padding: 8, 
-        marginVertical: 36,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    instructionText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR
-    },
-
-    input: {
-        padding: 8, 
-        borderRadius: 10,
-        backgroundColor: SECONDARY_COLOR,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    duration_text: {
-        marginBottom: 16,
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: TERTIARY_COLOR
-    },
-    btn: {
-        fontSize: 16,
-        backgroundColor: PRIMARY_COLOR,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    text_btn: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    }
-});

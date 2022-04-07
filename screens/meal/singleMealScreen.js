@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetSingleMealScreenData, RemoveMealFoodData } from '../../database/screen/meal/single_meal_services';
 
-import { container, back_button_container, subtitle, content_start, question } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesMeal } from '../../styles/mealStyles';
 
 import BackButton from '../../components/misc/backButton';
 import MealItemList from '../../components/meal/mealItemList';
@@ -79,52 +79,52 @@ export default function SingleMealScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={[question, {fontSize: 24, marginBottom: 0}]}>{name}</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMeal.question}>{name}</Text>
 
-                    <Text style={subtitle}>Total</Text>
+                    <Text style={stylesMisc.subtitle}>Total</Text>
 
-                    <View style={styles.results}>
-                        <Text style={styles.title}>{calories} cal</Text>
+                    <View style={stylesMeal.results_single}>
+                        <Text style={stylesMeal.title}>{calories} cal</Text>
 
-                        <View style={[styles.row, {marginTop: 16}]}>
-                            <Text style={styles.labels}>Recommended</Text>
+                        <View style={stylesMeal.row_first}>
+                            <Text style={stylesMeal.labels}>Recommended</Text>
                             
-                            <Text style={styles.labels}>{recommendedMin} - {recommendedMax} cal</Text>
+                            <Text style={stylesMeal.labels}>{recommendedMin} - {recommendedMax} cal</Text>
                         </View>
                         
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Calories</Text>
+                        <View style={stylesMeal.row}>
+                            <Text style={stylesMeal.labels}>Calories</Text>
                             
-                            <Text style={styles.labels}>{calories} cal</Text>
+                            <Text style={stylesMeal.labels}>{calories} cal</Text>
                         </View>
 
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Carbs</Text>
+                        <View style={stylesMeal.row}>
+                            <Text style={stylesMeal.labels}>Carbs</Text>
                             
-                            <Text style={styles.labels}>{carbs} g</Text>
+                            <Text style={stylesMeal.labels}>{carbs} g</Text>
                         </View>
                         
-                        <View style={styles.row}>
-                            <Text style={styles.labels}>Protein</Text>
+                        <View style={stylesMeal.row}>
+                            <Text style={stylesMeal.labels}>Protein</Text>
                             
-                            <Text style={styles.labels}>{protein} g</Text>
+                            <Text style={stylesMeal.labels}>{protein} g</Text>
                         </View>
 
-                        <View style={[styles.row, {marginBottom: 16}]}>
-                            <Text style={styles.labels}>Fat</Text>
+                        <View style={stylesMeal.row_last}>
+                            <Text style={stylesMeal.labels}>Fat</Text>
                             
-                            <Text style={styles.labels}>{fat} g</Text>
+                            <Text style={stylesMeal.labels}>{fat} g</Text>
                         </View>
                     </View>
 
-                    <Text style={subtitle}>Meals</Text>
+                    <Text style={stylesMisc.subtitle}>Meals</Text>
 
                     {foods ? <>{MealItemList(foods, removeFoodItem)}</> : null }
                 </View>
@@ -134,38 +134,3 @@ export default function SingleMealScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    title: {
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR,
-        marginTop: 16
-    },
-
-    results: {
-        width: '100%',
-        backgroundColor: SECONDARY_COLOR,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    labels: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR,
-    },
-
-    row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingHorizontal: 16,
-        marginBottom: 24
-    },
-});

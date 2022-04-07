@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetMealLogData } from '../../database/screen/home/logs_services';
 
-import { container, back_button_container, content_start, subtitle } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import { MealLogItemList } from '../../components/home/logItemList';
@@ -26,14 +26,14 @@ export default function MealLogsScreen({ navigation }){
     const openLog = (item) => navigation.navigate('OpenMealLogScreen', {item: item});
  
     return(
-        <SafeAreaView style={container}>
-            <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={subtitle}>Meals History</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.subtitle}>Meals History</Text>
                     
                     {mealLog ? <>{MealLogItemList(mealLog, openLog)}</> : null }
                 </View>

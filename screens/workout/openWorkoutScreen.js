@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetOpenWorkoutScreenData } from '../../database/screen/workout/open_workout_services';
 
-import { container, back_button_container, subtitle, content_start } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import ActionButton from '../../components/misc/actionButton';
@@ -45,18 +45,18 @@ export default function OpenWorkoutScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content_start}>
+            <View style={stylesMisc.content_start}>
                 <Header title={name}/>
 
-                <Text style={subtitle}>Exercises</Text>
+                <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    <View style={{ width: '100%', alignItems: 'center' }}>
+                <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                    <View style={stylesMisc.view}>
                         {exercises ? <>{WorkoutItemList(exercises, null, true)}</> : null }
                     </View>
                 </ScrollView>

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { container, subtitle } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesLearn } from '../../styles/learnStyles';
 
 import Header from '../../components/misc/header';
 import LearnItemList from '../../components/learn/learnItemList';
@@ -21,13 +22,13 @@ export default function MainLearnScreen(){
     }
     
     return(
-        <SafeAreaView style={[container, {justifyContent: 'flex-start', paddingVertical: 0}]}>
-            <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+        <SafeAreaView style={stylesLearn.container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
                 <Header title='Learning'/>
 
-                <Text style={subtitle}>FAQ</Text>
+                <Text style={stylesMisc.subtitle}>FAQ</Text>
 
-                <View style={{ width: '100%', alignItems: 'center' }}>
+                <View style={stylesMisc.view}>
                     <>{LearnItemList(FAQ_LIST, openQuestionHandler, openKey)}</>
                 </View>
             </ScrollView>

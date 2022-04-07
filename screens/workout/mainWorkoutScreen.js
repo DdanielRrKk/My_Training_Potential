@@ -3,7 +3,8 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
-import { container, subtitle, content_start } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesWorkout } from '../../styles/workoutStyles';
 
 import WorkoutBox from '../../components/workout/workoutBox';
 import Header from '../../components/misc/header';
@@ -33,13 +34,15 @@ export default function MainWorkoutScreen({ navigation, route }){
     React.useEffect(() => {
         let isGood = true;
 
-        GetWorkoutScreenData().then(({ name, days}) => { 
-            if(isGood) {
-                setName(name);
-                const tempArray = getSortedWorkoutDays(days);
-                setDays(tempArray);
-            }
-        });
+        if(systemFlags.isWorkoutReady) {
+            GetWorkoutScreenData().then(({ name, days}) => { 
+                if(isGood) {
+                    setName(name);
+                    const tempArray = getSortedWorkoutDays(days);
+                    setDays(tempArray);
+                }
+            });
+        }
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [name]);
@@ -52,7 +55,7 @@ export default function MainWorkoutScreen({ navigation, route }){
 
     if(!systemFlags.isWorkoutReady || systemFlags == null) {
         return(
-            <SetupButtonView style={container} pressHandler={openSetupScreen}/>
+            <SetupButtonView style={stylesMisc.container} pressHandler={openSetupScreen}/>
         );
     }
 
@@ -66,12 +69,12 @@ export default function MainWorkoutScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={[container, {paddingVertical: 0}]}>
-            <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
+        <SafeAreaView style={stylesWorkout.container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
                 <Header title={name}/>
 
-                <View style={content_start}>
-                    <Text style={subtitle}>Today</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.subtitle}>Today</Text>
 
                     <WorkoutBox 
                         day={days[0]}
@@ -79,7 +82,7 @@ export default function MainWorkoutScreen({ navigation, route }){
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[0].day_number)}/>
                     
-                    <Text style={subtitle}>Next days</Text>
+                    <Text style={stylesMisc.subtitle}>Next days</Text>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
@@ -89,35 +92,35 @@ export default function MainWorkoutScreen({ navigation, route }){
                         openHandler={() => openWorkoutScreen(days[1].day_number)}/>
                         
                     <WorkoutBox 
-                        style={{marginBottom: 16}}
+                        style={stylesWorkout.box_margin}
                         day={days[2]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[2].day_number)}/>
                         
                     <WorkoutBox 
-                        style={{marginBottom: 16}}
+                        style={stylesWorkout.box_margin}
                         day={days[3]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[3].day_number)}/>
 
                     <WorkoutBox 
-                        style={{marginBottom: 16}}
+                        style={stylesWorkout.box_margin}
                         day={days[4]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[4].day_number)}/>
 
                     <WorkoutBox 
-                        style={{marginBottom: 16}}
+                        style={stylesWorkout.box_margin}
                         day={days[5]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
                         openHandler={() => openWorkoutScreen(days[5].day_number)}/>
 
                     <WorkoutBox 
-                        style={{marginBottom: 16}}
+                        style={stylesWorkout.box_margin}
                         day={days[6]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}

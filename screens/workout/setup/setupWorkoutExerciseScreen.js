@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
-import { container, content, back_button_container, question } from '../../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
+import { stylesMisc } from '../../../styles/miscStyles';
+import { stylesWorkoutSetup } from '../../../styles/workoutStyles';
 
 import BackButton from '../../../components/misc/backButton';
 import CheckButton from '../../../components/misc/checkButton';
@@ -125,23 +125,23 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
     const decRestHandler = () => setRest(`${GetCorrectTextInput(rest, false)}`);
 
     return(
-        <SafeAreaView style={[container, { paddingBottom: 0 }]}>
-            <KeyboardAvoidingView style={[content, {width: '100%'}]}>
-                <View style={[back_button_container, {justifyContent: 'space-between'}]}>
+        <SafeAreaView style={stylesWorkoutSetup.container}>
+            <KeyboardAvoidingView style={stylesMisc.content}>
+                <View style={stylesWorkoutSetup.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
 
                     <CheckButton pressHandler={(isFromEdit) ? editWorkout : addWorkout }/>
                 </View>
 
-                <View style={[content, {width: '100%', justifyContent: 'flex-start'}]}>
-                    <Text style={question}>Exercise Name</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.question}>Exercise Name</Text>
 
                     <TextEntry
                         onChangeText={setName}
                         value={name}
                         maxLength={NAME_MAX_LENGTH}/>
 
-                    <View style={styles.middle_button_container}>
+                    <View style={stylesWorkoutSetup.middle_button_container}>
                         <GroupButton 
                             is_selected={(type == 0)? true : false}
                             title={'Dynamic'}
@@ -153,9 +153,9 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                             pressHandler={() => setType(1)}/>
                     </View>
 
-                    <View style={styles.box}>
-                        <View style={styles.subBox}>
-                            <Text style={styles.text}>Sets</Text>
+                    <View style={stylesWorkoutSetup.box}>
+                        <View style={stylesWorkoutSetup.subBox}>
+                            <Text style={stylesWorkoutSetup.text}>Sets</Text>
 
                             <NumberInput
                                 value={sets}
@@ -167,8 +167,8 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
 
                         {(type == 0) ? 
                         <>
-                            <View style={[styles.subBox, {marginTop: 16}]}>
-                                <Text style={styles.text}>Min Reps</Text>
+                            <View style={stylesWorkoutSetup.subBox_middle}>
+                                <Text style={stylesWorkoutSetup.text}>Min Reps</Text>
 
                                 <NumberInput
                                     value={minReps}
@@ -178,8 +178,8 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                                     maxLength={WORKOUT_NUMBER_MAX_LENGTH}/>
                             </View>
 
-                            <View style={[styles.subBox, {marginTop: 16}]}>
-                                <Text style={styles.text}>Max Reps</Text>
+                            <View style={stylesWorkoutSetup.subBox_middle}>
+                                <Text style={stylesWorkoutSetup.text}>Max Reps</Text>
 
                                 <NumberInput
                                     value={maxReps}
@@ -190,8 +190,8 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                             </View>
                         </>
                         : 
-                            <View style={[styles.subBox, {marginTop: 16}]}>
-                                <Text style={styles.text}>Duration (sec)</Text>
+                            <View style={stylesWorkoutSetup.subBox_middle}>
+                                <Text style={stylesWorkoutSetup.text}>Duration (sec)</Text>
 
                                 <NumberInput
                                     value={duration}
@@ -202,8 +202,8 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                             </View>
                         }
 
-                        <View style={[styles.subBox, {marginTop: 16}]}>
-                            <Text style={styles.text}>Rest (sec)</Text>
+                        <View style={stylesWorkoutSetup.subBox_middle}>
+                            <Text style={stylesWorkoutSetup.text}>Rest (sec)</Text>
 
                             <NumberInput
                                 value={rest}
@@ -214,11 +214,11 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                         </View>
                     </View>
 
-                    <View style={styles.boxInstruction}>
-                        <Text style={styles.instructionsText}>Instructions</Text>
+                    <View style={stylesWorkoutSetup.boxInstruction}>
+                        <Text style={stylesWorkoutSetup.instructionsText}>Instructions</Text>
 
                         <TextInput
-                            style={styles.instructions}
+                            style={stylesWorkoutSetup.instructions}
                             placeholder='(optional)'
                             onChangeText={setInstructions}
                             value={instructions}
@@ -231,72 +231,3 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    middle_button_container: {
-        width: '100%',
-        marginTop: 32,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    }, 
-
-    box: {
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: SECONDARY_COLOR,
-        marginTop: 16,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    subBox: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-
-    text: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: PRIMARY_COLOR,
-    },
-
-    boxInstruction: {
-        width: '100%',
-        padding: 16,
-        borderRadius: 10,
-        alignItems: 'center',
-        backgroundColor: PRIMARY_COLOR,
-        marginTop: 16,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    instructionsText: {
-        fontSize: 16,
-        alignSelf: 'flex-start',
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR,
-        marginBottom: 16
-    },
-
-    instructions: {
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingVertical: 5,
-        borderRadius: 10,
-        justifyContent: 'center',
-        backgroundColor: SECONDARY_COLOR,
-        color: TERTIARY_COLOR
-    },
-});

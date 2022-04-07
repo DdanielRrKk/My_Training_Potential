@@ -3,7 +3,8 @@ import { Text, View, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetUserName, GetUserName } from '../../database/screen/landing_services';
 
-import { container, content, back_button_container, question } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesLanding } from '../../styles/landingStyles';
 
 import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
@@ -30,14 +31,14 @@ export default function LandingNameScreen({ navigation }){
     }
     
     return(
-        <SafeAreaView style={container}>
+        <SafeAreaView style={stylesMisc.container}>
             <KeyboardAvoidingView>
-                <View style={back_button_container}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={[content, {width: 'auto'}]}>
-                    <Text style={question}>What is your name?</Text>
+                <View style={stylesLanding.content}>
+                    <Text style={stylesLanding.question}>What is your name?</Text>
 
                     <TextEntry 
                         onChangeText={setName}

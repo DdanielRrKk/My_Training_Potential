@@ -3,7 +3,7 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { GetWeightScreenData, SetWeightLogData } from '../../database/screen/home/weight_services';
 
-import { container, back_button_container, content_start, subtitle } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import WeightPopup from '../../components/home/weightPopup';
@@ -40,7 +40,7 @@ export default function WeightScreen({ navigation }){
     const changeWeight = (value) => setCurrentWeight(value);
  
     return(
-        <SafeAreaView style={container}>
+        <SafeAreaView style={stylesMisc.container}>
 
             <WeightPopup 
                 flag={popupFlag}
@@ -49,13 +49,13 @@ export default function WeightScreen({ navigation }){
                 weightChangeHandler={changeWeight}
                 updateHandler={updateWeightLog}/>
 
-            <ScrollView style={{width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={back_button_container}>
+            <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={subtitle}>Weight History</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.subtitle}>Weight History</Text>
                     
                     {weightLog ? <>{WeightLogItemList(weightLog)}</> : null }
                 </View>

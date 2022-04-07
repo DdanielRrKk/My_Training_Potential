@@ -3,7 +3,8 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { SetMealGoal, GetMealGoal, GetActivityLevel } from '../../../database/screen/meal/meal_setup_services';
 
-import { container, content, back_button_container, question } from '../../../styles/miscStyles';
+import { stylesMisc } from '../../../styles/miscStyles';
+import { stylesMealSetup } from '../../../styles/mealStyles';
 
 import SelectionButton from '../../../components/misc/setup/selectionButton';
 import BackButton from '../../../components/misc/backButton';
@@ -35,13 +36,13 @@ export default function SetupMealGoalScreen({ navigation }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content}>
-                <Text style={question}>What is your goal?</Text>
+            <View style={stylesMisc.content}>
+                <Text style={stylesMisc.question}>What is your goal?</Text>
 
                 <SelectionButton 
                     is_selected={(goal == 1)? true : false}
@@ -49,13 +50,13 @@ export default function SetupMealGoalScreen({ navigation }){
                     pressHandler={() => setGoal(1)}/>
 
                 <SelectionButton 
-                    style={{marginTop: 24}}
+                    style={stylesMealSetup.box_margin}
                     is_selected={(goal == 2)? true : false}
                     title='Maintain Weight'
                     pressHandler={() => setGoal(2)}/>
 
                 <SelectionButton 
-                    style={{marginTop: 24}}
+                    style={stylesMealSetup.box_margin}
                     is_selected={(goal == 3)? true : false}
                     title='Build Muscle'
                     pressHandler={() => setGoal(3)}/>

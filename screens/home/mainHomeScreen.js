@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { useIsFocused } from '@react-navigation/native';
 
 import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
-import { container, subtitle, content_start } from '../../styles/miscStyles';
-import { TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesHome } from '../../styles/homeStyles';
 
 import OptionsButton from '../../components/home/optionsButton';
 import SetupBox from '../../components/home/setupBox';
@@ -48,7 +48,7 @@ export default function MainHomeScreen({ navigation }){
     React.useEffect(() => {
         let isGood = true;
 
-        GetHomeScreenData().then(({
+        GetHomeScreenData(systemFlags.isMealReady, systemFlags.isWorkoutReady).then(({
             name, 
             weight,
             caloriesPercentage,
@@ -130,18 +130,16 @@ export default function MainHomeScreen({ navigation }){
     }
  
     return(
-        <SafeAreaView style={[container, {paddingBottom: 0}]}>
-            <ScrollView style={{flex: 1, width: '100%'}} showsVerticalScrollIndicator={false}>
-                <View style={styles.top_button_container}>
-                    <Text style={styles.title}>Welcome {name}</Text>
+        <SafeAreaView style={stylesHome.container}>
+            <ScrollView style={stylesMisc.scrollContainer} showsVerticalScrollIndicator={false}>
+                <View style={stylesHome.top_button_container}>
+                    <Text style={stylesHome.title}>Welcome {name}</Text>
 
-                    <OptionsButton 
-                        style={styles.options}
-                        pressHandler={openOptionsScreen}/>
+                    <OptionsButton pressHandler={openOptionsScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={subtitle}>Nutrition</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.subtitle}>Nutrition</Text>
                     
                     { // Nutritions ================ START
                     systemFlags.isMealReady ?
@@ -159,7 +157,7 @@ export default function MainHomeScreen({ navigation }){
                     // Nutritions ================ END
                     } 
 
-                    <Text style={subtitle}>Workout</Text>
+                    <Text style={stylesMisc.subtitle}>Workout</Text>
                     
                     { // Workout ================ START
                     systemFlags.isWorkoutReady ?
@@ -173,16 +171,16 @@ export default function MainHomeScreen({ navigation }){
                     // Workout ================ END
                     } 
                     
-                    <Text style={subtitle}>Weight Log</Text>
+                    <Text style={stylesMisc.subtitle}>Weight Log</Text>
                     
                     <LogBox 
                         value={weight}
                         title='current weight'
                         pressHandler={openWeightLogScreen}/>
                     
-                    <Text style={subtitle}>History</Text>
+                    <Text style={stylesMisc.subtitle}>History</Text>
 
-                    <View style={styles.middle_button_container}>
+                    <View style={stylesHome.middle_button_container}>
                         <GroupLogBox 
                             title='Workout History'
                             pressHandler={openWorkoutLogScreen}/>
@@ -197,29 +195,3 @@ export default function MainHomeScreen({ navigation }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    top_button_container: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center'
-    },
-
-    title: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 24,
-        color: TERTIARY_COLOR
-    },
-
-    middle_button_container: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 32
-    },
-});

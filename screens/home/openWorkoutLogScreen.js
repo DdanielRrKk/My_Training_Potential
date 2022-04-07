@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { container, back_button_container, subtitle, content_start } from '../../styles/miscStyles';
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesOpenLog } from '../../styles/homeStyles';
 
 import BackButton from '../../components/misc/backButton';
 import Header from '../../components/misc/header';
@@ -32,37 +32,37 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
     const openPrevScreen = () => navigation.goBack();
 
     return(
-        <SafeAreaView style={container}>
-            <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <View style={stylesMisc.back_button_container}>
                 <BackButton pressHandler={openPrevScreen}/>
             </View>
 
-            <View style={content_start}>
+            <View style={stylesMisc.content_start}>
                 <Header title={name}/>
 
-                <Text style={subtitle}>Details</Text>
+                <Text style={stylesMisc.subtitle}>Details</Text>
 
-                <View style={styles.header}>
-                    <View style={styles.row}>
-                        <Text style={styles.bigText}>Total Time</Text>
-                        <Text style={styles.bigText}>{totalTime}</Text>
+                <View style={stylesOpenLog.header}>
+                    <View style={stylesOpenLog.row}>
+                        <Text style={stylesOpenLog.bigText}>Total Time</Text>
+                        <Text style={stylesOpenLog.bigText}>{totalTime}</Text>
                     </View>
-                    <View style={[styles.row, {marginTop: 16}]}>
-                        <Text style={styles.bigText}>Date</Text>
-                        <Text style={styles.bigText}>{date}</Text>
+                    <View style={[stylesOpenLog.row, {marginTop: 16}]}>
+                        <Text style={stylesOpenLog.bigText}>Date</Text>
+                        <Text style={stylesOpenLog.bigText}>{date}</Text>
                     </View>
                 </View>
 
-                <Text style={subtitle}>Note</Text>
+                <Text style={stylesMisc.subtitle}>Note</Text>
 
-                <View style={styles.note_box}>
-                    <Text style={styles.note_text}>{note}</Text>
+                <View style={stylesOpenLog.note_box}>
+                    <Text style={stylesOpenLog.note_text}>{note}</Text>
                 </View>
 
-                <Text style={subtitle}>Exercises</Text>
+                <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                <ScrollView style={{ width: '100%' }} showsVerticalScrollIndicator={false}>
-                    <View style={{ width: '100%', alignItems: 'center' }}>
+                <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
+                    <View style={stylesMisc.view}>
                         {exercises ? <>{ExercisesItemList(exercises)}</> : null }
                     </View>
                 </ScrollView>
@@ -70,48 +70,3 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
         </SafeAreaView>
     );
 };
-
-
-
-const styles = StyleSheet.create({
-    header: {
-        backgroundColor: PRIMARY_COLOR,
-        width: '100%',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        borderRadius: 10,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-
-    bigText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    },
-
-    row: {
-        width: '100%', 
-        flexDirection: 'row', 
-        justifyContent: 'space-between'
-    },
-
-    note_box: {
-        width: '100%',
-        backgroundColor: PRIMARY_COLOR,
-        borderRadius: 10,
-        padding: 16,
-        shadowColor: TERTIARY_COLOR,
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 3,
-    },
-    note_text: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: SECONDARY_COLOR
-    }
-});

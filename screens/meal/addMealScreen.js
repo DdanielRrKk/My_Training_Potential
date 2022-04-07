@@ -3,7 +3,8 @@ import { Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
 import { AddMealFoodData } from '../../database/screen/meal/add_meal_services';
 
-import { container, back_button_container, question, content_start, results, label_18, row } from '../../styles/miscStyles';
+import { stylesMisc } from '../../styles/miscStyles';
+import { stylesMeal } from '../../styles/mealStyles';
 
 import BackButton from '../../components/misc/backButton';
 import TextEntry from '../../components/misc/textEntry';
@@ -57,22 +58,22 @@ export default function AddMealScreen({ navigation, route }){
     }
 
     return(
-        <SafeAreaView style={container}>
-            <KeyboardAvoidingView style={{flex: 1, width: '100%'}}>
-                <View style={back_button_container}>
+        <SafeAreaView style={stylesMisc.container}>
+            <KeyboardAvoidingView style={stylesMisc.keyboardContainer}>
+                <View style={stylesMisc.back_button_container}>
                     <BackButton pressHandler={openPrevScreen}/>
                 </View>
 
-                <View style={content_start}>
-                    <Text style={question}>Meal Name</Text>
+                <View style={stylesMisc.content_start}>
+                    <Text style={stylesMisc.question}>Meal Name</Text>
 
                     <TextEntry
                         onChangeText={setName}
                         maxLength={NAME_MAX_LENGTH}/>
 
-                    <View style={results}>
-                        <View style={[row, {marginTop: 16}]}>
-                            <Text style={label_18}>Calories (cal)</Text>
+                    <View style={stylesMeal.results}>
+                        <View style={stylesMeal.row_first}>
+                            <Text style={stylesMeal.label_18}>Calories (cal)</Text>
                             
                             <NumberInput
                                 value={calories}
@@ -82,8 +83,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
-                        <View style={row}>
-                            <Text style={label_18}>Carbohydrates (g)</Text>
+                        <View style={stylesMeal.row}>
+                            <Text style={stylesMeal.label_18}>Carbohydrates (g)</Text>
                             
                             <NumberInput
                                 value={carbs}
@@ -93,8 +94,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
                         
-                        <View style={row}>
-                            <Text style={label_18}>Protein (g)</Text>
+                        <View style={stylesMeal.row}>
+                            <Text style={stylesMeal.label_18}>Protein (g)</Text>
                             
                             <NumberInput
                                 value={protein}
@@ -104,8 +105,8 @@ export default function AddMealScreen({ navigation, route }){
                                 maxLength={NUTRITIONS_MAX_LENGTH}/>
                         </View>
 
-                        <View style={[row, {marginBottom: 16}]}>
-                            <Text style={label_18}>Fat (g)</Text>
+                        <View style={stylesMeal.row_last}>
+                            <Text style={stylesMeal.label_18}>Fat (g)</Text>
                             
                             <NumberInput
                                 value={fat}
