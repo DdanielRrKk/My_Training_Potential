@@ -12,6 +12,7 @@ export async function GetMealLogData() {
 
         return mealLog;     
     } catch (error) {
+        console.log('GetMealLogData error');
         console.log(error);
     }
 }
@@ -27,6 +28,7 @@ export async function GetWorkoutLogData() {
 
         return workoutLog;     
     } catch (error) {
+        console.log('GetWorkoutLogData error');
         console.log(error);
     }
 }

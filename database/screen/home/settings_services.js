@@ -1,10 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     USER_INFO,
-    USER_CALORIES_GOAL,
-    USER_CARBS_GOAL,
-    USER_PROTEIN_GOAL,
-    USER_FAT_GOAL,
+    USER_GOALS,
     WORKOUT_PLAN_NAME,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
@@ -14,7 +11,6 @@ import {
     WORKOUT_SATURDAY,
     WORKOUT_SUNDAY
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/validations';
 
 
 
@@ -23,12 +19,13 @@ export async function GetEditUserDataScreenData() {
     try {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
-        // console.log('user back', user);
+        // console.log('user', user);
         return {
             name: user.name,
             age: `${user.age}`
         };
     } catch (error) {
+        console.log('GetEditUserDataScreenData error');
         console.log(error);
     }
 }
@@ -37,13 +34,14 @@ export async function SetEditUserData(name, age) {
     try {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
-        // console.log('user before', user);
+        // console.log('user', user);
+        if(user.name == name && user.age == parseInt(age)) return;
 
-        user.name = name;
-        user.age = parseInt(age);
-
+        if(user.name != name) user.name = name;
+        if(user.age != parseInt(age)) user.age = parseInt(age);
         await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
     } catch (error) {
+        console.log('SetEditUserData error');
         console.log(error);
     }
 }
@@ -53,53 +51,36 @@ export async function SetEditUserData(name, age) {
 // get data for edit meal screen
 export async function GetEditMealDataScreenData() {
     try {
-        const mealCaloriesGoalResult = await AsyncStorage.getItem(USER_CALORIES_GOAL);
-        // console.log('mealCaloriesGoalResult', mealCaloriesGoalResult);
-        if(IsResultEmpty(mealCaloriesGoalResult)) return console.log('calories goal has no data'); 
-
-        const mealCarbsGoalResult = await AsyncStorage.getItem(USER_CARBS_GOAL);
-        // console.log('mealCarbsGoalResult', mealCarbsGoalResult);
-        if(IsResultEmpty(mealCarbsGoalResult)) return console.log('carbs goal has no data'); 
-
-        const mealProteinGoalResult = await AsyncStorage.getItem(USER_PROTEIN_GOAL);
-        // console.log('mealProteinGoalResult', mealProteinGoalResult);
-        if(IsResultEmpty(mealProteinGoalResult)) return console.log('protein goal has no data'); 
-
-        const mealFatGoalResult = await AsyncStorage.getItem(USER_FAT_GOAL);
-        // console.log('mealFatGoalResult', mealFatGoalResult);
-        if(IsResultEmpty(mealFatGoalResult)) return console.log('fat goal has no data'); 
-
-
-        // store has data
-        const caloriesGoal = JSON.parse(mealCaloriesGoalResult);
-        const carbsGoal = JSON.parse(mealCarbsGoalResult);
-        const proteinGoal = JSON.parse(mealProteinGoalResult);
-        const fatGoal = JSON.parse(mealFatGoalResult);
-
-        // console.log('mealCaloriesGoal', mealCaloriesGoal);
-        // console.log('mealCarbsGoal', mealCarbsGoal);
-        // console.log('mealProteinGoal', mealProteinGoal);
-        // console.log('mealFatGoal', mealFatGoal);
-
+        const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
+        const userGoals = JSON.parse(userGoalsResult);
+        // console.log('userGoals', userGoals);
         return {
-            caloriesGoal: caloriesGoal,
-            carbsGoal: carbsGoal,
-            proteinGoal: proteinGoal,
-            fatGoal: fatGoal
-        }        
+            caloriesGoal: userGoals.caloriesGoal,
+            carbsGoal: userGoals.carbsGoal,
+            proteinGoal: userGoals.proteinGoal,
+            fatGoal: userGoals.fatGoal
+        };
     } catch (error) {
+        console.log('GetEditMealDataScreenData error');
         console.log(error);
     }
 }
 
 export async function SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatGoal) {
     try {
-        await AsyncStorage.setItem(USER_CALORIES_GOAL, JSON.stringify(caloriesGoal));
-        await AsyncStorage.setItem(USER_CARBS_GOAL, JSON.stringify(carbsGoal));
-        await AsyncStorage.setItem(USER_PROTEIN_GOAL, JSON.stringify(proteinGoal));
-        await AsyncStorage.setItem(USER_FAT_GOAL, JSON.stringify(fatGoal));
-        return;        
+        const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
+        const userGoals = JSON.parse(userGoalsResult);
+        // console.log('userGoals', userGoals);
+        if( userGoals.caloriesGoal == caloriesGoal && userGoals.carbsGoal == carbsGoal && userGoals.proteinGoal == proteinGoal && userGoals.fatGoal == fatGoal ) return;
+        
+        if(userGoals.caloriesGoal != caloriesGoal) userGoals.caloriesGoal = caloriesGoal;
+        if(userGoals.carbsGoal != carbsGoal) userGoals.carbsGoal = carbsGoal;
+        if(userGoals.proteinGoal != proteinGoal) userGoals.proteinGoal = proteinGoal;
+        if(userGoals.fatGoal != fatGoal) userGoals.fatGoal = fatGoal;
+        await AsyncStorage.setItem(USER_GOALS, JSON.stringify(userGoals));
+        // console.log('userGoals after', userGoals);
     } catch (error) {
+        console.log('SetEditMealData error');
         console.log(error);
     }
 }
@@ -110,36 +91,13 @@ export async function SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatG
 export async function GetEditWorkoutDataScreenData() {
     try {
         const planNameResult = await AsyncStorage.getItem(WORKOUT_PLAN_NAME);
-        // console.log('planNameResult', planNameResult);
-        if(IsResultEmpty(planNameResult)) return console.log('workout plan name has no data'); 
-        
         const mondayResult = await AsyncStorage.getItem(WORKOUT_MONDAY);
-        // console.log('mondayResult', mondayResult);
-        if(IsResultEmpty(mondayResult)) return console.log('monday has no data'); 
-
         const tuesdayResult = await AsyncStorage.getItem(WORKOUT_TUESDAY);
-        // console.log('tuesdayResult', tuesdayResult);
-        if(IsResultEmpty(tuesdayResult)) return console.log('tuesday has no data'); 
-
         const wednesdayResult = await AsyncStorage.getItem(WORKOUT_WEDNESDAY);
-        // console.log('wednesdayResult', wednesdayResult);
-        if(IsResultEmpty(wednesdayResult)) return console.log('wednesday has no data'); 
-
         const thursdayResult = await AsyncStorage.getItem(WORKOUT_THURSDAY);
-        // console.log('thursdayResult', thursdayResult);
-        if(IsResultEmpty(thursdayResult)) return console.log('thursday has no data'); 
-
         const fridayResult = await AsyncStorage.getItem(WORKOUT_FRIDAY);
-        // console.log('fridayResult', fridayResult);
-        if(IsResultEmpty(fridayResult)) return console.log('friday has no data');
-
         const saturdayResult = await AsyncStorage.getItem(WORKOUT_SATURDAY);
-        // console.log('saturdayResult', saturdayResult);
-        if(IsResultEmpty(saturdayResult)) return console.log('saturday has no data');
-
         const sundayResult = await AsyncStorage.getItem(WORKOUT_SUNDAY);
-        // console.log('sundayResult', sundayResult);
-        if(IsResultEmpty(sundayResult)) return console.log('sunday has no data');
 
 
         // store has data
@@ -168,8 +126,9 @@ export async function GetEditWorkoutDataScreenData() {
             friday: friday, 
             saturday: saturday, 
             sunday: sunday
-        }   
+        };
     } catch (error) {
+        console.log('GetEditWorkoutDataScreenData error');
         console.log(error);
     }
 }

@@ -20,6 +20,7 @@ export async function GetAppData() {
         // console.log('systemFlags', systemFlags);
         return systemFlags;     
     } catch (error) {
+        console.log('GetAppData error');
         console.log(error);
     }
 }
@@ -108,6 +109,7 @@ export async function SaveDataIfDayChanged() {
         console.log('work done');
         return;
     } catch (error) {
+        console.log('SaveDataIfDayChanged error');
         console.log(error);
     }
 }

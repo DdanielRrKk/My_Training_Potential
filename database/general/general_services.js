@@ -59,7 +59,9 @@ import {
     SYSTEM_FLAGS_SCHEMA,
     USER_INFO_SCHEMA,
     USER_GOALS_SCHEMA,
-    MEAL_SCHEMA
+    MEAL_SCHEMA,
+    WORKOUT_DAY_SCHEMA,
+    LOG_SCHEMA
 } from '../database_schemas';
 
 
@@ -122,20 +124,31 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(null));
         await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(null));
 
-        await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify([]));
-        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify([]));
-        await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify([]));
-
         // test
         await AsyncStorage.setItem(SYSTEM_FLAGS, JSON.stringify(SYSTEM_FLAGS_SCHEMA));
+
         await AsyncStorage.setItem(USER_INFO, JSON.stringify(USER_INFO_SCHEMA));
         await AsyncStorage.setItem(USER_GOALS, JSON.stringify(USER_GOALS_SCHEMA));
+
+        // await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        // await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+
         await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(MEAL_SCHEMA));
         await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(MEAL_SCHEMA));
         await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(MEAL_SCHEMA));
+        
+        await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(LOG_SCHEMA));
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(LOG_SCHEMA));
+        await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
         // test
         return;
     } catch (error) {
+        console.log('CreateDatabase error');
         console.log(error);
     }
 }
@@ -148,17 +161,7 @@ export async function ExistsDatabase() {
         const result = await AsyncStorage.getItem(SYSTEM_IS_DATABASE_CREATED);
         return (result == CREATED_DATABASE_MESSAGE);
     } catch (error) {
-        console.log(error);
-    }
-}
-
-
-
-// drop the database
-export async function DropDatabase() {
-    try {
-        await AsyncStorage.clear();
-    } catch (error) {
+        console.log('ExistsDatabase error');
         console.log(error);
     }
 }
@@ -168,44 +171,22 @@ export async function DropDatabase() {
 // reset meal setup
 export async function ResetMealSetup(isWorkoutSetup) {
     try {
-        await AsyncStorage.setItem(SYSTEM_IS_MEAL_SETUP, JSON.stringify(false));
-        
         console.log('isWorkoutSetup', isWorkoutSetup);
-        if(!isWorkoutSetup) await AsyncStorage.setItem(USER_ACTIVITY_LEVEL, JSON.stringify(null));
+        if(!isWorkoutSetup) {
+            const userResult = await AsyncStorage.getItem(USER_INFO);
+            const user = JSON.parse(userResult);
+            user.activityLevel = null;
+            await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
+        }
 
-        await AsyncStorage.setItem(USER_MEAL_GOAL, JSON.stringify(null));
-        await AsyncStorage.setItem(USER_CALORIES_GOAL, JSON.stringify(null));
-        await AsyncStorage.setItem(USER_CARBS_GOAL, JSON.stringify(null));
-        await AsyncStorage.setItem(USER_PROTEIN_GOAL, JSON.stringify(null));
-        await AsyncStorage.setItem(USER_FAT_GOAL, JSON.stringify(null));
-        
-        await AsyncStorage.setItem(MEAL_BREAKFAST_RECOMMENDED_MIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_RECOMMENDED_MAX, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_CALORIES, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_CARBS, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_PROTEIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_TOTAL_FAT, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_FOODS, JSON.stringify([]));
-        
-        await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MAX, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_CALORIES, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_CARBS, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_PROTEIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_TOTAL_FAT, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_LUNCH_FOODS, JSON.stringify([]));
-        
-        await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MAX, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_TOTAL_CALORIES, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_TOTAL_CARBS, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_TOTAL_PROTEIN, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_TOTAL_FAT, JSON.stringify(null));
-        await AsyncStorage.setItem(MEAL_DINNER_FOODS, JSON.stringify([]));
-        
+        await AsyncStorage.setItem(USER_GOALS, JSON.stringify(USER_GOALS_SCHEMA));
+        await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(MEAL_SCHEMA));
+        await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(MEAL_SCHEMA));
+        await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(MEAL_SCHEMA));
         await AsyncStorage.setItem(MEAL_LOG, JSON.stringify([]));
         return;
     } catch (error) {
+        console.log('ResetMealSetup error');
         console.log(error);
     }
 }
@@ -230,6 +211,7 @@ export async function ResetWorkoutSetup() {
         await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify([]));
         return;
     } catch (error) {
+        console.log('ResetWorkoutSetup error');
         console.log(error);
     }
 }

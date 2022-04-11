@@ -25,15 +25,11 @@ export default function SetupMealGoalScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => {
-        SetMealGoal(goal);
-        if(activity == null) {
-            navigation.push('SetupMealActivityScreen');
-            return;
-        }
+    const openNextScreen = () => SetMealGoal(goal).then(() => {
+        if(activity == null) { navigation.push('SetupMealActivityScreen'); return; }
         navigation.push('SetupMealResultsScreen');
         return;
-    }
+    });
 
     return(
         <SafeAreaView style={stylesMisc.container}>

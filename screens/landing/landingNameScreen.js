@@ -25,10 +25,7 @@ export default function LandingNameScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => {
-        SetUserName(name);
-        navigation.push('LandingGenderScreen');
-    }
+    const openNextScreen = () => SetUserName(name).then(() => navigation.push('LandingGenderScreen'));
     
     return(
         <SafeAreaView style={stylesMisc.container}>

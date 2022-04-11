@@ -21,12 +21,6 @@ import { getCurrentDateString, getCurrentDateForLog } from '../../../helpers/dat
 
 // setup meal goal screen
 export async function SetMealGoal(goal) {
-    // try {
-    //     await AsyncStorage.setItem(USER_MEAL_GOAL, JSON.stringify(goal));
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     try {
         const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
         const userGoals = JSON.parse(userGoalsResult);
@@ -36,34 +30,23 @@ export async function SetMealGoal(goal) {
 
         await AsyncStorage.setItem(USER_GOALS, JSON.stringify(userGoals));
     } catch (error) {
+        console.log('SetMealGoal error');
         console.log(error);
     }
 }
 export async function GetMealGoal() {
-    // try {
-    //     const result = await AsyncStorage.getItem(USER_MEAL_GOAL);
-    //     return (IsResultEmpty(result)) ? console.log('user meal goal has no data') : JSON.parse(result);
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     try {
         const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
         const userGoals = JSON.parse(userGoalsResult);
         // console.log('userGoals', userGoals);
         return userGoals.mealGoal;
     } catch (error) {
+        console.log('GetMealGoal error');
         console.log(error);
     }
 }
 
 export async function SetActivityLevel(level) {
-    // try {
-    //     await AsyncStorage.setItem(USER_ACTIVITY_LEVEL, JSON.stringify(level));
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     try {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
@@ -71,23 +54,18 @@ export async function SetActivityLevel(level) {
         user.activityLevel = parseInt(level);
         await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
     } catch (error) {
+        console.log('SetActivityLevel error');
         console.log(error);
     }
 }
 export async function GetActivityLevel() {
-    // try {
-    //     const result = await AsyncStorage.getItem(USER_ACTIVITY_LEVEL);
-    //     return (IsResultEmpty(result)) ? console.log('user activity level has no data') : JSON.parse(result);
-    // } catch (error) {
-    //     console.log(error);
-    // }
-
     try {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
         // console.log('user back', user);
         return user.activityLevel;
     } catch (error) {
+        console.log('GetActivityLevel error');
         console.log(error);
     }
 }
@@ -191,6 +169,7 @@ export async function SetAndGetMealResults() {
             fat: fat
         }
     } catch (error) {
+        console.log('SetAndGetMealResults error');
         console.log(error);
     }
 }

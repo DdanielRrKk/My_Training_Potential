@@ -23,10 +23,7 @@ export default function SetupMealActivityScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => {
-        SetActivityLevel(activityLevel);
-        navigation.push('SetupMealResultsScreen');
-    }
+    const openNextScreen = () => SetActivityLevel(activityLevel).then(() => navigation.push('SetupMealResultsScreen'));
 
     return(
         <SafeAreaView style={stylesMisc.container}>

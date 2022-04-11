@@ -58,10 +58,15 @@ export default function OpenMealLogScreen({ navigation, route }){
             setProteinGoal(proteinGoalInt);
             setFatGoal(fatGoalInt);
 
-            setCaloriesPercentage(GetPercentageOfSmallValueInBigValue(caloriesTotalInt, caloriesGoalInt));
-            setCarbsPercentage(GetPercentageOfSmallValueInBigValue(crbsTotalInt, carbsGoalInt));
-            setProteinPercentage(GetPercentageOfSmallValueInBigValue(proteinTotalInt, proteinGoalInt));
-            setFatPercentage(GetPercentageOfSmallValueInBigValue(fatTotalInt, fatGoalInt));
+            const percentageCalories = GetPercentageOfSmallValueInBigValue(caloriesTotalInt, caloriesGoalInt);
+            const percentageCarbs = GetPercentageOfSmallValueInBigValue(crbsTotalInt, carbsGoalInt);
+            const percentageProtein = GetPercentageOfSmallValueInBigValue(proteinTotalInt, proteinGoalInt);
+            const percentageFat = GetPercentageOfSmallValueInBigValue(fatTotalInt, fatGoalInt);
+
+            setCaloriesPercentage(parseFloat(percentageCalories));
+            setCarbsPercentage(parseFloat(percentageCarbs));
+            setProteinPercentage(parseFloat(percentageProtein));
+            setFatPercentage(parseFloat(percentageFat));
             
         }
     }, [ route.params?.item ]);

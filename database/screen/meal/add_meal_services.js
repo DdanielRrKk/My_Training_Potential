@@ -1,154 +1,126 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    MEAL_BREAKFAST_TOTAL_CALORIES,
-    MEAL_BREAKFAST_TOTAL_CARBS,
-    MEAL_BREAKFAST_TOTAL_PROTEIN,
-    MEAL_BREAKFAST_TOTAL_FAT,
-    MEAL_BREAKFAST_FOODS,
-    MEAL_LUNCH_TOTAL_CALORIES,
-    MEAL_LUNCH_TOTAL_CARBS,
-    MEAL_LUNCH_TOTAL_PROTEIN,
-    MEAL_LUNCH_TOTAL_FAT,
-    MEAL_LUNCH_FOODS,
-    MEAL_DINNER_TOTAL_CALORIES,
-    MEAL_DINNER_TOTAL_CARBS,
-    MEAL_DINNER_TOTAL_PROTEIN,
-    MEAL_DINNER_TOTAL_FAT,
-    MEAL_DINNER_FOODS,
+    MEAL_BREAKFAST,
+    MEAL_LUNCH,
+    MEAL_DINNER,
     MEAL_LOG
 } from '../../database_stores';
 
 
 
-async function setDataWithResult(store, result, value) {
-    // console.log(`result ${result}`, result);
-    if(JSON.parse(result) == null) {
-        await AsyncStorage.setItem(store, JSON.stringify(value));
-    }
-    else {
-        const sum = parseInt(value) + parseInt(JSON.parse(result));
-        // console.log(`sum result ${result} with value ${value} = `, sum);
-        await AsyncStorage.setItem(store, JSON.stringify(sum));
-    }
-}
-
-function addFoodToArray(array, {name, calories, carbs, protein, fat}) {
-    const tempArray = array;
-    if(tempArray.length == 0) {
-        tempArray.push({
-            key: 1,
-            name: name,
-            calories: calories,
-            carbs: carbs,
-            protein: protein,
-            fat: fat
-        });
-    }
-    else {
-        const lastKey = parseInt(tempArray[tempArray.length - 1].key);
-        tempArray.push({
-            key: lastKey + 1,
-            name: name,
-            calories: calories,
-            carbs: carbs,
-            protein: protein,
-            fat: fat
-        });
-    }
-    return tempArray;
-}
-
-export async function AddMealFoodData(meal_number, name, calories, carbs, protein, fat) {
+export async function AddBreakfastFoodData(name, calories, carbs, protein, fat) {
     try {
-        if(meal_number == 1) { // BREAKFAST =====
-            const breakfastCaloriesResult = await AsyncStorage.getItem(MEAL_BREAKFAST_TOTAL_CALORIES);
-            const breakfastCarbsResult = await AsyncStorage.getItem(MEAL_BREAKFAST_TOTAL_CARBS);
-            const breakfastProteinResult = await AsyncStorage.getItem(MEAL_BREAKFAST_TOTAL_PROTEIN);
-            const breakfastFatResult = await AsyncStorage.getItem(MEAL_BREAKFAST_TOTAL_FAT);
-            const breakfastfoodsResult = await AsyncStorage.getItem(MEAL_BREAKFAST_FOODS);
-            
-            await setDataWithResult(MEAL_BREAKFAST_TOTAL_CALORIES, breakfastCaloriesResult, calories);
-            await setDataWithResult(MEAL_BREAKFAST_TOTAL_CARBS, breakfastCarbsResult, carbs);
-            await setDataWithResult(MEAL_BREAKFAST_TOTAL_PROTEIN, breakfastProteinResult, protein);
-            await setDataWithResult(MEAL_BREAKFAST_TOTAL_FAT, breakfastFatResult, fat);
+        const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
+        const breakfast = JSON.parse(breakfastResult);
+        // console.log('breakfast', breakfast);
+        breakfast.totalCalories = breakfast.totalCalories + calories;
+        breakfast.totalCarbs = breakfast.totalCarbs + carbs;
+        breakfast.totalProtein = breakfast.totalProtein + protein;
+        breakfast.totalFat = breakfast.totalFat + fat;
 
-            let breakfastfoods = JSON.parse(breakfastfoodsResult);
-            // console.log('breakfast foods', breakfastfoods);
-            breakfastfoods = addFoodToArray(breakfastfoods, {
-                name: name,
-                calories: calories,
-                carbs: carbs,
-                protein: protein,
-                fat: fat
-            });
-            // console.log('breakfast foods after', breakfastfoods);
-            await AsyncStorage.setItem(MEAL_BREAKFAST_FOODS, JSON.stringify(breakfastfoods));
-        }
-        if(meal_number == 2) { // LUNCH =====
-            const lunchCaloriesResult = await AsyncStorage.getItem(MEAL_LUNCH_TOTAL_CALORIES);
-            const lunchCarbsResult = await AsyncStorage.getItem(MEAL_LUNCH_TOTAL_CARBS);
-            const lunchProteinResult = await AsyncStorage.getItem(MEAL_LUNCH_TOTAL_PROTEIN);
-            const lunchFatResult = await AsyncStorage.getItem(MEAL_LUNCH_TOTAL_FAT);
-            const lunchfoodsResult = await AsyncStorage.getItem(MEAL_LUNCH_FOODS);
+        const lastKey = (breakfast.foods.length == 0) ? 1 : breakfast.foods[breakfast.foods.length - 1].key + 1;
+        breakfast.foods = [...breakfast.foods, {
+            key: lastKey,
+            name: name,
+            calories: calories,
+            carbs: carbs,
+            protein: protein,
+            fat: fat
+        }];
+        // console.log('breakfast foods after', breakfast.foods);
+        await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(breakfast));
 
-            await setDataWithResult(MEAL_LUNCH_TOTAL_CALORIES, lunchCaloriesResult, calories);
-            await setDataWithResult(MEAL_LUNCH_TOTAL_CARBS, lunchCarbsResult, carbs);
-            await setDataWithResult(MEAL_LUNCH_TOTAL_PROTEIN, lunchProteinResult, protein);
-            await setDataWithResult(MEAL_LUNCH_TOTAL_FAT, lunchFatResult, fat);    
-
-            let lunchfoods = JSON.parse(lunchfoodsResult);
-            // console.log('lunch foods', lunchfoods);
-            lunchfoods = addFoodToArray(lunchfoods, {
-                name: name,
-                calories: calories,
-                carbs: carbs,
-                protein: protein,
-                fat: fat
-            });
-            // console.log('lunch foods after', lunchfoods);
-            await AsyncStorage.setItem(MEAL_LUNCH_FOODS, JSON.stringify(lunchfoods));
-        }
-        if(meal_number == 3) { // DINNER =====
-            const dinnerCaloriesResult = await AsyncStorage.getItem(MEAL_DINNER_TOTAL_CALORIES);
-            const dinnerCarbsResult = await AsyncStorage.getItem(MEAL_DINNER_TOTAL_CARBS);
-            const dinnerProteinResult = await AsyncStorage.getItem(MEAL_DINNER_TOTAL_PROTEIN);
-            const dinnerFatResult = await AsyncStorage.getItem(MEAL_DINNER_TOTAL_FAT);
-            const dinnerfoodsResult = await AsyncStorage.getItem(MEAL_DINNER_FOODS);
-
-            await setDataWithResult(MEAL_DINNER_TOTAL_CALORIES, dinnerCaloriesResult, calories);
-            await setDataWithResult(MEAL_DINNER_TOTAL_CARBS, dinnerCarbsResult, carbs);
-            await setDataWithResult(MEAL_DINNER_TOTAL_PROTEIN, dinnerProteinResult, protein);
-            await setDataWithResult(MEAL_DINNER_TOTAL_FAT, dinnerFatResult, fat); 
-
-            let dinnerfoods = JSON.parse(dinnerfoodsResult);
-            // console.log('dinner foods', dinnerfoods);
-            dinnerfoods = addFoodToArray(dinnerfoods, {
-                name: name,
-                calories: calories,
-                carbs: carbs,
-                protein: protein,
-                fat: fat
-            });
-            // console.log('dinner foods after', dinnerfoods);
-            await AsyncStorage.setItem(MEAL_DINNER_FOODS, JSON.stringify(dinnerfoods));
-        }
-
-        // TOTALS =====
+        
         const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
-        // console.log('mealLogResult', mealLogResult);
-        if(IsResultEmpty(mealLogResult)) return console.log('meal log has no data'); 
-
         const mealLog = JSON.parse(mealLogResult);
         // console.log('mealLog', mealLog);
-        mealLog[mealLog.length - 1].totalCalories = parseInt(mealLog[mealLog.length - 1].totalCalories) + calories;
-        mealLog[mealLog.length - 1].totalCarbs = parseInt(mealLog[mealLog.length - 1].totalCarbs) + carbs;
-        mealLog[mealLog.length - 1].totalProtein = parseInt(mealLog[mealLog.length - 1].totalProtein) + protein;
-        mealLog[mealLog.length - 1].totalFat = parseInt(mealLog[mealLog.length - 1].totalFat) + fat;
+        mealLog[mealLog.length - 1].totalCalories = mealLog[mealLog.length - 1].totalCalories + calories;
+        mealLog[mealLog.length - 1].totalCarbs = mealLog[mealLog.length - 1].totalCarbs + carbs;
+        mealLog[mealLog.length - 1].totalProtein = mealLog[mealLog.length - 1].totalProtein + protein;
+        mealLog[mealLog.length - 1].totalFat = mealLog[mealLog.length - 1].totalFat + fat;
         // console.log('mealLog[mealLog.length - 1]', mealLog[mealLog.length - 1]);
-
         await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
         return;
     } catch (error) {
+        console.log('AddBreakfastFoodData error');
+        console.log(error);
+    }
+}
+
+export async function AddLunchFoodData(name, calories, carbs, protein, fat) {
+    try {
+        const lunchResult = await AsyncStorage.getItem(MEAL_LUNCH);
+        const lunch = JSON.parse(lunchResult);
+        // console.log('lunch', lunch);
+        lunch.totalCalories = lunch.totalCalories + calories;
+        lunch.totalCarbs = lunch.totalCarbs + carbs;
+        lunch.totalProtein = lunch.totalProtein + protein;
+        lunch.totalFat = lunch.totalFat + fat;
+
+        const lastKey = (lunch.foods.length == 0) ? 1 : lunch.foods[lunch.foods.length - 1].key + 1;
+        lunch.foods = [...lunch.foods, {
+            key: lastKey,
+            name: name,
+            calories: calories,
+            carbs: carbs,
+            protein: protein,
+            fat: fat
+        }];
+        // console.log('lunch foods after', lunch.foods);
+        await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(lunch));
+
+        
+        const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
+        const mealLog = JSON.parse(mealLogResult);
+        // console.log('mealLog', mealLog);
+        mealLog[mealLog.length - 1].totalCalories = mealLog[mealLog.length - 1].totalCalories + calories;
+        mealLog[mealLog.length - 1].totalCarbs = mealLog[mealLog.length - 1].totalCarbs + carbs;
+        mealLog[mealLog.length - 1].totalProtein = mealLog[mealLog.length - 1].totalProtein + protein;
+        mealLog[mealLog.length - 1].totalFat = mealLog[mealLog.length - 1].totalFat + fat;
+        // console.log('mealLog[mealLog.length - 1]', mealLog[mealLog.length - 1]);
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
+        return;
+    } catch (error) {
+        console.log('AddLunchFoodData error');
+        console.log(error);
+    }
+}
+
+export async function AddDinnerFoodData(name, calories, carbs, protein, fat) {
+    try {
+        const dinnerResult = await AsyncStorage.getItem(MEAL_DINNER);
+        const dinner = JSON.parse(dinnerResult);
+        // console.log('dinner', dinner);
+        dinner.totalCalories = dinner.totalCalories + calories;
+        dinner.totalCarbs = dinner.totalCarbs + carbs;
+        dinner.totalProtein = dinner.totalProtein + protein;
+        dinner.totalFat = dinner.totalFat + fat;
+
+        const lastKey = (dinner.foods.length == 0) ? 1 : dinner.foods[dinner.foods.length - 1].key + 1;
+        dinner.foods = [...dinner.foods, {
+            key: lastKey,
+            name: name,
+            calories: calories,
+            carbs: carbs,
+            protein: protein,
+            fat: fat
+        }];
+        // console.log('dinner foods after', dinner.foods);
+        await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(dinner));
+
+        
+        const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
+        const mealLog = JSON.parse(mealLogResult);
+        // console.log('mealLog', mealLog);
+        mealLog[mealLog.length - 1].totalCalories = mealLog[mealLog.length - 1].totalCalories + calories;
+        mealLog[mealLog.length - 1].totalCarbs = mealLog[mealLog.length - 1].totalCarbs + carbs;
+        mealLog[mealLog.length - 1].totalProtein = mealLog[mealLog.length - 1].totalProtein + protein;
+        mealLog[mealLog.length - 1].totalFat = mealLog[mealLog.length - 1].totalFat + fat;
+        // console.log('mealLog[mealLog.length - 1]', mealLog[mealLog.length - 1]);
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
+        return;
+    } catch (error) {
+        console.log('AddDinnerFoodData error');
         console.log(error);
     }
 }

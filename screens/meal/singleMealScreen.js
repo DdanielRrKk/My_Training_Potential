@@ -1,7 +1,15 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { GetSingleMealScreenData, RemoveMealFoodData } from '../../database/screen/meal/single_meal_services';
+import { 
+    GetBreakfastData,
+    GetLunchData,
+    GetDinnerData,
+    RemoveBreakfastFoodData,
+    RemoveLunchFoodData,
+    RemoveDinnerFoodData,
+    RemoveMealFoodData 
+} from '../../database/screen/meal/single_meal_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
 import { stylesMeal } from '../../styles/mealStyles';
@@ -14,6 +22,8 @@ import ActionButton from '../../components/misc/actionButton';
 
 export default function SingleMealScreen({ navigation, route }){
     const [mealNumber, setMealNumber] = React.useState(null);
+    const [isUpdate, setIsUpdate] = React.useState(true);
+
     const [name, setName] = React.useState(null);
     
     const [recommendedMin, setRecommendedMin] = React.useState('0');
@@ -22,7 +32,7 @@ export default function SingleMealScreen({ navigation, route }){
     const [carbs, setCarbs] = React.useState('0');
     const [protein, setProtein] = React.useState('0');
     const [fat, setFat] = React.useState('0');
-    const [foods, setFoods] = React.useState(null);
+    const [foods, setFoods] = React.useState([]);
 
     React.useEffect(() => {
         if(route.params?.meal_number) setMealNumber(route.params.meal_number);
@@ -31,32 +41,86 @@ export default function SingleMealScreen({ navigation, route }){
     React.useEffect(() => {
         let isGood = true;
 
-        if(mealNumber == null) return;
+        if(mealNumber == null || !isUpdate) return;
+        if(mealNumber == 1) {
+            GetBreakfastData().then(({
+                name,
+                recommendedMin,
+                recommendedMax,
+                calories,
+                carbs,
+                protein,
+                fat, 
+                foods
+            }) => { 
+                if(isGood) {
+                    setName(name);
+                    setRecommendedMin(recommendedMin);
+                    setRecommendedMax(recommendedMax);
+                    setCalories(calories);
+                    setCarbs(carbs);
+                    setProtein(protein);
+                    setFat(fat);
+                    setFoods(foods);
 
-        GetSingleMealScreenData(mealNumber).then(({
-            name,
-            recommendedMin,
-            recommendedMax,
-            calories,
-            carbs,
-            protein,
-            fat, 
-            foods
-        }) => { 
-            if(isGood) {
-                setName(name);
-                setRecommendedMin((recommendedMin)? recommendedMin : '0');
-                setRecommendedMax((recommendedMax)? recommendedMax : '0');
-                setCalories((calories)? calories : '0');
-                setCarbs((carbs)? carbs : '0');
-                setProtein((protein)? protein : '0');
-                setFat((fat)? fat : '0');
-                setFoods(foods);
-            }
-        });
+                    setIsUpdate(false);
+                }
+            });
+        }
+        if(mealNumber == 2) {
+            GetLunchData().then(({
+                name,
+                recommendedMin,
+                recommendedMax,
+                calories,
+                carbs,
+                protein,
+                fat, 
+                foods
+            }) => { 
+                if(isGood) {
+                    setName(name);
+                    if(recommendedMin) setRecommendedMin(recommendedMin);
+                    if(recommendedMax) setRecommendedMax(recommendedMax);
+                    if(calories) setCalories(calories);
+                    if(carbs) setCarbs(carbs);
+                    if(protein) setProtein(protein);
+                    if(fat) setFat(fat);
+                    if(foods.length != 0) setFoods(foods);
+
+                    setIsUpdate(false);
+                }
+            });
+        }
+        if(mealNumber == 3) {
+            GetDinnerData().then(({
+                name,
+                recommendedMin,
+                recommendedMax,
+                calories,
+                carbs,
+                protein,
+                fat, 
+                foods
+            }) => { 
+                if(isGood) {
+                    setName(name);
+                    if(recommendedMin) setRecommendedMin(recommendedMin);
+                    if(recommendedMax) setRecommendedMax(recommendedMax);
+                    if(calories) setCalories(calories);
+                    if(carbs) setCarbs(carbs);
+                    if(protein) setProtein(protein);
+                    if(fat) setFat(fat);
+                    if(foods.length != 0) setFoods(foods);
+
+                    setIsUpdate(false);
+                }
+            });
+        }
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
+        isUpdate,
         mealNumber,
         name,
         recommendedMin,
@@ -73,9 +137,27 @@ export default function SingleMealScreen({ navigation, route }){
     const openAddScreen = () => navigation.navigate('AddMealScreen', {meal_number: mealNumber});
 
     const removeFoodItem = (key) => {
-        RemoveMealFoodData(mealNumber, key);
-        const temp = foods.splice(key, 1);
-        setFoods(temp);
+        if(mealNumber == 1) {
+            RemoveBreakfastFoodData(key).then(() => {
+                const temp = foods.splice(key, 1);
+                setFoods(temp);
+                setIsUpdate(true);
+            });
+        }
+        if(mealNumber == 2) {
+            RemoveLunchFoodData(key).then(() => {
+                const temp = foods.splice(key, 1);
+                setFoods(temp);
+                setIsUpdate(true);
+            });
+        }
+        if(mealNumber == 3) {
+            RemoveDinnerFoodData(key).then(() => {
+                const temp = foods.splice(key, 1);
+                setFoods(temp);
+                setIsUpdate(true);
+            });
+        }
     }
 
     return(

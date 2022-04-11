@@ -40,11 +40,10 @@ export default function EditMealDataScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const saveEditData = () => {
-        SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatGoal);
+    const saveEditData = () => SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatGoal).then(() => {
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
-    }
+    });
 
     return(
         <SafeAreaView style={stylesMisc.container}>

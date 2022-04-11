@@ -21,6 +21,7 @@ export async function GetWeightScreenData() {
             weight: `${user.weight}`
         }; 
     } catch (error) {
+        console.log('GetWeightScreenData error');
         console.log(error);
     }
 }
@@ -47,6 +48,7 @@ export async function SetWeightLogData(weight) {
         // console.log('weightLog after', weightLog);
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(weightLog));
     } catch (error) {
+        console.log('SetWeightLogData error');
         console.log(error);
     }
 }

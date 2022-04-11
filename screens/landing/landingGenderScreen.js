@@ -23,10 +23,7 @@ export default function LandingGenderScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => {
-        SetUserGender(gender);
-        navigation.push('LandingMeasurementsScreen');
-    }
+    const openNextScreen = () => SetUserGender(gender).then(() => navigation.push('LandingMeasurementsScreen'));
 
     return(
         <SafeAreaView style={stylesMisc.container}>

@@ -32,11 +32,10 @@ export default function EditUserDataScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const saveEditData = () => {
-        SetEditUserData(name, age);
+    const saveEditData = () => SetEditUserData(name, age).then(() => {
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
-    }
+    });
 
     return(
         <SafeAreaView style={stylesMisc.container}>

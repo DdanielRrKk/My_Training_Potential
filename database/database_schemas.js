@@ -33,6 +33,8 @@ export const MEAL_SCHEMA = {
 
 export const WORKOUT_DAY_SCHEMA = {
     day_number: null,
-    name: '',
+    name: null,
     exercises: []
 };
+
+export const LOG_SCHEMA = [];

@@ -37,10 +37,7 @@ export default function LandingMeasurementsScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => {
-        SetUserMeasurements(age, weight, height);
-        setSystemFlags({...systemFlags, isUserReady: true});
-    }
+    const openNextScreen = () => SetUserMeasurements(age, weight, height).then(() => setSystemFlags({...systemFlags, isUserReady: true}));
  
     return(
         <SafeAreaView style={stylesMisc.container}>

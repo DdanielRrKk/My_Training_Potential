@@ -1,7 +1,11 @@
 import React from 'react';
 import { Text, View, KeyboardAvoidingView, SafeAreaView } from 'react-native';
 
-import { AddMealFoodData } from '../../database/screen/meal/add_meal_services';
+import { 
+    AddBreakfastFoodData,
+    AddLunchFoodData,
+    AddDinnerFoodData
+ } from '../../database/screen/meal/add_meal_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
 import { stylesMeal } from '../../styles/mealStyles';
@@ -52,9 +56,17 @@ export default function AddMealScreen({ navigation, route }){
     const decFatHandler = () => setFat(`${GetCorrectTextInput(fat, false)}`);
 
     const addMeal = () => {
-        AddMealFoodData(mealNumber, name, (calories == '') ? 0 : calories, (carbs == '') ? 0 : carbs, (protein == '') ? 0 : protein, (fat == '') ? 0 : fat);
-        navigation.goBack();
-        return;
+        const tempCalories = (calories == '') ? 0 : parseInt(calories);
+        const tempCarbs = (carbs == '') ? 0 : parseInt(carbs);
+        const tempProtein = (protein == '') ? 0 : parseInt(protein);
+        const tempFat = (fat == '') ? 0 : parseInt(fat);
+
+        switch(mealNumber) {
+            case 1: AddBreakfastFoodData(name, tempCalories, tempCarbs, tempProtein, tempFat).then(() => navigation.goBack()); break;
+            case 2: AddLunchFoodData(name, tempCalories, tempCarbs, tempProtein, tempFat).then(() => navigation.goBack()); break;
+            case 3: AddDinnerFoodData(name, tempCalories, tempCarbs, tempProtein, tempFat).then(() => navigation.goBack()); break;
+            default: console.log('error with number', mealNumber);
+        }
     }
 
     return(
