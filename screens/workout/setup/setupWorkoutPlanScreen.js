@@ -115,15 +115,17 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
         if(number == 7) navigation.navigate('SetupWorkoutDayScreen', sunday);
     }
     const createWorkoutPlan = () => {
-        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-        setSystemFlags({...systemFlags, isWorkoutReady: true});
-        navigation.setOptions({ tabBarVisible: true });
-        navigation.navigate('TabNavigation');
+        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
+            setSystemFlags({...systemFlags, isWorkoutReady: true});
+            navigation.setOptions({ tabBarVisible: true });
+            navigation.navigate('TabNavigation');
+        });
     }
     const saveWorkoutPlan = () => {
-        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday);
-        navigation.setOptions({ tabBarVisible: true });
-        navigation.navigate('TabNavigation');
+        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
+            navigation.setOptions({ tabBarVisible: true });
+            navigation.navigate('TabNavigation');
+        });
     }
 
     return(

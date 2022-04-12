@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WORKOUT_LOG } from '../../database_stores';
 
-import { IsResultEmpty } from '../../../helpers/validations';
 import { getCurrentDateForLog } from '../../../helpers/dateHelper';
 
 
@@ -10,9 +9,6 @@ import { getCurrentDateForLog } from '../../../helpers/dateHelper';
 export async function SetWorkoutLogData(day_name, total_time, finished_exercises, note) {
     try {
         const workoutLogResult = await AsyncStorage.getItem(WORKOUT_LOG);
-        // console.log('workoutLogResult', workoutLogResult);
-        if(IsResultEmpty(workoutLogResult)) return console.log('workout log has no data'); 
-
         const workoutLog = JSON.parse(workoutLogResult);
 
         console.log('workoutLog before', workoutLog);
@@ -32,6 +28,7 @@ export async function SetWorkoutLogData(day_name, total_time, finished_exercises
 
         await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(log));
     } catch (error) {
+        console.log('SetWorkoutLogData error');
         console.log(error);
     }
 }

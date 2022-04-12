@@ -30,9 +30,10 @@ export default function FinalWorkoutScreen({ navigation, route }){
     }, [, route.params?.day_name, route.params?.total_time, route.params?.finished_exercises]);
 
     const finish = () => {
-        SetWorkoutLogData(dayName, totalTime, finishedExercises, note);
-        navigation.setOptions({ tabBarVisible: true });
-        navigation.navigate('TabNavigation');
+        SetWorkoutLogData(dayName, totalTime, finishedExercises, note).then(() => {
+            navigation.setOptions({ tabBarVisible: true });
+            navigation.navigate('TabNavigation');
+        });
     }
 
     return(

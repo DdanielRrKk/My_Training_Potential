@@ -221,7 +221,7 @@ export default function MainHomeScreen({ navigation }){
                     <Text style={stylesMisc.subtitle}>Workout</Text>
                     
                     { // Workout ================ START
-                    systemFlags.isWorkoutReady ?
+                    (systemFlags.isWorkoutReady && todaysWorkout != null) ?
                         <WorkoutBox 
                             day={todaysWorkout}
                             isToday={true}

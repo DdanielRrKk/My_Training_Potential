@@ -141,7 +141,7 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
                         value={name}
                         maxLength={NAME_MAX_LENGTH}/>
 
-                    <View style={stylesWorkoutSetup.middle_button_container}>
+                    <View style={stylesMisc.middle_button_container}>
                         <GroupButton 
                             is_selected={(type == 0)? true : false}
                             title={'Dynamic'}

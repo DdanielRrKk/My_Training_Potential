@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    SYSTEM_IS_WORKOUT_SETUP,
     WORKOUT_PLAN_NAME,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
@@ -9,24 +8,14 @@ import {
     WORKOUT_FRIDAY,
     WORKOUT_SATURDAY,
     WORKOUT_SUNDAY,
-    USER_AGE,
-    USER_WEIGHT,
-    USER_HEIGHT,
-    USER_GENDER,
-    USER_MEAL_GOAL,
-    USER_ACTIVITY_LEVEL,
-    USER_CALORIES_GOAL,
-    USER_CARBS_GOAL,
-    USER_PROTEIN_GOAL,
-    USER_FAT_GOAL,
-    MEAL_BREAKFAST_RECOMMENDED_MIN,
-    MEAL_BREAKFAST_RECOMMENDED_MAX,
-    MEAL_LUNCH_RECOMMENDED_MIN,
-    MEAL_LUNCH_RECOMMENDED_MAX,
-    MEAL_DINNER_RECOMMENDED_MIN,
-    MEAL_DINNER_RECOMMENDED_MAX,
+    USER_INFO,
+    USER_GOALS,
+    MEAL_LOG,
+    MEAL_BREAKFAST,
+    MEAL_LUNCH,
+    MEAL_DINNER,
+    SYSTEM_FLAGS
 } from '../../database_stores';
-import { IsResultEmpty } from '../../../helpers/validations';
 import {
     calculateCalories,
     calculateCarbs,
@@ -72,7 +61,13 @@ export async function SetWorkoutPlan(
         if(sunday.name != null) activeDays++;
         const activity_level = getActivityLevelFromActiveDays(activeDays);
 
-        await AsyncStorage.setItem(USER_ACTIVITY_LEVEL, JSON.stringify(activity_level));
+        const userResult = await AsyncStorage.getItem(USER_INFO);
+        const user = JSON.parse(userResult);
+        // console.log('user back', user);
+        user.activityLevel = activity_level;
+        await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
+
+
 
         await AsyncStorage.setItem(WORKOUT_PLAN_NAME, plan_name);
 
@@ -84,54 +79,60 @@ export async function SetWorkoutPlan(
         await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(saturday));
         await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(sunday));
 
-        await AsyncStorage.setItem(SYSTEM_IS_WORKOUT_SETUP, JSON.stringify(true));
-
-        // recalculating meal goals
-        const ageResult = await AsyncStorage.getItem(USER_AGE);
-        // console.log('ageResult', ageResult);
-        if(IsResultEmpty(ageResult)) return console.log('user age has no data'); 
-
-        const weightResult = await AsyncStorage.getItem(USER_WEIGHT);
-        // console.log('weightResult', weightResult);
-        if(IsResultEmpty(weightResult)) return console.log('user weight has no data'); 
-        
-        const heightResult = await AsyncStorage.getItem(USER_HEIGHT);
-        // console.log('heightResult', heightResult);
-        if(IsResultEmpty(heightResult)) return console.log('user height has no data'); 
-
-        const genderResult = await AsyncStorage.getItem(USER_GENDER);
-        // console.log('genderResult', genderResult);
-        if(IsResultEmpty(genderResult)) return console.log('user gender has no data'); 
-
-        const mealGoalResult = await AsyncStorage.getItem(USER_MEAL_GOAL);
-        // console.log('mealGoalResult', mealGoalResult);
-        if(IsResultEmpty(mealGoalResult)) return console.log('user meal goal has no data'); 
+        const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
+        const systemFlags = JSON.parse(systemFlagsResult);
+        systemFlags.isWorkoutReady = true;
+        console.log('systemFlags after', systemFlags);
+        await AsyncStorage.setItem(SYSTEM_FLAGS, JSON.stringify(systemFlags));
 
 
-        // store has data
-        const age = parseInt(JSON.parse(ageResult));
-        const weight = parseInt(JSON.parse(weightResult));
-        const height = parseInt(JSON.parse(heightResult));
-        const gender = parseInt(JSON.parse(genderResult));
-        const mealGoal = parseInt(JSON.parse(mealGoalResult));
 
-        // console.log('age', age);
-        // console.log('weight', weight);
-        // console.log('height', height);
-        // console.log('gender', gender);
-        // console.log('mealGoal', mealGoal);
+        const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
+        const userGoals = JSON.parse(userGoalsResult);
+        // console.log('userGoals', userGoals);
 
-
-        const calories = parseInt(calculateCalories(weight, height, age, gender, activity_level, mealGoal));
-        const carbs = parseInt(calculateCarbs(weight, height, age, gender, activity_level, mealGoal));
-        const protein = parseInt(calculateProtein(weight, height, age, gender, activity_level, mealGoal));
-        const fat = parseInt(calculateFat(weight, height, age, gender, activity_level, mealGoal));
+        const calories = parseInt(calculateCalories(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        const carbs = parseInt(calculateCarbs(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        const protein = parseInt(calculateProtein(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        const fat = parseInt(calculateFat(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
 
         // console.log('calories', calories);
         // console.log('carbs', carbs);
         // console.log('protein', protein);
         // console.log('fat', fat);
 
+        userGoals.caloriesGoal = calories;
+        userGoals.carbsGoal = carbs;
+        userGoals.proteinGoal = protein;
+        userGoals.fatGoal = fat;
+        console.log('userGoals after', userGoals);
+        await AsyncStorage.setItem(USER_GOALS, JSON.stringify(userGoals));
+
+
+
+        const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
+        const mealLog = JSON.parse(mealLogResult);
+        // console.log('mealLog back', mealLog);
+        mealLog[mealLog.length - 1].caloriesGoal;
+        mealLog[mealLog.length - 1].carbsGoal;
+        mealLog[mealLog.length - 1].proteinGoal;
+        mealLog[mealLog.length - 1].fatGoal;
+        console.log('mealLog after', mealLog);
+        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(mealLog));
+
+
+
+        const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
+        const breakfast = JSON.parse(breakfastResult);
+        // console.log('breakfast', breakfast);
+
+        const lunchResult = await AsyncStorage.getItem(MEAL_LUNCH);
+        const lunch = JSON.parse(lunchResult);
+        // console.log('lunch', lunch);
+
+        const dinnerResult = await AsyncStorage.getItem(MEAL_DINNER);
+        const dinner = JSON.parse(dinnerResult);
+        // console.log('dinner', dinner);
 
         const {
             breakfastRecommendedMin,
@@ -142,20 +143,22 @@ export async function SetWorkoutPlan(
             dinnerRecommendedMax,
         } = calculateRecommendedCalories(calories);
 
+        breakfast.recommendedMin = breakfastRecommendedMin;
+        breakfast.recommendedMax = breakfastRecommendedMax;
+        lunch.recommendedMin = lunchRecommendedMin;
+        lunch.recommendedMax = lunchRecommendedMax;
+        dinner.recommendedMin = dinnerRecommendedMin;
+        dinner.recommendedMax = dinnerRecommendedMax;
 
-        await AsyncStorage.setItem(USER_CALORIES_GOAL, JSON.stringify(calories));
-        await AsyncStorage.setItem(USER_CARBS_GOAL, JSON.stringify(carbs));
-        await AsyncStorage.setItem(USER_PROTEIN_GOAL, JSON.stringify(protein));
-        await AsyncStorage.setItem(USER_FAT_GOAL, JSON.stringify(fat));
-
-        await AsyncStorage.setItem(MEAL_BREAKFAST_RECOMMENDED_MIN, JSON.stringify(breakfastRecommendedMin));
-        await AsyncStorage.setItem(MEAL_BREAKFAST_RECOMMENDED_MAX, JSON.stringify(breakfastRecommendedMax));
-        await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MIN, JSON.stringify(lunchRecommendedMin));
-        await AsyncStorage.setItem(MEAL_LUNCH_RECOMMENDED_MAX, JSON.stringify(lunchRecommendedMax));
-        await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MIN, JSON.stringify(dinnerRecommendedMin));
-        await AsyncStorage.setItem(MEAL_DINNER_RECOMMENDED_MAX, JSON.stringify(dinnerRecommendedMax));
+        console.log('breakfast after', breakfast);
+        console.log('lunch after', lunch);
+        console.log('dinner after', dinner);
+        await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(breakfast));
+        await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(lunch));
+        await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(dinner));
         return;
     } catch (error) {
+        console.log('SetWorkoutPlan error');
         console.log(error);
     }
 }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
+import { useIsFocused } from '@react-navigation/native';
+
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -31,6 +33,10 @@ export default function MainWorkoutScreen({ navigation, route }){
     
     // console.log('systemFlags workout', systemFlags);
 
+    console.log('name', name);
+    console.log('days', days);
+
+    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
@@ -45,7 +51,7 @@ export default function MainWorkoutScreen({ navigation, route }){
         }
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [name]);
+    }, [focus, name]);
 
 
     const openSetupScreen = () => {

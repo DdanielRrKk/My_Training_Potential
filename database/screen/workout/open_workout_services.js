@@ -130,6 +130,7 @@ export async function GetOpenWorkoutScreenData(day_number) {
             default: return null;
         }     
     } catch (error) {
+        console.log('GetOpenWorkoutScreenData error');
         console.log(error);
     }
 }

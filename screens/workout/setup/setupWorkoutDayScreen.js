@@ -3,6 +3,7 @@ import { Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-na
 
 import { stylesMisc } from '../../../styles/miscStyles';
 import { stylesWorkoutSetup } from '../../../styles/workoutStyles';
+import { SECONDARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
 import TextEntry from '../../../components/misc/textEntry';
@@ -65,13 +66,14 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
 
-    const createDay = () => navigation.navigate('SetupWorkoutPlanScreen', {
+    const saveDay = () => navigation.navigate('SetupWorkoutPlanScreen', {
         day: {
             day_number: dayNumber,
             name: name,
             exercises: exercises
         }
     });
+    
 
     return(
         <SafeAreaView style={stylesMisc.container}>
@@ -101,7 +103,7 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
             </View>
         
-            <ActionButton title='Save' pressHandler={createDay}/>
+            <ActionButton title='Save' pressHandler={saveDay}/>
         </SafeAreaView>
     );
 };

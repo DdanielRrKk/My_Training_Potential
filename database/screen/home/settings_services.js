@@ -99,7 +99,6 @@ export async function GetEditWorkoutDataScreenData() {
         const saturdayResult = await AsyncStorage.getItem(WORKOUT_SATURDAY);
         const sundayResult = await AsyncStorage.getItem(WORKOUT_SUNDAY);
 
-
         // store has data
         const monday = JSON.parse(mondayResult);
         const tuesday = JSON.parse(tuesdayResult);

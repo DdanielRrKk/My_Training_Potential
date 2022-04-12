@@ -9,16 +9,9 @@ import NumberInput from '../../components/misc/numberInput';
 import ActionButton from '../../components/misc/actionButton';
 
 import { calculateTimeString } from '../../helpers/timer';
-import { GetCorrectTextInput } from '../../helpers/helpers';
+import { GetCorrectTextInput, getAverage } from '../../helpers/helpers';
 
 
-
-function getAverage(min, max) {
-    const temp1 = parseInt(min);
-    const temp2 = parseInt(max);
-    
-    return((temp1 + temp2) / 2);
-}
 
 export default function StartWorkoutScreen({ navigation, route }){
     const [dayName, setDayName] = React.useState(null);
