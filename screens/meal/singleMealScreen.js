@@ -1,14 +1,15 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
+import { useIsFocused } from '@react-navigation/native';
+
 import { 
     GetBreakfastData,
     GetLunchData,
     GetDinnerData,
     RemoveBreakfastFoodData,
     RemoveLunchFoodData,
-    RemoveDinnerFoodData,
-    RemoveMealFoodData 
+    RemoveDinnerFoodData
 } from '../../database/screen/meal/single_meal_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -22,7 +23,6 @@ import ActionButton from '../../components/misc/actionButton';
 
 export default function SingleMealScreen({ navigation, route }){
     const [mealNumber, setMealNumber] = React.useState(null);
-    const [isUpdate, setIsUpdate] = React.useState(true);
 
     const [name, setName] = React.useState(null);
     
@@ -38,10 +38,13 @@ export default function SingleMealScreen({ navigation, route }){
         if(route.params?.meal_number) setMealNumber(route.params.meal_number);
     }, [route.params?.meal_number]);
 
+    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
+        const foodsLength = foods.length;
 
-        if(mealNumber == null || !isUpdate) return;
+        if(mealNumber == null) return;
+
         if(mealNumber == 1) {
             GetBreakfastData().then(({
                 name,
@@ -61,9 +64,7 @@ export default function SingleMealScreen({ navigation, route }){
                     setCarbs(carbs);
                     setProtein(protein);
                     setFat(fat);
-                    setFoods(foods);
-
-                    setIsUpdate(false);
+                    if(foods.length != foodsLength) setFoods(foods);
                 }
             });
         }
@@ -80,15 +81,13 @@ export default function SingleMealScreen({ navigation, route }){
             }) => { 
                 if(isGood) {
                     setName(name);
-                    if(recommendedMin) setRecommendedMin(recommendedMin);
-                    if(recommendedMax) setRecommendedMax(recommendedMax);
-                    if(calories) setCalories(calories);
-                    if(carbs) setCarbs(carbs);
-                    if(protein) setProtein(protein);
-                    if(fat) setFat(fat);
-                    if(foods.length != 0) setFoods(foods);
-
-                    setIsUpdate(false);
+                    setRecommendedMin(recommendedMin);
+                    setRecommendedMax(recommendedMax);
+                    setCalories(calories);
+                    setCarbs(carbs);
+                    setProtein(protein);
+                    setFat(fat);
+                    if(foods.length != foodsLength) setFoods(foods);
                 }
             });
         }
@@ -105,22 +104,20 @@ export default function SingleMealScreen({ navigation, route }){
             }) => { 
                 if(isGood) {
                     setName(name);
-                    if(recommendedMin) setRecommendedMin(recommendedMin);
-                    if(recommendedMax) setRecommendedMax(recommendedMax);
-                    if(calories) setCalories(calories);
-                    if(carbs) setCarbs(carbs);
-                    if(protein) setProtein(protein);
-                    if(fat) setFat(fat);
-                    if(foods.length != 0) setFoods(foods);
-
-                    setIsUpdate(false);
+                    setRecommendedMin(recommendedMin);
+                    setRecommendedMax(recommendedMax);
+                    setCalories(calories);
+                    setCarbs(carbs);
+                    setProtein(protein);
+                    setFat(fat);
+                    if(foods.length != foodsLength) setFoods(foods);
                 }
             });
         }
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
-        isUpdate,
+        focus,
         mealNumber,
         name,
         recommendedMin,
@@ -141,21 +138,18 @@ export default function SingleMealScreen({ navigation, route }){
             RemoveBreakfastFoodData(key).then(() => {
                 const temp = foods.splice(key, 1);
                 setFoods(temp);
-                setIsUpdate(true);
             });
         }
         if(mealNumber == 2) {
             RemoveLunchFoodData(key).then(() => {
                 const temp = foods.splice(key, 1);
                 setFoods(temp);
-                setIsUpdate(true);
             });
         }
         if(mealNumber == 3) {
             RemoveDinnerFoodData(key).then(() => {
                 const temp = foods.splice(key, 1);
                 setFoods(temp);
-                setIsUpdate(true);
             });
         }
     }

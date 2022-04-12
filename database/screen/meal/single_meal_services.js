@@ -12,7 +12,7 @@ export async function GetBreakfastData() {
     try {
         const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
         const breakfast = JSON.parse(breakfastResult);
-        console.log('breakfast', breakfast);
+        // console.log('breakfast', breakfast);
         return {
             name: 'Breakfast',
             recommendedMin: breakfast.recommendedMin,
