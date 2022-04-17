@@ -17,7 +17,7 @@ import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
 
 
 
-export default function MainWorkoutScreen({ navigation, route }){
+export default function MainWorkoutScreen({ navigation }){
     const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
 
     const [name, setName] = React.useState(null);

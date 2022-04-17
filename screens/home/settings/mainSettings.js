@@ -1,5 +1,7 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
+
+import { GetAppFlagsData } from '../../../database/screen/app_serices';
 
 import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
@@ -8,14 +10,32 @@ import { stylesMisc } from '../../../styles/miscStyles';
 import BackButton from '../../../components/misc/backButton';
 import SettingsOption from '../../../components/home/settings/settingsOption';
 
-import { useSystemFlagsGlobal, useAppStateGlobal } from '../../../helpers/globalState';
 import { AlertOK, AlertYESNO } from '../../../helpers/alerts';
 
 
 
 export default function MainSettingsScreen({ navigation }){
-    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
-    const [appState, setAppState] = useAppStateGlobal();
+    const [isMealReady, setIsMealReady] = React.useState();
+    const [isWorkoutReady, setIsWorkoutReady] = React.useState();
+
+    React.useEffect(() => {
+        let isGood = true;
+
+        GetAppFlagsData().then(({isMealReady, isWorkoutReady}) => {
+            if(isGood) {
+                setIsMealReady(isMealReady);
+                setIsWorkoutReady(isWorkoutReady);
+            }
+        });
+
+        return () => {  
+            isGood = false;
+            DeviceEventEmitter.removeListener('event.userReady');
+            DeviceEventEmitter.removeListener('event.mealReady');
+            DeviceEventEmitter.removeListener('event.workoutReady');
+            DeviceEventEmitter.removeListener('event.appState');
+        } // to prevent memory leaks (clean up)
+    }, [isMealReady, isWorkoutReady]);
 
     const warningTitle = "Warning !";
     const notSetupPlanText = "You have not setted a plan.";
@@ -24,23 +44,21 @@ export default function MainSettingsScreen({ navigation }){
 
     const canceledEvent = () => console.log("canceled");
 
-    const resetMealSetupHandler = () => ResetMealSetup(systemFlags.isWorkoutReady).then(() => {
-        setSystemFlags({...systemFlags, isMealReady: false});
+    const resetMealSetupHandler = () => ResetMealSetup(isWorkoutReady).then(() => {
+        DeviceEventEmitter.emit("event.mealReady", {flag: false});
         navigation.goBack();
         console.log('deleted');
     });
     const resetWorkoutSetupHandler = () => ResetWorkoutSetup().then(() => {
-        setSystemFlags({...systemFlags, isWorkoutReady: false});
+        DeviceEventEmitter.emit("event.workoutReady", {flag: false});
         navigation.goBack();
         console.log('deleted');
     });
     const deleteAccountHandler = () => CreateDatabase().then(() => {
-        setSystemFlags({
-            isUserReady: false,
-            isMealReady: false,
-            isWorkoutReady: false
-        });
-        setAppState(false);
+        DeviceEventEmitter.emit("event.userReady", {flag: false});
+        DeviceEventEmitter.emit("event.mealReady", {flag: false});
+        DeviceEventEmitter.emit("event.workoutReady", {flag: false});
+        DeviceEventEmitter.emit("event.appState", {flag: true});
         console.log('deleted');
     });
 
@@ -49,19 +67,19 @@ export default function MainSettingsScreen({ navigation }){
 
     const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
     const openEditMealDataScreen = () => {
-        if(!systemFlags.isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
         navigation.navigate('EditMealDataScreen');
     }
     const openEditWorkoutDataScreen = () => {
-        if(!systemFlags.isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
         navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
     const resetMealSetup = () => {
-        if(!systemFlags.isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
         AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetMealSetupHandler);
     }
     const resetWorkoutSetup = () => {
-        if(!systemFlags.isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
         AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetWorkoutSetupHandler);
     }
     const deleteAccount = () => AlertYESNO(warningTitle, deleteAccountText, canceledEvent, deleteAccountHandler);

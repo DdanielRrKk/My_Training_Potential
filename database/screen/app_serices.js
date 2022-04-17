@@ -1,10 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_FLAGS,
-    USER_CALORIES_GOAL,
-    USER_CARBS_GOAL,
-    USER_PROTEIN_GOAL,
-    USER_FAT_GOAL,
+    USER_GOALS,
     MEAL_LOG
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/validations';
@@ -13,7 +10,7 @@ import { getCurrentDateForLog, getCurrentDateString, isCurrentDate } from '../..
 
 
 // get data for root navigation
-export async function GetAppData() {
+export async function GetAppFlagsData() {
     try {
         const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
         const systemFlags = JSON.parse(systemFlagsResult);
@@ -31,26 +28,12 @@ export async function GetAppData() {
 export async function SaveDataIfDayChanged() {
     try {
         const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
-        const mealCaloriesGoalResult = await AsyncStorage.getItem(USER_CALORIES_GOAL);
-        const mealCarbsGoalResult = await AsyncStorage.getItem(USER_CARBS_GOAL);
-        const mealProteinGoalResult = await AsyncStorage.getItem(USER_PROTEIN_GOAL);
-        const mealFatGoalResult = await AsyncStorage.getItem(USER_FAT_GOAL);
-        // console.log('mealLogResult', mealLogResult);
-        // console.log('mealCaloriesGoalResult', mealCaloriesGoalResult);
-        // console.log('mealCarbsGoalResult', mealCarbsGoalResult);
-        // console.log('mealProteinGoalResult', mealProteinGoalResult);
-        // console.log('mealFatGoalResult', mealFatGoalResult);
-        
         const mealLog = JSON.parse(mealLogResult);
-        const mealCaloriesGoal = JSON.parse(mealCaloriesGoalResult);
-        const mealCarbsGoal = JSON.parse(mealCarbsGoalResult);
-        const mealProteinGoal = JSON.parse(mealProteinGoalResult);
-        const mealFatGoal = JSON.parse(mealFatGoalResult);
-        // console.log('mealLog', mealLog);
-        // console.log('mealCaloriesGoal', mealCaloriesGoal);
-        // console.log('mealCarbsGoal', mealCarbsGoal);
-        // console.log('mealProteinGoal', mealProteinGoal);
-        // console.log('mealFatGoal', mealFatGoal);
+        console.log('mealLog', mealLog);
+
+        const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
+        const userGoals = JSON.parse(userGoalsResult);
+        console.log('userGoals', userGoals);
 
         const currentDate = getCurrentDateForLog();
         const dateString = getCurrentDateString();
@@ -67,10 +50,10 @@ export async function SaveDataIfDayChanged() {
                 totalCarbs: 0,
                 totalProtein: 0,
                 totalFat: 0,
-                caloriesGoal: mealCaloriesGoal,
-                carbsGoal: mealCarbsGoal,
-                proteinGoal: mealProteinGoal,
-                fatGoal: mealFatGoal,
+                caloriesGoal: userGoals.caloriesGoal,
+                carbsGoal: userGoals.carbsGoal,
+                proteinGoal: userGoals.proteinGoal,
+                fatGoal: userGoals.fatGoal,
                 date: currentDate,
                 dateString: dateString
             }];
@@ -96,10 +79,10 @@ export async function SaveDataIfDayChanged() {
             totalCarbs: 0,
             totalProtein: 0,
             totalFat: 0,
-            caloriesGoal: mealCaloriesGoal,
-            carbsGoal: mealCarbsGoal,
-            proteinGoal: mealProteinGoal,
-            fatGoal: mealFatGoal,
+            caloriesGoal: userGoals.caloriesGoal,
+            carbsGoal: userGoals.carbsGoal,
+            proteinGoal: userGoals.proteinGoal,
+            fatGoal: userGoals.fatGoal,
             date: currentDate,
             dateString: dateString
         }];

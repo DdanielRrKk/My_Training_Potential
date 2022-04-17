@@ -1,9 +1,11 @@
 import React from 'react';
+import { DeviceEventEmitter } from "react-native";
+
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const NavStack = createStackNavigator();
 
-import LoadingScreen from '../screens/landing/loadingScreen';
+import LoadingScreen from '../screens/loadingScreen';
 
 import LandingScreen from '../screens/landing/landingScreen';
 import LandingNameScreen from '../screens/landing/landingNameScreen';
@@ -38,40 +40,56 @@ import TimeWorkoutScreen from '../screens/workout/timeWorkoutScreen';
 import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 
 
-import { GetAppData, SaveDataIfDayChanged } from '../database/screen/app_serices';
-
-import { useSystemFlagsGlobal } from '../helpers/globalState';
+import { GetAppFlagsData, SaveDataIfDayChanged } from '../database/screen/app_serices';
 
 
 
 export default function RootNavigation() {
-  const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
   const [allGood, setAllGood] = React.useState(false);
+  const [isUserReady, setIsUserReady] = React.useState(false);
+  const [isMealReady, setIsMealReady] = React.useState(false);
+  const [isWorkoutReady, setIsWorkoutReady] = React.useState(false);
 
   React.useEffect(() => {
     let isGood = true;
     
-    GetAppData().then((systemFlags) => { 
+    DeviceEventEmitter.addListener('event.userReady', ({flag}) => setIsUserReady(flag));
+    DeviceEventEmitter.addListener('event.mealReady', ({flag}) => setIsMealReady(flag));
+    DeviceEventEmitter.addListener('event.workoutReady', ({flag}) => setIsWorkoutReady(flag));
+    
+    GetAppFlagsData().then(({isUserReady, isMealReady, isWorkoutReady}) => { 
       if(isGood) {
-        setSystemFlags(systemFlags);
+        setIsUserReady(isUserReady);
+        setIsMealReady(isMealReady);
+        setIsWorkoutReady(isWorkoutReady);
         setAllGood(true);
-        if(systemFlags.isMealSetup) SaveDataIfDayChanged(systemFlags.isMealSetup);
+        if(isMealReady) SaveDataIfDayChanged();
       }
     });
 
-    return () => {  isGood = false; } // to prevent memory leaks (clean up)
-  }, []);
-  const Tabs = () => TabNavigation(systemFlags.isMealReady, systemFlags.isWorkoutReady);
+    return () => {  
+      isGood = false; 
+      DeviceEventEmitter.removeListener('event.userReady');
+      DeviceEventEmitter.removeListener('event.mealReady');
+      DeviceEventEmitter.removeListener('event.workoutReady');
+    } // to prevent memory leaks (clean up)
+  }, [isUserReady, isMealReady, isWorkoutReady]);
+
+  const Tabs = () => TabNavigation();
 
   // console.log('systemFlags root', systemFlags);
+  
+  console.log('isUserReady root', isUserReady);
+  console.log('isMealReady root', isMealReady);
+  console.log('isWorkoutReady root', isWorkoutReady);
 
-  if(systemFlags == null || !allGood) {
+  if(!allGood) {
     return (
       <LoadingScreen />
     );
   }
 
-  if(!systemFlags.isUserReady && allGood) {
+  if(!isUserReady && allGood) {
     return (
       <NavigationContainer>
         <NavStack.Navigator initialRouteName='LandingScreen'>
@@ -98,13 +116,9 @@ export default function RootNavigation() {
         <NavStack.Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='EditMealDataScreen' component={EditMealDataScreen} options={{ headerMode: 'none' }} />
         
-        {!systemFlags.isMealReady ?
-          <>
-            <NavStack.Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
-            <NavStack.Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
-            <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} />
-          </>
-        : null}
+        <NavStack.Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
+        <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} />
 
         <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
         <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />

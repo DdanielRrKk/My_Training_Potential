@@ -9,7 +9,3 @@ const systemFlagsStore = new GlobalStore({
 });
 export const useSystemFlagsGlobal = systemFlagsStore.getHook();
 
-
-
-const appState = new GlobalStore(false);
-export const useAppStateGlobal = appState.getHook();
