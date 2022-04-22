@@ -1,36 +1,33 @@
 import React from 'react';
 import { DeviceEventEmitter } from 'react-native';
 
-import { CreateDatabase, ExistsDatabase } from './database/general/general_services';
+import { CreateDatabase, IsDatabaseCreated } from './database/general/general_services';
 
 import RootNavigation from './navigation/rootNavigation';
 
 
 
 export default function App() {
-  const [appState, setAppState] = React.useState();
-  console.log('appState', appState);
+  const [changeUpdater, setChangeUpdater] = React.useState(false);
+  console.log('changeUpdater', changeUpdater);
 
   React.useEffect(() => {
     let isGood = true;
+    DeviceEventEmitter.addListener('event.appUpdate', ({flag}) => setChangeUpdater(flag));
 
-    DeviceEventEmitter.addListener('event.appState', ({flag}) => setAppState(flag));
-
-    CreateDatabase();
-
-    ExistsDatabase().then((check) => { 
-      if(isGood) {
-        // console.log('check', check);
-        setAppState(check);
-        if(!check) CreateDatabase();
+    // CreateDatabase();
+    IsDatabaseCreated().then((check) => { 
+      if(isGood && !check) {
+        CreateDatabase();
+        setChangeUpdater(false);
       }
     });
 
     return () => { 
       isGood = false;
-      DeviceEventEmitter.removeListener('appState');
+      DeviceEventEmitter.removeListener('event.appUpdate');
     } // to prevent memory leaks (clean up)
-  }, [appState]);
+  }, [changeUpdater]);
 
   return (
     <RootNavigation />

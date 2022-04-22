@@ -40,56 +40,49 @@ import TimeWorkoutScreen from '../screens/workout/timeWorkoutScreen';
 import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 
 
-import { GetAppFlagsData, SaveDataIfDayChanged } from '../database/screen/app_serices';
+import { SaveDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
 
 
 
 export default function RootNavigation() {
+  const [changeUpdater, setChangeUpdater] = React.useState(false);
   const [allGood, setAllGood] = React.useState(false);
-  const [isUserReady, setIsUserReady] = React.useState(false);
-  const [isMealReady, setIsMealReady] = React.useState(false);
-  const [isWorkoutReady, setIsWorkoutReady] = React.useState(false);
+  const [systemState, setSystemState] = React.useState(null);
 
   React.useEffect(() => {
     let isGood = true;
     
-    DeviceEventEmitter.addListener('event.userReady', ({flag}) => setIsUserReady(flag));
-    DeviceEventEmitter.addListener('event.mealReady', ({flag}) => setIsMealReady(flag));
-    DeviceEventEmitter.addListener('event.workoutReady', ({flag}) => setIsWorkoutReady(flag));
-    
-    GetAppFlagsData().then(({isUserReady, isMealReady, isWorkoutReady}) => { 
+    DeviceEventEmitter.addListener('event.stateUpdate', ({falg}) => setChangeUpdater(falg));
+
+    GetAppState().then((state) => {
       if(isGood) {
-        setIsUserReady(isUserReady);
-        setIsMealReady(isMealReady);
-        setIsWorkoutReady(isWorkoutReady);
+        setSystemState(state);
         setAllGood(true);
-        if(isMealReady) SaveDataIfDayChanged();
+        setChangeUpdater(false);
+        if(state == 2 || state == 4) SaveDataIfDayChanged();
       }
     });
 
     return () => {  
       isGood = false; 
-      DeviceEventEmitter.removeListener('event.userReady');
-      DeviceEventEmitter.removeListener('event.mealReady');
-      DeviceEventEmitter.removeListener('event.workoutReady');
+      DeviceEventEmitter.removeListener('event.stateUpdate');
     } // to prevent memory leaks (clean up)
-  }, [isUserReady, isMealReady, isWorkoutReady]);
+  }, [changeUpdater]);
 
   const Tabs = () => TabNavigation();
 
   // console.log('systemFlags root', systemFlags);
   
-  console.log('isUserReady root', isUserReady);
-  console.log('isMealReady root', isMealReady);
-  console.log('isWorkoutReady root', isWorkoutReady);
+  
+  console.log('systemState root', systemState);
 
-  if(!allGood) {
+  if(!allGood || systemState == null) {
     return (
       <LoadingScreen />
     );
   }
 
-  if(!isUserReady && allGood) {
+  if(systemState == 0) {
     return (
       <NavigationContainer>
         <NavStack.Navigator initialRouteName='LandingScreen'>

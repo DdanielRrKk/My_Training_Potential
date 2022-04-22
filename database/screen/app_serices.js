@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    SYSTEM_FLAGS,
+    SYSTEM_STATE,
     USER_GOALS,
     MEAL_LOG
 } from '../database_stores';
@@ -10,14 +10,13 @@ import { getCurrentDateForLog, getCurrentDateString, isCurrentDate } from '../..
 
 
 // get data for root navigation
-export async function GetAppFlagsData() {
+export async function GetAppState() {
     try {
-        const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
-        const systemFlags = JSON.parse(systemFlagsResult);
-        // console.log('systemFlags', systemFlags);
-        return systemFlags;     
+        const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
+        console.log('parseInt(systemStateResult)', parseInt(systemStateResult));
+        return parseInt(systemStateResult);     
     } catch (error) {
-        console.log('GetAppData error');
+        console.log('GetAppState error');
         console.log(error);
     }
 }

@@ -1,8 +1,26 @@
-export const SYSTEM_FLAGS_SCHEMA = {
-    isUserReady: false,
-    isMealReady: false,
-    isWorkoutReady: false
-};
+export const SYSTEM_STATE_SCHEMA = 0;
+/*
+    0 - 
+    - is_user_setup = false
+    - is_meal_setup = false
+    - is_workout_setup = false
+    1 -
+    - is_user_setup = true
+    - is_meal_setup = false
+    - is_workout_setup = false
+    2 - 
+    - is_user_setup = true
+    - is_meal_setup = true
+    - is_workout_setup = false
+    3 - 
+    - is_user_setup = true
+    - is_meal_setup = false
+    - is_workout_setup = true
+    4 -
+    - is_user_setup = true
+    - is_meal_setup = true
+    - is_workout_setup = true
+  */
 
 export const USER_INFO_SCHEMA = {
     name: '',

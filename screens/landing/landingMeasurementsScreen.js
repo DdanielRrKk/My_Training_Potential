@@ -31,13 +31,13 @@ export default function LandingMeasurementsScreen({ navigation }){
         });
         return () => { 
             isGood = false;
-            DeviceEventEmitter.removeListener('event.userReady');
+            DeviceEventEmitter.removeListener('event.stateUpdate');
          } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => SetUserMeasurements(age, weight, height).then(() => DeviceEventEmitter.emit("event.userReady", {flag: true}));
+    const openNextScreen = () => SetUserMeasurements(age, weight, height).then(() => DeviceEventEmitter.emit("event.stateUpdate", {flag: true}));
  
     return(
         <SafeAreaView style={stylesMisc.container}>

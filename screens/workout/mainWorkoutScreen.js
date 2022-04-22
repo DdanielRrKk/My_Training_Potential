@@ -3,6 +3,9 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { useIsFocused } from '@react-navigation/native';
 
+import LoadingScreen from '../loadingScreen';
+
+import { GetAppState } from '../../database/screen/app_serices';
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -12,13 +15,17 @@ import WorkoutBox from '../../components/workout/workoutBox';
 import Header from '../../components/misc/header';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
-import { useSystemFlagsGlobal } from '../../helpers/globalState';
 import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
+import { 
+    SYSTEM_USER_AND_WORKOUT_SETUP,
+    SYSTEM_ALL_SETUP
+} from '../../helpers/constants';
 
 
 
 export default function MainWorkoutScreen({ navigation }){
-    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+    const [systemState, setSystemState] = React.useState(null);
+    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(false);
 
     const [name, setName] = React.useState(null);
     const [days, setDays] = React.useState([
@@ -40,18 +47,31 @@ export default function MainWorkoutScreen({ navigation }){
     React.useEffect(() => {
         let isGood = true;
 
-        if(systemFlags.isWorkoutReady) {
-            GetWorkoutScreenData().then(({ name, days}) => { 
-                if(isGood) {
-                    setName(name);
-                    const tempArray = getSortedWorkoutDays(days);
-                    setDays(tempArray);
-                }
-            });
-        }
+        GetAppState().then((state) => {
+            setSystemState(state);
+
+            setIsWorkoutSetup(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP);
+
+            if(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP) {
+                GetWorkoutScreenData().then(({ name, days}) => { 
+                    if(isGood) {
+                        setName(name);
+                        const tempArray = getSortedWorkoutDays(days);
+                        setDays(tempArray);
+                    }
+                });
+            }
+    
+        });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [focus, name]);
+
+    if(systemState == null) {
+        return(
+            <LoadingScreen />
+        );
+    }
 
 
     const openSetupScreen = () => {
@@ -59,7 +79,7 @@ export default function MainWorkoutScreen({ navigation }){
         navigation.navigate('SetupWorkoutPlanScreen');
     }
 
-    if(!systemFlags.isWorkoutReady || systemFlags == null) {
+    if(!isWorkoutSetup) {
         return(
             <SetupButtonView style={stylesMisc.container} pressHandler={openSetupScreen}/>
         );

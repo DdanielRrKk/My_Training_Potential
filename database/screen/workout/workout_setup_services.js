@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
+    SYSTEM_STATE,
     WORKOUT_PLAN_NAME,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
@@ -13,8 +14,7 @@ import {
     MEAL_LOG,
     MEAL_BREAKFAST,
     MEAL_LUNCH,
-    MEAL_DINNER,
-    SYSTEM_FLAGS
+    MEAL_DINNER
 } from '../../database_stores';
 import {
     calculateCalories,
@@ -23,22 +23,15 @@ import {
     calculateFat,
     calculateRecommendedCalories
 } from '../../../helpers/mealCalculations';
+import { getActivityLevelFromActiveDays } from '../../../helpers/helpers';
+import { 
+    SYSTEM_USER_SETUP,
+    SYSTEM_USER_AND_MEAL_SETUP,
+    SYSTEM_USER_AND_WORKOUT_SETUP,
+    SYSTEM_ALL_SETUP 
+} from '../../../helpers/constants';
 
 
-
-function getActivityLevelFromActiveDays(activeDays) {
-    switch(activeDays){
-        case 0: return 1;
-        case 1: return 2;
-        case 2: return 2;
-        case 3: return 2;
-        case 4: return 3;
-        case 5: return 3;
-        case 6: return 4;
-        case 7: return 5;
-        default: return 0;
-    }
-}
 
 export async function SetWorkoutPlan(
     plan_name,
@@ -79,11 +72,14 @@ export async function SetWorkoutPlan(
         await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(saturday));
         await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(sunday));
 
-        const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
-        const systemFlags = JSON.parse(systemFlagsResult);
-        systemFlags.isWorkoutReady = true;
-        console.log('systemFlags after', systemFlags);
-        await AsyncStorage.setItem(SYSTEM_FLAGS, JSON.stringify(systemFlags));
+        
+
+        const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
+        switch(parseInt(systemStateResult)) {
+            case SYSTEM_USER_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_USER_AND_WORKOUT_SETUP)); break;
+            case SYSTEM_USER_AND_MEAL_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_ALL_SETUP)); break;
+            default: break;
+        }
 
 
 

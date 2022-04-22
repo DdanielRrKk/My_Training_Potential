@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
 
-import { GetAppFlagsData } from '../../../database/screen/app_serices';
+import { GetAppState } from '../../../database/screen/app_serices';
 
 import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
 
@@ -11,55 +11,60 @@ import BackButton from '../../../components/misc/backButton';
 import SettingsOption from '../../../components/home/settings/settingsOption';
 
 import { AlertOK, AlertYESNO } from '../../../helpers/alerts';
+import { 
+    SYSTEM_USER_AND_MEAL_SETUP,
+    SYSTEM_USER_AND_WORKOUT_SETUP,
+    SYSTEM_ALL_SETUP,
+
+    ALERT_WARNING_TITLE,
+    ALERT_NOT_SETUP_PLAN_TEXT,
+    ALERT_RESET_SETUP_PLAN_TEXT,
+    ALERT_DELETE_ACCOUNT_TEXT
+} from '../../../helpers/constants';
 
 
 
 export default function MainSettingsScreen({ navigation }){
-    const [isMealReady, setIsMealReady] = React.useState();
-    const [isWorkoutReady, setIsWorkoutReady] = React.useState();
+    const [systemState, setSystemState] = React.useState(null);
+    
+    const [isMealSetup, setIsMealSetup] = React.useState(false);
+    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(false);
 
     React.useEffect(() => {
         let isGood = true;
 
-        GetAppFlagsData().then(({isMealReady, isWorkoutReady}) => {
+        GetAppState().then((state) => { 
             if(isGood) {
-                setIsMealReady(isMealReady);
-                setIsWorkoutReady(isWorkoutReady);
+                setSystemState(state);
+                setIsMealSetup((systemState == SYSTEM_USER_AND_MEAL_SETUP || systemState == SYSTEM_ALL_SETUP) ? true : false);
+                setIsWorkoutSetup((systemState == SYSTEM_USER_AND_WORKOUT_SETUP || systemState == SYSTEM_ALL_SETUP) ? true : false);
             }
-        });
+         });
 
         return () => {  
             isGood = false;
-            DeviceEventEmitter.removeListener('event.userReady');
-            DeviceEventEmitter.removeListener('event.mealReady');
-            DeviceEventEmitter.removeListener('event.workoutReady');
-            DeviceEventEmitter.removeListener('event.appState');
+            DeviceEventEmitter.removeListener('event.appUpdate');
+            DeviceEventEmitter.removeListener('event.stateUpdate');
         } // to prevent memory leaks (clean up)
-    }, [isMealReady, isWorkoutReady]);
+    }, [systemState]);
 
-    const warningTitle = "Warning !";
-    const notSetupPlanText = "You have not setted a plan.";
-    const resetSetupPlanText = "If you reset your plan setup, you will lose all of your data and progress. Do you want to continue ?";
-    const deleteAccountText = "If you delete your account, you will lose all of your data and progress. Do you want to continue ?";
-
+    console.log('systemState settings', systemState);
+    console.log('isMealSetup settings', isMealSetup);
+    console.log('isWorkoutSetup settings', isWorkoutSetup);
+    
     const canceledEvent = () => console.log("canceled");
 
-    const resetMealSetupHandler = () => ResetMealSetup(isWorkoutReady).then(() => {
-        DeviceEventEmitter.emit("event.mealReady", {flag: false});
+    const resetMealSetupHandler = () => ResetMealSetup(isWorkoutSetup).then(() => {
+        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
         navigation.goBack();
-        console.log('deleted');
     });
     const resetWorkoutSetupHandler = () => ResetWorkoutSetup().then(() => {
-        DeviceEventEmitter.emit("event.workoutReady", {flag: false});
+        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
         navigation.goBack();
-        console.log('deleted');
     });
     const deleteAccountHandler = () => CreateDatabase().then(() => {
-        DeviceEventEmitter.emit("event.userReady", {flag: false});
-        DeviceEventEmitter.emit("event.mealReady", {flag: false});
-        DeviceEventEmitter.emit("event.workoutReady", {flag: false});
+        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
         DeviceEventEmitter.emit("event.appState", {flag: true});
-        console.log('deleted');
     });
 
 
@@ -67,22 +72,22 @@ export default function MainSettingsScreen({ navigation }){
 
     const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
     const openEditMealDataScreen = () => {
-        if(!isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
         navigation.navigate('EditMealDataScreen');
     }
     const openEditWorkoutDataScreen = () => {
-        if(!isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
         navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
     const resetMealSetup = () => {
-        if(!isMealReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
-        AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetMealSetupHandler);
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetMealSetupHandler);
     }
     const resetWorkoutSetup = () => {
-        if(!isWorkoutReady) { AlertOK(warningTitle, notSetupPlanText, canceledEvent); return; }
-        AlertYESNO(warningTitle, resetSetupPlanText, canceledEvent, resetWorkoutSetupHandler);
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetWorkoutSetupHandler);
     }
-    const deleteAccount = () => AlertYESNO(warningTitle, deleteAccountText, canceledEvent, deleteAccountHandler);
+    const deleteAccount = () => AlertYESNO(ALERT_WARNING_TITLE, ALERT_DELETE_ACCOUNT_TEXT, canceledEvent, deleteAccountHandler);
  
     return(
         <SafeAreaView style={stylesMisc.container}>

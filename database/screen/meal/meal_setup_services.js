@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_FLAGS,
+    SYSTEM_STATE,
     USER_INFO,
     USER_GOALS,
     MEAL_BREAKFAST,
@@ -16,6 +17,12 @@ import {
     calculateRecommendedCalories
 } from '../../../helpers/mealCalculations';
 import { getCurrentDateString, getCurrentDateForLog } from '../../../helpers/dateHelper';
+import { 
+    SYSTEM_USER_SETUP,
+    SYSTEM_USER_AND_MEAL_SETUP,
+    SYSTEM_USER_AND_WORKOUT_SETUP,
+    SYSTEM_ALL_SETUP 
+} from '../../../helpers/constants';
 
 
 
@@ -155,11 +162,12 @@ export async function SetAndGetMealResults() {
         await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(dinner));
 
 
-        const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
-        const systemFlags = JSON.parse(systemFlagsResult);
-        systemFlags.isMealReady = true;
-        console.log('systemFlags after', systemFlags);
-        await AsyncStorage.setItem(SYSTEM_FLAGS, JSON.stringify(systemFlags));
+        const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
+        switch(parseInt(systemStateResult)) {
+            case SYSTEM_USER_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_USER_AND_MEAL_SETUP)); break;
+            case SYSTEM_USER_AND_WORKOUT_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_ALL_SETUP)); break;
+            default: break;
+        }
 
 
         return {

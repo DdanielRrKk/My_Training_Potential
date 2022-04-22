@@ -3,6 +3,9 @@ import { Text, View, SafeAreaView } from 'react-native';
 
 import { useIsFocused } from '@react-navigation/native';
 
+import LoadingScreen from '../loadingScreen';
+
+import { GetAppState } from '../../database/screen/app_serices';
 import { GetMainMealScreenData, AddWater, RemoveWater } from '../../database/screen/meal/main_meal_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -12,12 +15,16 @@ import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
-import { useSystemFlagsGlobal } from '../../helpers/globalState';
+import { 
+    SYSTEM_USER_AND_MEAL_SETUP,
+    SYSTEM_ALL_SETUP
+} from '../../helpers/constants';
 
 
 
 export default function MainMealScreen({ navigation }){
-    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
+    const [systemState, setSystemState] = React.useState(null);
+    const [isMealSetup, setIsMealSetup] = React.useState(false);
 
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
@@ -35,46 +42,54 @@ export default function MainMealScreen({ navigation }){
     const [lunchCalories, setLunchCalories] = React.useState('');
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
-    // console.log('systemFlags meal', systemFlags);
+
+    console.log('systemState meal', systemState);
+    console.log('isMealSetup meal', isMealSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        if(systemFlags.isMealReady) {
-            GetMainMealScreenData().then(({
-                calories, 
-                carbs, 
-                protein, 
-                fat,
-                caloriesGoal,
-                carbsGoal,
-                proteinGoal,
-                fatGoal,
-                water,
-                breakfastCalories,
-                lunchCalories,
-                dinnerCalories
-            }) => { 
-                if(isGood) {
-                    setCalories(calories);
-                    setCarbs(carbs);
-                    setProtein(protein);
-                    setFat(fat);
-    
-                    setCaloriesGoal(caloriesGoal);
-                    setCarbsGoal(carbsGoal);
-                    setProteinGoal(proteinGoal);
-                    setFatGoal(fatGoal);
-    
-                    setWater(water);
-    
-                    setBreakfastCalories(breakfastCalories);
-                    setLunchCalories(lunchCalories);
-                    setDinnerCalories(dinnerCalories);
-                }
-            });
-        }
+        GetAppState().then((state) => {
+            setSystemState(state);
+
+            setIsMealSetup(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP);
+
+            if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) {
+                GetMainMealScreenData().then(({
+                    calories, 
+                    carbs, 
+                    protein, 
+                    fat,
+                    caloriesGoal,
+                    carbsGoal,
+                    proteinGoal,
+                    fatGoal,
+                    water,
+                    breakfastCalories,
+                    lunchCalories,
+                    dinnerCalories
+                }) => { 
+                    if(isGood) {
+                        setCalories(calories);
+                        setCarbs(carbs);
+                        setProtein(protein);
+                        setFat(fat);
+        
+                        setCaloriesGoal(caloriesGoal);
+                        setCarbsGoal(carbsGoal);
+                        setProteinGoal(proteinGoal);
+                        setFatGoal(fatGoal);
+        
+                        setWater(water);
+        
+                        setBreakfastCalories(breakfastCalories);
+                        setLunchCalories(lunchCalories);
+                        setDinnerCalories(dinnerCalories);
+                    }
+                });
+            }
+        });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [
@@ -93,13 +108,19 @@ export default function MainMealScreen({ navigation }){
         dinnerCalories
     ]);
 
+    if(systemState == null) {
+        return(
+            <LoadingScreen />
+        );
+    }
+
 
     const openSetupScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('SetupMealGoalScreen');
     }
 
-    if(!systemFlags.isMealReady || systemFlags == null) {
+    if(!isMealSetup) {
         return(
             <SetupButtonView style={stylesMisc.container} pressHandler={openSetupScreen}/>
         );

@@ -1,8 +1,6 @@
 
 // system =====
-export const SYSTEM_IS_DATABASE_CREATED = 'system_is_database_created';
-
-export const SYSTEM_FLAGS = 'system_flags';
+export const SYSTEM_STATE = 'system_state';
 
 
 // users =====

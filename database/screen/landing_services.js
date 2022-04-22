@@ -1,10 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
-    SYSTEM_FLAGS,
+    SYSTEM_STATE,
     WEIGHT_LOG,
     USER_INFO
 } from '../database_stores';
 import { getCurrentDateForLog } from '../../helpers/dateHelper';
+import { SYSTEM_USER_SETUP } from '../../helpers/constants';
 
 
 
@@ -83,11 +84,7 @@ export async function SetUserMeasurements(age, weight, height) {
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(weightLog));
 
 
-        const systemFlagsResult = await AsyncStorage.getItem(SYSTEM_FLAGS);
-        const systemFlags = JSON.parse(systemFlagsResult);
-        systemFlags.isUserReady = true;
-        // console.log('systemFlags finished', systemFlags);
-        await AsyncStorage.setItem(SYSTEM_FLAGS, JSON.stringify(systemFlags));
+        await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_USER_SETUP));
     } catch (error) {
         console.log('SetUserMeasurements error');
         console.log(error);
