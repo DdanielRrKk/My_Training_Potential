@@ -34,14 +34,14 @@ export default function SetupMealResultsScreen({ navigation }){
 
         return () => {  
             isGood = false;
-            DeviceEventEmitter.removeListener('event.mealReady');
+            DeviceEventEmitter.removeListener('event.stateUpdate');
          } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => {
-        DeviceEventEmitter.emit("event.mealReady", {flag: true});
+        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     }

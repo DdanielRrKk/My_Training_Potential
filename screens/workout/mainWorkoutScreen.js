@@ -5,7 +5,6 @@ import { useIsFocused } from '@react-navigation/native';
 
 import LoadingScreen from '../loadingScreen';
 
-import { GetAppState } from '../../database/screen/app_serices';
 import { GetWorkoutScreenData } from '../../database/screen/workout/main_workout_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -16,16 +15,12 @@ import Header from '../../components/misc/header';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
 import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
-import { 
-    SYSTEM_USER_AND_WORKOUT_SETUP,
-    SYSTEM_ALL_SETUP
-} from '../../helpers/constants';
 
 
 
 export default function MainWorkoutScreen({ navigation }){
-    const [systemState, setSystemState] = React.useState(null);
-    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(false);
+    // const [systemState, setSystemState] = React.useState(null);
+    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(null);
 
     const [name, setName] = React.useState(null);
     const [days, setDays] = React.useState([
@@ -37,37 +32,34 @@ export default function MainWorkoutScreen({ navigation }){
         {day_number: 6, name: null, exercises: []},
         {day_number: 7, name: null, exercises: []},
     ]);
-    
-    // console.log('systemFlags workout', systemFlags);
 
-    console.log('name', name);
-    console.log('days', days);
+    console.log('name workout', name);
+    console.log('days workout', days);
+    console.log('isWorkoutSetup workout', isWorkoutSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetAppState().then((state) => {
-            setSystemState(state);
+        GetWorkoutScreenData().then(({ name, days, isWorkoutSetup}) => { 
+            if(isGood) {
+                if(!isWorkoutSetup) {
+                    setIsWorkoutSetup(isWorkoutSetup);
+                    return;
+                }
 
-            setIsWorkoutSetup(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP);
-
-            if(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP) {
-                GetWorkoutScreenData().then(({ name, days}) => { 
-                    if(isGood) {
-                        setName(name);
-                        const tempArray = getSortedWorkoutDays(days);
-                        setDays(tempArray);
-                    }
-                });
+                setName(name);
+                const tempArray = getSortedWorkoutDays(days);
+                setDays(tempArray);
+                setIsWorkoutSetup(isWorkoutSetup);
             }
-    
         });
 
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
-    }, [focus, name]);
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
+    }, [focus, name, isWorkoutSetup]);
 
-    if(systemState == null) {
+
+    if(isWorkoutSetup == null) {
         return(
             <LoadingScreen />
         );

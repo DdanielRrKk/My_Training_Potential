@@ -11,7 +11,7 @@ export function getAverage(min, max) {
     const temp1 = parseInt(min);
     const temp2 = parseInt(max);
     
-    return((temp1 + temp2) / 2);
+    return(parseInt((temp1 + temp2) / 2));
 }
 
 export function getActivityLevelFromActiveDays(activeDays) {

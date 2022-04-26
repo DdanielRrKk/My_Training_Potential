@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
+    SYSTEM_STATE,
     WORKOUT_PLAN_NAME,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
@@ -9,12 +10,27 @@ import {
     WORKOUT_SATURDAY,
     WORKOUT_SUNDAY
 } from '../../database_stores';
+import { 
+    SYSTEM_USER_AND_WORKOUT_SETUP, 
+    SYSTEM_ALL_SETUP 
+} from '../../../helpers/constants';
 
 
 
 // get data for workout screen
 export async function GetWorkoutScreenData() {
     try {
+        const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
+        const systemState = parseInt(systemStateResult);
+        if(systemState != SYSTEM_USER_AND_WORKOUT_SETUP && systemState != SYSTEM_ALL_SETUP) {
+            console.log('GetWorkoutScreenData is not setup');
+            return {
+                name: null,
+                days: null,
+                isWorkoutSetup: false
+            };
+        }
+
         const planNameResult = await AsyncStorage.getItem(WORKOUT_PLAN_NAME);
         const mondayResult = await AsyncStorage.getItem(WORKOUT_MONDAY);
         const tuesdayResult = await AsyncStorage.getItem(WORKOUT_TUESDAY);
@@ -43,8 +59,9 @@ export async function GetWorkoutScreenData() {
 
         return {
             name: planNameResult,
-            days: [monday, tuesday, wednesday, thursday, friday, saturday, sunday]
-        }        
+            days: [monday, tuesday, wednesday, thursday, friday, saturday, sunday],
+            isWorkoutSetup: true
+        };     
     } catch (error) {
         console.log('GetWorkoutScreenData error');
         console.log(error);

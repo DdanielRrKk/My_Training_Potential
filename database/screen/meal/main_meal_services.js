@@ -1,17 +1,43 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
+    SYSTEM_STATE,
     USER_GOALS,
     MEAL_BREAKFAST,
     MEAL_LUNCH,
     MEAL_DINNER,
     MEAL_LOG
 } from '../../database_stores';
+import { 
+    SYSTEM_USER_AND_MEAL_SETUP, 
+    SYSTEM_ALL_SETUP 
+} from '../../../helpers/constants';
 
 
 
 // get data for main meal screen
 export async function GetMainMealScreenData() {
     try {
+        const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
+        const systemState = parseInt(systemStateResult);
+        if(systemState != SYSTEM_USER_AND_MEAL_SETUP && systemState != SYSTEM_ALL_SETUP) {
+            console.log('GetMainMealScreenData is not setup');
+            return {
+                water: null,
+                calories: null,
+                carbs: null,
+                protein: null,
+                fat: null,
+                caloriesGoal: null,
+                carbsGoal: null,
+                proteinGoal: null,
+                fatGoal: null,
+                breakfastCalories: null,
+                lunchCalories: null,
+                dinnerCalories: null,
+                isMealSetup: false
+            };
+        }
+
         const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
         const userGoals = JSON.parse(userGoalsResult);
         // console.log('userGoals', userGoals); 
@@ -42,7 +68,8 @@ export async function GetMainMealScreenData() {
             fatGoal: userGoals.fatGoal,
             breakfastCalories: breakfast.totalCalories,
             lunchCalories: lunch.totalCalories,
-            dinnerCalories: dinner.totalCalories
+            dinnerCalories: dinner.totalCalories,
+            isMealSetup: true
         }        
     } catch (error) {
         console.log('GetMainMealScreenData error');

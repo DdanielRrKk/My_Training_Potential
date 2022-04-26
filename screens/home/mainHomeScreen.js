@@ -5,13 +5,7 @@ import { useIsFocused } from '@react-navigation/native';
 
 import LoadingScreen from '../loadingScreen';
 
-import { GetAppState } from '../../database/screen/app_serices';
-import { 
-    GetMainHomeScreenData,
-    GetMainAndOnlyMealHomeScreenData,
-    GetMainAndOnlyWorkoutHomeScreenData,
-    GetAllHomeScreenData
-} from '../../database/screen/home/home_services';
+import { GetHomeScreenData } from '../../database/screen/home/home_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
 import { stylesHome } from '../../styles/homeStyles';
@@ -23,19 +17,11 @@ import GroupLogBox from '../../components/home/groupLogBox';
 import WorkoutBox from '../../components/workout/workoutBox';
 import NutritionsBox from '../../components/home/nutritionsBox';
 
-import { 
-    SYSTEM_USER_SETUP,
-    SYSTEM_USER_AND_MEAL_SETUP,
-    SYSTEM_USER_AND_WORKOUT_SETUP,
-    SYSTEM_ALL_SETUP
- } from '../../helpers/constants';
-
 
 
 export default function MainHomeScreen({ navigation }){
-    const [systemState, setSystemState] = React.useState(null);
-    const [isMealSetup, setIsMealSetup] = React.useState(false);
-    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(false);
+    const [isMealSetup, setIsMealSetup] = React.useState(null);
+    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(null);
 
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState('0');
@@ -53,106 +39,54 @@ export default function MainHomeScreen({ navigation }){
     const [todaysWorkout, setTodaysWorkout] = React.useState(null);
     
 
-    console.log('systemState home', systemState);
+    console.log('isMealSetup home', isMealSetup);
+    console.log('isWorkoutSetup home', isWorkoutSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetAppState().then((state) => { // ima problem tuk s memory leak
-            setSystemState(state);
+        GetHomeScreenData().then(({
+            name, 
+            weight,
+            caloriesPercentage,
+            carbsPercentage,
+            proteinPercentage,
+            fatPercentage,
+            caloriesGoal,
+            carbsGoal,
+            proteinGoal,
+            fatGoal,
+            todaysWorkout,
+            isMealSetup,
+            isWorkoutSetup
+        }) => { 
+            if(isGood) {
+                setName(name);
+                setWeight(weight);
 
-            setIsMealSetup(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP);
-            setIsWorkoutSetup(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP);
+                if(isMealSetup) {
+                    setCaloriesPercentage(parseFloat(caloriesPercentage));
+                    setCarbsPercentage(parseFloat(carbsPercentage));
+                    setProteinPercentage(parseFloat(proteinPercentage));
+                    setFatPercentage(parseFloat(fatPercentage));
 
-            switch(state) {
-                case SYSTEM_USER_SETUP: 
-                    GetMainHomeScreenData().then(({ name, weight }) => { 
-                        if(isGood) {
-                            setName(name);
-                            setWeight(weight);
-                        }
-                    });
-                    break;
+                    setCaloriesGoal(caloriesGoal);
+                    setCarbsGoal(carbsGoal);
+                    setProteinGoal(proteinGoal);
+                    setFatGoal(fatGoal);
+                }
 
-                case SYSTEM_USER_AND_MEAL_SETUP: 
-                    GetMainAndOnlyMealHomeScreenData().then(({
-                        name, 
-                        weight,
-                        caloriesPercentage,
-                        carbsPercentage,
-                        proteinPercentage,
-                        fatPercentage,
-                        caloriesGoal,
-                        carbsGoal,
-                        proteinGoal,
-                        fatGoal
-                    }) => { 
-                        if(isGood) {
-                            setName(name);
-                            setWeight(weight);
-                            
-                            setCaloriesPercentage(parseFloat(caloriesPercentage));
-                            setCarbsPercentage(parseFloat(carbsPercentage));
-                            setProteinPercentage(parseFloat(proteinPercentage));
-                            setFatPercentage(parseFloat(fatPercentage));
-        
-                            setCaloriesGoal(caloriesGoal);
-                            setCarbsGoal(carbsGoal);
-                            setProteinGoal(proteinGoal);
-                            setFatGoal(fatGoal);
-                        }
-                    });
-                    break;
+                if(isWorkoutSetup) {
+                    setTodaysWorkout(todaysWorkout);
+                }
 
-                case SYSTEM_USER_AND_WORKOUT_SETUP: 
-                    GetMainAndOnlyWorkoutHomeScreenData().then(({ name, weight, todaysWorkout }) => { 
-                        if(isGood) {
-                            setName(name);
-                            setWeight(weight);
-                            setTodaysWorkout(todaysWorkout);
-                        }
-                    });
-                    break;
-
-                case SYSTEM_ALL_SETUP: 
-                    GetAllHomeScreenData().then(({
-                        name, 
-                        weight,
-                        caloriesPercentage,
-                        carbsPercentage,
-                        proteinPercentage,
-                        fatPercentage,
-                        caloriesGoal,
-                        carbsGoal,
-                        proteinGoal,
-                        fatGoal,
-                        todaysWorkout
-                    }) => { 
-                        if(isGood) {
-                            setName(name);
-                            setWeight(weight);
-        
-                            setCaloriesPercentage(parseFloat(caloriesPercentage));
-                            setCarbsPercentage(parseFloat(carbsPercentage));
-                            setProteinPercentage(parseFloat(proteinPercentage));
-                            setFatPercentage(parseFloat(fatPercentage));
-            
-                            setCaloriesGoal(caloriesGoal);
-                            setCarbsGoal(carbsGoal);
-                            setProteinGoal(proteinGoal);
-                            setFatGoal(fatGoal);
-            
-                            setTodaysWorkout(todaysWorkout);
-                        }
-                    });
-                    break;
-
-                default: return;
-            };
+                setIsMealSetup(isMealSetup);
+                setIsWorkoutSetup(isWorkoutSetup);
+            }
         });
 
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus,
         name,
@@ -164,10 +98,12 @@ export default function MainHomeScreen({ navigation }){
         caloriesGoal,
         carbsGoal,
         proteinGoal,
-        fatGoal        
+        fatGoal,
+        isMealSetup,
+        isWorkoutSetup 
     ]);
 
-    if(systemState == null) {
+    if(isMealSetup == null || isWorkoutSetup == null) {
         return(
             <LoadingScreen />
         );

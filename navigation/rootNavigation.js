@@ -42,6 +42,8 @@ import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 
 import { SaveDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
 
+import { SYSTEM_USER_AND_MEAL_SETUP, SYSTEM_ALL_SETUP } from '../helpers/constants';
+
 
 
 export default function RootNavigation() {
@@ -59,7 +61,7 @@ export default function RootNavigation() {
         setSystemState(state);
         setAllGood(true);
         setChangeUpdater(false);
-        if(state == 2 || state == 4) SaveDataIfDayChanged();
+        if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) SaveDataIfDayChanged();
       }
     });
 

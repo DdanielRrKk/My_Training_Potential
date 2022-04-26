@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
 
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
 import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
@@ -12,13 +12,11 @@ import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 import TextEntry from '../../../components/misc/textEntry';
 import ActionButton from '../../../components/misc/actionButton';
 
-import { useSystemFlagsGlobal } from '../../../helpers/globalState';
 import { NAME_MAX_LENGTH } from '../../../helpers/constants';
 
 
 
 export default function SetupWorkoutPlanScreen({ navigation, route }){
-    const [systemFlags, setSystemFlags] = useSystemFlagsGlobal();
     const [fromEdit, setFromEdit] = React.useState(false);
     
     const [name, setName] = React.useState('');
@@ -69,9 +67,7 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
             if(route.params?.day.day_number == 6) setSaturday(route.params?.day);
             if(route.params?.day.day_number == 7) setSunday(route.params?.day);
         }
-    }, [route.params?.day]);
 
-    React.useEffect(() => {
         if(route.params?.isFromEdit) {
             let isGood = true;
 
@@ -101,7 +97,42 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
 
             return () => {  isGood = false; } // to prevent memory leaks (clean up)
         }
-    }, [route.params?.isFromEdit]);
+        return () => {
+            DeviceEventEmitter.removeListener('event.stateUpdate');
+        }
+    }, [route.params?.day, route.params?.isFromEdit]);
+
+    // React.useEffect(() => {
+    //     if(route.params?.isFromEdit) {
+    //         let isGood = true;
+
+    //         GetEditWorkoutDataScreenData().then(({
+    //             name, 
+    //             monday,
+    //             tuesday,
+    //             wednesday,
+    //             thursday,
+    //             friday,
+    //             saturday,
+    //             sunday
+    //         }) => { 
+    //             if(isGood) {
+    //                 setName(name);
+    //                 setMonday(monday);
+    //                 setTuesday(tuesday);
+    //                 setWednesday(wednesday);
+    //                 setThursday(thursday);
+    //                 setFriday(friday);
+    //                 setSaturday(saturday);
+    //                 setSunday(sunday);
+    //             }
+    //         });
+
+    //         setFromEdit(true);
+
+    //         return () => {  isGood = false; } // to prevent memory leaks (clean up)
+    //     }
+    // }, [route.params?.isFromEdit]);
 
     const openPrevScreen = () => navigation.goBack();
 
@@ -116,13 +147,14 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
     }
     const createWorkoutPlan = () => {
         SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
-            setSystemFlags({...systemFlags, isWorkoutReady: true});
+            DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
             navigation.setOptions({ tabBarVisible: true });
             navigation.navigate('TabNavigation');
         });
     }
     const saveWorkoutPlan = () => {
         SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
+            DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
             navigation.setOptions({ tabBarVisible: true });
             navigation.navigate('TabNavigation');
         });

@@ -64,7 +64,6 @@ export default function MainSettingsScreen({ navigation }){
     });
     const deleteAccountHandler = () => CreateDatabase().then(() => {
         DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
-        DeviceEventEmitter.emit("event.appState", {flag: true});
     });
 
 

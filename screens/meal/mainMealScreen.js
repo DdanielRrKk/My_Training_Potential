@@ -5,7 +5,6 @@ import { useIsFocused } from '@react-navigation/native';
 
 import LoadingScreen from '../loadingScreen';
 
-import { GetAppState } from '../../database/screen/app_serices';
 import { GetMainMealScreenData, AddWater, RemoveWater } from '../../database/screen/meal/main_meal_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
@@ -15,16 +14,10 @@ import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
-import { 
-    SYSTEM_USER_AND_MEAL_SETUP,
-    SYSTEM_ALL_SETUP
-} from '../../helpers/constants';
-
 
 
 export default function MainMealScreen({ navigation }){
-    const [systemState, setSystemState] = React.useState(null);
-    const [isMealSetup, setIsMealSetup] = React.useState(false);
+    const [isMealSetup, setIsMealSetup] = React.useState(null);
 
     const [calories, setCalories] = React.useState(null);
     const [carbs, setCarbs] = React.useState(null);
@@ -43,55 +36,53 @@ export default function MainMealScreen({ navigation }){
     const [dinnerCalories, setDinnerCalories] = React.useState('');
 
 
-    console.log('systemState meal', systemState);
     console.log('isMealSetup meal', isMealSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetAppState().then((state) => {
-            setSystemState(state);
+        GetMainMealScreenData().then(({
+            calories, 
+            carbs, 
+            protein, 
+            fat,
+            caloriesGoal,
+            carbsGoal,
+            proteinGoal,
+            fatGoal,
+            water,
+            breakfastCalories,
+            lunchCalories,
+            dinnerCalories,
+            isMealSetup
+        }) => { 
+            if(isGood) {
+                if(!isMealSetup) {
+                    setIsMealSetup(isMealSetup);
+                    return;
+                }
+                setCalories(calories);
+                setCarbs(carbs);
+                setProtein(protein);
+                setFat(fat);
 
-            setIsMealSetup(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP);
+                setCaloriesGoal(caloriesGoal);
+                setCarbsGoal(carbsGoal);
+                setProteinGoal(proteinGoal);
+                setFatGoal(fatGoal);
 
-            if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) {
-                GetMainMealScreenData().then(({
-                    calories, 
-                    carbs, 
-                    protein, 
-                    fat,
-                    caloriesGoal,
-                    carbsGoal,
-                    proteinGoal,
-                    fatGoal,
-                    water,
-                    breakfastCalories,
-                    lunchCalories,
-                    dinnerCalories
-                }) => { 
-                    if(isGood) {
-                        setCalories(calories);
-                        setCarbs(carbs);
-                        setProtein(protein);
-                        setFat(fat);
-        
-                        setCaloriesGoal(caloriesGoal);
-                        setCarbsGoal(carbsGoal);
-                        setProteinGoal(proteinGoal);
-                        setFatGoal(fatGoal);
-        
-                        setWater(water);
-        
-                        setBreakfastCalories(breakfastCalories);
-                        setLunchCalories(lunchCalories);
-                        setDinnerCalories(dinnerCalories);
-                    }
-                });
+                setWater(water);
+
+                setBreakfastCalories(breakfastCalories);
+                setLunchCalories(lunchCalories);
+                setDinnerCalories(dinnerCalories);
+                
+                setIsMealSetup(isMealSetup);
             }
         });
 
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
     }, [
         focus,
         calories,
@@ -105,10 +96,12 @@ export default function MainMealScreen({ navigation }){
         water,
         breakfastCalories,
         lunchCalories,
-        dinnerCalories
+        dinnerCalories,
+        isMealSetup
     ]);
 
-    if(systemState == null) {
+    
+    if(isMealSetup == null) {
         return(
             <LoadingScreen />
         );
