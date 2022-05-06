@@ -8,65 +8,58 @@ import {
 
 
 
-export async function GetBreakfastData() {
+export async function GetSingleMealData(mealNumber) {
     try {
-        const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
-        const breakfast = JSON.parse(breakfastResult);
-        // console.log('breakfast', breakfast);
-        return {
-            name: 'Breakfast',
-            recommendedMin: breakfast.recommendedMin,
-            recommendedMax: breakfast.recommendedMax,
-            calories: breakfast.totalCalories,
-            carbs: breakfast.totalCarbs,
-            protein: breakfast.totalProtein,
-            fat: breakfast.totalFat,
-            foods: breakfast.foods
-        };
-    } catch (error) {
-        console.log('GetBreakfastData error');
-        console.log(error);
-    }
-}
+        switch(mealNumber) {
+            case 1:
+                const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
+                const breakfast = JSON.parse(breakfastResult);
+                console.log('breakfast', breakfast);
+                return {
+                    name: 'Breakfast',
+                    recommendedMin: breakfast.recommendedMin,
+                    recommendedMax: breakfast.recommendedMax,
+                    calories: breakfast.totalCalories,
+                    carbs: breakfast.totalCarbs,
+                    protein: breakfast.totalProtein,
+                    fat: breakfast.totalFat,
+                    foods: breakfast.foods
+                };
 
-export async function GetLunchData() {
-    try {
-        const lunchResult = await AsyncStorage.getItem(MEAL_LUNCH);
-        const lunch = JSON.parse(lunchResult);
-        // console.log('lunch', lunch);
-        return {
-            name: 'Lunch',
-            recommendedMin: lunch.recommendedMin,
-            recommendedMax: lunch.recommendedMax,
-            calories: lunch.totalCalories,
-            carbs: lunch.totalCarbs,
-            protein: lunch.totalProtein,
-            fat: lunch.totalFat,
-            foods: lunch.foods
-        };
-    } catch (error) {
-        console.log('GetLunchData error');
-        console.log(error);
-    }
-}
+            case 2:
+                const lunchResult = await AsyncStorage.getItem(MEAL_LUNCH);
+                const lunch = JSON.parse(lunchResult);
+                console.log('lunch', lunch);
+                return {
+                    name: 'Lunch',
+                    recommendedMin: lunch.recommendedMin,
+                    recommendedMax: lunch.recommendedMax,
+                    calories: lunch.totalCalories,
+                    carbs: lunch.totalCarbs,
+                    protein: lunch.totalProtein,
+                    fat: lunch.totalFat,
+                    foods: lunch.foods
+                };
 
-export async function GetDinnerData() {
-    try {
-        const dinnerResult = await AsyncStorage.getItem(MEAL_DINNER);
-        const dinner = JSON.parse(dinnerResult);
-        // console.log('dinner', dinner);
-        return {
-            name: 'Dinner',
-            recommendedMin: dinner.recommendedMin,
-            recommendedMax: dinner.recommendedMax,
-            calories: dinner.totalCalories,
-            carbs: dinner.totalCarbs,
-            protein: dinner.totalProtein,
-            fat: dinner.totalFat,
-            foods: dinner.foods
-        };
+            case 3:
+                const dinnerResult = await AsyncStorage.getItem(MEAL_DINNER);
+                const dinner = JSON.parse(dinnerResult);
+                console.log('dinner', dinner);
+                return {
+                    name: 'Dinner',
+                    recommendedMin: dinner.recommendedMin,
+                    recommendedMax: dinner.recommendedMax,
+                    calories: dinner.totalCalories,
+                    carbs: dinner.totalCarbs,
+                    protein: dinner.totalProtein,
+                    fat: dinner.totalFat,
+                    foods: dinner.foods
+                };
+
+            default: return;
+        }
     } catch (error) {
-        console.log('GetDinnerData error');
+        console.log('GetSingleMealData error');
         console.log(error);
     }
 }

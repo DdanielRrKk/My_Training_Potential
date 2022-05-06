@@ -33,9 +33,9 @@ export default function MainWorkoutScreen({ navigation }){
         {day_number: 7, name: null, exercises: []},
     ]);
 
-    console.log('name workout', name);
-    console.log('days workout', days);
-    console.log('isWorkoutSetup workout', isWorkoutSetup);
+    // console.log('name workout', name);
+    // console.log('days workout', days);
+    // console.log('isWorkoutSetup workout', isWorkoutSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {

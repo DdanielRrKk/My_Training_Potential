@@ -15,14 +15,14 @@ export async function SetWorkoutLogData(day_name, total_time, finished_exercises
         
         const currentDate = getCurrentDateForLog();
         const lastKey = (workoutLog.length == 0) ? 1 : workoutLog[workoutLog.length - 1].key + 1;
-        const log = [...workoutLog, {
+        const log = [{
             key: lastKey,
             name: day_name,
             total_time: total_time,
             finished_exercises: finished_exercises,
             note: note,
             date: currentDate
-        }];
+        }, ...workoutLog];
 
         console.log('workoutLog after', log);
 

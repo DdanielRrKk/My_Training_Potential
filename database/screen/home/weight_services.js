@@ -40,7 +40,7 @@ export async function SetWeightLogData(weight) {
         // console.log('weightLog', weightLog);
         const currentDate = getCurrentDateForLog();
         const lastKey = weightLog[weightLog.length - 1].key + 1;
-        weightLog.push({
+        weightLog.unshift({
             key: lastKey,
             weight: weight,
             date: currentDate

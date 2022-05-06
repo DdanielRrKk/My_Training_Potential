@@ -3,7 +3,7 @@ import { DeviceEventEmitter } from "react-native";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-const NavStack = createStackNavigator();
+const { Navigator, Screen } = createStackNavigator();
 
 import LoadingScreen from '../screens/loadingScreen';
 
@@ -71,12 +71,9 @@ export default function RootNavigation() {
     } // to prevent memory leaks (clean up)
   }, [changeUpdater]);
 
-  const Tabs = () => TabNavigation();
-
-  // console.log('systemFlags root', systemFlags);
+  const Tabs = () => TabNavigation();  
   
-  
-  console.log('systemState root', systemState);
+  // console.log('systemState root', systemState);
 
   if(!allGood || systemState == null) {
     return (
@@ -87,46 +84,46 @@ export default function RootNavigation() {
   if(systemState == 0) {
     return (
       <NavigationContainer>
-        <NavStack.Navigator initialRouteName='LandingScreen'>
-          <NavStack.Screen name='LandingScreen' component={LandingScreen} options={{ headerMode: 'none' }} />
-          <NavStack.Screen name='LandingNameScreen' component={LandingNameScreen} options={{ headerMode: 'none' }} />
-          <NavStack.Screen name='LandingGenderScreen' component={LandingGenderScreen} options={{ headerMode: 'none' }} />
-          <NavStack.Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }} />
-        </NavStack.Navigator>
+        <Navigator initialRouteName='LandingScreen'>
+          <Screen name='LandingScreen' component={LandingScreen} options={{ headerMode: 'none' }} />
+          <Screen name='LandingNameScreen' component={LandingNameScreen} options={{ headerMode: 'none' }} />
+          <Screen name='LandingGenderScreen' component={LandingGenderScreen} options={{ headerMode: 'none' }} />
+          <Screen name='LandingMeasurementsScreen' component={LandingMeasurementsScreen} options={{ headerMode: 'none' }} />
+        </Navigator>
       </NavigationContainer>
     );
   }
 
   return (
     <NavigationContainer>
-      <NavStack.Navigator initialRouteName='TabNavigation'>
-        <NavStack.Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='MealLogsScreen' component={MealLogsScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='WorkoutLogsScreen' component={WorkoutLogsScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='OpenMealLogScreen' component={OpenMealLogScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='OpenWorkoutLogScreen' component={OpenWorkoutLogScreen} options={{ headerMode: 'none' }} />
+      <Navigator initialRouteName='TabNavigation'>
+        <Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
+        <Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
+        <Screen name='MealLogsScreen' component={MealLogsScreen} options={{ headerMode: 'none' }} />
+        <Screen name='WorkoutLogsScreen' component={WorkoutLogsScreen} options={{ headerMode: 'none' }} />
+        <Screen name='OpenMealLogScreen' component={OpenMealLogScreen} options={{ headerMode: 'none' }} />
+        <Screen name='OpenWorkoutLogScreen' component={OpenWorkoutLogScreen} options={{ headerMode: 'none' }} />
         
-        <NavStack.Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='EditMealDataScreen' component={EditMealDataScreen} options={{ headerMode: 'none' }} />
+        <Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
+        <Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
+        <Screen name='EditMealDataScreen' component={EditMealDataScreen} options={{ headerMode: 'none' }} />
         
-        <NavStack.Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupMealGoalScreen' component={SetupMealGoalScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupMealActivityScreen' component={SetupMealActivityScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupMealResultsScreen' component={SetupMealResultsScreen} options={{ headerMode: 'none' }} />
 
-        <NavStack.Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupWorkoutPlanScreen' component={SetupWorkoutPlanScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupWorkoutDayScreen' component={SetupWorkoutDayScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SetupWorkoutExerciseScreen' component={SetupWorkoutExerciseScreen} options={{ headerMode: 'none' }} />
 
-        <NavStack.Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }} />
+        <Screen name='AddMealScreen' component={AddMealScreen} options={{ headerMode: 'none' }} />
+        <Screen name='SingleMealScreen' component={SingleMealScreen} options={{ headerMode: 'none' }} />
 
-        <NavStack.Screen name='OpenWorkoutScreen' component={OpenWorkoutScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='StartWorkoutScreen' component={StartWorkoutScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='TimeWorkoutScreen' component={TimeWorkoutScreen} options={{ headerMode: 'none' }} />
-        <NavStack.Screen name='FinalWorkoutScreen' component={FinalWorkoutScreen} options={{ headerMode: 'none' }} />
-      </NavStack.Navigator>
+        <Screen name='OpenWorkoutScreen' component={OpenWorkoutScreen} options={{ headerMode: 'none' }} />
+        <Screen name='StartWorkoutScreen' component={StartWorkoutScreen} options={{ headerMode: 'none' }} />
+        <Screen name='TimeWorkoutScreen' component={TimeWorkoutScreen} options={{ headerMode: 'none' }} />
+        <Screen name='FinalWorkoutScreen' component={FinalWorkoutScreen} options={{ headerMode: 'none' }} />
+      </Navigator>
     </NavigationContainer>
   );
 }

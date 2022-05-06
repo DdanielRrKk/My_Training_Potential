@@ -39,8 +39,8 @@ export default function MainHomeScreen({ navigation }){
     const [todaysWorkout, setTodaysWorkout] = React.useState(null);
     
 
-    console.log('isMealSetup home', isMealSetup);
-    console.log('isWorkoutSetup home', isWorkoutSetup);
+    // console.log('isMealSetup home', isMealSetup);
+    // console.log('isWorkoutSetup home', isWorkoutSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {

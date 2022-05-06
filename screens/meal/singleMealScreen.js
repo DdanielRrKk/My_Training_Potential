@@ -4,9 +4,7 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
 
 import { 
-    GetBreakfastData,
-    GetLunchData,
-    GetDinnerData,
+    GetSingleMealData,
     RemoveBreakfastFoodData,
     RemoveLunchFoodData,
     RemoveDinnerFoodData
@@ -44,76 +42,28 @@ export default function SingleMealScreen({ navigation, route }){
         const foodsLength = foods.length;
 
         if(mealNumber == null) return;
-
-        if(mealNumber == 1) {
-            GetBreakfastData().then(({
-                name,
-                recommendedMin,
-                recommendedMax,
-                calories,
-                carbs,
-                protein,
-                fat, 
-                foods
-            }) => { 
-                if(isGood) {
-                    setName(name);
-                    setRecommendedMin(recommendedMin);
-                    setRecommendedMax(recommendedMax);
-                    setCalories(calories);
-                    setCarbs(carbs);
-                    setProtein(protein);
-                    setFat(fat);
-                    if(foods.length != foodsLength) setFoods(foods);
-                }
-            });
-        }
-        if(mealNumber == 2) {
-            GetLunchData().then(({
-                name,
-                recommendedMin,
-                recommendedMax,
-                calories,
-                carbs,
-                protein,
-                fat, 
-                foods
-            }) => { 
-                if(isGood) {
-                    setName(name);
-                    setRecommendedMin(recommendedMin);
-                    setRecommendedMax(recommendedMax);
-                    setCalories(calories);
-                    setCarbs(carbs);
-                    setProtein(protein);
-                    setFat(fat);
-                    if(foods.length != foodsLength) setFoods(foods);
-                }
-            });
-        }
-        if(mealNumber == 3) {
-            GetDinnerData().then(({
-                name,
-                recommendedMin,
-                recommendedMax,
-                calories,
-                carbs,
-                protein,
-                fat, 
-                foods
-            }) => { 
-                if(isGood) {
-                    setName(name);
-                    setRecommendedMin(recommendedMin);
-                    setRecommendedMax(recommendedMax);
-                    setCalories(calories);
-                    setCarbs(carbs);
-                    setProtein(protein);
-                    setFat(fat);
-                    if(foods.length != foodsLength) setFoods(foods);
-                }
-            });
-        }
+        
+        GetSingleMealData(mealNumber).then(({
+            name,
+            recommendedMin,
+            recommendedMax,
+            calories,
+            carbs,
+            protein,
+            fat, 
+            foods
+        }) => { 
+            if(isGood) {
+                setName(name);
+                if(recommendedMin) setRecommendedMin(recommendedMin);
+                if(recommendedMax) setRecommendedMax(recommendedMax);
+                if(calories) setCalories(calories);
+                if(carbs) setCarbs(carbs);
+                if(protein) setProtein(protein);
+                if(fat) setFat(fat);
+                if(foods.length != foodsLength) setFoods(foods);
+            }
+        });
 
         return () => {  isGood = false; } // to prevent memory leaks (clean up)
     }, [

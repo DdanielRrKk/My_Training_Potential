@@ -9,7 +9,7 @@ import MainWorkoutScreen from '../screens/workout/mainWorkoutScreen';
 import MainMealScreen from '../screens/meal/mainMealScreen';
 import MainLearnScreen from '../screens/learn/mainLearnScreen';
 
-const Tab = createBottomTabNavigator();
+const { Navigator, Screen } = createBottomTabNavigator();
 
 import { PRIMARY_COLOR } from '../styles/colors';
 
@@ -17,8 +17,8 @@ import { PRIMARY_COLOR } from '../styles/colors';
 
 export default function TabNavigation() {
     return(
-        <Tab.Navigator initialRouteName='MainHomeScreen'>
-            <Tab.Screen 
+        <Navigator initialRouteName='MainHomeScreen'>
+            <Screen 
                 name='MainHomeScreen' 
                 component={MainHomeScreen} 
                 options={{
@@ -28,7 +28,7 @@ export default function TabNavigation() {
                         <Octicons name="home" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}/>
-            <Tab.Screen 
+            <Screen 
                 name='MainWorkoutScreen' 
                 component={MainWorkoutScreen} 
                 options={{
@@ -38,7 +38,7 @@ export default function TabNavigation() {
                         <MaterialCommunityIcons name="dumbbell" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}/>
-            <Tab.Screen 
+            <Screen 
                 name='MainMealScreen' 
                 component={MainMealScreen} 
                 options={{
@@ -48,7 +48,7 @@ export default function TabNavigation() {
                         <MaterialCommunityIcons name="food-apple-outline" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}/>
-            <Tab.Screen 
+            <Screen 
                 name='MainLearnScreen' 
                 component={MainLearnScreen} 
                 options={{
@@ -58,6 +58,6 @@ export default function TabNavigation() {
                         <MaterialCommunityIcons name="book-open-variant" size={24} color={(focused) ? PRIMARY_COLOR : color} />
                     ),
                 }}/>
-        </Tab.Navigator>
+        </Navigator>
     );
 }
