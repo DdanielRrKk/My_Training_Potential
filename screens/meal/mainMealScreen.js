@@ -57,11 +57,35 @@ export default function MainMealScreen({ navigation }){
             dinnerCalories,
             isMealSetup
         }) => { 
-            if(isGood) {
-                if(!isMealSetup) {
-                    setIsMealSetup(isMealSetup);
-                    return;
-                }
+            // if(isGood) {
+            //     if(!isMealSetup) {
+            //         setIsMealSetup(isMealSetup);
+            //         return;
+            //     }
+            //     setCalories(calories);
+            //     setCarbs(carbs);
+            //     setProtein(protein);
+            //     setFat(fat);
+
+            //     setCaloriesGoal(caloriesGoal);
+            //     setCarbsGoal(carbsGoal);
+            //     setProteinGoal(proteinGoal);
+            //     setFatGoal(fatGoal);
+
+            //     setWater(water);
+
+            //     setBreakfastCalories(breakfastCalories);
+            //     setLunchCalories(lunchCalories);
+            //     setDinnerCalories(dinnerCalories);
+                
+            //     setIsMealSetup(isMealSetup);
+            // }
+
+            if(isGood && !isMealSetup) {
+                setIsMealSetup(isMealSetup);
+                return;
+            }
+            if(isGood && isMealSetup) {
                 setCalories(calories);
                 setCarbs(carbs);
                 setProtein(protein);
