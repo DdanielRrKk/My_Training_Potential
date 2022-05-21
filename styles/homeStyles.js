@@ -25,7 +25,8 @@ export const stylesHome = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 24,
-        color: TERTIARY_COLOR
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR
     },
 
     middle_button_container: {

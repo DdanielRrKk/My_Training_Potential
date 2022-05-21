@@ -15,7 +15,25 @@ export default function WorkoutItemList(exercises, editExerciseHandler, isSeeOnl
                     <View style={{marginLeft: 8}}>
                         <Text style={styles.text}>{item.name}</Text>
                         
-                        <Text style={styles.text}>{item.description}</Text>
+                        {item.type == 0 ?
+                        <View style={styles.row}>
+                            <Text style={styles.number}>{(item.sets) ? item.sets : '0'}</Text>
+                            <Text style={styles.text}> sets X </Text>
+                            <Text style={styles.number}>{(item.minReps) ? item.minReps : '0'} - {(item.maxReps) ? item.maxReps : '0'}</Text>
+                            <Text style={styles.text}> reps / </Text>
+                            <Text style={styles.number}>{(item.rest) ? item.rest : '0'}s</Text>
+                            <Text style={styles.text}> rest</Text>
+                        </View>
+                        :
+                        <View style={styles.row}>
+                            <Text style={styles.number}>{(item.sets) ? item.sets : '0'}</Text>
+                            <Text style={styles.text}> sets X </Text>
+                            <Text style={styles.number}>{(item.duration) ? item.duration : '0'}s</Text>
+                            <Text style={styles.text}> / </Text>
+                            <Text style={styles.number}>{(item.rest) ? item.rest : '0'}s</Text>
+                            <Text style={styles.text}> rest</Text>
+                        </View>
+                        }
                     </View>
                 </View>
             </View>
@@ -28,7 +46,25 @@ export default function WorkoutItemList(exercises, editExerciseHandler, isSeeOnl
                 <View style={{marginLeft: 8}}>
                     <Text style={styles.text}>{item.name}</Text>
                     
-                    <Text style={styles.text}>{item.description}</Text>
+                    {item.type == 0 ?
+                        <View style={styles.row}>
+                            <Text style={styles.number}>{(item.sets) ? item.sets : '0'}</Text>
+                            <Text style={styles.text}> sets X </Text>
+                            <Text style={styles.number}>{(item.minReps) ? item.minReps : '0'} - {(item.maxReps) ? item.maxReps : '0'}</Text>
+                            <Text style={styles.text}> reps / </Text>
+                            <Text style={styles.number}>{(item.rest) ? item.rest : '0'}s</Text>
+                            <Text style={styles.text}> rest</Text>
+                        </View>
+                        :
+                        <View style={styles.row}>
+                            <Text style={styles.number}>{(item.sets) ? item.sets : '0'}</Text>
+                            <Text style={styles.text}> sets X </Text>
+                            <Text style={styles.number}>{(item.duration) ? item.duration : '0'}s</Text>
+                            <Text style={styles.text}> / </Text>
+                            <Text style={styles.number}>{(item.rest) ? item.rest : '0'}s</Text>
+                            <Text style={styles.text}> rest</Text>
+                        </View>
+                        }
                 </View>
             </View>
 
@@ -53,6 +89,14 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 5,
         elevation: 3,
+    },
+    row: {
+        flexDirection: 'row'
+    },
+    number: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
     },
     text: {
         fontSize: 16,

@@ -53,7 +53,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
         exercise: {
             key: null,
             name: name,
-            description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
             instructions: instructions,
             sets: sets,
             type: type,
@@ -65,7 +64,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
         exercise: {
             key: null,
             name: name,
-            description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
             instructions: instructions,
             sets: sets,
             type: type,
@@ -78,7 +76,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
         exercise: {
             key: key,
             name: name,
-            description: `${(sets)?sets:'0'} sets X ${(minReps)?minReps:'0'} - ${(maxReps)?maxReps:'0'} reps / ${(rest)?rest:'0'}s rest`,
             instructions: instructions,
             sets: sets,
             type: type,
@@ -90,7 +87,6 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
         exercise: {
             key: key,
             name: name,
-            description: `${(sets)?sets:'0'} sets X ${(duration)?duration:'0'}s / ${(rest)?rest:'0'}s rest`,
             instructions: instructions,
             sets: sets,
             type: type,
