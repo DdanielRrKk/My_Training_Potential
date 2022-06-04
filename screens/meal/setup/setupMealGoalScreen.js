@@ -10,6 +10,9 @@ import SelectionButton from '../../../components/misc/setup/selectionButton';
 import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
 
+import { AlertOK } from '../../../helpers/alerts';
+import { ALERT_WARNING_TITLE, ALERT_MEAL_GOAL_TEXT } from '../../../helpers/constants';
+
 
 
 export default function SetupMealGoalScreen({ navigation }){
@@ -26,6 +29,11 @@ export default function SetupMealGoalScreen({ navigation }){
     const openPrevScreen = () => navigation.goBack();
 
     const openNextScreen = () => SetMealGoal(goal).then(() => {
+        if(goal == null) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_MEAL_GOAL_TEXT, null);
+            return;
+        }
+
         if(activity == null) { navigation.push('SetupMealActivityScreen'); return; }
         navigation.push('SetupMealResultsScreen');
         return;

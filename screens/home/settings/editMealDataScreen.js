@@ -9,7 +9,16 @@ import BackButton from '../../../components/misc/backButton';
 import ActionButton from '../../../components/misc/actionButton';
 import TextEntry from '../../../components/misc/textEntry';
 
-import { NUTRITIONS_MAX_LENGTH } from '../../../helpers/constants';
+import { IsInputNumberValid } from '../../../helpers/validations';
+import { AlertOK } from '../../../helpers/alerts';
+import { 
+    NUTRITIONS_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_CALORIES_TEXT,
+    ALERT_CARBS_TEXT,
+    ALERT_PROTEIN_TEXT,
+    ALERT_FAT_TEXT
+} from '../../../helpers/constants';
 
 
 
@@ -41,6 +50,23 @@ export default function EditMealDataScreen({ navigation }){
     const openPrevScreen = () => navigation.goBack();
 
     const saveEditData = () => SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatGoal).then(() => {
+        if(!IsInputNumberValid(caloriesGoal)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_CALORIES_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(carbsGoal)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_CALORIES_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(proteinGoal)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_PROTEIN_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(fatGoal)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_FAT_TEXT, null);
+            return;
+        }
+        
         navigation.setOptions({ tabBarVisible: true });
         navigation.navigate('TabNavigation');
     });

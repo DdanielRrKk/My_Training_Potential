@@ -10,7 +10,17 @@ import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 import TextEntry from '../../components/misc/textEntry';
 
-import { AGE_MAX_LENGTH, WEIGHT_MAX_LENGTH, HEIGHT_MAX_LENGTH } from '../../helpers/constants';
+import { IsInputNumberValid } from '../../helpers/validations';
+import { AlertOK } from '../../helpers/alerts';
+import { 
+    AGE_MAX_LENGTH, 
+    WEIGHT_MAX_LENGTH, 
+    HEIGHT_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_AGE_TEXT,
+    ALERT_WEIGHT_TEXT,
+    ALERT_HEIGHT_TEXT
+} from '../../helpers/constants';
 
 
 
@@ -37,7 +47,22 @@ export default function LandingMeasurementsScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => SetUserMeasurements(age, weight, height).then(() => DeviceEventEmitter.emit("event.stateUpdate", {flag: true}));
+    const openNextScreen = () => {
+        if(!IsInputNumberValid(age)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_AGE_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(weight)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WEIGHT_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(height)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_HEIGHT_TEXT, null);
+            return;
+        }
+
+        SetUserMeasurements(age, weight, height).then(() => DeviceEventEmitter.emit("event.stateUpdate", {flag: true}));
+    }
  
     return(
         <SafeAreaView style={stylesMisc.container}>

@@ -10,8 +10,17 @@ import GroupButton from '../../../components/misc/groupButton';
 import NumberInput from '../../../components/misc/numberInput';
 import TextEntry from '../../../components/misc/textEntry';
 
+import { IsInputTextValid } from '../../../helpers/validations';
+import { AlertOK } from '../../../helpers/alerts';
 import { GetCorrectTextInput } from '../../../helpers/helpers';
-import { NAME_MAX_LENGTH, LONG_TEXT_MAX_LENGTH, WORKOUT_NUMBER_MAX_LENGTH, WORKOUT_TIME_MAX_LENGTH } from '../../../helpers/constants';
+import { 
+    NAME_MAX_LENGTH, 
+    LONG_TEXT_MAX_LENGTH, 
+    WORKOUT_NUMBER_MAX_LENGTH, 
+    WORKOUT_TIME_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_WORKOUT_EXERCISE_NAME_TEXT
+} from '../../../helpers/constants';
 
 
 
@@ -37,63 +46,77 @@ export default function SetupWorkoutExerciseScreen({ navigation, route }){
             setKey(route.params.exercise.key);
             setName(route.params.exercise.name);
             setInstructions(route.params.exercise.instructions);
-            setSets(route.params.exercise.sets);
-            setRest(route.params.exercise.rest);
+            setSets(`${route.params.exercise.sets}`);
+            setRest(`${route.params.exercise.rest}`);
             setType(route.params.exercise.type);
-            setMinReps(route.params.exercise.minReps);
-            setMaxReps(route.params.exercise.maxReps);
-            setDuration(route.params.exercise.duration);
+            setMinReps(`${route.params.exercise.minReps}`);
+            setMaxReps(`${route.params.exercise.maxReps}`);
+            setDuration(`${route.params.exercise.duration}`);
         }
     }, [route.params?.exercise, route.params?.isFromEdit]);
 
 
     const openPrevScreen = () => navigation.goBack();
 
-    const addWorkout= () => navigation.navigate('SetupWorkoutDayScreen', (type == 0) ? {
-        exercise: {
-            key: null,
-            name: name,
-            instructions: instructions,
-            sets: sets,
-            type: type,
-            minReps: minReps,
-            maxReps: maxReps,
-            rest: rest
+    const addWorkout = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_EXERCISE_NAME_TEXT, null);
+            return;
         }
-    } : {
-        exercise: {
-            key: null,
-            name: name,
-            instructions: instructions,
-            sets: sets,
-            type: type,
-            duration: duration,
-            rest: rest
-        }
-    });
 
-    const editWorkout= () => navigation.navigate('SetupWorkoutDayScreen', (type == 0) ? {
-        exercise: {
-            key: key,
-            name: name,
-            instructions: instructions,
-            sets: sets,
-            type: type,
-            minReps: minReps,
-            maxReps: maxReps,
-            rest: rest
+        navigation.navigate('SetupWorkoutDayScreen', (type == 0) ? {
+            exercise: {
+                key: null,
+                name: name,
+                instructions: instructions,
+                sets: (sets == null) ? 0 : parseInt(sets),
+                type: type,
+                minReps: (minReps == null) ? 0 : parseInt(minReps),
+                maxReps: (maxReps == null) ? 0 : parseInt(maxReps),
+                rest: (rest == null) ? 0 : parseInt(rest)
+            }
+        } : {
+            exercise: {
+                key: null,
+                name: name,
+                instructions: instructions,
+                sets: (sets == null) ? 0 : parseInt(sets),
+                type: type,
+                duration: (duration == null) ? 0 : parseInt(duration),
+                rest: (rest == null) ? 0 : parseInt(rest)
+            }
+        });
+    }
+
+    const editWorkout = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_EXERCISE_NAME_TEXT, null);
+            return;
         }
-    } : {
-        exercise: {
-            key: key,
-            name: name,
-            instructions: instructions,
-            sets: sets,
-            type: type,
-            duration: duration,
-            rest: rest
-        }
-    });
+
+        navigation.navigate('SetupWorkoutDayScreen', (type == 0) ? {
+            exercise: {
+                key: key,
+                name: name,
+                instructions: instructions,
+                sets: (sets == null) ? 0 : parseInt(sets),
+                type: type,
+                minReps: (minReps == null) ? 0 : parseInt(minReps),
+                maxReps: (maxReps == null) ? 0 : parseInt(maxReps),
+                rest: (rest == null) ? 0 : parseInt(rest)
+            }
+        } : {
+            exercise: {
+                key: key,
+                name: name,
+                instructions: instructions,
+                sets: (sets == null) ? 0 : parseInt(sets),
+                type: type,
+                duration: (duration == null) ? 0 : parseInt(duration),
+                rest: (rest == null) ? 0 : parseInt(rest)
+            }
+        });
+    }
 
     // Sets
     const changeSetsHandler = (value) => setSets(value);

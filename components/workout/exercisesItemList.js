@@ -10,23 +10,23 @@ export default function ExercisesItemList(exercises){
         <View key={item.key} style={styles.box}>
             <Text style={[styles.text, {alignSelf: 'center'}]}>{item.name}</Text>
                     
-            <View style={styles.row}>
+            <View style={styles.row1}>
                 <Text style={styles.text}>Sets</Text>
 
-                <Text style={styles.text}>{item.sets}</Text>
+                <Text style={styles.textValue}>{item.sets}</Text>
             </View>
 
             {(item.type == 0) ? 
-            <View style={styles.row}>
+            <View style={styles.row2}>
                 <Text style={styles.text}>Total Reps</Text>
 
-                <Text style={styles.text}>{item.totals}</Text>
+                <Text style={styles.textValue}>{item.totals}</Text>
             </View>
             :
-            <View style={styles.row}>
+            <View style={styles.row2}>
                 <Text style={styles.text}>Total Duration</Text>
 
-                <Text style={styles.text}>{item.totals}s</Text>
+                <Text style={styles.textValue}>{item.totals}s</Text>
             </View>
             }
         </View>
@@ -48,7 +48,13 @@ const styles = StyleSheet.create({
         elevation: 3,
     },
 
-    row: {
+    row1: {
+        width: '100%', 
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+        marginBottom: 8
+    },
+    row2: {
         width: '100%', 
         flexDirection: 'row', 
         justifyContent: 'space-between'
@@ -59,4 +65,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: PRIMARY_COLOR
     },
+    textValue: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: TERTIARY_COLOR
+    }
 });

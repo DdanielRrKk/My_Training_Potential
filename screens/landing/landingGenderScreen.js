@@ -10,6 +10,9 @@ import ContinueButton from '../../components/misc/setup/continueButton';
 import GroupButton from '../../components/misc/groupButton';
 import BackButton from '../../components/misc/backButton';
 
+import { AlertOK } from '../../helpers/alerts';
+import { ALERT_WARNING_TITLE, ALERT_GENDER_TEXT } from '../../helpers/constants';
+
 
 
 export default function LandingGenderScreen({ navigation }){
@@ -23,7 +26,14 @@ export default function LandingGenderScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => SetUserGender(gender).then(() => navigation.push('LandingMeasurementsScreen'));
+    const openNextScreen = () => {
+        if(gender == null) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_GENDER_TEXT, null);
+            return;
+        }
+
+        SetUserGender(gender).then(() => navigation.push('LandingMeasurementsScreen'));
+    }
 
     return(
         <SafeAreaView style={stylesMisc.container}>

@@ -12,7 +12,13 @@ import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 import TextEntry from '../../../components/misc/textEntry';
 import ActionButton from '../../../components/misc/actionButton';
 
-import { NAME_MAX_LENGTH } from '../../../helpers/constants';
+import { IsInputTextValid } from '../../../helpers/validations';
+import { AlertOK } from '../../../helpers/alerts';
+import { 
+    NAME_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_WORKOUT_PLAN_NAME_TEXT
+} from '../../../helpers/constants';
 
 
 
@@ -146,6 +152,11 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
         if(number == 7) navigation.navigate('SetupWorkoutDayScreen', sunday);
     }
     const createWorkoutPlan = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_NAME_TEXT, null);
+            return;
+        }
+        
         SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
             DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
             navigation.setOptions({ tabBarVisible: true });
@@ -153,6 +164,11 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
         });
     }
     const saveWorkoutPlan = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_NAME_TEXT, null);
+            return;
+        }
+
         SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
             DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
             navigation.setOptions({ tabBarVisible: true });

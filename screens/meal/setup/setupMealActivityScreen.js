@@ -10,6 +10,9 @@ import SelectionButton from '../../../components/misc/setup/selectionButton';
 import BackButton from '../../../components/misc/backButton';
 import ContinueButton from '../../../components/misc/setup/continueButton';
 
+import { AlertOK } from '../../../helpers/alerts';
+import { ALERT_WARNING_TITLE, ALERT_MEAL_ACTIVITY_LEVEL_TEXT } from '../../../helpers/constants';
+
 
 
 export default function SetupMealActivityScreen({ navigation }){
@@ -23,7 +26,14 @@ export default function SetupMealActivityScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => SetActivityLevel(activityLevel).then(() => navigation.push('SetupMealResultsScreen'));
+    const openNextScreen = () => {
+        if(activityLevel == null) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_MEAL_ACTIVITY_LEVEL_TEXT, null);
+            return;
+        }
+
+        SetActivityLevel(activityLevel).then(() => navigation.push('SetupMealResultsScreen'));
+    }
 
     return(
         <SafeAreaView style={stylesMisc.container}>

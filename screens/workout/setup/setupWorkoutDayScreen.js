@@ -10,7 +10,13 @@ import TextEntry from '../../../components/misc/textEntry';
 import ActionButton from '../../../components/misc/actionButton';
 import WorkoutItemList from '../../../components/workout/workoutItemList';
 
-import { NAME_MAX_LENGTH } from '../../../helpers/constants';
+import { IsInputTextValid } from '../../../helpers/validations';
+import { AlertOK } from '../../../helpers/alerts';
+import { 
+    NAME_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_WORKOUT_DAY_NAME_TEXT
+} from '../../../helpers/constants';
 
 import { AntDesign } from '@expo/vector-icons';
 
@@ -66,13 +72,20 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
 
     const addWorkout= () => navigation.navigate('SetupWorkoutExerciseScreen');
 
-    const saveDay = () => navigation.navigate('SetupWorkoutPlanScreen', {
-        day: {
-            day_number: dayNumber,
-            name: name,
-            exercises: exercises
+    const saveDay = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_DAY_NAME_TEXT, null);
+            return;
         }
-    });
+
+        navigation.navigate('SetupWorkoutPlanScreen', {
+            day: {
+                day_number: dayNumber,
+                name: name,
+                exercises: exercises
+            }
+        });
+    }
     
 
     return(

@@ -182,7 +182,7 @@ export const stylesWorkout = StyleSheet.create({
         color: TERTIARY_COLOR
     },
     sets: {
-        marginTop: 16,
+        marginVertical: 16,
         fontSize: 20,
         fontWeight: 'bold',
         color: TERTIARY_COLOR
@@ -275,6 +275,7 @@ export const stylesWorkout = StyleSheet.create({
     btn_active: {
         fontSize: 24,
         backgroundColor: PRIMARY_COLOR,
+        marginRight: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 10,
@@ -286,6 +287,7 @@ export const stylesWorkout = StyleSheet.create({
     btn_active_down: {
         fontSize: 24,
         backgroundColor: PRIMARY_COLOR,
+        marginLeft: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 10,
@@ -302,6 +304,7 @@ export const stylesWorkout = StyleSheet.create({
     btn_unactive: {
         fontSize: 24,
         backgroundColor: SECONDARY_COLOR,
+        marginRight: 8,
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 10,

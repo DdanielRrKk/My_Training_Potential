@@ -10,7 +10,13 @@ import ContinueButton from '../../components/misc/setup/continueButton';
 import BackButton from '../../components/misc/backButton';
 import TextEntry from '../../components/misc/textEntry';
 
-import { NAME_MAX_LENGTH } from '../../helpers/constants';
+import { IsInputTextValid } from '../../helpers/validations';
+import { AlertOK } from '../../helpers/alerts';
+import { 
+    NAME_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_NAME_TEXT
+} from '../../helpers/constants';
 
 
 
@@ -25,7 +31,14 @@ export default function LandingNameScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const openNextScreen = () => SetUserName(name).then(() => navigation.push('LandingGenderScreen'));
+    const openNextScreen = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_NAME_TEXT, null);
+            return;
+        }
+
+        SetUserName(name).then(() => navigation.push('LandingGenderScreen'));
+    }
     
     return(
         <SafeAreaView style={stylesMisc.container}>

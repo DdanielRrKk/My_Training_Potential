@@ -10,6 +10,10 @@ import WeightPopup from '../../components/home/weightPopup';
 import ActionButton from '../../components/misc/actionButton';
 import { WeightLogItemList } from '../../components/home/logItemList';
 
+import { IsInputTextValid } from '../../helpers/validations';
+import { AlertOK } from '../../helpers/alerts';
+import { ALERT_WARNING_TITLE, ALERT_WEIGHT_TEXT } from '../../helpers/constants';
+
 
 
 export default function WeightScreen({ navigation }){
@@ -31,8 +35,14 @@ export default function WeightScreen({ navigation }){
     const openPrevScreen = () => navigation.goBack();
 
     const updateWeightLog = () => {
-        SetWeightLogData(currentWeight);
         setPopupFlag(false);
+
+        if(!IsInputTextValid(currentWeight)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WEIGHT_TEXT, null);
+            return;
+        }
+
+        SetWeightLogData(currentWeight);
     }
 
     const openPopup = () => setPopupFlag(true);

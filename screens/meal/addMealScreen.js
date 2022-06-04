@@ -15,8 +15,15 @@ import TextEntry from '../../components/misc/textEntry';
 import ActionButton from '../../components/misc/actionButton';
 import NumberInput from '../../components/misc/numberInput';
 
+import { IsInputTextValid } from '../../helpers/validations';
+import { AlertOK } from '../../helpers/alerts';
 import { GetCorrectTextInput } from '../../helpers/helpers';
-import { NAME_MAX_LENGTH, NUTRITIONS_MAX_LENGTH } from '../../helpers/constants';
+import { 
+    NAME_MAX_LENGTH, 
+    NUTRITIONS_MAX_LENGTH,
+    ALERT_WARNING_TITLE,
+    ALERT_MEAL_NAME_TEXT
+} from '../../helpers/constants';
 
 
 
@@ -56,6 +63,11 @@ export default function AddMealScreen({ navigation, route }){
     const decFatHandler = () => setFat(`${GetCorrectTextInput(fat, false)}`);
 
     const addMeal = () => {
+        if(!IsInputTextValid(name)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_MEAL_NAME_TEXT, null);
+            return;
+        }
+
         const tempCalories = (calories == '') ? 0 : parseInt(calories);
         const tempCarbs = (carbs == '') ? 0 : parseInt(carbs);
         const tempProtein = (protein == '') ? 0 : parseInt(protein);

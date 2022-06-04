@@ -19,7 +19,7 @@ import WorkoutLogsScreen from '../screens/home/workoutLogScreen';
 import OpenMealLogScreen from '../screens/home/openMealLogScreen';
 import OpenWorkoutLogScreen from '../screens/home/openWorkoutLogScreen';
 
-import MainSettingsScreen from '../screens/home/settings/mainSettings';
+import MainSettingsScreen from '../screens/home/settings/mainSettingsScreen';
 import EditUserDataScreen from '../screens/home/settings/editUserDataScreen';
 import EditMealDataScreen from '../screens/home/settings/editMealDataScreen';
 

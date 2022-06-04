@@ -27,6 +27,26 @@ export const WORKOUT_TIME_MAX_LENGTH = 5;
 
 
 export const ALERT_WARNING_TITLE = 'Warning !';
+
 export const ALERT_NOT_SETUP_PLAN_TEXT = 'You have not setted a plan.';
 export const ALERT_RESET_SETUP_PLAN_TEXT = 'If you reset your plan setup, you will lose all of your data and progress. Do you want to continue ?';
 export const ALERT_DELETE_ACCOUNT_TEXT = 'If you delete your account, you will lose all of your data and progress. Do you want to continue ?';
+
+export const ALERT_NAME_TEXT = 'Not a valid name.';
+export const ALERT_GENDER_TEXT = 'Select one of the gender options.';
+export const ALERT_AGE_TEXT = 'Not a valid age.';
+export const ALERT_WEIGHT_TEXT = 'Not a valid weight.';
+export const ALERT_HEIGHT_TEXT = 'Not a valid height.';
+
+export const ALERT_CALORIES_TEXT = 'Not a valid calories goal.';
+export const ALERT_CARBS_TEXT = 'Not a valid carbs goal.';
+export const ALERT_PROTEIN_TEXT = 'Not a valid protein goal.';
+export const ALERT_FAT_TEXT = 'Not a valid fat goal.';
+
+export const ALERT_MEAL_GOAL_TEXT = 'Select one of the meal goal options.';
+export const ALERT_MEAL_ACTIVITY_LEVEL_TEXT = 'Select one of the activity level options.';
+export const ALERT_MEAL_NAME_TEXT = 'Not a valid meal name.';
+
+export const ALERT_WORKOUT_EXERCISE_NAME_TEXT = 'Not a valid exercise name.';
+export const ALERT_WORKOUT_DAY_NAME_TEXT = 'Not a valid workout name.';
+export const ALERT_WORKOUT_PLAN_NAME_TEXT = 'Not a valid workout plan name.';
