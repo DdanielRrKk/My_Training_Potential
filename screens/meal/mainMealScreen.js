@@ -13,7 +13,7 @@ import { stylesMeal } from '../../styles/mealStyles';
 import MealBox from '../../components/meal/mealBox';
 import WaterBox from '../../components/meal/waterBox';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
-
+import { WATER_INTAKE_VALUE } from '../../helpers/constants';
 
 
 export default function MainMealScreen({ navigation }){
@@ -57,35 +57,11 @@ export default function MainMealScreen({ navigation }){
             dinnerCalories,
             isMealSetup
         }) => { 
-            // if(isGood) {
-            //     if(!isMealSetup) {
-            //         setIsMealSetup(isMealSetup);
-            //         return;
-            //     }
-            //     setCalories(calories);
-            //     setCarbs(carbs);
-            //     setProtein(protein);
-            //     setFat(fat);
-
-            //     setCaloriesGoal(caloriesGoal);
-            //     setCarbsGoal(carbsGoal);
-            //     setProteinGoal(proteinGoal);
-            //     setFatGoal(fatGoal);
-
-            //     setWater(water);
-
-            //     setBreakfastCalories(breakfastCalories);
-            //     setLunchCalories(lunchCalories);
-            //     setDinnerCalories(dinnerCalories);
-                
-            //     setIsMealSetup(isMealSetup);
-            // }
-
-            if(isGood && !isMealSetup) {
-                setIsMealSetup(isMealSetup);
-                return;
-            }
-            if(isGood && isMealSetup) {
+            if(isGood) {
+                if(!isMealSetup) {
+                    setIsMealSetup(isMealSetup);
+                    return;
+                }
                 setCalories(calories);
                 setCarbs(carbs);
                 setProtein(protein);
@@ -145,16 +121,16 @@ export default function MainMealScreen({ navigation }){
 
     const addWaterHandler = () => {
         AddWater();
-        setWater(water + 250);
+        setWater(water + WATER_INTAKE_VALUE);
     }
     
     const removeWaterHandler = () => {
         RemoveWater();
-        if((water - 250) <= 0) {
+        if((water - WATER_INTAKE_VALUE) <= 0) {
             setWater(0);
             return;
         }
-        setWater(water - 250);
+        setWater(water - WATER_INTAKE_VALUE);
     }
 
     const openAddBreackfastScreen = () => navigation.navigate('AddMealScreen', {meal_number: 1});

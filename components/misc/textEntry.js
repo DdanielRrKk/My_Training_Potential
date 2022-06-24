@@ -5,13 +5,14 @@ import { SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
 
 
 
-export default function TextEntry({ style, onChangeText, value, maxLength, isNumeric = false }){    
+export default function TextEntry({ style, onChangeText, value, maxLength, placeholder, isNumeric = false }){    
     if(isNumeric) {
         return(
             <TextInput
                 style={[styles.entry, style]}
                 onChangeText={onChangeText}
                 value={value}
+                placeholder={placeholder}
                 keyboardType='numeric'
                 maxLength={maxLength}/>
         );
@@ -22,6 +23,7 @@ export default function TextEntry({ style, onChangeText, value, maxLength, isNum
             style={[styles.entry, style]}
             onChangeText={onChangeText}
             value={value}
+            placeholder={placeholder}
             maxLength={maxLength}/>
     );
 };

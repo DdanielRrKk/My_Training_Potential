@@ -17,7 +17,7 @@ export default function LandingScreen({ navigation }){
                 <Text style={stylesLanding.primary_title}>Welcome to</Text>
                 <Text style={stylesLanding.secondary_title}>My Training Potential</Text>
 
-                <Text style={stylesLanding.info}>While strength training, for example, you can do a higher number of reps with a lower weight. Increase the number of repetitions only after you’ve spent a few weeks mastering an exercise.</Text>
+                <Text style={stylesLanding.info}>This is a pocket fitness app that helps you monitor your daily nutrition intake and training progress.</Text>
             </View>
         
             <ContinueButton pressHandler={openNextScreen}/>
