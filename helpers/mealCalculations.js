@@ -11,11 +11,17 @@ function calculateBMRWomen(weight, height, age) {
 
 // Active Metabolic Rate - AMR (calories with activity)
 function calculateAMR(bmr, activity) {
-    if(activity = 1) return (bmr * 1.2); // little to no exercise
-    if(activity = 2) return (bmr * 1.375); // exercise 1 - 3 days per week
-    if(activity = 3) return (bmr * 1.55); // exercise 3 - 5 days per week
-    if(activity = 4) return (bmr * 1.725); // exercise 6 - 7 days per week
-    if(activity = 5) return (bmr * 1.9); // hard exercise 6 - 7 days per week
+    switch(activity) {
+        case 1: return (bmr * 1.2); // little to no exercise
+        case 2: return (bmr * 1.375); // exercise 1 - 3 days per week
+        case 3: return (bmr * 1.55); // exercise 3 - 5 days per week
+        case 4: return (bmr * 1.725); // exercise 6 - 7 days per week
+        case 5: return (bmr * 1.9); // hard exercise 6 - 7 days per week
+        default: {
+            console.log('no activity');
+            return bmr;
+        }
+    }
 }
 
 // Ideal Body Weight - IBW
@@ -34,14 +40,15 @@ export function getIdealWeight(gender, height) {
 
 export function calculateCalories(weight, height, age, gender, activity, goal = null) {
     const bmr = (gender == 1) ? calculateBMRMen(weight, height, age) : calculateBMRWomen(weight, height, age);
+    const amr = calculateAMR(bmr, activity);
+
     if(goal == 1) { // weight loss
-        const amr = calculateAMR(bmr, activity);
         return (amr - (amr * 0.15)); // 15% less calories 
     }
     if(goal == 3) { // muscle growth
-        const arm = calculateAMR(bmr, activity);
-        return (arm + 500); // 500 calories more (calories surplus)
+        return (amr + 500); // 500 calories more (calories surplus)
     }
+    return amr;
 }
 
 export function calculateCarbs(weight, height, age, gender, activity, goal = null) {
@@ -97,4 +104,30 @@ export function calculateRecommendedCalories(calories) {
         dinnerRecommendedMin: dinnerCalories - range,
         dinnerRecommendedMax: dinnerCalories + range,
     }
+}
+
+
+
+export function calculateAllMacros(weight, height, age, gender, activity, goal = null) {
+    const bmr = (gender == 1) ? calculateBMRMen(weight, height, age) : calculateBMRWomen(weight, height, age);
+    const amr = calculateAMR(bmr, activity);
+    
+    let calories = amr; // maintain weight / normal amr
+    if(goal == 1) calories - (amr * 0.15) // weight loss / 15% less calories
+    if(goal == 3) calories + 500 // muscle growth / 500 calories more (calories surplus)
+
+    const calories_from_carbs = (calories * 0.5); // 50% from all calories
+    const calories_from_protein = (calories * 0.25); // 25% from all calories
+    const calories_from_fat = (calories * 0.25); // 25% from all calories
+
+    const carbs = (calories_from_carbs / 4); // grams of carbs
+    const protein = (calories_from_protein / 4); // grams of protein
+    const fat = (calories_from_fat / 9); // grams of fat
+
+    return {
+        calories: calories,
+        carbs: carbs,
+        protein: protein,
+        fat: fat
+    };
 }

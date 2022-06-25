@@ -87,10 +87,17 @@ export async function SetWorkoutPlan(
         const userGoals = JSON.parse(userGoalsResult);
         // console.log('userGoals', userGoals);
 
-        const calories = parseInt(calculateCalories(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        const carbs = parseInt(calculateCarbs(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        const protein = parseInt(calculateProtein(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        const fat = parseInt(calculateFat(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        const macros = calculateAllMacros(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal);
+
+        const calories = parseInt(macros.calories);
+        const carbs = parseInt(macros.carbs);
+        const protein = parseInt(macros.protein);
+        const fat = parseInt(macros.fat);
+
+        // const calories = parseInt(calculateCalories(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        // const carbs = parseInt(calculateCarbs(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        // const protein = parseInt(calculateProtein(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
+        // const fat = parseInt(calculateFat(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
 
         // console.log('calories', calories);
         // console.log('carbs', carbs);

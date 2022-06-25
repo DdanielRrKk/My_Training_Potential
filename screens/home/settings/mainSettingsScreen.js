@@ -17,7 +17,8 @@ import {
     SYSTEM_ALL_SETUP,
 
     ALERT_WARNING_TITLE,
-    ALERT_NOT_SETUP_PLAN_TEXT,
+    ALERT_NOT_SETUP_MEAL_PLAN_TEXT,
+    ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT,
     ALERT_RESET_SETUP_PLAN_TEXT,
     ALERT_DELETE_ACCOUNT_TEXT
 } from '../../../helpers/constants';
@@ -71,19 +72,19 @@ export default function MainSettingsScreen({ navigation }){
 
     const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
     const openEditMealDataScreen = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
         navigation.navigate('EditMealDataScreen');
     }
     const openEditWorkoutDataScreen = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
         navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
     const resetMealSetup = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
         AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetMealSetupHandler);
     }
     const resetWorkoutSetup = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_PLAN_TEXT, canceledEvent); return; }
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
         AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetWorkoutSetupHandler);
     }
     const deleteAccount = () => AlertYESNO(ALERT_WARNING_TITLE, ALERT_DELETE_ACCOUNT_TEXT, canceledEvent, deleteAccountHandler);

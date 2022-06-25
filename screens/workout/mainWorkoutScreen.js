@@ -42,28 +42,16 @@ export default function MainWorkoutScreen({ navigation }){
         let isGood = true;
 
         GetWorkoutScreenData().then(({ name, days, isWorkoutSetup}) => { 
-            // if(isGood) {
-            //     if(!isWorkoutSetup) {
-            //         setIsWorkoutSetup(isWorkoutSetup);
-            //         return;
-            //     }
+            if(isGood) {
+                if(!isWorkoutSetup) {
+                    setIsWorkoutSetup(isWorkoutSetup);
+                    return;
+                }
 
-            //     setName(name);
-            //     const tempArray = getSortedWorkoutDays(days);
-            //     setDays(tempArray);
-            //     setIsWorkoutSetup(isWorkoutSetup);
-            // }
-
-            if(isGood && !isWorkoutSetup) {
-                setIsWorkoutSetup(isWorkoutSetup);
-                return;
-            }
-            if(isGood && isWorkoutSetup) {
                 setName(name);
                 const tempArray = getSortedWorkoutDays(days);
                 setDays(tempArray);
                 setIsWorkoutSetup(isWorkoutSetup);
-                return;
             }
         });
 
