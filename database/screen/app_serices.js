@@ -5,7 +5,7 @@ import {
     MEAL_LOG
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/validations';
-import { getCurrentDateForLog, getCurrentDateString, isCurrentDate } from '../../helpers/dateHelper';
+import { getCurrentDateForLog, getCurrentDateString } from '../../helpers/dateHelper';
 
 
 
@@ -63,32 +63,32 @@ export async function SaveDataIfDayChanged() {
             return;
         }
 
-        if(isCurrentDate(mealLog[mealLog.length - 1].dateString)) {
-            // console.log('lastDayOpenedString is current day');
+        if(!(mealLog[0].dateString == dateString)) {
+            // console.log('lastDayOpenedString is old');
+            // console.log('mealLog before', mealLog);
+            const lastKey = (mealLog.length == 0) ? 1 : mealLog[mealLog.length - 1].key + 1;
+            const log = [{
+                key: lastKey,
+                water: 0,
+                totalCalories: 0,
+                totalCarbs: 0,
+                totalProtein: 0,
+                totalFat: 0,
+                caloriesGoal: userGoals.caloriesGoal,
+                carbsGoal: userGoals.carbsGoal,
+                proteinGoal: userGoals.proteinGoal,
+                fatGoal: userGoals.fatGoal,
+                date: currentDate,
+                dateString: dateString
+            }, ...mealLog];
+            // console.log('mealLog after', log);
+
+            await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(log));        
+            // console.log('work done');
             return;
         }
 
-        // console.log('lastDayOpenedString is old');
-        // console.log('mealLog before', mealLog);
-        const lastKey = (mealLog.length == 0) ? 1 : mealLog[mealLog.length - 1].key + 1;
-        const log = [{
-            key: lastKey,
-            water: 0,
-            totalCalories: 0,
-            totalCarbs: 0,
-            totalProtein: 0,
-            totalFat: 0,
-            caloriesGoal: userGoals.caloriesGoal,
-            carbsGoal: userGoals.carbsGoal,
-            proteinGoal: userGoals.proteinGoal,
-            fatGoal: userGoals.fatGoal,
-            date: currentDate,
-            dateString: dateString
-        }, ...mealLog];
-        // console.log('mealLog after', log);
-
-        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(log));        
-        // console.log('work done');
+        // console.log('lastDayOpenedString is current day');
         return;
     } catch (error) {
         console.log('SaveDataIfDayChanged error');

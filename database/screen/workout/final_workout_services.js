@@ -14,7 +14,7 @@ export async function SetWorkoutLogData(day_name, total_time, finished_exercises
         console.log('workoutLog before', workoutLog);
         
         const currentDate = getCurrentDateForLog();
-        const lastKey = (workoutLog.length == 0) ? 1 : workoutLog[workoutLog.length - 1].key + 1;
+        const lastKey = (workoutLog.length == 0) ? 1 : workoutLog[0].key + 1;
         const log = [{
             key: lastKey,
             name: day_name,

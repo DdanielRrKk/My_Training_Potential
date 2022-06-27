@@ -22,13 +22,6 @@ export function getCurrentDateForLog() {
 
 
 
-export function isCurrentDate(recorderDate) {
-    const today = getCurrentDateString();
-    return (today == recorderDate);
-}
-
-
-
 export function getCurrentDateString() {
     const today = new Date();
     return `${today.getDate()}-${today.getMonth()}-${today.getFullYear()}`;
