@@ -41,10 +41,10 @@ export async function GetHomeScreenData() {
                 // console.log('mealLog', mealLog);
                 // console.log('userGoals', userGoals);
 
-                const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalCalories, userGoals.caloriesGoal);
-                const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalCarbs, userGoals.carbsGoal);
-                const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalProtein, userGoals.proteinGoal);
-                const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalFat, userGoals.fatGoal);
+                const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCalories, userGoals.caloriesGoal);
+                const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCarbs, userGoals.carbsGoal);
+                const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[0].totalProtein, userGoals.proteinGoal);
+                const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[0].totalFat, userGoals.fatGoal);
 
                 // console.log('percentageCalories', percentageCalories);
                 // console.log('percentageCarbs', percentageCarbs);
@@ -130,10 +130,10 @@ export async function GetHomeScreenData() {
                 // console.log('userGoals', userGoals);
                 // console.log('todaysWorkout', todaysWorkout);
 
-                const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalCalories, userGoals.caloriesGoal);
-                const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalCarbs, userGoals.carbsGoal);
-                const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalProtein, userGoals.proteinGoal);
-                const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[mealLog.length - 1].totalFat, userGoals.fatGoal);
+                const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCalories, userGoals.caloriesGoal);
+                const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCarbs, userGoals.carbsGoal);
+                const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[0].totalProtein, userGoals.proteinGoal);
+                const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[0].totalFat, userGoals.fatGoal);
 
                 // console.log('percentageCalories', percentageCalories);
                 // console.log('percentageCarbs', percentageCarbs);

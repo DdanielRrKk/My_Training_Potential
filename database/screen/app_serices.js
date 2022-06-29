@@ -2,7 +2,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_STATE,
     USER_GOALS,
-    MEAL_LOG
+    MEAL_LOG,
+    MEAL_BREAKFAST,
+    MEAL_LUNCH,
+    MEAL_DINNER
 } from '../database_stores';
 import { IsResultEmpty } from '../../helpers/validations';
 import { getCurrentDateForLog, getCurrentDateString } from '../../helpers/dateHelper';
@@ -85,6 +88,42 @@ export async function SaveDataIfDayChanged() {
 
             await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(log));        
             // console.log('work done');
+
+            const breakfastResult = await AsyncStorage.getItem(MEAL_BREAKFAST);
+            const breakfast = JSON.parse(breakfastResult);
+            await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify({
+                recommendedMin: breakfast.recommendedMin,
+                recommendedMax: breakfast.recommendedMax,
+                totalCalories: null,
+                totalCarbs: null,
+                totalProtein: null,
+                totalFat: null,
+                foods: []
+            })); 
+
+            const lunchResult = await AsyncStorage.getItem(MEAL_LUNCH);
+            const lunch = JSON.parse(lunchResult);
+            await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify({
+                recommendedMin: lunch.recommendedMin,
+                recommendedMax: lunch.recommendedMax,
+                totalCalories: null,
+                totalCarbs: null,
+                totalProtein: null,
+                totalFat: null,
+                foods: []
+            })); 
+
+            const dinnerResult = await AsyncStorage.getItem(MEAL_DINNER);
+            const dinner = JSON.parse(dinnerResult);
+            await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify({
+                recommendedMin: dinner.recommendedMin,
+                recommendedMax: dinner.recommendedMax,
+                totalCalories: null,
+                totalCarbs: null,
+                totalProtein: null,
+                totalFat: null,
+                foods: []
+            })); 
             return;
         }
 

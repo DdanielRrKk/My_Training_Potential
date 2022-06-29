@@ -28,6 +28,7 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
         }
     }, [ route.params?.item ]);
 
+    console.log('note', note);
 
     const openPrevScreen = () => navigation.goBack();
 
@@ -53,11 +54,22 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
                     </View>
                 </View>
 
-                <Text style={stylesMisc.subtitle}>Note</Text>
+                { note == null ?
+                    null
+                    :
+                    <>
+                        <Text style={stylesMisc.subtitle}>Note</Text>
+
+                        <View style={stylesOpenLog.note_box}>
+                            <Text style={stylesOpenLog.note_text}>{note}</Text>
+                        </View>
+                    </>
+                }
+                {/* <Text style={stylesMisc.subtitle}>Note</Text>
 
                 <View style={stylesOpenLog.note_box}>
                     <Text style={stylesOpenLog.note_text}>{note}</Text>
-                </View>
+                </View> */}
 
                 <Text style={stylesMisc.subtitle}>Exercises</Text>
 

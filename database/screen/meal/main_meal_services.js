@@ -57,11 +57,11 @@ export async function GetMainMealScreenData() {
         // console.log('mealLog', mealLog); 
 
         return {
-            water: mealLog[mealLog.length - 1].water,
-            calories: mealLog[mealLog.length - 1].totalCalories,
-            carbs: mealLog[mealLog.length - 1].totalCarbs,
-            protein: mealLog[mealLog.length - 1].totalProtein,
-            fat: mealLog[mealLog.length - 1].totalFat,
+            water: mealLog[0].water,
+            calories: mealLog[0].totalCalories,
+            carbs: mealLog[0].totalCarbs,
+            protein: mealLog[0].totalProtein,
+            fat: mealLog[0].totalFat,
             caloriesGoal: userGoals.caloriesGoal,
             carbsGoal: userGoals.carbsGoal,
             proteinGoal: userGoals.proteinGoal,
