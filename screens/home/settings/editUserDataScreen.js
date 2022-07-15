@@ -16,9 +16,11 @@ import { AlertOK } from '../../../helpers/alerts';
 import { 
     NAME_MAX_LENGTH, 
     AGE_MAX_LENGTH,
+    HEIGHT_MAX_LENGTH,
     ALERT_WARNING_TITLE,
-    ALERT_SETTINGS_NAME_TEXT,
-    ALERT_SETTINGS_AGE_TEXT
+    ALERT_NAME_TEXT,
+    ALERT_AGE_TEXT,
+    ALERT_HEIGHT_TEXT
 } from '../../../helpers/constants';
 
 
@@ -26,15 +28,17 @@ import {
 export default function EditUserDataScreen({ navigation }){
     const [name, setName] = React.useState(null);
     const [age, setAge] = React.useState(null);
+    const [height, setHeight] = React.useState(null);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetEditUserDataScreenData().then(({ name, age }) => { 
+        GetEditUserDataScreenData().then(({ name, age, height }) => { 
             if(isGood) {
                 setName(name);
                 setAge(age); 
+                setHeight(height);
             }
         });
 
@@ -43,13 +47,17 @@ export default function EditUserDataScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
 
-    const saveEditData = () => SetEditUserData(name, age).then(() => {
+    const saveEditData = () => SetEditUserData(name, age, height).then(() => {
         if(!IsInputTextValid(name)) {
-            AlertOK(ALERT_WARNING_TITLE, ALERT_SETTINGS_NAME_TEXT, null);
+            AlertOK(ALERT_WARNING_TITLE, ALERT_NAME_TEXT, null);
             return;
         }
         if(!IsInputNumberValid(age)) {
-            AlertOK(ALERT_WARNING_TITLE, ALERT_SETTINGS_AGE_TEXT, null);
+            AlertOK(ALERT_WARNING_TITLE, ALERT_AGE_TEXT, null);
+            return;
+        }
+        if(!IsInputNumberValid(height)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_HEIGHT_TEXT, null);
             return;
         }
 
@@ -78,6 +86,15 @@ export default function EditUserDataScreen({ navigation }){
                     value={age}
                     maxLength={AGE_MAX_LENGTH}
                     isNumeric={true}/>
+
+                <Text style={stylesMisc.subtitle}>Height</Text>
+
+                <TextEntry
+                    onChangeText={setHeight}
+                    value={height}
+                    maxLength={HEIGHT_MAX_LENGTH}
+                    isNumeric={true}/>
+                    
             </View>
 
             <ActionButton title='Save' pressHandler={saveEditData}/>

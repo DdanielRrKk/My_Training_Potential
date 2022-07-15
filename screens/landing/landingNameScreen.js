@@ -26,11 +26,11 @@ export default function LandingNameScreen({ navigation }){
     React.useEffect(() => {
         let isGood = true;
         GetUserName().then((value) => { if(isGood) setName(value); });
-        return () => {  isGood = false; } // to prevent memory leaks (clean up)
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
     }, []);
 
     const openPrevScreen = () => navigation.goBack();
-
+    
     const openNextScreen = () => {
         if(!IsInputTextValid(name)) {
             AlertOK(ALERT_WARNING_TITLE, ALERT_NAME_TEXT, null);

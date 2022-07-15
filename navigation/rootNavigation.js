@@ -39,6 +39,8 @@ import StartWorkoutScreen from '../screens/workout/startWorkoutScreen';
 import TimeWorkoutScreen from '../screens/workout/timeWorkoutScreen';
 import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 
+import CalculatorScreen from '../screens/learn/calculatorScreen';
+
 
 import { SaveDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
 
@@ -123,6 +125,8 @@ export default function RootNavigation() {
         <Screen name='StartWorkoutScreen' component={StartWorkoutScreen} options={{ headerMode: 'none' }} />
         <Screen name='TimeWorkoutScreen' component={TimeWorkoutScreen} options={{ headerMode: 'none' }} />
         <Screen name='FinalWorkoutScreen' component={FinalWorkoutScreen} options={{ headerMode: 'none' }} />
+
+        <Screen name='CalculatorScreen' component={CalculatorScreen} options={{ headerMode: 'none' }} />
       </Navigator>
     </NavigationContainer>
   );

@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "MyTrainingPotential",
+    "name": "My Training Potential",
     "slug": "MyTrainingPotential",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/mtp-icon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/mtp-splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,9 +21,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/mtp-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "versionCode": 1,
+      "package": "com.danielrk.MyTrainingPotential"
     },
     "web": {
       "favicon": "./assets/favicon.png"

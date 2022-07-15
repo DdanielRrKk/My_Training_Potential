@@ -22,7 +22,8 @@ export async function GetEditUserDataScreenData() {
         // console.log('user', user);
         return {
             name: user.name,
-            age: `${user.age}`
+            age: `${user.age}`,
+            height: `${user.height}`
         };
     } catch (error) {
         console.log('GetEditUserDataScreenData error');
@@ -30,15 +31,17 @@ export async function GetEditUserDataScreenData() {
     }
 }
 
-export async function SetEditUserData(name, age) {
+export async function SetEditUserData(name, age, height) {
     try {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
-        // console.log('user', user);
-        if(user.name == name && user.age == parseInt(age)) return;
-
-        if(user.name != name) user.name = name;
-        if(user.age != parseInt(age)) user.age = parseInt(age);
+        // console.log('user before', user);
+        if(user.name == name && user.age == parseInt(age) && user.height == parseInt(height)) return;
+        
+        user.name = name;
+        user.age = parseInt(age);
+        user.height = parseInt(height);        
+        // console.log('user after', user);
         await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
     } catch (error) {
         console.log('SetEditUserData error');

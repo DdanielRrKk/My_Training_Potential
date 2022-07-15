@@ -21,7 +21,7 @@ import {
 
 
 
-// get all seup data for home screen
+// get all data for home screen
 export async function GetHomeScreenData() {
     try {
         const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
@@ -29,7 +29,6 @@ export async function GetHomeScreenData() {
 
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
-        // console.log('user', user);
 
         switch(systemState) {
             case SYSTEM_USER_AND_MEAL_SETUP: {
@@ -38,22 +37,16 @@ export async function GetHomeScreenData() {
                 
                 const userGoals = JSON.parse(userGoalsResult);
                 const mealLog = JSON.parse(mealLogResult); 
-                // console.log('mealLog', mealLog);
-                // console.log('userGoals', userGoals);
 
                 const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCalories, userGoals.caloriesGoal);
                 const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCarbs, userGoals.carbsGoal);
                 const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[0].totalProtein, userGoals.proteinGoal);
                 const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[0].totalFat, userGoals.fatGoal);
 
-                // console.log('percentageCalories', percentageCalories);
-                // console.log('percentageCarbs', percentageCarbs);
-                // console.log('percentageProtein', percentageProtein);
-                // console.log('percentageFat', percentageFat);
-
                 return {
                     name: user.name,
                     weight: user.weight,
+                    steps: null, // =============
                     caloriesPercentage: percentageCalories,
                     carbsPercentage: percentageCarbs,
                     proteinPercentage: percentageProtein,
@@ -67,7 +60,6 @@ export async function GetHomeScreenData() {
                     isWorkoutSetup: false
                 };
             }
-
 
 
             case SYSTEM_USER_AND_WORKOUT_SETUP: {
@@ -84,11 +76,11 @@ export async function GetHomeScreenData() {
                     default: todaysWorkoutResult= '';
                 }
                 const todaysWorkout = JSON.parse(todaysWorkoutResult);
-                // console.log('todaysWorkout', todaysWorkout);
 
                 return {
                     name: user.name,
                     weight: user.weight,
+                    steps: null, // =============
                     caloriesPercentage: null,
                     carbsPercentage: null,
                     proteinPercentage: null,
@@ -102,7 +94,6 @@ export async function GetHomeScreenData() {
                     isWorkoutSetup: true
                 };
             }
-
 
 
             case SYSTEM_ALL_SETUP: {
@@ -125,24 +116,16 @@ export async function GetHomeScreenData() {
                 const mealLog = JSON.parse(mealLogResult); 
                 const userGoals = JSON.parse(userGoalsResult);
                 const todaysWorkout = JSON.parse(todaysWorkoutResult);
-     
-                // console.log('mealLog', mealLog);
-                // console.log('userGoals', userGoals);
-                // console.log('todaysWorkout', todaysWorkout);
 
                 const percentageCalories = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCalories, userGoals.caloriesGoal);
                 const percentageCarbs = GetPercentageOfSmallValueInBigValue(mealLog[0].totalCarbs, userGoals.carbsGoal);
                 const percentageProtein = GetPercentageOfSmallValueInBigValue(mealLog[0].totalProtein, userGoals.proteinGoal);
                 const percentageFat = GetPercentageOfSmallValueInBigValue(mealLog[0].totalFat, userGoals.fatGoal);
 
-                // console.log('percentageCalories', percentageCalories);
-                // console.log('percentageCarbs', percentageCarbs);
-                // console.log('percentageProtein', percentageProtein);
-                // console.log('percentageFat', percentageFat);
-
                 return {
                     name: user.name,
                     weight: user.weight,
+                    steps: null, // =============
                     caloriesPercentage: percentageCalories,
                     carbsPercentage: percentageCarbs,
                     proteinPercentage: percentageProtein,
@@ -158,10 +141,10 @@ export async function GetHomeScreenData() {
             }
 
 
-
             default: return {
                 name: user.name,
                 weight: user.weight,
+                steps: null, // =============
                 caloriesPercentage: null,
                 carbsPercentage: null,
                 proteinPercentage: null,

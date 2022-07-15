@@ -6,13 +6,19 @@ import { stylesLearn } from '../../styles/learnStyles';
 
 import Header from '../../components/misc/header';
 import LearnItemList from '../../components/learn/learnItemList';
+import CalculatorBox from '../../components/learn/calculatorBox';
 
 import { FAQ_LIST } from '../../helpers/constants';
 
 
 
-export default function MainLearnScreen(){
+export default function MainLearnScreen({ navigation }){
     const [openKey, setOpenKey] = React.useState(0);
+
+    const openCalculatorScreen = () => {
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('CalculatorScreen', { calculatorNumber: 1 });
+    }
 
     const openQuestionHandler = (key) => {
         if(key !== openKey) {
@@ -27,6 +33,12 @@ export default function MainLearnScreen(){
         <SafeAreaView style={stylesLearn.container}>
             <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
                 <Header title='Learning'/>
+                
+                <Text style={stylesMisc.subtitle}>Calculators</Text>
+
+                <CalculatorBox
+                    title='Calculate Ideal Weight'
+                    pressHandler={openCalculatorScreen}/>
 
                 <Text style={stylesMisc.subtitle}>FAQ</Text>
 

@@ -61,7 +61,6 @@ export async function SetWorkoutPlan(
         await AsyncStorage.setItem(USER_INFO, JSON.stringify(user));
 
 
-
         await AsyncStorage.setItem(WORKOUT_PLAN_NAME, plan_name);
 
         await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(monday));
@@ -73,7 +72,6 @@ export async function SetWorkoutPlan(
         await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(sunday));
 
         
-
         const systemStateResult = await AsyncStorage.getItem(SYSTEM_STATE);
         switch(parseInt(systemStateResult)) {
             case SYSTEM_USER_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_USER_AND_WORKOUT_SETUP)); break;
@@ -88,16 +86,10 @@ export async function SetWorkoutPlan(
         // console.log('userGoals', userGoals);
 
         const macros = calculateAllMacros(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal);
-
         const calories = parseInt(macros.calories);
         const carbs = parseInt(macros.carbs);
         const protein = parseInt(macros.protein);
         const fat = parseInt(macros.fat);
-
-        // const calories = parseInt(calculateCalories(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const carbs = parseInt(calculateCarbs(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const protein = parseInt(calculateProtein(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const fat = parseInt(calculateFat(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
 
         // console.log('calories', calories);
         // console.log('carbs', carbs);

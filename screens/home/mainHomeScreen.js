@@ -25,6 +25,7 @@ export default function MainHomeScreen({ navigation }){
 
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState('0');
+    const [steps, setSteps] = React.useState('0');
     
     const [caloriesPercentage, setCaloriesPercentage] = React.useState(null);
     const [carbsPercentage, setCarbsPercentage] = React.useState(null);
@@ -49,6 +50,7 @@ export default function MainHomeScreen({ navigation }){
         GetHomeScreenData().then(({
             name, 
             weight,
+            steps,
             caloriesPercentage,
             carbsPercentage,
             proteinPercentage,
@@ -64,6 +66,7 @@ export default function MainHomeScreen({ navigation }){
             if(isGood) {
                 setName(name);
                 setWeight(weight);
+                setSteps(steps);
 
                 if(isMealSetup) {
                     setCaloriesPercentage(parseFloat(caloriesPercentage));
@@ -123,6 +126,11 @@ export default function MainHomeScreen({ navigation }){
     const openWeightLogScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('WeightScreen');
+    }
+    const openStepsLogScreen = () => {
+        console.log('open steps');
+        // navigation.setOptions({ tabBarVisible: false });
+        // navigation.navigate('WeightScreen');
     }
 
     const openStartWorkoutScreen = () => {
@@ -191,6 +199,13 @@ export default function MainHomeScreen({ navigation }){
                         value={weight}
                         title='current weight'
                         pressHandler={openWeightLogScreen}/>
+
+                    <Text style={stylesMisc.subtitle}>Steps Log</Text>
+
+                    <LogBox 
+                        value={steps}
+                        title='steps today'
+                        pressHandler={openStepsLogScreen}/>
                     
                     <Text style={stylesMisc.subtitle}>History</Text>
 

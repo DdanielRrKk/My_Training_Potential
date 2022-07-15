@@ -90,17 +90,11 @@ export async function SetAndGetMealResults() {
         // console.log('userGoals', userGoals);
 
         const macros = calculateAllMacros(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal);
-
         const calories = parseInt(macros.calories);
         const carbs = parseInt(macros.carbs);
         const protein = parseInt(macros.protein);
         const fat = parseInt(macros.fat);
         
-        // const calories = parseInt(calculateCalories(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const carbs = parseInt(calculateCarbs(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const protein = parseInt(calculateProtein(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-        // const fat = parseInt(calculateFat(user.weight, user.height, user.age, user.gender, user.activityLevel, userGoals.mealGoal));
-
         // console.log('calories', calories);
         // console.log('carbs', carbs);
         // console.log('protein', protein);
@@ -110,7 +104,7 @@ export async function SetAndGetMealResults() {
         userGoals.carbsGoal = carbs;
         userGoals.proteinGoal = protein;
         userGoals.fatGoal = fat;
-        console.log('userGoals after', userGoals);
+        // console.log('userGoals after', userGoals);
         await AsyncStorage.setItem(USER_GOALS, JSON.stringify(userGoals));
 
 
