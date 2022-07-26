@@ -49,9 +49,9 @@ export default function MainSettingsScreen({ navigation }){
         } // to prevent memory leaks (clean up)
     }, [systemState]);
 
-    console.log('systemState settings', systemState);
-    console.log('isMealSetup settings', isMealSetup);
-    console.log('isWorkoutSetup settings', isWorkoutSetup);
+    // console.log('systemState settings', systemState);
+    // console.log('isMealSetup settings', isMealSetup);
+    // console.log('isWorkoutSetup settings', isWorkoutSetup);
     
     const canceledEvent = () => console.log("canceled");
 

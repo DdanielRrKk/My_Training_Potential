@@ -37,7 +37,7 @@ export default function MainLearnScreen({ navigation }){
                 <Text style={stylesMisc.subtitle}>Calculators</Text>
 
                 <CalculatorBox
-                    title='Calculate Ideal Weight'
+                    title='Healtch Calculators'
                     pressHandler={openCalculatorScreen}/>
 
                 <Text style={stylesMisc.subtitle}>FAQ</Text>

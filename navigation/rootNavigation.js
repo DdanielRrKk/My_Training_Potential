@@ -14,6 +14,7 @@ import LandingMeasurementsScreen from '../screens/landing/landingMeasurementsScr
 
 import TabNavigation from './tabNavigation';
 import WeightScreen from '../screens/home/weightScreen';
+import StepsScreen from '../screens/home/stepsScreen';
 import MealLogsScreen from '../screens/home/mealLogsScreen';
 import WorkoutLogsScreen from '../screens/home/workoutLogScreen';
 import OpenMealLogScreen from '../screens/home/openMealLogScreen';
@@ -101,6 +102,7 @@ export default function RootNavigation() {
       <Navigator initialRouteName='TabNavigation'>
         <Screen name='TabNavigation' component={Tabs} options={{ headerMode: 'none' }} />
         <Screen name='WeightScreen' component={WeightScreen} options={{ headerMode: 'none' }} />
+        <Screen name='StepsScreen' component={StepsScreen} options={{ headerMode: 'none' }} />
         <Screen name='MealLogsScreen' component={MealLogsScreen} options={{ headerMode: 'none' }} />
         <Screen name='WorkoutLogsScreen' component={WorkoutLogsScreen} options={{ headerMode: 'none' }} />
         <Screen name='OpenMealLogScreen' component={OpenMealLogScreen} options={{ headerMode: 'none' }} />

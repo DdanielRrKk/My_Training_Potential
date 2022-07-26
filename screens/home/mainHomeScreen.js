@@ -128,9 +128,8 @@ export default function MainHomeScreen({ navigation }){
         navigation.navigate('WeightScreen');
     }
     const openStepsLogScreen = () => {
-        console.log('open steps');
-        // navigation.setOptions({ tabBarVisible: false });
-        // navigation.navigate('WeightScreen');
+        navigation.setOptions({ tabBarVisible: false });
+        navigation.navigate('StepsScreen');
     }
 
     const openStartWorkoutScreen = () => {
