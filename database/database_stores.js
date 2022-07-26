@@ -33,3 +33,4 @@ export const WORKOUT_SUNDAY = 'workout_sunday';
 export const WEIGHT_LOG = 'weight_log';
 export const MEAL_LOG = 'meal_log';
 export const WORKOUT_LOG = 'workout_log';
+export const STEPS_LOG = 'steps_log';

@@ -32,6 +32,14 @@ export function WeightLogItemList(log){
         </View>
     ));
 };
+export function StepsLogItemList(log){
+    return log.map((item) => (
+        <View key={item.key} style={styles.container}>
+            <Text style={styles.text}>{item.steps} steps</Text>
+            <Text style={styles.text}>{item.date}</Text>
+        </View>
+    ));
+};
 
 
 

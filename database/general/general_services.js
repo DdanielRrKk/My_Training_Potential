@@ -16,7 +16,8 @@ import {
     WORKOUT_SUNDAY,
     WEIGHT_LOG,
     MEAL_LOG,
-    WORKOUT_LOG
+    WORKOUT_LOG,
+    STEPS_LOG
 } from '../database_stores';
 import { 
     SYSTEM_STATE_SCHEMA,
@@ -61,6 +62,7 @@ export async function CreateDatabase() {
         await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(LOG_SCHEMA));
         await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(LOG_SCHEMA));
         await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
+        await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(LOG_SCHEMA));
         return;
     } catch (error) {
         console.log('CreateDatabase error');

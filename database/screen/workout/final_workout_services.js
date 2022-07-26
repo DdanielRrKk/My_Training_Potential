@@ -10,11 +10,9 @@ export async function SetWorkoutLogData(day_name, total_time, finished_exercises
     try {
         const workoutLogResult = await AsyncStorage.getItem(WORKOUT_LOG);
         const workoutLog = JSON.parse(workoutLogResult);
-
-        console.log('workoutLog before', workoutLog);
+        // console.log('workoutLog before', workoutLog);
         
         const currentDate = getCurrentDateForLog();
-        
         const lastKey = workoutLog[0].key + 1;
         workoutLog.unshift({
             key: lastKey,
@@ -24,8 +22,7 @@ export async function SetWorkoutLogData(day_name, total_time, finished_exercises
             note: note,
             date: currentDate
         });
-        console.log('workoutLog after', workoutLog);
-
+        // console.log('workoutLog after', workoutLog);
         await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(workoutLog));
     } catch (error) {
         console.log('SetWorkoutLogData error');
