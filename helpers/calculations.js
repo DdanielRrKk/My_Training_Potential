@@ -1,6 +1,6 @@
 // Body Mass Index - BMI (screening for weight cathegory)
 export function calculateBMI(weight, height) {
-    const result = (weight / Math.sqrt(height));
+    const result = (weight / Math.pow(height, 2));
     return (Math.round(result * 100) / 100).toFixed(3);
 }
 

@@ -3,6 +3,7 @@ import {
     SYSTEM_STATE,
     USER_GOALS,
     MEAL_LOG,
+    STEPS_LOG,
     MEAL_BREAKFAST,
     MEAL_LUNCH,
     MEAL_DINNER
@@ -28,6 +29,24 @@ export async function GetAppState() {
 
 // save data if day changed
 export async function SaveDataIfDayChanged() {
+    try {
+        const currentDate = getCurrentDateForLog();
+        const dateString = getCurrentDateString();
+        // console.log('currentDate', currentDate);
+        // console.log('dateString', dateString);
+
+        await SaveMealData(currentDate, dateString);
+        await SaveStepsData(currentDate, dateString);
+        return;
+    } catch (error) {
+        console.log('SaveDataIfDayChanged error');
+        console.log(error);
+    }
+}
+
+
+
+export async function SaveMealDataIfDayChanged() {
     try {
         const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
         const mealLog = JSON.parse(mealLogResult);
@@ -131,7 +150,58 @@ export async function SaveDataIfDayChanged() {
         })); 
         return;
     } catch (error) {
-        console.log('SaveDataIfDayChanged error');
+        console.log('SaveMealDataIfDayChanged error');
+        console.log(error);
+    }
+}
+
+export async function SaveStepsDataIfDayChanged() {
+    try {
+        const stepsLogResult = await AsyncStorage.getItem(STEPS_LOG);
+        const stepsLog = JSON.parse(stepsLogResult);
+        // console.log('stepsLog', stepsLog);
+
+        const currentDate = getCurrentDateForLog();
+        const dateString = getCurrentDateString();
+        // console.log('currentDate', currentDate);
+        // console.log('dateString', dateString);
+
+        if(IsResultEmpty(stepsLog)) {
+            // console.log('lastDayOpenedString has no data');
+            // console.log('stepsLog before', stepsLog);
+        
+            stepsLog.push({
+                key: 1,
+                steps: 0,
+                date: currentDate,
+                dateString: dateString
+            });
+            // console.log('stepsLog after', stepsLog);
+            await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(stepsLog));
+            // console.log('work done');
+            return;
+        }
+
+        if((stepsLog[0].dateString == dateString)) {
+            // console.log('lastDayOpenedString is current day');
+            return;
+        }
+        
+        // console.log('lastDayOpenedString is old');
+        // console.log('stepsLog before', stepsLog);
+        const lastKey = stepsLog[0].key + 1;
+        stepsLog.unshift({
+            key: lastKey,
+            steps: 0,
+            date: currentDate,
+            dateString: dateString
+        });
+        // console.log('stepsLog after', stepsLog);
+        await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(stepsLog));       
+        // console.log('work done');
+        return;
+    } catch (error) {
+        console.log('SaveStepsDataIfDayChanged error');
         console.log(error);
     }
 }

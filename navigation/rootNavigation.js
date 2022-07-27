@@ -43,7 +43,7 @@ import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 import CalculatorScreen from '../screens/learn/calculatorScreen';
 
 
-import { SaveDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
+import { SaveMealDataIfDayChanged, SaveStepsDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
 
 import { SYSTEM_USER_AND_MEAL_SETUP, SYSTEM_ALL_SETUP } from '../helpers/constants';
 
@@ -53,6 +53,8 @@ export default function RootNavigation() {
   const [changeUpdater, setChangeUpdater] = React.useState(false);
   const [allGood, setAllGood] = React.useState(false);
   const [systemState, setSystemState] = React.useState(null);
+
+  // console.log('root good');
 
   React.useEffect(() => {
     let isGood = true;
@@ -64,7 +66,9 @@ export default function RootNavigation() {
         setSystemState(state);
         setAllGood(true);
         setChangeUpdater(false);
-        if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) SaveDataIfDayChanged();
+        // console.log('root good in');
+        SaveStepsDataIfDayChanged();
+        if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) SaveMealDataIfDayChanged();
       }
     });
 

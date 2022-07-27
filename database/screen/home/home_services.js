@@ -4,6 +4,7 @@ import {
     USER_INFO,
     USER_GOALS,
     MEAL_LOG,
+    STEPS_LOG,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
     WORKOUT_WEDNESDAY,
@@ -30,6 +31,10 @@ export async function GetHomeScreenData() {
         const userResult = await AsyncStorage.getItem(USER_INFO);
         const user = JSON.parse(userResult);
 
+        const stepsLogResult = await AsyncStorage.getItem(STEPS_LOG);
+        const stepsLog = JSON.parse(stepsLogResult);
+        // console.log('stepsLog home', stepsLog);
+
         switch(systemState) {
             case SYSTEM_USER_AND_MEAL_SETUP: {
                 const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
@@ -46,7 +51,7 @@ export async function GetHomeScreenData() {
                 return {
                     name: user.name,
                     weight: user.weight,
-                    steps: null, // =============
+                    steps: stepsLog[0].steps,
                     caloriesPercentage: percentageCalories,
                     carbsPercentage: percentageCarbs,
                     proteinPercentage: percentageProtein,
@@ -80,7 +85,7 @@ export async function GetHomeScreenData() {
                 return {
                     name: user.name,
                     weight: user.weight,
-                    steps: null, // =============
+                    steps: stepsLog[0].steps,
                     caloriesPercentage: null,
                     carbsPercentage: null,
                     proteinPercentage: null,
@@ -125,7 +130,7 @@ export async function GetHomeScreenData() {
                 return {
                     name: user.name,
                     weight: user.weight,
-                    steps: null, // =============
+                    steps: stepsLog[0].steps,
                     caloriesPercentage: percentageCalories,
                     carbsPercentage: percentageCarbs,
                     proteinPercentage: percentageProtein,
@@ -144,7 +149,7 @@ export async function GetHomeScreenData() {
             default: return {
                 name: user.name,
                 weight: user.weight,
-                steps: null, // =============
+                steps: stepsLog[0].steps,
                 caloriesPercentage: null,
                 carbsPercentage: null,
                 proteinPercentage: null,

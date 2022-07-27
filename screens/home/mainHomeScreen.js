@@ -39,7 +39,6 @@ export default function MainHomeScreen({ navigation }){
     
     const [todaysWorkout, setTodaysWorkout] = React.useState(null);
     
-
     // console.log('isMealSetup home', isMealSetup);
     // console.log('isWorkoutSetup home', isWorkoutSetup);
 
@@ -94,6 +93,7 @@ export default function MainHomeScreen({ navigation }){
         focus,
         name,
         weight,
+        steps,
         caloriesPercentage,
         carbsPercentage,
         proteinPercentage,
@@ -111,6 +111,8 @@ export default function MainHomeScreen({ navigation }){
             <LoadingScreen />
         );
     }
+
+
 
     const openOptionsScreen = () => navigation.navigate('MainSettingsScreen');
     
@@ -202,7 +204,7 @@ export default function MainHomeScreen({ navigation }){
                     <Text style={stylesMisc.subtitle}>Steps Log</Text>
 
                     <LogBox 
-                        value={steps}
+                        value={`${steps}`}
                         title='steps today'
                         pressHandler={openStepsLogScreen}/>
                     

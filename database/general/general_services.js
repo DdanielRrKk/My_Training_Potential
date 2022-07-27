@@ -39,30 +39,71 @@ import {
 // create the database
 export async function CreateDatabase() {
     try {
-        await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_STATE_SCHEMA));
+        const result1 = await AsyncStorage.getItem(SYSTEM_STATE);
+        if(result1 == null) await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_STATE_SCHEMA));
         
-        await AsyncStorage.setItem(USER_INFO, JSON.stringify(USER_INFO_SCHEMA));
+
+
+        const result2 = await AsyncStorage.getItem(USER_INFO);
+        if(result2 == null) await AsyncStorage.setItem(USER_INFO, JSON.stringify(USER_INFO_SCHEMA));
         
-        await AsyncStorage.setItem(USER_GOALS, JSON.stringify(USER_GOALS_SCHEMA));
+
+
+        const result3 = await AsyncStorage.getItem(USER_GOALS);
+        if(result3 == null) await AsyncStorage.setItem(USER_GOALS, JSON.stringify(USER_GOALS_SCHEMA));
         
-        await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(MEAL_SCHEMA));
-        await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(MEAL_SCHEMA));
-        await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(MEAL_SCHEMA));
+
+
+        const result4 = await AsyncStorage.getItem(MEAL_BREAKFAST);
+        if(result4 == null) await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(MEAL_SCHEMA));
         
-        await AsyncStorage.setItem(WORKOUT_PLAN_NAME, JSON.stringify(null));
+        const result5 = await AsyncStorage.getItem(MEAL_LUNCH);
+        if(result5 == null) await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(MEAL_SCHEMA));
         
-        await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        const result6 = await AsyncStorage.getItem(MEAL_DINNER);
+        if(result6 == null) await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(MEAL_SCHEMA));
         
-        await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(LOG_SCHEMA));
-        await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(LOG_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
-        await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(LOG_SCHEMA));
+
+
+        const result7 = await AsyncStorage.getItem(WORKOUT_PLAN_NAME);
+        if(result7 == null) await AsyncStorage.setItem(WORKOUT_PLAN_NAME, JSON.stringify(null));
+        
+
+
+        const result8 = await AsyncStorage.getItem(WORKOUT_MONDAY);
+        if(result8 == null) await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result9 = await AsyncStorage.getItem(WORKOUT_TUESDAY);
+        if(result9 == null) await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result10 = await AsyncStorage.getItem(WORKOUT_WEDNESDAY);
+        if(result10 == null) await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result11 = await AsyncStorage.getItem(WORKOUT_THURSDAY);
+        if(result11 == null) await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result12 = await AsyncStorage.getItem(WORKOUT_FRIDAY);
+        if(result12 == null) await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result13 = await AsyncStorage.getItem(WORKOUT_SATURDAY);
+        if(result13 == null) await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+        const result14 = await AsyncStorage.getItem(WORKOUT_SUNDAY);
+        if(result14 == null) await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
+        
+
+
+        const result15 = await AsyncStorage.getItem(WEIGHT_LOG);
+        if(result15 == null) await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(LOG_SCHEMA));
+        
+        const result16 = await AsyncStorage.getItem(MEAL_LOG);
+        if(result16 == null) await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(LOG_SCHEMA));
+        
+        const result17 = await AsyncStorage.getItem(WORKOUT_LOG);
+        if(result17 == null) await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
+        
+        const result18 = await AsyncStorage.getItem(STEPS_LOG);
+        if(result18 == null) await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(LOG_SCHEMA));
         return;
     } catch (error) {
         console.log('CreateDatabase error');

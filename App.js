@@ -10,7 +10,7 @@ export default function App() {
   
   React.useEffect(() => {
     let isGood = true;
-    // CreateDatabase();
+    CreateDatabase();
     IsDatabaseCreated().then((check) => { 
       if(isGood && !check) {
         CreateDatabase();
