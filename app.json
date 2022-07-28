@@ -10,6 +10,10 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "notification":{
+      "icon":"./assets/mtp-icon.png",
+      "color": "#ffffff"
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -17,7 +21,13 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +38,7 @@
       "package": "com.danielrk.MyTrainingPotential"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/mtp-icon.png"
     }
   }
 }

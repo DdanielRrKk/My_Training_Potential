@@ -4,19 +4,31 @@ import { CreateDatabase, IsDatabaseCreated } from './database/general/general_se
 
 import RootNavigation from './navigation/rootNavigation';
 
+import { 
+  SchedulePushNotification,
+  CancelScheduledNotifications
+} from './helpers/notifications';
+
 
 
 export default function App() {
   
   React.useEffect(() => {
     let isGood = true;
-    CreateDatabase();
-    IsDatabaseCreated().then((check) => { 
-      if(isGood && !check) {
-        CreateDatabase();
-        setChangeUpdater(false);
-      }
+
+    // SchedulePushNotification(19, 4);
+    // CancelScheduledNotifications();
+
+    CreateDatabase(false).then((isNewStoreCreated) => {
+      console.log('isNewStoreCreated', isNewStoreCreated)
     });
+    
+    // IsDatabaseCreated().then((check) => { 
+    //   if(isGood && !check) {
+    //     CreateDatabase();
+    //     setChangeUpdater(false);
+    //   }
+    // });
 
     return () => { isGood = false; } // to prevent memory leaks (clean up)
   }, []);

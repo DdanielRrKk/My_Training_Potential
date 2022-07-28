@@ -63,7 +63,7 @@ export default function MainSettingsScreen({ navigation }){
         DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
         navigation.goBack();
     });
-    const deleteAccountHandler = () => CreateDatabase().then(() => {
+    const deleteAccountHandler = () => CreateDatabase(true).then(() => {
         DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
     });
 
