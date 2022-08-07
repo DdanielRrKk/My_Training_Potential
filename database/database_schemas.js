@@ -55,4 +55,14 @@ export const WORKOUT_DAY_SCHEMA = {
     exercises: []
 };
 
+export const WORKOUT_PLAN_SCHEMA = {
+    name: null,
+    type: null,
+    days: []
+};
+/*
+type 0 - weekly (from Monday to Sunday)
+type 1 - repeatable (add days pattern that will be repeated)
+*/
+
 export const LOG_SCHEMA = [];
