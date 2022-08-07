@@ -25,7 +25,7 @@ export default function MainHomeScreen({ navigation }){
 
     const [name, setName] = React.useState(null);
     const [weight, setWeight] = React.useState('0');
-    const [steps, setSteps] = React.useState('0');
+    // const [steps, setSteps] = React.useState('0');
     
     const [caloriesPercentage, setCaloriesPercentage] = React.useState(null);
     const [carbsPercentage, setCarbsPercentage] = React.useState(null);
@@ -49,7 +49,7 @@ export default function MainHomeScreen({ navigation }){
         GetHomeScreenData().then(({
             name, 
             weight,
-            steps,
+            // steps,
             caloriesPercentage,
             carbsPercentage,
             proteinPercentage,
@@ -65,7 +65,7 @@ export default function MainHomeScreen({ navigation }){
             if(isGood) {
                 setName(name);
                 setWeight(weight);
-                setSteps(steps);
+                // setSteps(steps);
 
                 if(isMealSetup) {
                     setCaloriesPercentage(parseFloat(caloriesPercentage));
@@ -93,7 +93,7 @@ export default function MainHomeScreen({ navigation }){
         focus,
         name,
         weight,
-        steps,
+        // steps,
         caloriesPercentage,
         carbsPercentage,
         proteinPercentage,
@@ -129,10 +129,10 @@ export default function MainHomeScreen({ navigation }){
         navigation.setOptions({ tabBarVisible: false });
         navigation.navigate('WeightScreen');
     }
-    const openStepsLogScreen = () => {
-        navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('StepsScreen');
-    }
+    // const openStepsLogScreen = () => {
+    //     navigation.setOptions({ tabBarVisible: false });
+    //     navigation.navigate('StepsScreen');
+    // }
 
     const openStartWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
@@ -201,12 +201,12 @@ export default function MainHomeScreen({ navigation }){
                         title='current weight'
                         pressHandler={openWeightLogScreen}/>
 
-                    <Text style={stylesMisc.subtitle}>Steps Log</Text>
+                    {/* <Text style={stylesMisc.subtitle}>Steps Log</Text>
 
                     <LogBox 
                         value={`${steps}`}
                         title='steps today'
-                        pressHandler={openStepsLogScreen}/>
+                        pressHandler={openStepsLogScreen}/> */}
                     
                     <Text style={stylesMisc.subtitle}>History</Text>
 

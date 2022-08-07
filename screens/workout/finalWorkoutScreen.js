@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TextInput, SafeAreaView, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, SafeAreaView, KeyboardAvoidingView } from 'react-native';
 
 import { SetWorkoutLogData } from '../../database/screen/workout/final_workout_services';
 
@@ -8,7 +8,7 @@ import { stylesWorkout } from '../../styles/workoutStyles';
 
 import ActionButton from '../../components/misc/actionButton';
 import Header from '../../components/misc/header';
-import ExercisesItemList from '../../components/workout/exercisesItemList';
+import FinishedExerciseItemList from '../../components/workout/finishedExercisesItemList';
 
 import { LONG_TEXT_MAX_LENGTH } from '../../helpers/constants';
 
@@ -27,7 +27,11 @@ export default function FinalWorkoutScreen({ navigation, route }){
         if(route.params?.day_name) setDayName(route.params?.day_name);
         if(route.params?.total_time) setTotalTime(route.params?.total_time);
         if(route.params?.finished_exercises) setFinishedExercises(route.params?.finished_exercises);
-    }, [, route.params?.day_name, route.params?.total_time, route.params?.finished_exercises]);
+    }, [
+        route.params?.day_name, 
+        route.params?.total_time, 
+        route.params?.finished_exercises
+    ]);
 
     const finish = () => {
         SetWorkoutLogData(dayName, totalTime, finishedExercises, note).then(() => {
@@ -39,7 +43,6 @@ export default function FinalWorkoutScreen({ navigation, route }){
     return(
         <SafeAreaView style={stylesMisc.container}>
             <KeyboardAvoidingView style={stylesMisc.keyboardContainer}>
-                
                     <View style={stylesMisc.content}>
                         <Header title={dayName}/>
 
@@ -64,15 +67,10 @@ export default function FinalWorkoutScreen({ navigation, route }){
 
                         <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                        <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
-                            <View style={stylesMisc.view}>
-                                {finishedExercises ? <>{ExercisesItemList(finishedExercises)}</> : null }
-                            </View>
-                        </ScrollView>
+                        {finishedExercises ? <>{FinishedExerciseItemList(finishedExercises)}</> : null }
 
                         <ActionButton title='Finish' pressHandler={finish}/>
                     </View>
-
             </KeyboardAvoidingView>
         </SafeAreaView>
     );

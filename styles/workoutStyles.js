@@ -131,6 +131,26 @@ export const stylesWorkout = StyleSheet.create({
 
 
 
+    headerStartExercise: {
+        backgroundColor: PRIMARY_COLOR,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+        marginVertical: 16,
+        borderRadius: 10,
+        height: 60,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3
+    },
+    headerTextStartExercise: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
+    },
+
     header: {
         backgroundColor: SECONDARY_COLOR,
         width: '100%',
@@ -158,7 +178,6 @@ export const stylesWorkout = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         backgroundColor: PRIMARY_COLOR,
-        marginBottom: 16,
         shadowColor: TERTIARY_COLOR,
         shadowOpacity: 1,
         shadowRadius: 5,
@@ -258,13 +277,13 @@ export const stylesWorkout = StyleSheet.create({
 
 
     text: {
-        fontSize: 36,
+        fontSize: 60,
         marginBottom: 16,
         fontWeight: 'bold',
         color: TERTIARY_COLOR
     },
     subtext: {
-        fontSize: 24,
+        fontSize: 30,
         fontWeight: 'bold',
         color: TERTIARY_COLOR
     },
@@ -317,5 +336,28 @@ export const stylesWorkout = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         color: PRIMARY_COLOR
+    },
+
+
+
+    containerRest: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 16,
+        paddingBottom: 0,
+        marginTop: StatusBar.currentHeight,
+        backgroundColor: TERTIARY_COLOR
+    },
+    textRest: {
+        fontSize: 60,
+        marginBottom: 16,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
+    },
+    subtextRest: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        color: SECONDARY_COLOR
     },
 });

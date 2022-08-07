@@ -4,76 +4,89 @@ import { Text, TouchableOpacity, View, SafeAreaView } from 'react-native';
 import { stylesMisc } from '../../styles/miscStyles';
 import { stylesWorkout } from '../../styles/workoutStyles';
 
-import { calculateTimeString } from '../../helpers/timer';
+import { calculateTimeDurationString } from '../../helpers/timer';
 
 
 
 export default function TimeWorkoutScreen({ navigation, route }){
-    const [timeDuration, setTimeDuration] = React.useState(null);
-    const [timeDurationString, setTimeDurationString] = React.useState(null);
+    const [duration, setDuration] = React.useState(null);
+    const [durationString, setDurationString] = React.useState(null);
+
+    const [rest, setRest] = React.useState(null);
+    const [restString, setRestString] = React.useState(null);
 
     const [pause, setPause] = React.useState(false);
-
-    const [next, setNext] = React.useState(0); // to activate useEffect, by passing different prop every time
     const [isDuration, setIsDuration] = React.useState(false);
 
-    console.log('isDuration', isDuration);
+    // console.log('isDuration', isDuration);
 
     React.useEffect(() => {
-        if(route.params?.time) {
-            setTimeDuration(parseInt(route.params.time) - 1);
-            setTimeDurationString(calculateTimeString(route.params.time));
-        }
-        if(route.params?.next) setNext(parseInt(route.params.next));
         if(route.params?.isDuration) setIsDuration(route.params.isDuration);
-    }, [route.params?.time, route.params?.next, route.params?.isDuration]);
+        if(route.params?.duration) {
+            setDuration(parseInt(route.params.duration) - 1);
+            setDurationString(calculateTimeDurationString(parseInt(route.params.duration)));
+        }
+        if(route.params?.rest) {
+            setRest(parseInt(route.params.rest) - 1);
+            setRestString(calculateTimeDurationString(parseInt(route.params.rest)));
+        }
+    }, [
+        route.params?.isDuration,
+        route.params?.duration,
+        route.params?.rest
+    ]);
 
     // timer
     React.useEffect(() => {
-        if(timeDuration < 0) {
-            navigation.navigate('StartWorkoutScreen', {next: next + 1});
+        if(isDuration && duration < 0) setIsDuration(false);
+        if(!isDuration && rest < 0) {
+            navigation.navigate('StartWorkoutScreen');
             return;
         }
         const good = setTimeout(() => {
             if(pause) return;
-            setTimeDuration(timeDuration - 1);
-            setTimeDurationString(calculateTimeString(timeDuration));
+            if(isDuration) {
+                setDuration(duration - 1);
+                setDurationString(calculateTimeDurationString(duration));
+            }
+            else {
+                setRest(rest - 1);
+                setRestString(calculateTimeDurationString(rest));
+            }
         }, 1000);
         return () => clearTimeout(good);
     });
 
     const togglePause = () => setPause(!pause);
-    const skipRest = () => {
+    const skipTime = () => {
         if(isDuration) {
-            navigation.goBack();
+            setIsDuration(false);
             return;
         }
-
-        navigation.navigate('StartWorkoutScreen', {next: next + 1});
-        return;
+        navigation.goBack();
     }
 
     return(
-        <SafeAreaView style={stylesMisc.container}>
-                <View style={stylesMisc.content}>
-                    <Text style={stylesWorkout.subtext}>{(isDuration) ? 'Duration' : 'Rest'}</Text>
+        <SafeAreaView style={(isDuration) ? stylesMisc.container : stylesWorkout.containerRest}>
+            <View style={stylesMisc.content}>
+                <Text style={(isDuration) ? stylesWorkout.subtext : stylesWorkout.subtextRest}>{(isDuration) ? 'Duration' : 'Rest'}</Text>
 
-                    <Text style={stylesWorkout.text}>{timeDurationString}</Text>
+                <Text style={(isDuration) ? stylesWorkout.text : stylesWorkout.textRest}>{(isDuration) ? durationString : restString}</Text>
 
-                    <View style={stylesWorkout.row}>
-                        <TouchableOpacity
-                            style={(pause) ? stylesWorkout.btn_active : stylesWorkout.btn_unactive}
-                            onPress={togglePause}>
-                            <Text style={(pause) ? stylesWorkout.subtext_active : stylesWorkout.subtext_unactive}>{(pause) ? 'Continue' : 'Pause'}</Text>
-                        </TouchableOpacity>
+                <View style={stylesWorkout.row}>
+                    <TouchableOpacity
+                        style={(pause) ? stylesWorkout.btn_active : stylesWorkout.btn_unactive}
+                        onPress={togglePause}>
+                        <Text style={(pause) ? stylesWorkout.subtext_active : stylesWorkout.subtext_unactive}>{(pause) ? 'Continue' : 'Pause'}</Text>
+                    </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={stylesWorkout.btn_active_down}
-                            onPress={skipRest}>
-                            <Text style={stylesWorkout.subtext_active}>Skip</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity
+                        style={stylesWorkout.btn_active_down}
+                        onPress={skipTime}>
+                        <Text style={stylesWorkout.subtext_active}>Skip</Text>
+                    </TouchableOpacity>
                 </View>
+            </View>
         </SafeAreaView>
     );
 };

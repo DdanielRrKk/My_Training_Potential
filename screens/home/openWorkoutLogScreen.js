@@ -1,12 +1,12 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView } from 'react-native';
 
 import { stylesMisc } from '../../styles/miscStyles';
 import { stylesOpenLog } from '../../styles/homeStyles';
 
 import BackButton from '../../components/misc/backButton';
 import Header from '../../components/misc/header';
-import ExercisesItemList from '../../components/workout/exercisesItemList';
+import FinishedExercisesItemList from '../../components/workout/finishedExercisesItemList';
 
 
 
@@ -54,9 +54,7 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
                     </View>
                 </View>
 
-                { note == null ?
-                    null
-                    :
+                { note == null ? null :
                     <>
                         <Text style={stylesMisc.subtitle}>Note</Text>
 
@@ -65,19 +63,10 @@ export default function OpenWorkoutLogScreen({ navigation, route }){
                         </View>
                     </>
                 }
-                {/* <Text style={stylesMisc.subtitle}>Note</Text>
-
-                <View style={stylesOpenLog.note_box}>
-                    <Text style={stylesOpenLog.note_text}>{note}</Text>
-                </View> */}
 
                 <Text style={stylesMisc.subtitle}>Exercises</Text>
 
-                <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
-                    <View style={stylesMisc.view}>
-                        {exercises ? <>{ExercisesItemList(exercises)}</> : null }
-                    </View>
-                </ScrollView>
+                {exercises ? <>{FinishedExercisesItemList(exercises)}</> : null }
             </View>
         </SafeAreaView>
     );

@@ -3,27 +3,18 @@ import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { Accelerometer } from 'expo-sensors';
 
-import { useIsFocused } from '@react-navigation/native';
-
 import { GetStepsScreenData } from '../../database/screen/home/steps_services';
 
 import { stylesMisc } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
 import { StepsLogItemList } from '../../components/home/logItemList';
-// import { isStepTaken } from '../../helpers/stepsCounting';
 
 
 
 export default function StepsScreen({ navigation }){
     const [stepsLog, setStepsLog] = React.useState(null);
     const [steps, setSteps] = React.useState(0);
-    
-    // const [magnitudes, setMagnitudes] = React.useState([]);
-
-    const [previousMagnitude, setPreviousMagnitude] = React.useState(0);
-    // const [velocityPrevious, setVelocityPrevious] = React.useState(0);
-    // const [flag, setFlag] = React.useState(false);
     
     const [totalData, setTotalData] = React.useState({
         prevX: 0,
@@ -33,20 +24,6 @@ export default function StepsScreen({ navigation }){
         newY: 0,
         newZ: 0
     });
-    
-    // const threasholdMin = 0.3467;
-    // const threasholdMax = 1.1817;
-    // const averageMagnitude = 1.6833;
-    // const averageMagnitudeMin = 1.1342;
-    // const averageMagnitudeMax = 2.2323;
-    // const averageX = 0.2405;
-    // const averageY = -0.5142;
-    // const averageZ = 0.3040;
-    
-    // const threasholdMin = 1;
-    // const threasholdMax = 3;
-    // const readingSpeed = 500;
-    // const readingSpeedSeconds = 0.5;
 
     const listeningSpeed = 2000;
     const bonus = 0;
@@ -54,7 +31,6 @@ export default function StepsScreen({ navigation }){
     console.log('steps', steps);
 
 
-    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
         GetStepsScreenData().then((stepsLog) => { 
@@ -81,22 +57,6 @@ export default function StepsScreen({ navigation }){
             Accelerometer.removeAllListeners();
         } // to prevent memory leaks (clean up)
     }, []);
-
-    // React.useEffect(() => {
-    //     Accelerometer.setUpdateInterval(2000);
-    //     Accelerometer.addListener((newData) => {
-    //         setTotalData((oldData) => ({
-    //             prevX: oldData.newX,
-    //             prevY: oldData.newY,
-    //             prevZ: oldData.newZ,
-    //             newX: newData.x,
-    //             newY: newData.y,
-    //             newZ: newData.z
-    //         }));
-    //     });
-
-    //     return () => { Accelerometer.removeAllListeners(); } // to prevent memory leaks (clean up)
-    // }, [focus]);
 
     React.useEffect(() => {
         const oldMagnitude = Math.sqrt(
