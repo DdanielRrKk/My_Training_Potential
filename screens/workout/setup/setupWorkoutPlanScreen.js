@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView, TouchableOpacity, DeviceEventEmitter } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
 
 import { SetWorkoutPlan } from '../../../database/screen/workout/workout_setup_services';
 import { GetEditWorkoutDataScreenData } from '../../../database/screen/home/settings_services';
@@ -13,155 +13,113 @@ import SetupWorkoutBox from '../../../components/workout/setup/setupWorkoutBox';
 import TextEntry from '../../../components/misc/textEntry';
 import ActionButton from '../../../components/misc/actionButton';
 import SetupWorkoutDayList from '../../../components/workout/setup/setupWorkoutDayList';
+import SetupWorkoutAddButton from '../../../components/workout/setup/setupWorkoutAddButton';
 
 import { IsInputTextValid } from '../../../helpers/validations';
 import { AlertOK } from '../../../helpers/alerts';
 import { 
     NAME_MAX_LENGTH,
+    WORKOUT_WEEKLY_ARRAY,
     ALERT_WARNING_TITLE,
-    ALERT_WORKOUT_PLAN_NAME_TEXT
+    ALERT_WORKOUT_PLAN_NAME_TEXT,
+    ALERT_WORKOUT_PLAN_WORKOUTS_TEXT
 } from '../../../helpers/constants';
 
-import { AntDesign } from '@expo/vector-icons';
 
-
-
+// dobavi proverka za syzdawane bez da ima nikakwi trenirowka
+// dobavi syzdavaneto na trenirowka
 export default function SetupWorkoutPlanScreen({ navigation, route }){
     const [fromEdit, setFromEdit] = React.useState(false);
     
     const [name, setName] = React.useState('');
     const [type, setType] = React.useState(0);
 
-    const [monday, setMonday] = React.useState({
-        day_number: 1,
-        name: null,
-        exercises: []
-    });
-    const [tuesday, setTuesday] = React.useState({
-        day_number: 2,
-        name: null,
-        exercises: []
-    });
-    const [wednesday, setWednesday] = React.useState({
-        day_number: 3,
-        name: null,
-        exercises: []
-    });
-    const [thursday, setThursday] = React.useState({
-        day_number: 4,
-        name: null,
-        exercises: []
-    });
-    const [friday, setFriday] = React.useState({
-        day_number: 5,
-        name: null,
-        exercises: []
-    });
-    const [saturday, setSaturday] = React.useState({
-        day_number: 6,
-        name: null,
-        exercises: []
-    });
-    const [sunday, setSunday] = React.useState({
-        day_number: 7,
-        name: null,
-        exercises: []
-    });
+    const [workoutsWeekly, setWorkoutsWeekly] = React.useState(WORKOUT_WEEKLY_ARRAY);
+    const [workoutsPattern, setWorkoutsPattern] = React.useState([]);
 
 
-    const [workouts, setWorkouts] = React.useState([]);
-    // napravi taka che da moje da se zapazvat dva tipa trenirovychni planove
+    // console.log('workoutsWeekly', workoutsWeekly);
+    // console.log('workoutsPattern', workoutsPattern);
 
     React.useEffect(() => {
-        if(route.params?.day) {
-            if(route.params?.day.day_number == 1) setMonday(route.params?.day);
-            if(route.params?.day.day_number == 2) setTuesday(route.params?.day);
-            if(route.params?.day.day_number == 3) setWednesday(route.params?.day);
-            if(route.params?.day.day_number == 4) setThursday(route.params?.day);
-            if(route.params?.day.day_number == 5) setFriday(route.params?.day);
-            if(route.params?.day.day_number == 6) setSaturday(route.params?.day);
-            if(route.params?.day.day_number == 7) setSunday(route.params?.day);
+        if(route.params?.workout && route.params?.type) {
+            if(route.params?.type - 1 == 0) {
+                workoutsWeekly[route.params?.workout.day_number - 1] = route.params?.workout;
+                setWorkoutsWeekly([... workoutsWeekly]);
+            }
+            else {
+                workoutsPattern[route.params?.workout.day_number - 1] = route.params?.workout;
+                setWorkoutsPattern([... workoutsPattern]);
+            }
         }
 
         if(route.params?.isFromEdit) {
             let isGood = true;
 
-            GetEditWorkoutDataScreenData().then(({
-                name, 
-                monday,
-                tuesday,
-                wednesday,
-                thursday,
-                friday,
-                saturday,
-                sunday
-            }) => { 
+            GetEditWorkoutDataScreenData().then(({name, type, workouts }) => { 
                 if(isGood) {
                     setName(name);
-                    setMonday(monday);
-                    setTuesday(tuesday);
-                    setWednesday(wednesday);
-                    setThursday(thursday);
-                    setFriday(friday);
-                    setSaturday(saturday);
-                    setSunday(sunday);
+                    setType(type);
+                    (type == 0) ? setWorkoutsWeekly(workouts) : setWorkoutsPattern(workouts);
                 }
             });
 
             setFromEdit(true);
 
-            return () => {  isGood = false; } // to prevent memory leaks (clean up)
+            return () => { isGood = false; } // to prevent memory leaks (clean up)
         }
         return () => {
             DeviceEventEmitter.removeListener('event.stateUpdate');
         }
-    }, [route.params?.day, route.params?.isFromEdit]);
+    }, [route.params?.workout, route.params?.type, route.params?.isFromEdit]);
 
 
     const openPrevScreen = () => navigation.goBack();
 
-    const createWorkoutDay = () => {
-
-    };
-
-    const openWorkoutDaysScreen = (number) => {
+    const openWorkoutDaysScreen = (number = 0) => {
         if(type == 0) {
-            if(number == 1) navigation.navigate('SetupWorkoutDayScreen', monday);
-            if(number == 2) navigation.navigate('SetupWorkoutDayScreen', tuesday);
-            if(number == 3) navigation.navigate('SetupWorkoutDayScreen', wednesday);
-            if(number == 4) navigation.navigate('SetupWorkoutDayScreen', thursday);
-            if(number == 5) navigation.navigate('SetupWorkoutDayScreen', friday);
-            if(number == 6) navigation.navigate('SetupWorkoutDayScreen', saturday);
-            if(number == 7) navigation.navigate('SetupWorkoutDayScreen', sunday);
+            navigation.navigate('SetupWorkoutDayScreen', { 
+                type: type + 1, 
+                day_number: number,
+                workout: workoutsWeekly[number - 1]
+            });
         }
         else {
-            navigation.navigate('SetupWorkoutDayScreen', workouts[number - 1]);
+            if(number == 0) {
+                navigation.navigate('SetupWorkoutDayScreen', { 
+                    type: type + 1, 
+                    day_number: workoutsPattern.length + 1,
+                    workout: null
+                });
+            }
+            else {
+                navigation.navigate('SetupWorkoutDayScreen', { 
+                    type: type + 1, 
+                    day_number: number,
+                    workout: workoutsPattern[number - 1]
+                });
+            }
         }
     }
-    const createWorkoutPlan = () => {
-        if(!IsInputTextValid(name)) {
-            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_NAME_TEXT, null);
-            return;
-        }
-        
-        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
-            DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
-            navigation.setOptions({ tabBarVisible: true });
-            navigation.navigate('TabNavigation');
-        });
-    }
+
     const saveWorkoutPlan = () => {
         if(!IsInputTextValid(name)) {
-            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_NAME_TEXT, null);
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_NAME_TEXT);
+            return;
+        }
+        if((type == 0 && workoutsWeekly.length == 0) || (type == 1 && workoutsPattern.length == 0)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_WORKOUT_PLAN_WORKOUTS_TEXT);
             return;
         }
 
-        SetWorkoutPlan(name, monday, tuesday, wednesday, thursday, friday, saturday, sunday).then(() => {
+        const tempArray = (type == 0) ? workoutsWeekly : workoutsPattern;
+        SetWorkoutPlan(name, type, tempArray).then(() => {
             DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
             navigation.setOptions({ tabBarVisible: true });
             navigation.navigate('TabNavigation');
         });
     }
+
 
     return(
         <SafeAreaView style={stylesMisc.container}>
@@ -195,64 +153,64 @@ export default function SetupWorkoutPlanScreen({ navigation, route }){
                     <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
                         <SetupWorkoutBox 
                             day='Monday'
-                            workoutName={monday.name}
+                            workoutName={workoutsWeekly[0].name}
                             pressHandler={() => openWorkoutDaysScreen(1)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin}
                             day='Tuesday'
-                            workoutName={tuesday.name}
+                            workoutName={workoutsWeekly[1].name}
                             pressHandler={() => openWorkoutDaysScreen(2)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin}
                             day='Wednesday'
-                            workoutName={wednesday.name}
+                            workoutName={workoutsWeekly[2].name}
                             pressHandler={() => openWorkoutDaysScreen(3)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin}
                             day='Thursday'
-                            workoutName={thursday.name}
+                            workoutName={workoutsWeekly[3].name}
                             pressHandler={() => openWorkoutDaysScreen(4)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin}
                             day='Friday'
-                            workoutName={friday.name}
+                            workoutName={workoutsWeekly[4].name}
                             pressHandler={() => openWorkoutDaysScreen(5)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin}
                             day='Saturday'
-                            workoutName={saturday.name}
+                            workoutName={workoutsWeekly[5].name}
                             pressHandler={() => openWorkoutDaysScreen(6)}/>
 
                             
                         <SetupWorkoutBox 
                             style={stylesWorkoutSetup.box_margin_v}
                             day='Sunday'
-                            workoutName={sunday.name}
+                            workoutName={workoutsWeekly[6].name}
                             pressHandler={() => openWorkoutDaysScreen(7)}/>
 
                     </ScrollView>
                     :
                     <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
-                        {workouts ? <>{SetupWorkoutDayList(workouts, editExercise)}</> : null }
+                        <View style={stylesMisc.view}>
+                            {workoutsPattern ? <>{SetupWorkoutDayList(workoutsPattern, openWorkoutDaysScreen)}</> : null }
 
-                        <TouchableOpacity style={stylesWorkoutSetup.btn} onPress={null}>
-                            <AntDesign name="plus" size={24} color="black" />
-                        </TouchableOpacity>
+                            <SetupWorkoutAddButton pressHandler={openWorkoutDaysScreen}/>
+                        </View>
                     </ScrollView>
                 }
             </View>
         
-            <ActionButton title={(fromEdit) ? 'Save' : 'Create'} pressHandler={(fromEdit) ? saveWorkoutPlan : createWorkoutPlan}/>
+            <ActionButton title={(fromEdit) ? 'Save' : 'Create'} pressHandler={saveWorkoutPlan}/>
         </SafeAreaView>
     );
 };

@@ -1,14 +1,13 @@
 import React from 'react';
-import { Text, View, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
 import { stylesMisc } from '../../../styles/miscStyles';
-import { stylesWorkoutSetup } from '../../../styles/workoutStyles';
-import { SECONDARY_COLOR } from '../../../styles/colors';
 
 import BackButton from '../../../components/misc/backButton';
 import TextEntry from '../../../components/misc/textEntry';
 import ActionButton from '../../../components/misc/actionButton';
 import WorkoutItemList from '../../../components/workout/workoutItemList';
+import SetupWorkoutAddButton from '../../../components/workout/setup/setupWorkoutAddButton';
 
 import { IsInputTextValid } from '../../../helpers/validations';
 import { AlertOK } from '../../../helpers/alerts';
@@ -18,21 +17,24 @@ import {
     ALERT_WORKOUT_DAY_NAME_TEXT
 } from '../../../helpers/constants';
 
-import { AntDesign } from '@expo/vector-icons';
-
 
 
 export default function SetupWorkoutDayScreen({ navigation, route }){
-    const [dayNumber, setDayNumber] = React.useState(null);
+    const [workoutType, setWorkoutType] = React.useState(null);
 
+    const [dayNumber, setDayNumber] = React.useState(null);
     const [name, setName] = React.useState('');
     const [exercises, setExercises] = React.useState([]);
 
     React.useEffect(() => {
-        if(route.params?.day_number) setDayNumber(route.params.day_number);
-        if(route.params?.name) setName(route.params.name);
-        if(route.params?.exercises) setExercises(route.params.exercises);
-    }, [route.params?.day_number, route.params?.name, route.params?.exercises]);
+        if(route.params?.workout) {
+            setDayNumber(route.params?.workout.day_number);
+            setName(route.params?.workout.name);
+            setExercises(route.params?.workout.exercises);
+        }
+        if(route.params?.type) setWorkoutType(route.params?.type - 1);
+        if(route.params?.day_number) setDayNumber(route.params?.day_number);
+    }, [route.params?.workout, route.params?.type, route.params?.day_number]);
 
     React.useEffect(() => {
         if(route.params?.exercise) {
@@ -60,7 +62,7 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
         }
     }, [route.params?.exercise]);
     
-    // console.log('exercises', exercises);
+    // console.log('workoutType', workoutType);
     // console.log('day number', dayNumber);
 
     const openPrevScreen = () => navigation.goBack();
@@ -79,7 +81,8 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
         }
 
         navigation.navigate('SetupWorkoutPlanScreen', {
-            day: {
+            type: workoutType + 1,
+            workout: {
                 day_number: dayNumber,
                 name: name,
                 exercises: exercises
@@ -108,9 +111,7 @@ export default function SetupWorkoutDayScreen({ navigation, route }){
                     <View style={stylesMisc.view}>
                         {exercises ? <>{WorkoutItemList(exercises, editExercise)}</> : null }
 
-                        <TouchableOpacity style={stylesWorkoutSetup.btn} onPress={addWorkout}>
-                            <AntDesign name="plus" size={24} color={SECONDARY_COLOR} />
-                        </TouchableOpacity>
+                        <SetupWorkoutAddButton pressHandler={addWorkout}/>
                     </View>
                 </ScrollView>
 

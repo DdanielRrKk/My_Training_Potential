@@ -1,8 +1,6 @@
 import React from 'react';
 import { Text, View, SafeAreaView, ScrollView } from 'react-native';
 
-import { GetOpenWorkoutScreenData } from '../../database/screen/workout/open_workout_services';
-
 import { stylesMisc } from '../../styles/miscStyles';
 
 import BackButton from '../../components/misc/backButton';
@@ -19,23 +17,10 @@ export default function OpenWorkoutScreen({ navigation, route }){
     const [isToday, setIsToday] = React.useState(false);
     
     React.useEffect(() => {
-        if(route.params?.day_number) {
-            let isGood = true;
-            GetOpenWorkoutScreenData(parseInt(route.params?.day_number)).then(({
-                name, 
-                exercises,
-                isToday
-            }) => { 
-                if(isGood) {
-                    setName(name);
-                    setExercises(exercises);
-                    setIsToday(isToday);
-                }
-            });
-
-            return () => {  isGood = false; } // to prevent memory leaks (clean up)
-        }
-    }, [route.params?.day_number]);
+        if(route.params?.name) setName(route.params?.name);
+        if(route.params?.exercises) setExercises(route.params?.exercises);
+        if(route.params?.isToday) setIsToday(route.params?.isToday);
+    }, [route.params?.name, route.params?.exercises, route.params?.isToday]);
 
     const openPrevScreen = () => navigation.goBack();
 

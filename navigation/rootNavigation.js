@@ -36,10 +36,7 @@ import SetupWorkoutDayScreen from '../screens/workout/setup/setupWorkoutDayScree
 import SetupWorkoutExerciseScreen from '../screens/workout/setup/setupWorkoutExerciseScreen';
 
 import OpenWorkoutScreen from '../screens/workout/openWorkoutScreen';
-// import StartWorkoutScreen from '../screens/workout/startWorkoutScreen';
-
-import StartWorkoutScreen from '../screens/workout/startWorkoutScreen2';
-
+import StartWorkoutScreen from '../screens/workout/startWorkoutScreen';
 import TimeWorkoutScreen from '../screens/workout/timeWorkoutScreen';
 import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 

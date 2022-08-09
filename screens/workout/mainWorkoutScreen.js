@@ -14,7 +14,7 @@ import WorkoutBox from '../../components/workout/workoutBox';
 import Header from '../../components/misc/header';
 import SetupButtonView from '../../components/misc/setup/setupButtonView';
 
-import { getSortedWorkoutDays } from '../../helpers/workoutHelper';
+import { getSortedWorkouts } from '../../helpers/workoutHelper';
 
 
 
@@ -23,25 +23,17 @@ export default function MainWorkoutScreen({ navigation }){
     const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(null);
 
     const [name, setName] = React.useState(null);
-    const [days, setDays] = React.useState([
-        {day_number: 1, name: null, exercises: []},
-        {day_number: 2, name: null, exercises: []},
-        {day_number: 3, name: null, exercises: []},
-        {day_number: 4, name: null, exercises: []},
-        {day_number: 5, name: null, exercises: []},
-        {day_number: 6, name: null, exercises: []},
-        {day_number: 7, name: null, exercises: []},
-    ]);
+    const [workouts, setWorkouts] = React.useState([]);
 
     // console.log('name workout', name);
-    // console.log('days workout', days);
+    // console.log('workouts workout', workouts);
     // console.log('isWorkoutSetup workout', isWorkoutSetup);
 
     const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetWorkoutScreenData().then(({ name, days, isWorkoutSetup}) => { 
+        GetWorkoutScreenData().then(({ current_workout, name, type, workouts, isWorkoutSetup}) => { 
             if(isGood) {
                 if(!isWorkoutSetup) {
                     setIsWorkoutSetup(isWorkoutSetup);
@@ -49,8 +41,8 @@ export default function MainWorkoutScreen({ navigation }){
                 }
 
                 setName(name);
-                const tempArray = getSortedWorkoutDays(days);
-                setDays(tempArray);
+                const tempArray = getSortedWorkouts(workouts, type, current_workout);
+                setWorkouts(tempArray);
                 setIsWorkoutSetup(isWorkoutSetup);
             }
         });
@@ -79,11 +71,16 @@ export default function MainWorkoutScreen({ navigation }){
 
     const openStartWorkoutScreen = () => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('StartWorkoutScreen', {exercises: days[0].exercises, day_name: days[0].name});
+        navigation.navigate('StartWorkoutScreen', {exercises: workouts[0].exercises, day_name: workouts[0].name});
     }
+
     const openWorkoutScreen = (day_number) => {
         navigation.setOptions({ tabBarVisible: false });
-        navigation.navigate('OpenWorkoutScreen', {day_number: day_number});
+        navigation.navigate('OpenWorkoutScreen', {
+            name: workouts[day_number].name,
+            exercises: workouts[day_number].exercises,
+            isToday: (day_number == 0)
+        });
     }
 
     return(
@@ -95,54 +92,54 @@ export default function MainWorkoutScreen({ navigation }){
                     <Text style={stylesMisc.subtitle}>Today</Text>
 
                     <WorkoutBox 
-                        day={days[0]}
+                        day={workouts[0]}
                         isToday={true}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[0].day_number)}/>
+                        openHandler={() => openWorkoutScreen(0)}/>
                     
                     <Text style={stylesMisc.subtitle}>Next days</Text>
 
                     <WorkoutBox 
                         style={{marginBottom: 16}}
-                        day={days[1]}
+                        day={workouts[1]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[1].day_number)}/>
+                        openHandler={() => openWorkoutScreen(1)}/>
                         
                     <WorkoutBox 
                         style={stylesWorkout.box_margin}
-                        day={days[2]}
+                        day={workouts[2]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[2].day_number)}/>
+                        openHandler={() => openWorkoutScreen(2)}/>
                         
                     <WorkoutBox 
                         style={stylesWorkout.box_margin}
-                        day={days[3]}
+                        day={workouts[3]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[3].day_number)}/>
+                        openHandler={() => openWorkoutScreen(3)}/>
 
                     <WorkoutBox 
                         style={stylesWorkout.box_margin}
-                        day={days[4]}
+                        day={workouts[4]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[4].day_number)}/>
+                        openHandler={() => openWorkoutScreen(4)}/>
 
                     <WorkoutBox 
                         style={stylesWorkout.box_margin}
-                        day={days[5]}
+                        day={workouts[5]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[5].day_number)}/>
+                        openHandler={() => openWorkoutScreen(5)}/>
 
                     <WorkoutBox 
                         style={stylesWorkout.box_margin}
-                        day={days[6]}
+                        day={workouts[6]}
                         isToday={false}
                         startHandler={openStartWorkoutScreen}
-                        openHandler={() => openWorkoutScreen(days[6].day_number)}/>
+                        openHandler={() => openWorkoutScreen(6)}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

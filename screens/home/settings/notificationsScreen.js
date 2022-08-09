@@ -25,7 +25,7 @@ import {
 
 
 
-export default function MainSettingsScreen({ navigation }){
+export default function NotificationsScreen({ navigation }){ 
     const [systemState, setSystemState] = React.useState(null);
     
     const [isMealSetup, setIsMealSetup] = React.useState(false);
@@ -103,7 +103,7 @@ export default function MainSettingsScreen({ navigation }){
                     
                     <SettingsOption 
                         title='Set Notifications'
-                        pressHandler={openNotificationsScreen}/>
+                        pressHandler={openEditUserDataScreen}/>
 
 
                     <SettingsOption 
