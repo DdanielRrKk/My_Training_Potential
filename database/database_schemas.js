@@ -20,7 +20,10 @@ export const SYSTEM_STATE_SCHEMA = 0;
     - is_user_setup = true
     - is_meal_setup = true
     - is_workout_setup = true
-  */
+*/
+
+export const SYSTEM_NOTIFICATIONS_SCHEMA = [];
+// notification: { id, title, message, hour, minutes }
 
 export const USER_INFO_SCHEMA = {
     name: '',
@@ -49,16 +52,12 @@ export const MEAL_SCHEMA = {
     foods: []
 };
 
-export const WORKOUT_DAY_SCHEMA = {
-    day_number: null,
-    name: null,
-    exercises: []
-};
 
 export const WORKOUT_PLAN_SCHEMA = {
+    current_workout: null,
     name: null,
     type: null,
-    days: []
+    workouts: []
 };
 /*
 type 0 - weekly (from Monday to Sunday)

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 
-import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../styles/colors';
+import { PRIMARY_COLOR, SECONDARY_COLOR, TERTIARY_COLOR } from '../../../styles/colors';
 
 import { EvilIcons, Feather } from '@expo/vector-icons';
 
@@ -11,11 +11,11 @@ export default function SetupWorkoutDayList(workouts, pressHandler){
     return workouts.map((item) => {
         if(item.name != null) {
             return(
-                <View key={item.key} style={styles.bigContainer}>
+                <View key={item.day_number} style={styles.bigContainer}>
                     <View style={styles.containerTop}>
-                        <Text style={styles.text}>Day {item.key}</Text>
+                        <Text style={styles.text}>Day {item.day_number}</Text>
             
-                        <TouchableOpacity onPress={() => pressHandler()}>
+                        <TouchableOpacity onPress={() => pressHandler(item.day_number)}>
                             <Feather name="edit-2" size={26} color={PRIMARY_COLOR} />
                         </TouchableOpacity>
                     </View>
@@ -27,10 +27,10 @@ export default function SetupWorkoutDayList(workouts, pressHandler){
         }
 
         return(
-            <View style={styles.container}>
-                <Text style={styles.text}>Day {item.key}</Text>
+            <View key={item.day_number} style={styles.container}>
+                <Text style={styles.text}>Day {item.day_number}</Text>
 
-                <TouchableOpacity onPress={() => pressHandler()}>
+                <TouchableOpacity onPress={() => pressHandler(item.day_number)}>
                     <EvilIcons name="plus" size={40} color={PRIMARY_COLOR} />
                 </TouchableOpacity>
             </View>
@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '100%',
         padding: 16,
+        marginBottom: 16,
         borderRadius: 10,
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -69,6 +70,7 @@ const styles = StyleSheet.create({
 
     bigContainer: {
         width: '100%',
+        marginBottom: 16,
     },
     containerTop: {
         flexDirection: 'row',

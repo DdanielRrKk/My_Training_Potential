@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_STATE,
     USER_GOALS,
+    WORKOUT_PLAN,
     MEAL_LOG,
     STEPS_LOG,
     MEAL_BREAKFAST,
@@ -35,6 +36,7 @@ export async function SaveDataIfDayChanged() {
         // console.log('currentDate', currentDate);
         // console.log('dateString', dateString);
 
+        await ChangeCurrentWorkoutIfDayChanged();
         await SaveMealData(currentDate, dateString);
         await SaveStepsData(currentDate, dateString);
         return;
@@ -46,7 +48,26 @@ export async function SaveDataIfDayChanged() {
 
 
 
-export async function SaveMealDataIfDayChanged() {
+export async function ChangeCurrentWorkoutIfDayChanged() {
+    try {
+        const workoutPlanResult = await AsyncStorage.getItem(WORKOUT_PLAN);
+        const workoutPlan = JSON.parse(workoutPlanResult);
+        // console.log('workoutPlan', workoutPlan);
+
+        if(workoutPlan.type == 0) return;
+
+        workoutPlan.current_workout = (workoutPlan.workouts.length == workoutPlan.current_workout + 1) ? 0 : workoutPlan.current_workout + 1;
+        await AsyncStorage.setItem(WORKOUT_PLAN, JSON.stringify(workoutPlan));
+        return;
+    } catch (error) {
+        console.log('ChangeCurrentWorkoutIfDayChanged error');
+        console.log(error);
+    }
+}
+
+
+
+export async function SaveMealDataIfDayChanged(currentDate, dateString) {
     try {
         const mealLogResult = await AsyncStorage.getItem(MEAL_LOG);
         const mealLog = JSON.parse(mealLogResult);
@@ -55,11 +76,6 @@ export async function SaveMealDataIfDayChanged() {
         const userGoalsResult = await AsyncStorage.getItem(USER_GOALS);
         const userGoals = JSON.parse(userGoalsResult);
         // console.log('userGoals', userGoals);
-
-        const currentDate = getCurrentDateForLog();
-        const dateString = getCurrentDateString();
-        // console.log('currentDate', currentDate);
-        // console.log('dateString', dateString);
 
         if(IsResultEmpty(mealLog)) {
             // console.log('lastDayOpenedString has no data');
@@ -155,7 +171,7 @@ export async function SaveMealDataIfDayChanged() {
     }
 }
 
-export async function SaveStepsDataIfDayChanged() {
+export async function SaveStepsDataIfDayChanged(currentDate, dateString) {
     try {
         const stepsLogResult = await AsyncStorage.getItem(STEPS_LOG);
         const stepsLog = JSON.parse(stepsLogResult);

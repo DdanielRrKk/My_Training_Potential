@@ -27,7 +27,46 @@ export const FAT_PERCENTAGE_OF_CALORIES = 0.25; // 25%
 export const WORKOUT_NUMBER_MAX_LENGTH = 4;
 export const WORKOUT_TIME_MAX_LENGTH = 5;
 
+export const WORKOUT_WEEKLY_ARRAY = [
+    {
+        day_number: 1,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 2,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 3,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 4,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 5,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 6,
+        name: null,
+        exercises: []
+    },
+    {
+        day_number: 7,
+        name: null,
+        exercises: []
+    },
+];
 
+
+// ALERT MESSAGES =====================
 export const ALERT_WARNING_TITLE = 'Warning !';
 
 export const ALERT_NOT_SETUP_MEAL_PLAN_TEXT = "You don't have a meal set up.";
@@ -53,6 +92,8 @@ export const ALERT_MEAL_NAME_TEXT = 'Not a valid meal name.';
 export const ALERT_WORKOUT_EXERCISE_NAME_TEXT = 'Not a valid exercise name.';
 export const ALERT_WORKOUT_DAY_NAME_TEXT = 'Not a valid workout name.';
 export const ALERT_WORKOUT_PLAN_NAME_TEXT = 'Not a valid workout plan name.';
+export const ALERT_WORKOUT_PLAN_WORKOUTS_TEXT = 'The workout plan must have atleast one workout day.';
+
 
 export const FAQ_LIST = [
     {

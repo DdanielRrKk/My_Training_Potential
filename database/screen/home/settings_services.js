@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     USER_INFO,
     USER_GOALS,
+    WORKOUT_PLAN,
     WORKOUT_PLAN_NAME,
     WORKOUT_MONDAY,
     WORKOUT_TUESDAY,
@@ -93,42 +94,12 @@ export async function SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatG
 // get data for edit workout screen
 export async function GetEditWorkoutDataScreenData() {
     try {
-        const planNameResult = await AsyncStorage.getItem(WORKOUT_PLAN_NAME);
-        const mondayResult = await AsyncStorage.getItem(WORKOUT_MONDAY);
-        const tuesdayResult = await AsyncStorage.getItem(WORKOUT_TUESDAY);
-        const wednesdayResult = await AsyncStorage.getItem(WORKOUT_WEDNESDAY);
-        const thursdayResult = await AsyncStorage.getItem(WORKOUT_THURSDAY);
-        const fridayResult = await AsyncStorage.getItem(WORKOUT_FRIDAY);
-        const saturdayResult = await AsyncStorage.getItem(WORKOUT_SATURDAY);
-        const sundayResult = await AsyncStorage.getItem(WORKOUT_SUNDAY);
-
-        // store has data
-        const monday = JSON.parse(mondayResult);
-        const tuesday = JSON.parse(tuesdayResult);
-        const wednesday = JSON.parse(wednesdayResult);
-        const thursday = JSON.parse(thursdayResult);
-        const friday = JSON.parse(fridayResult);
-        const saturday = JSON.parse(saturdayResult);
-        const sunday = JSON.parse(sundayResult);
-
+        const workoutPlanResult = await AsyncStorage.getItem(WORKOUT_PLAN);
+        // console.log('workoutPlanResult', workoutPlanResult);
+        const workoutPlan = JSON.parse(workoutPlanResult);
         // console.log('monday', monday);
-        // console.log('tuesday', tuesday);
-        // console.log('wednesday', wednesday);
-        // console.log('thursday', thursday);
-        // console.log('friday', friday);
-        // console.log('saturday', saturday);
-        // console.log('sunday', sunday);
 
-        return {
-            name: planNameResult,
-            monday: monday, 
-            tuesday: tuesday, 
-            wednesday: wednesday, 
-            thursday: thursday, 
-            friday: friday, 
-            saturday: saturday, 
-            sunday: sunday
-        };
+        return workoutPlan;
     } catch (error) {
         console.log('GetEditWorkoutDataScreenData error');
         console.log(error);

@@ -1,19 +1,13 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { 
     SYSTEM_STATE,
+    SYSTEM_NOTIFICATIONS,
     USER_INFO,
     USER_GOALS,
     MEAL_BREAKFAST,
     MEAL_LUNCH,
     MEAL_DINNER,
-    WORKOUT_PLAN_NAME,
-    WORKOUT_MONDAY,
-    WORKOUT_TUESDAY,
-    WORKOUT_WEDNESDAY,
-    WORKOUT_THURSDAY,
-    WORKOUT_FRIDAY,
-    WORKOUT_SATURDAY,
-    WORKOUT_SUNDAY,
+    WORKOUT_PLAN,
     WEIGHT_LOG,
     MEAL_LOG,
     WORKOUT_LOG,
@@ -21,10 +15,11 @@ import {
 } from '../database_stores';
 import { 
     SYSTEM_STATE_SCHEMA,
+    SYSTEM_NOTIFICATIONS_SCHEMA,
     USER_INFO_SCHEMA,
     USER_GOALS_SCHEMA,
     MEAL_SCHEMA,
-    WORKOUT_DAY_SCHEMA,
+    WORKOUT_PLAN_SCHEMA,
     LOG_SCHEMA
 } from '../database_schemas';
 import { 
@@ -43,122 +38,82 @@ export async function CreateDatabase(deleteAll = false) {
 
         let isNewStorageCreated = false;
 
-        const result1 = await AsyncStorage.getItem(SYSTEM_STATE);
-        if(result1 == null) {
+        const result11 = await AsyncStorage.getItem(SYSTEM_STATE);
+        if(result11 == null) {
             await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_STATE_SCHEMA));
+            isNewStorageCreated = true;
+        }
+
+        const result12 = await AsyncStorage.getItem(SYSTEM_NOTIFICATIONS);
+        if(result12 == null) {
+            await AsyncStorage.setItem(SYSTEM_NOTIFICATIONS, JSON.stringify(SYSTEM_NOTIFICATIONS_SCHEMA));
             isNewStorageCreated = true;
         }
         
 
 
-        const result2 = await AsyncStorage.getItem(USER_INFO);
-        if(result2 == null) {
+        const result21 = await AsyncStorage.getItem(USER_INFO);
+        if(result21 == null) {
             await AsyncStorage.setItem(USER_INFO, JSON.stringify(USER_INFO_SCHEMA));
             isNewStorageCreated = true;
         }
         
-
-
-        const result3 = await AsyncStorage.getItem(USER_GOALS);
-        if(result3 == null) {
+        const result22 = await AsyncStorage.getItem(USER_GOALS);
+        if(result22 == null) {
             await AsyncStorage.setItem(USER_GOALS, JSON.stringify(USER_GOALS_SCHEMA));
             isNewStorageCreated = true;
         }
         
 
 
-        const result4 = await AsyncStorage.getItem(MEAL_BREAKFAST);
-        if(result4 == null) {
+        const result31 = await AsyncStorage.getItem(MEAL_BREAKFAST);
+        if(result31 == null) {
             await AsyncStorage.setItem(MEAL_BREAKFAST, JSON.stringify(MEAL_SCHEMA));
             isNewStorageCreated = true;
         }
         
-        const result5 = await AsyncStorage.getItem(MEAL_LUNCH);
-        if(result5 == null) {
+        const result32 = await AsyncStorage.getItem(MEAL_LUNCH);
+        if(result32 == null) {
             await AsyncStorage.setItem(MEAL_LUNCH, JSON.stringify(MEAL_SCHEMA));
             isNewStorageCreated = true;
         }
         
-        const result6 = await AsyncStorage.getItem(MEAL_DINNER);
-        if(result6 == null) {
+        const result33 = await AsyncStorage.getItem(MEAL_DINNER);
+        if(result33 == null) {
             await AsyncStorage.setItem(MEAL_DINNER, JSON.stringify(MEAL_SCHEMA));
             isNewStorageCreated = true;
         }
         
 
 
-        const result7 = await AsyncStorage.getItem(WORKOUT_PLAN_NAME);
-        if(result7 == null) {
-            await AsyncStorage.setItem(WORKOUT_PLAN_NAME, JSON.stringify(null));
+        const result4 = await AsyncStorage.getItem(WORKOUT_PLAN);
+        if(result4 == null) {
+            await AsyncStorage.setItem(WORKOUT_PLAN, JSON.stringify(null));
             isNewStorageCreated = true;
         }
         
 
 
-        const result8 = await AsyncStorage.getItem(WORKOUT_MONDAY);
-        if(result8 == null) {
-            await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result9 = await AsyncStorage.getItem(WORKOUT_TUESDAY);
-        if(result9 == null) {
-            await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result10 = await AsyncStorage.getItem(WORKOUT_WEDNESDAY);
-        if(result10 == null) {
-            await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result11 = await AsyncStorage.getItem(WORKOUT_THURSDAY);
-        if(result11 == null) {
-            await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result12 = await AsyncStorage.getItem(WORKOUT_FRIDAY);
-        if(result12 == null) {
-            await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result13 = await AsyncStorage.getItem(WORKOUT_SATURDAY);
-        if(result13 == null) {
-            await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-        const result14 = await AsyncStorage.getItem(WORKOUT_SUNDAY);
-        if(result14 == null) {
-            await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-            isNewStorageCreated = true;
-        }
-        
-
-
-        const result15 = await AsyncStorage.getItem(WEIGHT_LOG);
-        if(result15 == null) {
+        const result51 = await AsyncStorage.getItem(WEIGHT_LOG);
+        if(result51 == null) {
             await AsyncStorage.setItem(WEIGHT_LOG, JSON.stringify(LOG_SCHEMA));
             isNewStorageCreated = true;
         }
         
-        const result16 = await AsyncStorage.getItem(MEAL_LOG);
-        if(result16 == null) {
+        const result52 = await AsyncStorage.getItem(MEAL_LOG);
+        if(result52 == null) {
             await AsyncStorage.setItem(MEAL_LOG, JSON.stringify(LOG_SCHEMA));
             isNewStorageCreated = true;
         }
         
-        const result17 = await AsyncStorage.getItem(WORKOUT_LOG);
-        if(result17 == null) {
+        const result53 = await AsyncStorage.getItem(WORKOUT_LOG);
+        if(result53 == null) {
             await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
             isNewStorageCreated = true;
         }
         
-        const result18 = await AsyncStorage.getItem(STEPS_LOG);
-        if(result18 == null) {
+        const result54 = await AsyncStorage.getItem(STEPS_LOG);
+        if(result54 == null) {
             await AsyncStorage.setItem(STEPS_LOG, JSON.stringify(LOG_SCHEMA));
             isNewStorageCreated = true;
         }
@@ -229,17 +184,7 @@ export async function ResetWorkoutSetup() {
             case SYSTEM_ALL_SETUP: await AsyncStorage.setItem(SYSTEM_STATE, JSON.stringify(SYSTEM_USER_AND_MEAL_SETUP)); break;
             default: break;
         }
-
-        await AsyncStorage.setItem(WORKOUT_PLAN_NAME, JSON.stringify(null));
-        
-        await AsyncStorage.setItem(WORKOUT_MONDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_TUESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_WEDNESDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_THURSDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_FRIDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_SATURDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-        await AsyncStorage.setItem(WORKOUT_SUNDAY, JSON.stringify(WORKOUT_DAY_SCHEMA));
-
+        await AsyncStorage.setItem(WORKOUT_PLAN, JSON.stringify(WORKOUT_PLAN_SCHEMA));
         await AsyncStorage.setItem(WORKOUT_LOG, JSON.stringify(LOG_SCHEMA));
         return;
     } catch (error) {

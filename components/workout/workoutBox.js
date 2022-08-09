@@ -10,12 +10,12 @@ import { getDayName } from '../../helpers/workoutHelper';
 export default function WorkoutBox({ style, startHandler, openHandler, isToday, day }){ 
     const day_name = getDayName(day.day_number);
 
-    if((day.name == null || day.exercises == 0) && (isToday || !isToday)) {
+    if((day.exercises.length == 0) && (isToday || !isToday)) {
         return(
             <View style={[styles.container, style]}>
                 <Text style={styles.text}>{day_name}</Text>
                 
-                <Text style={[styles.text, {marginTop: 16, alignSelf: 'flex-start'}]}>Rest</Text>
+                <Text style={[styles.text, {marginTop: 16, alignSelf: 'flex-start'}]}>{(day.name == null) ? 'Rest' : day.name}</Text>
             </View>
         );
     }

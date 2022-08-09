@@ -1,13 +1,11 @@
 
 // system =====
 export const SYSTEM_STATE = 'system_state';
+export const SYSTEM_NOTIFICATIONS = 'system_notifications';
 
 
-// users =====
+// users info and goals=====
 export const USER_INFO = 'user_info';
-
-
-// users goals =====
 export const USER_GOALS = 'user_goals';
 
 
@@ -18,15 +16,7 @@ export const MEAL_DINNER = 'meal_dinner';
 
 
 // workouts =====
-export const WORKOUT_PLAN_NAME = 'workout_plan_name';
-
-export const WORKOUT_MONDAY = 'workout_monday';
-export const WORKOUT_TUESDAY = 'workout_tuesday';
-export const WORKOUT_WEDNESDAY = 'workout_wednesday';
-export const WORKOUT_THURSDAY = 'workout_thursday';
-export const WORKOUT_FRIDAY = 'workout_friday';
-export const WORKOUT_SATURDAY = 'workout_saturday';
-export const WORKOUT_SUNDAY = 'workout_sunday';
+export const WORKOUT_PLAN = 'workout_plan';
 
 
 // logs =====
