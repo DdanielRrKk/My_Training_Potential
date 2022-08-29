@@ -87,3 +87,41 @@ export const stylesOpenLog = StyleSheet.create({
         alignItems: 'center'
     }
 });
+
+
+
+export const stylesSettings = StyleSheet.create({
+    subBox: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    subBox_middle: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 16
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: PRIMARY_COLOR,
+    },
+
+    messageBox: {
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingVertical: 5,
+        borderRadius: 10,
+        justifyContent: 'center',
+        backgroundColor: SECONDARY_COLOR,
+        color: TERTIARY_COLOR,
+        shadowColor: TERTIARY_COLOR,
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 3,
+    },
+});
+
