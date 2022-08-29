@@ -52,8 +52,6 @@ export default function MainSettingsScreen({ navigation }){
     // console.log('systemState settings', systemState);
     // console.log('isMealSetup settings', isMealSetup);
     // console.log('isWorkoutSetup settings', isWorkoutSetup);
-    
-    const canceledEvent = () => console.log("canceled");
 
     const resetMealSetupHandler = () => ResetMealSetup(isWorkoutSetup).then(() => {
         DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
@@ -70,26 +68,26 @@ export default function MainSettingsScreen({ navigation }){
 
     const openPrevScreen = () => navigation.goBack();
     
-    const openNotificationsScreen = () => console.log('NotificationsScreen');
+    const openNotificationsScreen = () => navigation.navigate('NotificationsScreen');
 
     const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
     const openEditMealDataScreen = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT); return; }
         navigation.navigate('EditMealDataScreen');
     }
     const openEditWorkoutDataScreen = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT); return; }
         navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
     }
     const resetMealSetup = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
-        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetMealSetupHandler);
+        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT); return; }
+        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, null, resetMealSetupHandler);
     }
     const resetWorkoutSetup = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
-        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetWorkoutSetupHandler);
+        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT); return; }
+        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, null, resetWorkoutSetupHandler);
     }
-    const deleteAccount = () => AlertYESNO(ALERT_WARNING_TITLE, ALERT_DELETE_ACCOUNT_TEXT, canceledEvent, deleteAccountHandler);
+    const deleteAccount = () => AlertYESNO(ALERT_WARNING_TITLE, ALERT_DELETE_ACCOUNT_TEXT, null, deleteAccountHandler);
  
     return(
         <SafeAreaView style={stylesMisc.container}>
@@ -105,6 +103,8 @@ export default function MainSettingsScreen({ navigation }){
                         title='Set Notifications'
                         pressHandler={openNotificationsScreen}/>
 
+
+                    <Text style={stylesMisc.subtitle}>Editing</Text>
 
                     <SettingsOption 
                         title='Edit User Data'

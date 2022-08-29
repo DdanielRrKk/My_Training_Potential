@@ -3,6 +3,17 @@ export function GetCorrectTextInput(input, isInc) {
     return (input == null || input == '' || input <= 0 || input == 'NaN') ? 0 : (parseInt(input) - 1);
 }
 
+export function GetCorrectTimeInput(time, isInc, isHour) {
+    if(isInc) {
+        // if(time == null || time == '' || time <= 0 || time == 'NaN') return 1;
+        if(isHour) return (time >= 23) ? 0 : (parseInt(time) + 1);
+        return (time >= 59) ? 0 : (parseInt(time) + 1);
+    }
+    // if(time == null || time == '' || time <= 0 || time == 'NaN') return 0;
+    if(isHour) return (time <= 0 || time > 23) ? 23 : (parseInt(time) - 1);
+    return (time <= 0 || time > 59) ? 59 : (parseInt(time) - 1);
+}
+
 export function GetPercentageOfSmallValueInBigValue(small_value, big_value) {
     return parseFloat((small_value / big_value)).toFixed(2);
 }

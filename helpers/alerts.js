@@ -15,7 +15,7 @@ export function AlertOK(title, information, pressHandler = null) {
     );
 }
 
-export function AlertYESNO(title, information, noPressHandler, yesPressHandler) {
+export function AlertYESNO(title, information, noPressHandler = null, yesPressHandler = null) {
     Alert.alert(
         title,
         information,

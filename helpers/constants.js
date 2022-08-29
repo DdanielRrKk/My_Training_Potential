@@ -94,6 +94,11 @@ export const ALERT_WORKOUT_DAY_NAME_TEXT = 'Not a valid workout name.';
 export const ALERT_WORKOUT_PLAN_NAME_TEXT = 'Not a valid workout plan name.';
 export const ALERT_WORKOUT_PLAN_WORKOUTS_TEXT = 'The workout plan must have atleast one workout day.';
 
+export const ALERT_NOTIFICATION_TITLE_TEXT = 'Not a valid title.';
+export const ALERT_NOTIFICATION_TIME_TEXT = 'Not a valid time.';
+export const ALERT_NOTIFICATION_DELETION_TEXT = 'Do you want to delete this notification?';
+
+
 
 export const FAQ_LIST = [
     {

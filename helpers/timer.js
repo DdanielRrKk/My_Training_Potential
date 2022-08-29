@@ -37,6 +37,10 @@ export function calculateTimeDurationString(secs) {
     return `${minutesString}:${secondsString}`;
 }
 
+export function getCorrectTimeString(time) { 
+    return (time < 10) ? `0${time}` : `${time}`;
+}
+
 export const wait = (timeout) => {
     return new Promise((resolve) => setTimeout(resolve, timeout));
 }

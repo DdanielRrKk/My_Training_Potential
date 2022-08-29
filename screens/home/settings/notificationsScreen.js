@@ -1,96 +1,197 @@
 import React from 'react';
-import { Text, View, SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
+import { Text, View, SafeAreaView, TextInput, ScrollView } from 'react-native';
 
-import { GetAppState } from '../../../database/screen/app_serices';
+import { useIsFocused } from '@react-navigation/native';
 
-import { CreateDatabase, ResetMealSetup, ResetWorkoutSetup } from '../../../database/general/general_services';
+import { GetNotificationsScreenData, SetNotificationsScreenData } from '../../../database/screen/home/settings_services';
 
 import { stylesMisc } from '../../../styles/miscStyles';
+import { stylesSettings } from '../../../styles/homeStyles';
 
 import BackButton from '../../../components/misc/backButton';
-import SettingsOption from '../../../components/home/settings/settingsOption';
+import TextEntry from '../../../components/misc/textEntry';
+import NotificationTimeChanger from '../../../components/home/settings/notificationTimeChanger';
+import ActionButton from '../../../components/misc/actionButton';
+import NotificationsList from '../../../components/home/settings/notificationsList';
 
+import { GetCorrectTimeInput } from '../../../helpers/helpers';
+import { IsInputTextValid, IsInputTimeValid } from '../../../helpers/validations';
+import { getCorrectTimeString } from '../../../helpers/timer';
+import { 
+    SchedulePushNotification,
+    CancelScheduledNotification
+} from '../../../helpers/notifications';
 import { AlertOK, AlertYESNO } from '../../../helpers/alerts';
 import { 
-    SYSTEM_USER_AND_MEAL_SETUP,
-    SYSTEM_USER_AND_WORKOUT_SETUP,
-    SYSTEM_ALL_SETUP,
+    NAME_MAX_LENGTH,
+    LONG_TEXT_MAX_LENGTH,
 
     ALERT_WARNING_TITLE,
-    ALERT_NOT_SETUP_MEAL_PLAN_TEXT,
-    ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT,
-    ALERT_RESET_SETUP_PLAN_TEXT,
-    ALERT_DELETE_ACCOUNT_TEXT
+    ALERT_NOTIFICATION_TITLE_TEXT,
+    ALERT_NOTIFICATION_TIME_TEXT,
+    ALERT_NOTIFICATION_DELETION_TEXT
 } from '../../../helpers/constants';
 
 
 
-export default function NotificationsScreen({ navigation }){ 
-    const [systemState, setSystemState] = React.useState(null);
-    
-    const [isMealSetup, setIsMealSetup] = React.useState(false);
-    const [isWorkoutSetup, setIsWorkoutSetup] = React.useState(false);
+const DEFAULT_HOUR = 12;
+const DEFAULT_HOUR_STRING = '12';
+const DEFAULT_MINUTE = 30;
+const DEFAULT_MINUTE_STRING = '30'; 
+// moje da se napravi pop up za zadavaneto na vreme
 
+export default function NotificationsScreen({ navigation }){ 
+    const [isEditing, setIsEditing] = React.useState(false);
+
+    const [key, setKey] = React.useState(null);
+    const [title, setTitle] = React.useState(null);
+    const [message, setMessage] = React.useState(null);
+    
+    const [weekDay, setWeekDay] = React.useState(0);
+
+    const [hour, setHour] = React.useState(DEFAULT_HOUR);
+    const [hourString, setHourString] = React.useState(DEFAULT_HOUR_STRING);
+    const [minute, setMinute] = React.useState(DEFAULT_MINUTE);
+    const [minuteString, setMinuteString] = React.useState(DEFAULT_MINUTE_STRING);
+    
+    const [notifications, setNotifications] = React.useState(null);
+
+    
+    const focus = useIsFocused();
     React.useEffect(() => {
         let isGood = true;
 
-        GetAppState().then((state) => { 
-            if(isGood) {
-                setSystemState(state);
-                setIsMealSetup((systemState == SYSTEM_USER_AND_MEAL_SETUP || systemState == SYSTEM_ALL_SETUP) ? true : false);
-                setIsWorkoutSetup((systemState == SYSTEM_USER_AND_WORKOUT_SETUP || systemState == SYSTEM_ALL_SETUP) ? true : false);
-            }
+        GetNotificationsScreenData().then((notifications) => { 
+            if(isGood) setNotifications(notifications);
          });
 
-        return () => {  
-            isGood = false;
-            DeviceEventEmitter.removeListener('event.appUpdate');
-            DeviceEventEmitter.removeListener('event.stateUpdate');
-        } // to prevent memory leaks (clean up)
-    }, [systemState]);
-
-    // console.log('systemState settings', systemState);
-    // console.log('isMealSetup settings', isMealSetup);
-    // console.log('isWorkoutSetup settings', isWorkoutSetup);
-    
-    const canceledEvent = () => console.log("canceled");
-
-    const resetMealSetupHandler = () => ResetMealSetup(isWorkoutSetup).then(() => {
-        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
-        navigation.goBack();
-    });
-    const resetWorkoutSetupHandler = () => ResetWorkoutSetup().then(() => {
-        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
-        navigation.goBack();
-    });
-    const deleteAccountHandler = () => CreateDatabase(true).then(() => {
-        DeviceEventEmitter.emit("event.stateUpdate", {flag: true});
-    });
+        return () => { isGood = false; } // to prevent memory leaks (clean up)
+    }, [focus]);
 
 
     const openPrevScreen = () => navigation.goBack();
-    
-    const openNotificationsScreen = () => console.log('NotificationsScreen');
 
-    const openEditUserDataScreen = () => navigation.navigate('EditUserDataScreen');
-    const openEditMealDataScreen = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
-        navigation.navigate('EditMealDataScreen');
+    const changeWeekDayHandler = (value) => setWeekDay(value);
+
+    const saveNotification = () => {
+        if(!IsInputTextValid(title)) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_NOTIFICATION_TITLE_TEXT);
+            return;
+        }
+        if(!IsInputTimeValid(parseInt(hour), parseInt(minute))) {
+            AlertOK(ALERT_WARNING_TITLE, ALERT_NOTIFICATION_TIME_TEXT);
+            return;
+        }
+
+        // console.log('key before', key);
+        const readyMessage = (message == null || message == '') ? null : message;
+        const readyHour = parseInt(hour);
+        const readyMinute = parseInt(minute);
+        const readyWeekDay = parseInt(weekDay);
+        
+        setKey(null);
+        setTitle(null);
+        setMessage(null);
+        setWeekDay(0);
+        setHour(DEFAULT_HOUR);
+        setHourString(DEFAULT_HOUR_STRING);
+        setMinute(DEFAULT_MINUTE);
+        setMinuteString(DEFAULT_MINUTE_STRING);
+        
+        setIsEditing(false);
+
+        if(key == null) {
+            SchedulePushNotification(title, readyMessage, readyWeekDay, readyHour, readyMinute).then((notificationId) => {
+                const lastKey = (notifications.length == 0) ? 1 : notifications[notifications.length - 1].key + 1;
+                notifications.push({
+                    key: lastKey, 
+                    id: notificationId, 
+                    title: title, 
+                    message: readyMessage, 
+                    weekDay: readyWeekDay,
+                    hour: readyHour, 
+                    minute: readyMinute
+                });
+                setNotifications([... notifications]);
+                
+                SetNotificationsScreenData(notifications);
+            });
+            return;
+        }
+
+        const index = notifications.findIndex((object) => object.key == key);
+        CancelScheduledNotification(notifications[index].id);
+
+        notifications[index].title = title;
+        notifications[index].message = readyMessage; 
+        notifications[index].weekDay = readyWeekDay;  
+        notifications[index].hour = readyHour;  
+        notifications[index].minute = readyMinute;
+
+        SchedulePushNotification(title, readyMessage, readyWeekDay, readyHour, readyMinute).then((notificationId) => {
+            notifications[index].id = notificationId;
+            setNotifications([... notifications]);
+
+            SetNotificationsScreenData(notifications);
+        });
+        return;
+    };
+
+    const editNotification = (key) => {
+        setIsEditing(true);
+        const index = notifications.findIndex((object) => object.key == key);
+
+        setKey(notifications[index].key);
+        setTitle(notifications[index].title);
+        setMessage(notifications[index].message);
+        setHour(notifications[index].hour);
+        setHourString(getCorrectTimeString(notifications[index].hour));
+        setMinute(notifications[index].minute);
+        setMinuteString(getCorrectTimeString(notifications[index].minute));
+    };
+
+    const deleteNotification = (key) => {
+        const index = notifications.findIndex((object) => object.key == key);
+        CancelScheduledNotification(notifications[index].id);
+        if(key == notifications[index].id) setKey(null);
+
+        notifications.splice(index, 1);
+        setNotifications([... notifications]);
+
+        SetNotificationsScreenData(notifications);
+
+        return;
+    };
+
+    const askForDeletingNotificationHadler = (key) => {
+        AlertYESNO(ALERT_WARNING_TITLE, ALERT_NOTIFICATION_DELETION_TEXT, null, () => deleteNotification(key));
+    };
+
+    
+    // Hour
+    const incHourHandler = () => {
+        const result = GetCorrectTimeInput(hour, true, true);
+        setHour(result);
+        setHourString(getCorrectTimeString(result));
     }
-    const openEditWorkoutDataScreen = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
-        navigation.navigate('SetupWorkoutPlanScreen', {isFromEdit: true});
+    const decHourHandler = () => {
+        const result = GetCorrectTimeInput(hour, false, true);
+        setHour(result);
+        setHourString(getCorrectTimeString(result));
     }
-    const resetMealSetup = () => {
-        if(!isMealSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_MEAL_PLAN_TEXT, canceledEvent); return; }
-        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetMealSetupHandler);
+    
+    // Minute
+    const incMinuteHandler = () => {
+        const result = GetCorrectTimeInput(minute, true, false);
+        setMinute(result);
+        setMinuteString(getCorrectTimeString(result));
     }
-    const resetWorkoutSetup = () => {
-        if(!isWorkoutSetup) { AlertOK(ALERT_WARNING_TITLE, ALERT_NOT_SETUP_WORKOUT_PLAN_TEXT, canceledEvent); return; }
-        AlertYESNO(ALERT_WARNING_TITLE, ALERT_RESET_SETUP_PLAN_TEXT, canceledEvent, resetWorkoutSetupHandler);
+    const decMinuteHandler = () => {
+        const result = GetCorrectTimeInput(minute, false, false);
+        setMinute(result);
+        setMinuteString(getCorrectTimeString(result));
     }
-    const deleteAccount = () => AlertYESNO(ALERT_WARNING_TITLE, ALERT_DELETE_ACCOUNT_TEXT, canceledEvent, deleteAccountHandler);
- 
+
     return(
         <SafeAreaView style={stylesMisc.container}>
             <ScrollView style={stylesMisc.scrollContent} showsVerticalScrollIndicator={false}>
@@ -99,41 +200,45 @@ export default function NotificationsScreen({ navigation }){
                 </View>
 
                 <View style={stylesMisc.content_start}>
-                    <Text style={stylesMisc.subtitle}>Settings</Text>
+                    <Text style={stylesMisc.subtitle}>Title</Text>
+
+                    <TextEntry
+                        onChangeText={setTitle}
+                        value={title}
+                        maxLength={NAME_MAX_LENGTH}/>
+
+                    <Text style={stylesMisc.subtitle}>Message</Text>
+
+                    <TextInput
+                        style={stylesSettings.messageBox}
+                        placeholder='(optional)'
+                        onChangeText={setMessage}
+                        value={message}
+                        maxLength={LONG_TEXT_MAX_LENGTH}
+                        multiline={true}
+                        numberOfLines={4}/>
+
+                    <Text style={stylesMisc.subtitle}>Time</Text>
+
+                    <NotificationTimeChanger
+                        weekDayValue={weekDay}
+                        changeWeekDayHandler={changeWeekDayHandler}
+
+                        incHourHandler={incHourHandler}
+                        decHourHandler={decHourHandler}
+                        hourValue={hourString}
+
+                        incMinuteHandler={incMinuteHandler}
+                        decMinuteHandler={decMinuteHandler}
+                        minuteValue={minuteString}/>
+
+                    <Text style={stylesMisc.subtitle}>Notifications</Text>
                     
-                    <SettingsOption 
-                        title='Set Notifications'
-                        pressHandler={openEditUserDataScreen}/>
-
-
-                    <SettingsOption 
-                        title='Edit User Data'
-                        pressHandler={openEditUserDataScreen}/>
-                        
-                    <SettingsOption 
-                        title=' Edit Nutritions Data'
-                        pressHandler={openEditMealDataScreen}/>
-                        
-                    <SettingsOption 
-                        title='Edit Workout Plan'
-                        pressHandler={openEditWorkoutDataScreen}/>
-
-                    <SettingsOption 
-                        title='Reset Meal Setup'
-                        pressHandler={resetMealSetup}
-                        isImportant={true}/>
-                        
-                    <SettingsOption 
-                        title='Reset Workout Setup'
-                        pressHandler={resetWorkoutSetup}
-                        isImportant={true}/>
-                        
-                    <SettingsOption 
-                        title='Delete Account'
-                        pressHandler={deleteAccount}
-                        isImportant={true}/>
+                    {notifications ? <>{NotificationsList(notifications, editNotification, askForDeletingNotificationHadler)}</> : null }
                 </View>
             </ScrollView>
+
+            <ActionButton title={(isEditing) ? 'Save Changes' : 'Create'} pressHandler={saveNotification}/>
         </SafeAreaView>
     );
 };

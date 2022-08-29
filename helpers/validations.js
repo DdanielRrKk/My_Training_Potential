@@ -18,3 +18,13 @@ export function IsInputNumberValid(input) {
     }
     return true;
 }
+
+export function IsInputTimeValid(hour, minute) {
+    if(isNaN(hour) || hour == '' || hour == null || isNaN(minute) || minute == '' || minute == null) {
+        return false;
+    }
+    if(hour > 23 || hour < 0 || minute > 59 || minute < 0) {
+        return false;
+    }
+    return true;
+}

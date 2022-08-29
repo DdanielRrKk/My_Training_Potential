@@ -3,14 +3,7 @@ import {
     USER_INFO,
     USER_GOALS,
     WORKOUT_PLAN,
-    WORKOUT_PLAN_NAME,
-    WORKOUT_MONDAY,
-    WORKOUT_TUESDAY,
-    WORKOUT_WEDNESDAY,
-    WORKOUT_THURSDAY,
-    WORKOUT_FRIDAY,
-    WORKOUT_SATURDAY,
-    WORKOUT_SUNDAY
+    SYSTEM_NOTIFICATIONS
 } from '../../database_stores';
 
 
@@ -95,13 +88,34 @@ export async function SetEditMealData(caloriesGoal, carbsGoal, proteinGoal, fatG
 export async function GetEditWorkoutDataScreenData() {
     try {
         const workoutPlanResult = await AsyncStorage.getItem(WORKOUT_PLAN);
-        // console.log('workoutPlanResult', workoutPlanResult);
         const workoutPlan = JSON.parse(workoutPlanResult);
-        // console.log('monday', monday);
-
+        // console.log('workoutPlan', workoutPlan);
         return workoutPlan;
     } catch (error) {
         console.log('GetEditWorkoutDataScreenData error');
+        console.log(error);
+    }
+}
+
+
+
+// get data for notifications screen
+export async function GetNotificationsScreenData() {
+    try {
+        const notificationsResult = await AsyncStorage.getItem(SYSTEM_NOTIFICATIONS);
+        const notifications = JSON.parse(notificationsResult);
+        // console.log('notifications', notifications);
+        return notifications;
+    } catch (error) {
+        console.log('GetNotificationsScreenData error');
+        console.log(error);
+    }
+}
+export async function SetNotificationsScreenData(notifications) {
+    try {
+        await AsyncStorage.setItem(SYSTEM_NOTIFICATIONS, JSON.stringify(notifications));
+    } catch (error) {
+        console.log('SetNotificationsScreenData error');
         console.log(error);
     }
 }

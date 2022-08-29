@@ -21,6 +21,7 @@ import OpenMealLogScreen from '../screens/home/openMealLogScreen';
 import OpenWorkoutLogScreen from '../screens/home/openWorkoutLogScreen';
 
 import MainSettingsScreen from '../screens/home/settings/mainSettingsScreen';
+import NotificationsScreen from '../screens/home/settings/notificationsScreen';
 import EditUserDataScreen from '../screens/home/settings/editUserDataScreen';
 import EditMealDataScreen from '../screens/home/settings/editMealDataScreen';
 
@@ -43,9 +44,18 @@ import FinalWorkoutScreen from '../screens/workout/finalWorkoutScreen';
 import CalculatorScreen from '../screens/learn/calculatorScreen';
 
 
-import { SaveMealDataIfDayChanged, SaveStepsDataIfDayChanged, GetAppState } from '../database/screen/app_serices';
+import { 
+  ChangeCurrentWorkoutIfDayChanged,
+  SaveMealDataIfDayChanged, 
+  SaveStepsDataIfDayChanged, 
+  GetAppState 
+} from '../database/screen/app_serices';
 
-import { SYSTEM_USER_AND_MEAL_SETUP, SYSTEM_ALL_SETUP } from '../helpers/constants';
+import { 
+  SYSTEM_USER_AND_MEAL_SETUP, 
+  SYSTEM_USER_AND_WORKOUT_SETUP,
+  SYSTEM_ALL_SETUP 
+} from '../helpers/constants';
 
 
 
@@ -66,9 +76,8 @@ export default function RootNavigation() {
         setSystemState(state);
         setAllGood(true);
         setChangeUpdater(false);
-        // console.log('root good in');
-        // SaveStepsDataIfDayChanged();
         if(state == SYSTEM_USER_AND_MEAL_SETUP || state == SYSTEM_ALL_SETUP) SaveMealDataIfDayChanged();
+        if(state == SYSTEM_USER_AND_WORKOUT_SETUP || state == SYSTEM_ALL_SETUP) ChangeCurrentWorkoutIfDayChanged();
       }
     });
 
@@ -113,6 +122,7 @@ export default function RootNavigation() {
         <Screen name='OpenWorkoutLogScreen' component={OpenWorkoutLogScreen} options={{ headerMode: 'none' }} />
         
         <Screen name='MainSettingsScreen' component={MainSettingsScreen} options={{ headerMode: 'none' }} />
+        <Screen name='NotificationsScreen' component={NotificationsScreen} options={{ headerMode: 'none' }} />
         <Screen name='EditUserDataScreen' component={EditUserDataScreen} options={{ headerMode: 'none' }} />
         <Screen name='EditMealDataScreen' component={EditMealDataScreen} options={{ headerMode: 'none' }} />
         

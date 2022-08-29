@@ -23,7 +23,7 @@ export const SYSTEM_STATE_SCHEMA = 0;
 */
 
 export const SYSTEM_NOTIFICATIONS_SCHEMA = [];
-// notification: { id, title, message, hour, minutes }
+// notification: { key, id, title, message, hour, minute }
 
 export const USER_INFO_SCHEMA = {
     name: '',
